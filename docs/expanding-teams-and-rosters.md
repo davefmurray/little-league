@@ -275,8 +275,28 @@ follows the cursor. A stores the selected team (`page * 8 + cursor`) at `$07C3`.
 
 ![Detail follows the cursor](team-select-detail.png)
 
-Verified: cursor 1 shows ARIZONA, and A writes team `1` to `$07C3`. Flags and a
-visible selection confirmation are next.
+Verified: cursor 1 shows ARIZONA, and A writes team `1` to `$07C3`.
+
+### Next five landmarks
+
+The selector code is now 557 bytes at `$FD90`, ending at `$FFC5`; the marker and
+page tables sit at `$FFD0–$FFE7`, so the fixed bank has only a few bytes left.
+The next five steps start with a relocation:
+
+1. **Move the selector to bank 10.** Code, lists, palette, codes, names and
+   regions all live in one free 16 KiB bank at `$8000`, with a tiny fixed-bank
+   trampoline (`LDA #10; JSR $C14E; JMP $8000`). No mid-code bank switching.
+2. **Flags in the cells.** Extract the flag tile blocks/colours and place them
+   above each code; verify CHR space in the 128 KiB limit.
+3. **Selection feedback.** Persistent selected marker plus a `SELECTED` line;
+   B clears the pick.
+4. **Wire into the tournament.** Replace the 16-team list/map path with the
+   selector, pass `$07C3` into the existing bracket setup.
+5. **32-slot bracket + password.** Five rounds, 32-slot state, new password
+   encoding.
+
+The relocation is the gate: it frees the fixed bank and gives the selector room
+for flags, feedback and the bracket handoff without byte golf.
 
 ## Progress log
 
