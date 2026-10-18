@@ -170,6 +170,7 @@ tools/
   build_16x20.py      first roster-expansion build (16 teams x 20 players)
   build_32x20.py      32-team bank-8 data + PRG-RAM cache
   pack_team_table.py  packs codes/names/regions into bank 9
+  build_select_screen.py  bootable static 4x8 select screen
   harness.html        jsnes browser test harness
   rominfo.py          cartridge report
   trace.py            6502 trace

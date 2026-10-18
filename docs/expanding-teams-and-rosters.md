@@ -240,6 +240,18 @@ and straight into the display list — there is no ASCII conversion.
 Caveat: `<`, `>` and `/` do not sit at their ASCII tiles in this font. Use words
 (`PREV` / `NEXT`) or custom arrow tiles instead of punctuation arrows.
 
+### First in-ROM screen
+
+`tools/build_select_screen.py` rebuilds the ROM so the MMC1-init hook jumps to a
+screen routine instead of the game. It sets up the PPU, loads the palette,
+clears the nametable, copies a prebuilt display list to `$0300`, flushes it with
+`$C53A`, enables rendering and loops. Page 1 is built from the bank-9 codes.
+
+![Team select running in the ROM](team-select-inrom.png)
+
+The static screen proves the full pipeline: bank-9 table → display list → font
+tiles → PPU. Input, highlight, flags and pages are the next layer.
+
 ## Progress log
 
 - `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
