@@ -175,6 +175,7 @@ tools/
   extract_chr.py      every CHR tile -> per-bank PNGs, atlas, manifest
   extract_flags.py    per-team flag/label sprite blocks + sheet
   pack_flags.py       prototype: pack 24x24 flags into CHR bank 0
+  build_flags32.py    generate/pack 32 flags at 24x16 into bank 10
   harness.html        jsnes browser test harness
   rominfo.py          cartridge report
   trace.py            6502 trace

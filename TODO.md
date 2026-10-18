@@ -37,8 +37,11 @@ section to five items or fewer.
 - [ ] **On-demand roster cache for teams 16–31.** Boot caches only 0–15.
       Add copy hooks at team-select confirm, player card and game load; copy
       `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.
-- [ ] **Flags in the grid.** Use the 3×2 sprite route: 8 flags × 6 = 48 OAM
-      entries, four sprite palettes, 24×16 px. See `docs/palette-notes.md`.
+- [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
+      (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
+- [ ] **Draw flags in the grid.** 3×2 background tiles per cell, page-time CHR
+      copy from bank 10 into the reserved slots, then add the nine-byte display
+      list run per flag.
 - [ ] **Bench / pinch-hitter bound + pitching test.** On the 16×20 build,
       confirm the 20-player bench is reachable and all three pitcher slots work.
 - [ ] **32-slot bracket.** Five rounds, 32 first-round slots, new bracket table
