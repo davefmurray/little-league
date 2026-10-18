@@ -202,6 +202,32 @@ before adding teams.
 Risk: the player-change menu is the only unknown. Everything else is table
 plumbing.
 
+### Bank-8 blocker (discovered while planning 32 × 20)
+
+Moving the rosters to bank 8 is not a table move. Three roster readers live in
+**bank 4 itself**:
+
+| routine | what it does |
+|---|---|
+| `$AB2D` | reads the pointer table at `$8400,X` to set up the active players |
+| `$B086` | computes the player pointer for the card/stat path |
+| `$B0A7` | reads the pointer high byte for the same path |
+
+Code running in bank 4 cannot switch to bank 8 and keep executing: the next
+instruction fetch would come from the wrong bank. So a 32-team bank-8 layout
+requires one of:
+
+1. relocating those routines to the **fixed bank** (`$C000`, 1,133 free bytes at
+   `$BB83`) and calling them there,
+2. a fixed-bank trampoline that switches to bank 8, performs the record read,
+   and switches back, or
+3. copying the active teams' records into RAM at game start (only the active
+   roster fits, not all 32).
+
+Option 1 is the cleanest and is the next concrete task. The 16 × 20 build keeps
+rosters in bank 4 precisely because of this constraint; that is why it works
+without touching those routines.
+
 ### Milestone 2 — 32 teams × 20 players
 
 1. Build the 256 KiB PRG image with `expand_rom.py`.
