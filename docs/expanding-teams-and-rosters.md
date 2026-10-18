@@ -309,6 +309,18 @@ separate flag from label.
 
 ![Per-team flag banks](flag-banks.png)
 
+### CHR inventory
+
+`tools/extract_chr.py` dumps all **131,072 bytes / 32 × 4 KiB banks** as
+per-bank PNGs plus `chr-atlas.png` and `chr.json` (empty/duplicate/unique counts
+per bank).
+
+![Full CHR atlas](chr-atlas.png)
+
+Inventory: **940 empty** tiles and **1,689 duplicates**. The sparsest banks are
+18 (189 empty), 25 (156), 29 (135), 27 (91), 0 (71). That is where spare tiles
+for copied flag art will come from.
+
 ### Next five landmarks
 
 The selector code is now 557 bytes at `$FD90`, ending at `$FFC5`; the marker and
