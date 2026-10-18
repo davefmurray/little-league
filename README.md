@@ -195,6 +195,7 @@ docs/
   game-writeup.md     the long-form history / technical companion
   roster-format.md    data tables and field map
   prior-art-llbcs.md  external editor findings + verified corrections
+  datacrystal-rom-map.md  authoritative ROM map, reconciled
   cheats-and-ram.md   Game Genie codes translated + RAM address map
   rom-layout.md       cartridge, banks, MMC1, vectors
   expanding-teams-and-rosters.md

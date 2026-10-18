@@ -1,8 +1,8 @@
-> **Correction (verified against llbcs.py):** team roster bases are **not** a
-> uniform `0x120` stride. Teams 10–15 differ (Puerto Rico `+0x100`, Mexico
-> `+0x140`). See `docs/prior-art-llbcs.md` for the verified base table. Team
-> colours are **16 × 3 bytes** at `$FAC0`, not two 16-byte tables at
-> `$FAC0`/`$FAD0`.
+> **Correction:** see `docs/datacrystal-rom-map.md` for the authoritative,
+> ROM-verified map. Team bases are not uniformly `0x120` (Puerto Rico and Mexico
+> differ). Team colours are **two 16-byte tables** at `$FAC0`/`$FAD0` — the
+> llbcs.py 3-byte model was wrong. Flags start at `$976A`; `$975A` is lineup
+> tail, not a flag table.
 
 # Roster and team data format
 

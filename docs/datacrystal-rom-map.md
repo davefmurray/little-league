@@ -1,0 +1,125 @@
+# DataCrystal ROM map — reconciled and verified
+
+Source: DataCrystal, *Little League Baseball: Championship Series/ROM map*
+(<https://datacrystal.tcrf.net/wiki/Little_League_Baseball:_Championship_Series/ROM_map>),
+captured via the page text. Cross-checked byte-for-byte against our ROM.
+
+This supersedes parts of `roster-format.md` and `prior-art-llbcs.md`.
+
+## Team order
+
+JAPAN, ARIZONA, PENNSYLVANIA, CHINESE TAIPEI, KOREA, NEW YORK, CALIFORNIA,
+TEXAS, HAWAII, SPAIN, PUERTO RICO, MEXICO, CANADA, ITALY, ILLINOIS, FLORIDA.
+
+## Roster bases
+
+DataCrystal describes a uniform `0x120` pattern. Verified names agree for teams
+0–9, then diverge:
+
+| Team | File base | Verified name | Note |
+|---|---|---|---|
+| Japan | `0x10430` | UMEDA | |
+| Arizona | `0x10550` | BERT | |
+| Pennsylvania | `0x10670` | LEE | |
+| Chinese Taipei | `0x10790` | LU | |
+| Korea | `0x108B0` | LEE | |
+| New York | `0x109D0` | TOMMY | |
+| California | `0x10AF0` | BIFF | |
+| Texas | `0x10C10` | AUSTIN | |
+| Hawaii | `0x10D30` | THOMAS | |
+| Spain | `0x10E50` | ENRICO | |
+| Puerto Rico | `0x10F50`* | zeros | players start `0x10F70` (`EMILLO`) |
+| Mexico | `0x11090` | JUAN | `+0x140` from PR |
+| Canada | `0x111B0` | CHUCK | |
+| Italy | `0x112D0` | LOGI | |
+| Illinois | `0x113F0` | CONRAD | |
+| Florida | `0x11510` | DON | |
+
+\* The uniform-pattern claim breaks here. Use the verified bases.
+
+## Player row (16 bytes)
+
+| Byte | Meaning |
+|---|---|
+| 0–5 | name (6 chars) |
+| 6 | hand/size: `00/01/02` right tall/fat/short, `80/81/82` left |
+| 7 | always `FF` |
+| 8 | unknown (CPU sub choice suspected) |
+| 9 | **hitting power** (`00` low … `DF` highest) |
+| 10 | **speed** (`00`–`FF`, baserunning) |
+| 11 | **printed Skill** (`00`–`04` = Skill 1–5; KOREA PARK is `07`) |
+| 12 | pitcher slot: `00`, `08`, `10`, `18` |
+| 13 | always `00` |
+| 14 | multiplier `00/02/03/04` (batting/power suspected) |
+| 15 | always `00` |
+
+This contradicts llbcs.py's byte 9/10 "ARM/RUN" labels; DataCrystal's reading
+fits the observed `D4/C9` values as power/speed.
+
+## Pitcher records
+
+Immediately after the all-`FF` row:
+
+| Record | Location |
+|---|---|
+| #1 | bytes 8–15 of first row after `FF` |
+| #2 | bytes 0–7 of second row |
+| #3 | bytes 8–15 of second row |
+
+Eight bytes:
+
+| Byte | Meaning |
+|---|---|
+| 0 | hand/delivery (`00/01/02/80/81/82`) |
+| 1 | stamina (`FF` max) |
+| 2 | unknown (quality?) |
+| 3 | unknown, `02`–`0F` |
+| 4 | `00` |
+| 5 | `00` |
+| 6 | printed pitcher Skill |
+| 7 | `00`/`02` multiplier suspected |
+
+## Team colours — two 16-byte tables
+
+DataCrystal: two colours per team at `0x1FAD0` and `0x1FAE0`.
+
+```
+0x1FAD0: 05 20 0F 26 20 38 02 22 38 1B 2B 0F 12 20 0F 15
+0x1FAE0: 11 38 11 15 38 00 10 38 14 12 0F 15 15 0F 15 25
+```
+
+This is **two tables of 16**, not 16 × 3-byte entries. The llbcs.py 3-byte
+grouping is wrong: it mixes the secondary colour of one team with the primary of
+the next.
+
+## Lineups
+
+File `0x116DA`–`0x11769`, 9 bytes per team, packed nibbles: high nibble = lineup
+order, low nibble = position (baseball scoring). Japan verified:
+
+```
+08 16 29 31 42 57 65 73 84
+```
+
+## Flags — `0x1176A`, not `0x1175A`
+
+DataCrystal: flag data starts at `0x1176A` (`$976A`), with `48` = USA.
+
+**This corrects our earlier model.** `0x1175A` (`$975A`) is the **last 16 bytes of
+the lineup table** (`23 35 49 57 61 72 84 08 …`), not a flag offset table. All
+flag extraction that used `$975A`/`$976A` as offset/record is invalid and must be
+redone from `$976A`.
+
+## Power Analysis
+
+Bars are driven by file `0x00F234` in team order. That file offset is bank 3,
+CPU `$B224` — matching our existing ratings table at `$B224`.
+
+## What to fix in the repo
+
+- [ ] `roster.py` / `build_16x20.py`: replace uniform `team*0x120` with the
+      verified base table (PR/Mexico differ).
+- [ ] Colour model: two 16-byte tables at `$FAC0`/`$FAD0`.
+- [ ] Player field map: power/speed/skill per above; re-test in-game.
+- [ ] Flag pipeline: redo from `$976A`; previous `$975A` base was lineup tail.
+- [ ] Lineup parser: unpack nibbles instead of treating bytes as indices.

@@ -46,9 +46,9 @@ After the 6-byte name:
 | 6 | hand/size (`00` R tall, `01` R fat, `02` R short, `80` L tall, `81` L fat, `82` L short) | name padding |
 | 7 | buffer `FF` | |
 | 8 | unknown | |
-| 9 | ARM power (defensive throw) | batting high nibble / pitching low |
-| 10 | RUN speed | speed low nibble |
-| 11 | HIT (0–4, UI +1) | SKILL 0–4 → 1–5 |
+| 9 | ARM power (llbcs) | power per DataCrystal |
+| 10 | RUN speed (llbcs) | speed per DataCrystal |
+| 11 | HIT (llbcs) | printed Skill per DataCrystal |
 | 12 | pitcher profile (`00`, `08`, `10`, `18`) | pitcher slot |
 | 13 | buffer | |
 | 14 | team constant/scaler, often `02` | |
@@ -69,7 +69,12 @@ Matches our trailer model:
 - Byte 0 bit 7 = left hand; low nibble delivery; byte 1 stamina; byte 2
   quality/movement; byte 3 tune; byte 6 displayed pitch skill; byte 7 mult.
 
-## Team colours: 16 × 3 bytes, not two 16-byte tables
+## Team colours: llbcs.py's 3-byte model is WRONG
+
+DataCrystal and the ROM show **two 16-byte tables** at `0x1FAD0` and `0x1FAE0`
+(primary and secondary per team). The 3-byte grouping below mixes one team's
+secondary into the next team's primary; it is retained only as a record of the
+external tool's assumption.
 
 At file **`0x1FAD0`** (CPU `$FAC0`), 16 entries × **3 bytes** = 48 bytes through
 `$FAEF`. The old docs treated `$FAC0` and `$FAD0` as separate 16-byte tables;

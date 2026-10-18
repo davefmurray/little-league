@@ -33,7 +33,10 @@ section to five items or fewer.
 - [ ] **Fix variable team bases.** Replace `team*0x120` with the verified base
       table (teams 10–15 differ) in `roster.py`, `build_16x20.py` and editor
       offsets. See `docs/prior-art-llbcs.md`. Resolve Puerto Rico base first.
-- [ ] **Fix colour model.** 16 × 3 bytes at `$FAC0`, not two 16-byte tables.
+- [ ] **Fix colour model.** Two 16-byte tables at `$FAC0`/`$FAD0` (DataCrystal).
+- [ ] **Fix flag base.** Flags start at `$976A`; `$975A` is lineup tail. Redo
+      flag extraction from the correct base.
+- [ ] **Fix lineup parser.** 9 packed-nibble bytes per team at `$96CA`.
 
 - [ ] **Integrate the selector into the game flow.** Replace the 16-team
       list/map path with the bank-10 selector and pass the chosen team
