@@ -101,14 +101,19 @@ order, low nibble = position (baseball scoring). Japan verified:
 08 16 29 31 42 57 65 73 84
 ```
 
-## Flags — `0x1176A`, not `0x1175A`
+## Flags — offsets at `$975A`, records at `$976A`
 
-DataCrystal: flag data starts at `0x1176A` (`$976A`), with `48` = USA.
+Both tables are in **bank 4**:
 
-**This corrects our earlier model.** `0x1175A` (`$975A`) is the **last 16 bytes of
-the lineup table** (`23 35 49 57 61 72 84 08 …`), not a flag offset table. All
-flag extraction that used `$975A`/`$976A` as offset/record is invalid and must be
-redone from `$976A`.
+- `$975A` (file `0x1176A`): 16-byte offset table, one byte per team.
+- `$976A` (file `0x1177A`): records of 12 `(tile, attr)` pairs (24 bytes).
+- The draw routine (`$CB63`) does `LDY $975A,X` then reads `$976A,Y`.
+- Flags use **CHR bank `$1B` for every team**; `$FB4E` is player/uniform CHR.
+- Offset `$48` is the USA flag record, matching DataCrystal's "48 is USA".
+
+Lineups occupy `$96CA`–`$9759` (16 × 9 = 144 bytes); `$975A` is the first byte
+after them. My earlier claim that `$975A` was lineup tail was off by the bank-4
+base and is retracted.
 
 ## Power Analysis
 
@@ -120,5 +125,5 @@ CPU `$B224` — matching our existing ratings table at `$B224`.
 - [x] `roster.py` / `build_16x20.py`: use `tools/llbcs_map.py` verified bases.
 - [ ] Colour model: two 16-byte tables at `$FAC0`/`$FAD0`.
 - [ ] Player field map: power/speed/skill per above; re-test in-game.
-- [ ] Flag pipeline: redo from `$976A`; previous `$975A` base was lineup tail.
+- [x] Flag pipeline: bank-4 `$975A`/`$976A`, CHR bank `$1B`; all 16 extract.
 - [ ] Lineup parser: unpack nibbles instead of treating bytes as indices.

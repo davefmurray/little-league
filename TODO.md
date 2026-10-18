@@ -35,8 +35,8 @@ section to five items or fewer.
       `EMILLO…` correctly and the rebuilt ROM boots.
 - [ ] **Mirror the base table in the web editor** (if it computes offsets).
 - [ ] **Fix colour model.** Two 16-byte tables at `$FAC0`/`$FAD0` (DataCrystal).
-- [ ] **Fix flag base.** Flags start at `$976A`; `$975A` is lineup tail. Redo
-      flag extraction from the correct base.
+- [x] **Fix flag extraction.** Bank-4 offset table `$975A` + records `$976A`,
+      CHR bank `$1B`; all 16 flags regenerate (`docs/flags-extracted.png`).
 - [ ] **Fix lineup parser.** 9 packed-nibble bytes per team at `$96CA`.
 
 - [ ] **Integrate the selector into the game flow.** Replace the 16-team

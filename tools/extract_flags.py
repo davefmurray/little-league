@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Extract the 16 team flag/label blocks from their per-team 4 KiB CHR banks.
 
-Team -> CHR bank comes from the 6-byte table at $FB4E; the 24-byte sprite
-record (12 x tile,attr) comes from the offset table at $975A into $976A.
+Flags use CHR bank $1B for every team. The offset table at bank-4 $975A points
+into the 24-byte sprite records at $976A (12 x tile,attr); the first 9 sprites
+are the 3x3 flag. The $FB4E table is player/uniform CHR, not flags.
 
     python3 tools/extract_flags.py ROM
 """
@@ -37,17 +38,17 @@ def main():
     def fb(addr):
         return fixed[addr - 0xC000]
 
-    ids = [fb(0x975A + i) for i in range(16)]
-    banks = [[fb(0xFB4E + t * 6 + i) for i in range(4)] for t in range(16)]
-    tab = [fb(0x976A + i) for i in range(0x180)]
+    def b4(addr):
+        return prg_data[4 * PRG_BANK + (addr - 0x8000)]
+
+    ids = [b4(0x975A + i) for i in range(16)]
+    tab = [b4(0x976A + i) for i in range(0x180)]
     teams = json.load(open("data/teams32.json"))["teams"]
     os.makedirs(args.out, exist_ok=True)
 
     tiles = []
     for team in range(16):
-        bank = 0x1B
-        if bank >= 0xFF:
-            continue
+        bank = 0x1B  # flag sprites live in CHR bank $1B for every team
         o = ids[team]
         img = Image.new("RGBA", (24, 24), (0, 0, 0, 0))
         px = img.load()

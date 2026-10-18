@@ -122,3 +122,11 @@ The selector now draws eight flags per page:
   was the corruption bug: early slots included `$20–$3D`, overwriting glyphs.
 - Eight runs via `append_flag`, addresses at `$AC80`.
 - 24×16 flags at rows 3–4 / 9–10, above the codes.
+
+
+## Extractor fixed
+
+The extractor was reading `$975A`/`$976A` through the **fixed bank**; both tables
+are in **bank 4**. With bank-4 reads and CHR bank `$1B`, all 16 flags extract
+correctly. `$FB4E` is player/uniform CHR, not the flag bank. See
+`docs/flags-extracted.png`.
