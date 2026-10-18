@@ -30,6 +30,11 @@ section to five items or fewer.
 
 ## Now (P0)
 
+- [ ] **Fix variable team bases.** Replace `team*0x120` with the verified base
+      table (teams 10–15 differ) in `roster.py`, `build_16x20.py` and editor
+      offsets. See `docs/prior-art-llbcs.md`. Resolve Puerto Rico base first.
+- [ ] **Fix colour model.** 16 × 3 bytes at `$FAC0`, not two 16-byte tables.
+
 - [ ] **Integrate the selector into the game flow.** Replace the 16-team
       list/map path with the bank-10 selector and pass the chosen team
       (`$07C3`) into the bracket setup. Today the selector is a standalone

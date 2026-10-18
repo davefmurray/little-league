@@ -1,3 +1,9 @@
+> **Correction (verified against llbcs.py):** team roster bases are **not** a
+> uniform `0x120` stride. Teams 10–15 differ (Puerto Rico `+0x100`, Mexico
+> `+0x140`). See `docs/prior-art-llbcs.md` for the verified base table. Team
+> colours are **16 × 3 bytes** at `$FAC0`, not two 16-byte tables at
+> `$FAC0`/`$FAD0`.
+
 # Roster and team data format
 
 All tables are plain data in the PRG ROM. Bank 4 is switched in before the game
