@@ -173,6 +173,7 @@ tools/
   build_select_screen.py  bootable static 4x8 select screen
   extract_chr.py      every CHR tile -> per-bank PNGs, atlas, manifest
   extract_flags.py    per-team flag/label sprite blocks + sheet
+  pack_flags.py       prototype: pack 24x24 flags into CHR bank 0
   harness.html        jsnes browser test harness
   rominfo.py          cartridge report
   trace.py            6502 trace
