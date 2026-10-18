@@ -337,6 +337,8 @@ Two limits surfaced:
   not 3 × 4; the extractor now uses that order.
 - The blocks contain both flag art and team-label glyphs, so they are extracted
   assets rather than separated flag bitmaps yet.
+- 16×16 downscales are emitted (`16-XX-*.png`) to fit the CHR spare-tile budget,
+  but at that size the label glyphs dominate; they are not shippable as flags.
 
 ### Next five landmarks
 

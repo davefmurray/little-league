@@ -70,6 +70,8 @@ def main():
         big = img.resize((128, 96), Image.NEAREST)
         name = teams[team]["name"].split()[0].lower()
         big.save(os.path.join(args.out, f"{team:02d}-{name}.png"))
+        small = img.resize((16, 16), Image.LANCZOS)
+        small.save(os.path.join(args.out, f"16-{team:02d}-{name}.png"))
         tiles.append((team, teams[team]["name"], big))
 
     cols = 4
