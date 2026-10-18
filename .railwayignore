@@ -1,0 +1,7 @@
+*.nes
+.venv/
+build/
+data/
+docs/
+.railway-home/
+.git/

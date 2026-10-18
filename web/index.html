@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roster Lab — Little League Championship Series</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f2e6cf' stroke='%2316211b' stroke-width='2'/%3E%3Cpath d='M7 8c6 4 6 12 0 16M25 8c-6 4-6 12 0 16' fill='none' stroke='%23c53b28' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="field-lines" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="ball" aria-hidden="true"></div>
+    <div class="brand-text">
+      <h1>Roster Lab</h1>
+      <p>Little League Baseball <span>·</span> Championship Series</p>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <span id="statusChip" class="chip" data-mode="demo">DEMO DATA</span>
+    <button id="loadBtn" class="btn">Load ROM</button>
+    <button id="repoBtn" class="btn ghost" title="Load the ROM found in the repo root">Repo ROM</button>
+    <button id="exportRomBtn" class="btn primary" disabled>Export ROM</button>
+    <div class="menu">
+      <button id="moreBtn" class="btn ghost" aria-haspopup="true" aria-expanded="false">Data ▾</button>
+      <div id="moreMenu" class="menu-list" hidden>
+        <button id="exportJsonBtn">Export JSON</button>
+        <button id="importJsonBtn">Import JSON</button>
+        <button id="revertBtn" disabled>Revert changes</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="banner" class="banner" hidden></div>
+
+<main>
+  <aside class="sidebar">
+    <div class="side-head">
+      <span>Teams</span>
+      <span class="count">16</span>
+    </div>
+    <div id="teamList" class="team-list" role="list"></div>
+  </aside>
+
+  <section id="editor" class="editor">
+    <div id="emptyState" class="empty">
+      <h2>No roster loaded</h2>
+      <p>Drop a <code>.nes</code> file here, or load the ROM from the repo root.</p>
+    </div>
+
+    <div id="teamPanel" hidden>
+      <div class="team-head">
+        <div class="team-id">
+          <span class="eyebrow" id="teamEyebrow">TEAM 01</span>
+          <h2 id="teamTitle">JAPAN</h2>
+          <span class="short-preview" id="shortPreview">JAPAN</span>
+        </div>
+        <div class="team-fields">
+          <label>
+            <span>Team name <em>14 max</em></span>
+            <input id="teamName" maxlength="14" spellcheck="false" autocomplete="off">
+          </label>
+          <label>
+            <span>Scoreboard <em id="shortLimit">10 max</em></span>
+            <input id="shortName" spellcheck="false" autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <div class="ratings" id="ratings"></div>
+
+      <div class="roster-head">
+        <h3>Roster</h3>
+        <div class="roster-actions">
+          <span class="hint">15 slots · 6-char names · RGB nibbles 0–15</span>
+          <button id="resetTeamBtn" class="btn tiny ghost">Reset team</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="players">
+          <thead>
+            <tr>
+              <th class="slot">#</th>
+              <th>Name</th>
+              <th>Skill <em>1–5</em></th>
+              <th>Batting <em>0–15</em></th>
+              <th>Pitching <em>0–15</em></th>
+              <th class="extra">Speed <em>0–15</em></th>
+            </tr>
+          </thead>
+          <tbody id="playerBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>
+    <strong>SKILL</strong> is the card rating (byte 11). <strong>BATTING</strong> and
+    <strong>PITCHING</strong> are the two nibbles of byte 9. <strong>SPEED</strong> is the
+    low nibble of byte 10, which the game copies into its baserunning variable.
+  </p>
+  <p class="muted">
+    A red <strong>P</strong> marks a pitcher slot. All other bytes are preserved from the
+    source record — export only changes names, ratings, skill and the three stats, and is
+    otherwise byte-identical to the loaded ROM.
+  </p>
+</footer>
+
+<div id="drop" class="drop" hidden>
+  <div class="drop-card">
+    <span class="drop-icon" aria-hidden="true">↓</span>
+    <strong>Drop it</strong>
+    <span>ROM (<code>.nes</code>) or roster (<code>.json</code>)</span>
+  </div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<input id="romInput" type="file" accept=".nes,application/octet-stream" hidden>
+<input id="jsonInput" type="file" accept=".json,application/json" hidden>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
