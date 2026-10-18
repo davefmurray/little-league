@@ -277,6 +277,21 @@ follows the cursor. A stores the selected team (`page * 8 + cursor`) at `$07C3`.
 
 Verified: cursor 1 shows ARIZONA, and A writes team `1` to `$07C3`.
 
+### Flag format
+
+Flags are **sprites**, not background tiles:
+
+- `$975A` holds 16 byte offsets (0, `$48`, `$18`, …) into the sprite table.
+- `$976A` holds 24 bytes per team: 12 × `(tile, attribute)` pairs.
+- The draw loop at `$CB52` writes 3 sprites per row, 4 rows (24×32 px), incrementing
+  Y by 2 per sprite and the OAM pointer by 4.
+- Attribute bytes carry palette/flip; tile IDs are sprite-page indices.
+
+Team 0 (JAPAN) uses tiles `0,1,0 / 2,3,4 / 56,57,56 / 202,208,206`.
+A per-CHR-bank render of teams 0 and 1 is in `docs/flag-chr-scan.png`; the bank
+and sprite palettes are not yet conclusively pinned, so the flags are identified
+structurally but not ready to blit.
+
 ### Next five landmarks
 
 The selector code is now 557 bytes at `$FD90`, ending at `$FFC5`; the marker and
