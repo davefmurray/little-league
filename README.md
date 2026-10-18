@@ -173,12 +173,27 @@ docker run --rm -p 8080:8080 little-league
 On Railway:
 
 ```sh
-railway up
+railway up --service little-league
 ```
 
 `railway.json` uses the Dockerfile and `/healthz`; the server binds `0.0.0.0` and
 reads `$PORT`. Off loopback, `/rom` is disabled — the hosted site is a viewer and
 editor for **your** ROM, not a distribution channel for the game.
+
+### Automatic deploys
+
+Pushes to `main` deploy through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+using the Railway CLI. Create a **project token** in Railway
+(Project → Settings → Tokens, environment `production`) and add it once:
+
+```sh
+gh secret set RAILWAY_TOKEN --repo davefmurray/little-league
+```
+
+The workflow checks for the secret first: until it exists, the deploy step is
+skipped with a warning annotation instead of failing the build. Once it is set,
+every push to `main` (or a manual **Run workflow**) builds the Docker image and
+rolls it out.
 
 ---
 

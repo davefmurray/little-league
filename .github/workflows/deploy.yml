@@ -1,0 +1,62 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: railway-production
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for Railway token
+        id: guard
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::warning title=Railway deploy skipped::RAILWAY_TOKEN is not configured. Create a Railway project token and add it as a repository secret."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Railway deploy skipped"
+              echo ""
+              echo "Add a \`RAILWAY_TOKEN\` repository secret (Railway → Project → Settings → Tokens) to enable deploys."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Node
+        if: steps.guard.outputs.ready == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Railway CLI
+        if: steps.guard.outputs.ready == 'true'
+        run: npm install --global @railway/cli@5
+
+      - name: Deploy
+        if: steps.guard.outputs.ready == 'true'
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway up --service little-league --ci
+          {
+            echo "### Deployed to Railway"
+            echo ""
+            echo "https://little-league-production.up.railway.app"
+          } >> "$GITHUB_STEP_SUMMARY"
