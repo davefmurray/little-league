@@ -13,6 +13,7 @@ companion](docs/game-writeup.md)**.
   <a href="https://little-league-production.up.railway.app"><strong>Live editor</strong></a> ·
   <a href="docs/game-writeup.md"><strong>Read the write-up</strong></a> ·
   <a href="docs/roster-format.md"><strong>Roster format</strong></a> ·
+  <a href="TODO.md"><strong>Living TODO</strong></a> ·
   <a href="docs/rom-layout.md"><strong>ROM layout</strong></a>
 </p>
 
