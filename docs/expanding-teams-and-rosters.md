@@ -340,6 +340,29 @@ Two limits surfaced:
 - 16×16 downscales are emitted (`16-XX-*.png`) to fit the CHR spare-tile budget,
   but at that size the label glyphs dominate; they are not shippable as flags.
 
+### OAM ground truth (flags)
+
+Capturing live OAM on the team-select map gave the definitive flag format:
+
+- **9 sprites, 3 × 3** (24 × 24 px)
+- tiles `$05,$06,$07 / $08,$09,$07 / $0A,$0A,$0A`
+- attribute `$02`, sprite pattern table `$0000`
+- CHR bank `$1B`, palette 2 = `0F,16,30,28`
+
+Rendering exactly those tiles and that palette produces a clean **US flag**:
+
+![OAM-derived US flag](flag-oam.png)
+
+The `$976A` records are region/team **cards**, not 32 unique team flags; the
+first nine tiles of entry 1 coincidentally match the US flag, but applying the
+table attributes does not reproduce it. The game therefore supplies **region
+flags** (US, Japan, …), not a unique flag per team.
+
+For 32 team cells there are two honest options:
+
+1. Reuse region flags in the grid (fast, but duplicate flags).
+2. Generate 32 new 24×24 flag tiles and copy them into spare CHR bank 0 space.
+
 ### Next five landmarks
 
 The selector code is now 557 bytes at `$FD90`, ending at `$FFC5`; the marker and
