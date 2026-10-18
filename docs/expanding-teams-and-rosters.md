@@ -162,6 +162,32 @@ $ python3 tools/expand_rom.py ROM -o build/expanded.nes --prg-banks 16
 
 ---
 
+### 512 KiB PRG
+
+MMC1 allows 32 PRG banks (512 KiB). The expander already generalizes:
+
+```
+python3 tools/expand_rom.py build/32x20.nes -o build/32x20-512k.nes --prg-banks 32
+  PRG         32 banks (512 KiB)
+  CHR         16 banks (128 KiB, unchanged)
+  fixed bank  31 (copy of bank 15)
+  free banks  16-30 (15 banks, 240 KiB)
+```
+
+Two caveats matter more than the extra space:
+
+1. **The fifth PRG bit is not in the PRG register.** MMC1 stores PRG A18 in
+   **CHR register 0, bit 4**. The stock switch routine at `$C14E` writes five
+   bits serially to `$FFFF`; the PRG register only latches four, so banks 16–31
+   are aliases until the routine also updates CHR0 bit 4 (while preserving the
+   CHR bank). Banks 8–15 work today; 16–30 need that mapper patch.
+2. **CHR is still capped at 128 KiB.** 512 KiB buys code/data room only — not
+   new tiles, flags or fonts.
+
+The 512 KiB build renders the title and the PRG-RAM cache in jsnes, then jsnes
+throws an internal `nes.stop` error; validate it in Mesen2/FCEUX before trusting
+it. Real hardware needs a 512 KiB PRG donor or flash cart with A18 wired.
+
 ## Progress log
 
 - `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
