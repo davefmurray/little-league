@@ -188,6 +188,7 @@ tools/
   build_flags32.py    generate/pack 32 flags at 24x16 into bank 10
   harness.html        jsnes browser test harness
   debugger.html       ROM debugger: regs, watches, OAM, write log
+  tbl.py              text encode/decode/scan
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server
@@ -197,6 +198,7 @@ docs/
   prior-art-llbcs.md  external editor findings + verified corrections
   datacrystal-rom-map.md  authoritative ROM map, reconciled
   ram-map.md          verified RAM addresses (pitcher, game state, buffers)
+  text-table.md       TBL mapping + verified text offsets
   cheats-and-ram.md   Game Genie codes translated + RAM address map
   rom-layout.md       cartridge, banks, MMC1, vectors
   expanding-teams-and-rosters.md

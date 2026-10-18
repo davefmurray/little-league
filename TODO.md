@@ -59,6 +59,8 @@ section to five items or fewer.
 
 ## Next (P1)
 
+- [x] **Text table.** `data/llbcs.tbl` + `tools/tbl.py`; verified team/menu
+      strings at `$5190`, `$51E0`, `$568A`, `$7306`.
 - [x] **RAM map.** Pitcher state `$04EE–$04FE`, game state `$0487–$048C`,
       display buffers and selector state documented in `docs/ram-map.md`.
 
