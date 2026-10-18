@@ -115,6 +115,21 @@ trainer ROMs, and the editor warns if team 1 is not `JAPAN`.
 
 ---
 
+## ROM test harness
+
+A browser-based jsnes harness lives at `tools/harness.html` so patches can be
+boot-tested without installing an emulator:
+
+```sh
+python3 -m http.server 8097 --bind 127.0.0.1
+# http://127.0.0.1:8097/tools/harness.html
+# http://127.0.0.1:8097/tools/harness.html?rom=../build/16x20.nes
+```
+
+Buttons and a console API (`stepFrames`, `tap`, `press`) drive the game. jsnes
+uses a different NTSC palette than the console, so colours are approximate —
+use it for layout, menus and crashes, not palette verification.
+
 ## Data model at a glance
 
 | Table | File offset | Layout |
@@ -152,6 +167,8 @@ web/                  browser editor (no build step)
 tools/
   roster.py           CLI extract/apply/patch
   expand_rom.py       PRG expansion with fixed-bank relocation
+  build_16x20.py      first roster-expansion build (16 teams x 20 players)
+  harness.html        jsnes browser test harness
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server

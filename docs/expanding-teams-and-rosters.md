@@ -162,6 +162,21 @@ $ python3 tools/expand_rom.py ROM -o build/expanded.nes --prg-banks 16
 
 ---
 
+## Progress log
+
+- `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
+  8–14 free, banks 0–7 and CHR byte-identical.
+- `tools/harness.html` — done: jsnes boots the stock ROM and patched builds in
+  the browser; buttons plus `stepFrames` / `tap` console API.
+- `tools/build_16x20.py` — done: 16 teams × 20 players, split across the two free
+  runs, pointer table rewritten, trailer lookup relocated.
+- 16 × 20 build tested: boots, title, menu, team select, pre-game lineup screen;
+  all nine starter names load from the relocated records.
+- Still to verify on 16 × 20: pitching from each of the three slots, the bench /
+  pinch-hitter list (its bound is the remaining unknown), and a full game.
+- 32-team build not started: needs the bank-8 migration, team-select paging,
+  32-slot bracket and password work.
+
 ## Recommended path
 
 ### Milestone 0 — cartridge expansion (ready)

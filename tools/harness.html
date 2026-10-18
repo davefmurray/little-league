@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ROM test harness</title>
+<style>
+  body { background:#0c241c; color:#f4e8d2; font:12px ui-monospace,monospace; margin:0; padding:16px; }
+  canvas { display:block; width:512px; height:480px; image-rendering:pixelated; background:#000; border:3px solid #15201a; box-shadow:0 0 0 2px #e0a63c; }
+  .row { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; max-width:520px; }
+  button { font:inherit; padding:6px 9px; background:#f4e8d2; color:#15201a; border:2px solid #15201a; cursor:pointer; }
+  button:hover { background:#e0a63c; }
+  #status { margin:8px 0; color:#e0a63c; }
+  .wrap { display:flex; gap:18px; align-items:flex-start; }
+  .side { max-width:260px; }
+  code { background:#15201a; padding:1px 3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <canvas id="screen" width="256" height="240"></canvas>
+    <div id="status">loading…</div>
+  </div>
+  <div class="side">
+    <div class="row">
+      <button data-btn="START">Start</button>
+      <button data-btn="A">A</button>
+      <button data-btn="B">B</button>
+      <button data-btn="SELECT">Select</button>
+    </div>
+    <div class="row">
+      <button data-btn="UP">Up</button>
+      <button data-btn="DOWN">Down</button>
+      <button data-btn="LEFT">Left</button>
+      <button data-btn="RIGHT">Right</button>
+    </div>
+    <div class="row">
+      <button id="step60">Step 60</button>
+      <button id="step600">Step 600</button>
+      <button id="reset">Reset</button>
+    </div>
+    <p>Console API:</p>
+    <p><code>stepFrames(n)</code><br><code>press('START', 4)</code><br><code>tap('START')</code><br><code>screenshot()</code></p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsnes@1.2.1/dist/jsnes.min.js"></script>
+<script>
+const canvas = document.getElementById('screen');
+const ctx = canvas.getContext('2d');
+const img = ctx.createImageData(256, 240);
+const statusEl = document.getElementById('status');
+let nes = null;
+let running = false;
+
+function drawFrame(buffer) {
+  const data = img.data;
+  for (let i = 0, j = 0; i < buffer.length; i++, j += 4) {
+    const px = buffer[i];
+    data[j] = (px >> 16) & 0xff;
+    data[j + 1] = (px >> 8) & 0xff;
+    data[j + 2] = px & 0xff;
+    data[j + 3] = 0xff;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function makeNES() {
+  return new jsnes.NES({
+    onFrame: drawFrame,
+    onAudioSample: () => {},
+    sampleRate: 44100,
+  });
+}
+
+async function loadROM(url) {
+  statusEl.textContent = 'fetching ROM…';
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`ROM fetch ${res.status}`);
+  const bytes = new Uint8Array(await res.arrayBuffer());
+  let binary = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  nes = makeNES();
+  nes.loadROM(binary);
+  window.nes = nes;
+  statusEl.textContent = `loaded ${bytes.length.toLocaleString()} bytes`;
+  stepFrames(180);
+  return bytes.length;
+}
+
+function stepFrames(n) {
+  if (!nes) return;
+  for (let i = 0; i < n; i++) nes.frame();
+  statusEl.textContent = `frame ${nes.frames}`;
+}
+
+function tap(button, hold = 4, gap = 6) {
+  const code = jsnes.Controller['BUTTON_' + button];
+  nes.buttonDown(1, code);
+  stepFrames(hold);
+  nes.buttonUp(1, code);
+  stepFrames(gap);
+}
+
+function press(button, frames = 8, upAfter = true) {
+  const code = jsnes.Controller['BUTTON_' + button];
+  nes.buttonDown(1, code);
+  stepFrames(frames);
+  if (upAfter) nes.buttonUp(1, code);
+}
+
+function screenshot() {
+  return canvas.toDataURL('image/png');
+}
+
+document.querySelectorAll('[data-btn]').forEach((b) => {
+  b.addEventListener('click', () => tap(b.dataset.btn));
+});
+document.getElementById('step60').addEventListener('click', () => stepFrames(60));
+document.getElementById('step600').addEventListener('click', () => stepFrames(600));
+document.getElementById('reset').addEventListener('click', () => location.reload());
+
+window.stepFrames = stepFrames;
+window.tap = tap;
+window.press = press;
+window.screenshot = screenshot;
+
+const romParam = new URLSearchParams(location.search).get('rom')
+  || '../Little%20League%20Baseball%20-%20Championship%20Series%20(USA).nes';
+loadROM(romParam)
+  .catch((err) => { statusEl.textContent = 'error: ' + err.message; console.error(err); });
+</script>
+</body>
+</html>
