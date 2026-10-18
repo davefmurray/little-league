@@ -249,9 +249,13 @@ copied at boot to `$6000` / `$6170`, the RAM table entries set to `$6000` /
 
 ![Copy-on-select proof](copy-on-select-proof.png)
 
-`tools/build_copy_on_select.py` builds this proof ROM. The next step is to move the
-copy from a boot hook to on-demand hooks at team select, player card and game
-load, then fill bank 8 with all 32 teams.
+`tools/build_copy_on_select.py` builds the two-team proof ROM.
+
+`tools/build_32x20.py` now fills bank 8 with **all 32 teams** (20 players each)
+and bulk-caches the 16 active teams at boot (`$6000–$76FF`, table `$7F00`). The
+16-team UI boots and the lineup renders normally from the cache. The remaining
+work is the UI/bracket layer: on-demand copies for teams 16–31, a 32-team select
+screen, a 5-round bracket and the password format.
 
 ### Milestone 2 — 32 teams × 20 players
 
