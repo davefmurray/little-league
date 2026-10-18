@@ -222,11 +222,11 @@ map the palette tables, and settle byte 9 with a controlled emulator test.
 
 ## Legal
 
-No ROM, graphics, music or other copyrighted game assets are included in this
-repository. The tools operate on a ROM you supply; the screenshot is of the
-editor's own interface. *Little League Baseball* is a trademark of Little League
-Baseball, Inc.; the game and its assets belong to their respective rights
-holders. This is an unofficial preservation and research project.
+No ROM or game code is included in this repository. The tools operate on a ROM
+you supply. The site includes the game's title-screen screenshot and box art for
+identification and commentary, with credit; all rights remain with SNK and Little
+League Baseball, Inc. *Little League Baseball* is a trademark of Little League
+Baseball, Inc. This is an unofficial preservation and research project.
 
 ---
 
