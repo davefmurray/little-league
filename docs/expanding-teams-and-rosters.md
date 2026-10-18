@@ -288,9 +288,26 @@ Flags are **sprites**, not background tiles:
 - Attribute bytes carry palette/flip; tile IDs are sprite-page indices.
 
 Team 0 (JAPAN) uses tiles `0,1,0 / 2,3,4 / 56,57,56 / 202,208,206`.
-A per-CHR-bank render of teams 0 and 1 is in `docs/flag-chr-scan.png`; the bank
-and sprite palettes are not yet conclusively pinned, so the flags are identified
-structurally but not ready to blit.
+
+The bank numbers come from a 6-byte-per-team table at **`$FB4E`**:
+
+| Team | bytes (CHR0a, CHR0b, CHR1a, CHR1b, ptr lo, ptr hi) |
+|---|---|
+| JAPAN | `1B 1B 18 1C 50 06` |
+| ARIZONA | `18 05 05 18 70 06` |
+| NEW YORK | `19 1E 19 1E 38 06` |
+| CALIFORNIA | `15 12 12 12 68 06` |
+
+`$C6C1` turns the team index into a 6-byte stride, stores the first four bytes in
+`$23–$26`, and `$CE36/$CE4B` write them to CHR0; `$CE40/$CE50` write the other
+pair to CHR1. Palette setup copies 16 bytes per block to `$0195` via `$C1C0`.
+
+Rendering the 24-byte blocks out of those exact 4 KiB banks shows label/flag-card
+art (`JPN`, `AZ`, `NY` glyphs plus the flag field), confirming the table but not
+a standalone flag bitmap. The blocks need their attribute palettes applied to
+separate flag from label.
+
+![Per-team flag banks](flag-banks.png)
 
 ### Next five landmarks
 
