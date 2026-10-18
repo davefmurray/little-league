@@ -30,9 +30,10 @@ section to five items or fewer.
 
 ## Now (P0)
 
-- [ ] **Fix variable team bases.** Replace `team*0x120` with the verified base
-      table (teams 10–15 differ) in `roster.py`, `build_16x20.py` and editor
-      offsets. See `docs/prior-art-llbcs.md`. Resolve Puerto Rico base first.
+- [x] **Fix variable team bases.** `tools/llbcs_map.py` now holds the verified
+      bases; `roster.py` and `build_16x20.py` use it. Puerto Rico extracts
+      `EMILLO…` correctly and the rebuilt ROM boots.
+- [ ] **Mirror the base table in the web editor** (if it computes offsets).
 - [ ] **Fix colour model.** Two 16-byte tables at `$FAC0`/`$FAD0` (DataCrystal).
 - [ ] **Fix flag base.** Flags start at `$976A`; `$975A` is lineup tail. Redo
       flag extraction from the correct base.

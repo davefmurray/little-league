@@ -117,8 +117,7 @@ CPU `$B224` — matching our existing ratings table at `$B224`.
 
 ## What to fix in the repo
 
-- [ ] `roster.py` / `build_16x20.py`: replace uniform `team*0x120` with the
-      verified base table (PR/Mexico differ).
+- [x] `roster.py` / `build_16x20.py`: use `tools/llbcs_map.py` verified bases.
 - [ ] Colour model: two 16-byte tables at `$FAC0`/`$FAD0`.
 - [ ] Player field map: power/speed/skill per above; re-test in-game.
 - [ ] Flag pipeline: redo from `$976A`; previous `$975A` base was lineup tail.

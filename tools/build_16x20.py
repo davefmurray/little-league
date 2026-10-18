@@ -17,6 +17,8 @@ import argparse
 import json
 import sys
 
+from llbcs_map import TEAM_BASES
+
 HEADER = 16
 BANK = 0x4000
 TEAMS = 16
@@ -89,7 +91,7 @@ def build(base_path, json_path, out_path):
             rom[off + p * RECORD:off + p * RECORD + RECORD] = chunk
 
         # Trailer: FF row, 8 zero bytes, then the three original pitcher records.
-        old_base = 0x8420 + team_index * 0x120
+        old_base = TEAM_BASES[team_index]
         old_trailer = bank_offset(4, old_base + 0xF0)
         pitcher_bytes = bytes(rom[old_trailer + 0x18:old_trailer + 0x30])
         trailer = b"\xff" * 16 + b"\x00" * 8 + pitcher_bytes

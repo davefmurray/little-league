@@ -20,6 +20,8 @@ import argparse
 import json
 import sys
 
+from llbcs_map import TEAM_BASES
+
 HEADER = 16
 BANK = 16384
 TEAMS = 16
@@ -137,7 +139,7 @@ class Rom:
     # --- players --------------------------------------------------------
     def players(self, t):
         out = []
-        base = 0x8420 + t * 0x120
+        base = TEAM_BASES[t]
         for p in range(PLAYERS):
             rec = self.get(4, base + p * RECORD, RECORD)
             name = rec[:NAME_LEN].decode("ascii", "replace")
@@ -154,7 +156,7 @@ class Rom:
             raise ValueError(f"attrs must be {RECORD - NAME_LEN} bytes")
         if not all(isinstance(a, int) and 0 <= a <= 255 for a in attrs):
             raise ValueError("attrs must be bytes 0..255")
-        base = 0x8420 + t * 0x120 + p * RECORD
+        base = TEAM_BASES[t] + p * RECORD
         self.put(4, base, name.ljust(NAME_LEN).encode("ascii") + bytes(attrs))
 
 
