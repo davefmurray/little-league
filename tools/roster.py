@@ -20,7 +20,7 @@ import argparse
 import json
 import sys
 
-from llbcs_map import TEAM_BASES
+from llbcs_map import (TEAM_BASES, COLOR_PRIMARY, COLOR_SECONDARY, LINEUPS)
 
 HEADER = 16
 BANK = 16384
@@ -33,6 +33,7 @@ ROM_BASE = {
     1: 0x8000,
     3: 0x8000,
     4: 0x8000,
+    7: 0xC000,
 }
 
 ADDR = {
@@ -136,6 +137,33 @@ class Rom:
             raise ValueError(f"ratings must be 1..4, got {values}")
         self.put(3, 0xB224 + t * 4, bytes(values))
 
+    # --- colours / lineup -----------------------------------------------
+    def colors(self, t):
+        return {
+            "primary": self.get(7, COLOR_PRIMARY + t, 1)[0],
+            "secondary": self.get(7, COLOR_SECONDARY + t, 1)[0],
+        }
+
+    def set_colors(self, t, primary, secondary):
+        self.put(7, COLOR_PRIMARY + t, bytes([primary]))
+        self.put(7, COLOR_SECONDARY + t, bytes([secondary]))
+
+    def lineup(self, t):
+        raw = self.get(4, LINEUPS + t * 9, 9)
+        return [{"order": b >> 4, "position": b & 0x0F} for b in raw]
+
+    def set_lineup(self, t, entries):
+        if len(entries) != 9:
+            raise ValueError("lineup needs 9 entries")
+        out = bytearray()
+        for e in entries:
+            order = e["order"] if isinstance(e, dict) else e[0]
+            pos = e["position"] if isinstance(e, dict) else e[1]
+            if not (0 <= order <= 8 and 1 <= pos <= 9):
+                raise ValueError(f"bad lineup entry {order},{pos}")
+            out.append((order << 4) | pos)
+        self.put(4, LINEUPS + t * 9, bytes(out))
+
     # --- players --------------------------------------------------------
     def players(self, t):
         out = []
@@ -172,6 +200,8 @@ def extract(rom):
                 "short_width": shorts[t]["width"],
                 "short_attr": shorts[t]["attr"],
                 "ratings": rom.ratings()[t],
+                "colors": rom.colors(t),
+                "lineup": rom.lineup(t),
                 "players": rom.players(t),
             }
             for t in range(TEAMS)
@@ -190,6 +220,10 @@ def apply(rom, doc):
             rom.set_short_name(t, team["short_name"])
         if team.get("ratings") is not None:
             rom.set_ratings(t, team["ratings"])
+        if team.get("colors"):
+            rom.set_colors(t, team["colors"]["primary"], team["colors"]["secondary"])
+        if team.get("lineup"):
+            rom.set_lineup(t, team["lineup"])
         players = team.get("players", [])
         if len(players) != PLAYERS:
             raise SystemExit(f"team {t}: expected {PLAYERS} players, found {len(players)}")
@@ -205,7 +239,10 @@ def show(rom):
         ps = rom.players(t)
         line = " ".join(f"{p['name']:<6}" for p in ps)
         r = ratings[t]
-        print(f"{t:2d} {names[t]:<16} {r[0]:3d} {r[1]:3d} {r[2]:3d} {r[3]:3d}   {line}")
+        c = rom.colors(t)
+        lu = "".join(f"{e['order']}{e['position']}" for e in rom.lineup(t))
+        print(f"{t:2d} {names[t]:<16} {r[0]:3d} {r[1]:3d} {r[2]:3d} {r[3]:3d} "
+              f"c {c['primary']:02X}/{c['secondary']:02X}  lu {lu}  {line}")
 
 
 def patch(rom, team, slot, name, skill, attrs):

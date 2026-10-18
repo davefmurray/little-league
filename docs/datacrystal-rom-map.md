@@ -123,7 +123,7 @@ CPU `$B224` — matching our existing ratings table at `$B224`.
 ## What to fix in the repo
 
 - [x] `roster.py` / `build_16x20.py`: use `tools/llbcs_map.py` verified bases.
-- [ ] Colour model: two 16-byte tables at `$FAC0`/`$FAD0`.
+- [x] Colour model: two 16-byte tables at `$FAC0`/`$FAD0`.
 - [ ] Player field map: power/speed/skill per above; re-test in-game.
 - [x] Flag pipeline: bank-4 `$975A`/`$976A`, CHR bank `$1B`; all 16 extract.
-- [ ] Lineup parser: unpack nibbles instead of treating bytes as indices.
+- [x] Lineup parser: unpack nibbles (order/position); round-trip identical.
