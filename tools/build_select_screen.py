@@ -14,12 +14,14 @@ BANK = 0x4000
 FIXED = 15
 HOOK = 0xCBE6
 LIST_BASE = 0xFB83
-STRIDE = 160
-PALETTE = 0xFE10
-CODE = 0xFE30
+STRIDE = 144
+PALETTE = 0xFDD0
+CODE = 0xFDF0
+MARKER = 0xFFD0
 PTR = 0xFFE0
 PAGE = 0x07C0
 BUTTONS = 0x07C6
+CURSOR = 0x07C1
 
 
 def bank_file(bank):
@@ -37,14 +39,11 @@ def page_list(teams, page):
     for i, t in enumerate(teams[page * 8:page * 8 + 8]):
         col = 2 + (i % 4) * 7
         row = 5 if i < 4 else 11
-        out += run(0x2000 + row * 32 + col, t["code"])
+        out += run(0x2000 + row * 32 + col - 1, " " + t["code"])
     first = teams[page * 8]
     out += run(0x22A2, first["name"][:14].ljust(14))
-    out += run(0x22B4, "12-4")
     out += run(0x22C2, f"SKILL 4  REGION {first['region']}".ljust(24)[:24])
-    out += run(0x2362, "PREV")
     out += run(0x236B, "A SELECT")
-    out += run(0x2379, "NEXT")
     return bytes(out)
 
 
@@ -55,9 +54,10 @@ def assemble(lines, origin):
             labels[item[:-1]] = len(code)
             continue
         op = item[0]
-        if op in ("LDA#", "LDX#", "LDY#", "CPX#", "AND#", "SBC#", "ADC#"):
+        if op in ("LDA#", "LDX#", "LDY#", "CPX#", "CMP#", "AND#", "ORA#", "SBC#", "ADC#"):
             code.append({"LDA#": 0xA9, "LDX#": 0xA2, "LDY#": 0xA0, "CPX#": 0xE0,
-                         "AND#": 0x29, "SBC#": 0xE9, "ADC#": 0x69}[op])
+                         "CMP#": 0xC9, "AND#": 0x29, "ORA#": 0x09,
+                         "SBC#": 0xE9, "ADC#": 0x69}[op])
             code.append(item[1])
         elif op in ("LDAx", "STAx"):
             addr = item[1]
@@ -68,6 +68,10 @@ def assemble(lines, origin):
             code += bytes([0xAD, item[1] & 0xFF, item[1] >> 8])
         elif op == "STA":
             code += bytes([0x8D, item[1] & 0xFF, item[1] >> 8])
+        elif op == "LDX":
+            code += bytes([0xAE, item[1] & 0xFF, item[1] >> 8])
+        elif op == "STX":
+            code += bytes([0x8E, item[1] & 0xFF, item[1] >> 8])
         elif op == "LDAiY":
             code += bytes([0xB1, item[1]])
         elif op == "ROL":
@@ -83,9 +87,9 @@ def assemble(lines, origin):
                 code += bytes([opcode, 0x00, 0x00])
             else:
                 code += bytes([opcode, item[1] & 0xFF, item[1] >> 8])
-        elif op in ("BNE", "BPL"):
+        elif op in ("BNE", "BPL", "BCC", "BCS"):
             branches.append((len(code), item[1]))
-            code += bytes([0xD0 if op == "BNE" else 0x10, 0x00])
+            code += bytes([{"BNE": 0xD0, "BPL": 0x10, "BCC": 0x90, "BCS": 0xB0}[op], 0x00])
         elif op in ("INX", "INY", "DEX", "DEY", "ASL", "LSR", "TAX", "SEC", "CLC", "SEI", "RTS"):
             code.append({"INX": 0xE8, "INY": 0xC8, "DEX": 0xCA, "DEY": 0x88,
                          "ASL": 0x0A, "LSR": 0x4A, "TAX": 0xAA, "SEC": 0x38,
@@ -120,15 +124,29 @@ def screen_code():
         ("LDA#", 0x23), ("STA", 0x2006), ("LDA#", 0xC0), ("STA", 0x2006),
         ("LDX#", 0x40), ("LDA#", 0x00),
         "attr:", ("STA", 0x2007), ("DEX",), ("BNE", "attr"),
-        ("LDA#", 0x00), ("STA", PAGE),
+        ("LDA#", 0x00), ("STA", PAGE), ("STA", CURSOR),
         ("JSR", "draw_page"),
         "main:", ("JSR", "read_pad"),
+        ("LDA", BUTTONS), ("AND#", 0x08), ("BNE", "up"),
+        ("LDA", BUTTONS), ("AND#", 0x04), ("BNE", "down"),
         ("LDA", BUTTONS), ("AND#", 0x02), ("BNE", "left"),
         ("LDA", BUTTONS), ("AND#", 0x01), ("BNE", "right"),
         ("JMP", "main"),
-        "left:", ("LDA", PAGE), ("SEC",), ("SBC#", 0x01), ("AND#", 0x03), ("STA", PAGE),
+        "up:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCC", "release"),
+        ("SEC",), ("SBC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
+        "down:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCS", "release"),
+        ("CLC",), ("ADC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
+        "left:", ("LDA", CURSOR), ("AND#", 0x03), ("BNE", "leftmove"),
+        ("LDA", PAGE), ("SEC",), ("SBC#", 0x01), ("AND#", 0x03), ("STA", PAGE),
+        ("LDA", CURSOR), ("AND#", 0x04), ("ORA#", 0x03), ("STA", CURSOR),
         ("JSR", "draw_page"), ("JMP", "release"),
-        "right:", ("LDA", PAGE), ("CLC",), ("ADC#", 0x01), ("AND#", 0x03), ("STA", PAGE),
+        "leftmove:", ("LDA", CURSOR), ("SEC",), ("SBC#", 0x01), ("STA", CURSOR),
+        ("JSR", "draw_page"), ("JMP", "release"),
+        "right:", ("LDA", CURSOR), ("AND#", 0x03), ("CMP#", 0x03), ("BNE", "rightmove"),
+        ("LDA", PAGE), ("CLC",), ("ADC#", 0x01), ("AND#", 0x03), ("STA", PAGE),
+        ("LDA", CURSOR), ("AND#", 0x04), ("STA", CURSOR),
+        ("JSR", "draw_page"), ("JMP", "release"),
+        "rightmove:", ("LDA", CURSOR), ("CLC",), ("ADC#", 0x01), ("STA", CURSOR),
         ("JSR", "draw_page"), ("JMP", "release"),
         "release:", ("JSR", "read_pad"), ("LDA", BUTTONS), ("BNE", "release"),
         ("JMP", "main"),
@@ -138,6 +156,16 @@ def screen_code():
         ("LDY#", 0x00), ("LDAiY", 0x00), ("STA", 0x32), ("STA", 0x05),
         ("INY",),
         "copy:", ("LDAiY", 0x00), ("STAy", 0x02FF), ("INY",), ("DECz", 0x05), ("BNE", "copy"),
+        ("LDX", 0x32), ("STX", 0x06),
+        ("LDA", CURSOR), ("ASL",), ("TAX",),
+        ("LDAx", MARKER), ("STA", 0x02),
+        ("LDAx", MARKER + 1), ("STA", 0x03),
+        ("LDX", 0x06),
+        ("LDA", 0x03), ("STAx", 0x0300), ("INX",),
+        ("LDA", 0x02), ("STAx", 0x0300), ("INX",),
+        ("LDA#", 0x2D), ("STAx", 0x0300), ("INX",),
+        ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",),
+        ("STX", 0x32),
         ("JSR", 0xC53A),
         ("LDA#", 0x00), ("STA", 0x2005), ("STA", 0x2005),
         ("LDA#", 0x1E), ("STA", 0x2001),
@@ -177,6 +205,9 @@ def main():
     rom[fixed + (PALETTE - 0xC000):fixed + (PALETTE - 0xC000) + 32] = palette
     table = bytes(x for pair in ptrs for x in pair)
     rom[fixed + (PTR - 0xC000):fixed + (PTR - 0xC000) + len(table)] = table
+    markers = [0x20A1, 0x20A8, 0x20AF, 0x20B6, 0x2161, 0x2168, 0x216F, 0x2176]
+    mtable = bytes(x for a in markers for x in (a & 0xFF, a >> 8))
+    rom[fixed + (MARKER - 0xC000):fixed + (MARKER - 0xC000) + len(mtable)] = mtable
 
     hook = fixed + (HOOK - 0xC000)
     rom[hook:hook + 5] = bytes([0x20, CODE & 0xFF, CODE >> 8, 0xEA, 0xEA])

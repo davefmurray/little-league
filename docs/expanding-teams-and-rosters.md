@@ -261,7 +261,17 @@ re-flushes the list. The pointer table is at `$FFE0`.
 ![Page 4 of the selector](team-select-pages.png)
 
 Left/Right wraps 1 → 4 and back; each page shows its own eight codes and detail
-bar. Cursor movement, highlight, flags and selection are the next layer.
+bar.
+
+Cursor state is `$07C1` (0–7), page `$07C0`. Up/Down moves between the two rows,
+Left/Right moves within a row and flips page at the edge. The selected cell gets
+a `-` marker from a per-cursor address table; the page list writes a leading
+space at each marker position so the previous marker is cleared on redraw.
+
+![Cursor and page edge](team-select-cursor.png)
+
+The detail name is still page-level; making it follow the cursor and wiring
+A-to-select are the next layer.
 
 ## Progress log
 
