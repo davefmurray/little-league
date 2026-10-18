@@ -65,6 +65,8 @@ def assemble(lines, origin):
             code += bytes([0x99, item[1] & 0xFF, item[1] >> 8])
         elif op == "LDA":
             code += bytes([0xAD, item[1] & 0xFF, item[1] >> 8])
+        elif op == "CMP":
+            code += bytes([0xCD, item[1] & 0xFF, item[1] >> 8])
         elif op == "ADC":
             code += bytes([0x6D, item[1] & 0xFF, item[1] >> 8])
         elif op == "STA":
@@ -88,9 +90,10 @@ def assemble(lines, origin):
                 code += bytes([opcode, 0x00, 0x00])
             else:
                 code += bytes([opcode, item[1] & 0xFF, item[1] >> 8])
-        elif op in ("BNE", "BPL", "BCC", "BCS"):
+        elif op in ("BNE", "BPL", "BCC", "BCS", "BEQ"):
             branches.append((len(code), item[1]))
-            code += bytes([{"BNE": 0xD0, "BPL": 0x10, "BCC": 0x90, "BCS": 0xB0}[op], 0x00])
+            code += bytes([{"BNE": 0xD0, "BPL": 0x10, "BCC": 0x90,
+                            "BCS": 0xB0, "BEQ": 0xF0}[op], 0x00])
         elif op in ("INX", "INY", "DEX", "DEY", "ASL", "LSR", "TAX", "SEC", "CLC", "SEI", "RTS"):
             code.append({"INX": 0xE8, "INY": 0xC8, "DEX": 0xCA, "DEY": 0x88,
                          "ASL": 0x0A, "LSR": 0x4A, "TAX": 0xAA, "SEC": 0x38,
@@ -126,14 +129,17 @@ def screen_code():
         ("LDX#", 0x40), ("LDA#", 0x00),
         "attr:", ("STA", 0x2007), ("DEX",), ("BNE", "attr"),
         ("LDA#", 0x00), ("STA", PAGE), ("STA", CURSOR),
+        ("LDA#", 0xFF), ("STA", SELECTED),
         ("JSR", "draw_page"),
         "main:", ("JSR", "read_pad"),
+        ("LDA", BUTTONS), ("AND#", 0x40), ("BNE", "back"),
         ("LDA", BUTTONS), ("AND#", 0x80), ("BNE", "select"),
         ("LDA", BUTTONS), ("AND#", 0x08), ("BNE", "up"),
         ("LDA", BUTTONS), ("AND#", 0x04), ("BNE", "down"),
         ("LDA", BUTTONS), ("AND#", 0x02), ("BNE", "left"),
         ("LDA", BUTTONS), ("AND#", 0x01), ("BNE", "right"),
         ("JMP", "main"),
+        "back:", ("LDA#", 0xFF), ("STA", SELECTED), ("JMP", "release"),
         "select:", ("LDA", PAGE), ("ASL",), ("ASL",), ("ASL",),
         ("CLC",), ("ADC", CURSOR), ("STA", SELECTED), ("JMP", "release"),
         "up:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCC", "release"),
@@ -174,7 +180,7 @@ def screen_code():
         "namecopy:", ("LDAiY", 0x00), ("STAx", 0x0300), ("INX",), ("INY",),
         ("CPY#", 0x0E), ("BNE", "namecopy"),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",),
-
+        ("STX", 0x06),
         ("LDA", CURSOR), ("ASL",), ("TAX",),
         ("LDAx", MARKER), ("STA", 0x02),
         ("LDAx", MARKER + 1), ("STA", 0x03),
@@ -183,7 +189,17 @@ def screen_code():
         ("LDA", 0x02), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0x2D), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",),
-        ("STX", 0x32),
+        ("STX", 0x06),
+        ("LDA", SELECTED), ("CMP#", 0xFF), ("BEQ", "sel_done"),
+        ("LDA", PAGE), ("ASL",), ("ASL",), ("ASL",),
+        ("CLC",), ("ADC", CURSOR), ("CMP", SELECTED), ("BNE", "sel_done"),
+        ("LDX", 0x06),
+        ("LDA#", 0x23), ("STAx", 0x0300), ("INX",),
+        ("LDA#", 0x62), ("STAx", 0x0300), ("INX",),
+        ("LDA#", 0x4F), ("STAx", 0x0300), ("INX",),
+        ("LDA#", 0x4B), ("STAx", 0x0300), ("INX",),
+        ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",), ("STX", 0x06),
+        "sel_done:", ("LDX", 0x06), ("STX", 0x32),
         ("JSR", 0xC53A),
         ("LDA#", 0x00), ("STA", 0x2005), ("STA", 0x2005),
         ("LDA#", 0x1E), ("STA", 0x2001),

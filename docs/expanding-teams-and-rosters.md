@@ -319,6 +319,14 @@ Because the names are local to bank 10, the code never switches banks mid-run.
 Cursor, edge-paging, dynamic detail and A-selection all work from bank 10, and
 roughly 4 KiB before `$9000` is free for flags and selection feedback.
 
+Selection state is `$07C3` (`$FF` = none). A stores the current team, B clears
+it. The marker index bug is fixed by refreshing `$06` after the name run; the
+screen stays intact. A visible `OK` confirmation is still not rendering — the
+append lands after the list's final length, so it is deferred to the helper
+rewrite.
+
+![Selection state and B clear](team-select-select.png)
+
 ## Progress log
 
 - `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
