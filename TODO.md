@@ -54,7 +54,7 @@ section to five items or fewer.
 - [ ] **Bench / pinch-hitter bound + pitching test.** On the 16×20 build,
       confirm the 20-player bench is reachable and all three pitcher slots work.
 - [ ] **32-slot bracket.** Five rounds, 32 first-round slots, new bracket table
-      and screen. See `docs/expanding-teams-and-rosters.md`.
+      and screen. Koushien reference captured in `docs/koushien-bracket.md`.
 - [ ] **Password format** for 32 teams / 5 rounds.
 
 ## Next (P1)

@@ -199,6 +199,7 @@ docs/
   datacrystal-rom-map.md  authoritative ROM map, reconciled
   ram-map.md          verified RAM addresses (pitcher, game state, buffers)
   text-table.md       TBL mapping + verified text offsets
+  koushien-bracket.md 32-team Japanese bracket reference
   cheats-and-ram.md   Game Genie codes translated + RAM address map
   rom-layout.md       cartridge, banks, MMC1, vectors
   expanding-teams-and-rosters.md
