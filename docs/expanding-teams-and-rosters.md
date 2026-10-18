@@ -360,6 +360,16 @@ flags** (US, Japan, …), not a unique flag per team.
 
 For 32 team cells there are two honest options:
 
+Sprite budget comparison (live OAM):
+
+| Object | OAM entries | Mode | Pixels |
+|---|---|---|---|
+| Player | 2 × 5 = 10 | 8×16 | 32 × 80 |
+| Flag | 3 × 3 = 9 | 8×8 | 24 × 24 |
+
+Eight flags = 72 sprites, over the 64-sprite OAM limit; that is why the grid
+needs flags as background/CHR tiles rather than sprites.
+
 1. Reuse region flags in the grid (fast, but duplicate flags).
 2. Generate 32 new 24×24 flag tiles and copy them into spare CHR bank 0 space.
 
