@@ -68,7 +68,7 @@ not a bigger table.
 | Trailer lookup | bank 4 `$B094` | computes `base + $100 + byte12` | must become `base + N*16 + $10 + byte12`; needs a trampoline, not a one-byte patch |
 | Lineup | 9 players | fixed by baseball | unchanged |
 | Player-change menu | unknown | likely draws 15 names / 3 rows of 5 | **discovery task**: find the list bound and grid height, patch to *N* |
-| Player index arrays | `$04EF`, `$04FD`, `$06E2` | sized around the active lineup, not the roster | verify no overflow |
+| Pitcher RAM | `$04EE`, `$04F9–$04FE`, `$06E2` | away/home index + pitcher slot/stamina | see `docs/ram-map.md` |
 
 The one code change that is definitely required is the trailer math. The current
 routine is:

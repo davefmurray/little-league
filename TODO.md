@@ -59,6 +59,9 @@ section to five items or fewer.
 
 ## Next (P1)
 
+- [x] **RAM map.** Pitcher state `$04EE–$04FE`, game state `$0487–$048C`,
+      display buffers and selector state documented in `docs/ram-map.md`.
+
 - [x] **Cheat/ROM-map research.** Game Genie codes decoded to ROM offsets and
       RAM-map addresses documented in `docs/cheats-and-ram.md`.
 - [ ] **Capture DataCrystal ROM map.** Page is Cloudflare-blocked and has no
