@@ -182,18 +182,23 @@ editor for **your** ROM, not a distribution channel for the game.
 
 ### Automatic deploys
 
-Pushes to `main` deploy through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
-using the Railway CLI. Create a **project token** in Railway
-(Project → Settings → Tokens, environment `production`) and add it once:
+The Railway service is connected to this GitHub repository, so **every push to
+`main` builds the image and deploys automatically** — no tokens or secrets
+involved. Railway checks out the commit and builds the `Dockerfile`.
+
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) is kept as a
+manual fallback (**Run workflow** only). It needs a Railway project token and is
+skipped with a warning when the secret is absent:
 
 ```sh
 gh secret set RAILWAY_TOKEN --repo davefmurray/little-league
 ```
 
-The workflow checks for the secret first: until it exists, the deploy step is
-skipped with a warning annotation instead of failing the build. Once it is set,
-every push to `main` (or a manual **Run workflow**) builds the Docker image and
-rolls it out.
+You can also deploy from a checkout without Actions:
+
+```sh
+railway up --service little-league
+```
 
 ---
 

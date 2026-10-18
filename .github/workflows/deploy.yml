@@ -1,8 +1,10 @@
-name: Deploy to Railway
+name: Deploy to Railway (manual fallback)
+
+# Pushes to main deploy automatically through Railway's GitHub integration.
+# This workflow is a manual fallback for when that connection is unavailable;
+# it needs a RAILWAY_TOKEN repository secret.
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -28,12 +30,12 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           if [ -z "$RAILWAY_TOKEN" ]; then
-            echo "::warning title=Railway deploy skipped::RAILWAY_TOKEN is not configured. Create a Railway project token and add it as a repository secret."
+            echo "::warning title=Railway deploy skipped::RAILWAY_TOKEN is not configured. Pushes deploy through Railway's GitHub integration; this manual fallback needs a project token."
             echo "ready=false" >> "$GITHUB_OUTPUT"
             {
               echo "### Railway deploy skipped"
               echo ""
-              echo "Add a \`RAILWAY_TOKEN\` repository secret (Railway → Project → Settings → Tokens) to enable deploys."
+              echo "Add a \`RAILWAY_TOKEN\` repository secret (Railway → Project → Settings → Tokens) to use this fallback."
             } >> "$GITHUB_STEP_SUMMARY"
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
