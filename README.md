@@ -127,6 +127,16 @@ python3 -m http.server 8097 --bind 127.0.0.1
 # http://127.0.0.1:8097/tools/harness.html?rom=../build/16x20.nes
 ```
 
+ROM-specific debugger:
+
+```sh
+# http://127.0.0.1:8097/tools/debugger.html?rom=../build/select-flags.nes
+```
+
+Shows CPU registers, named zero-page watches (`$07C0` page, `$07C1` cursor,
+`$07C3` selected, `$06`, `$32`, display list), OAM, and a write log with the PC
+that performed each write to the watched addresses.
+
 Buttons and a console API (`stepFrames`, `tap`, `press`) drive the game. jsnes
 uses a different NTSC palette than the console, so colours are approximate —
 use it for layout, menus and crashes, not palette verification.
@@ -177,6 +187,7 @@ tools/
   pack_flags.py       prototype: pack 24x24 flags into CHR bank 0
   build_flags32.py    generate/pack 32 flags at 24x16 into bank 10
   harness.html        jsnes browser test harness
+  debugger.html       ROM debugger: regs, watches, OAM, write log
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server

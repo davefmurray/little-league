@@ -51,6 +51,9 @@ section to five items or fewer.
 
 ## Next (P1)
 
+- [x] **ROM debugger.** `tools/debugger.html`: registers, named watches, OAM,
+      display list, write-to-address log with PC.
+
 - [ ] Real data for teams 16–31: names, regions, colours, ratings, lineups.
 - [ ] Extend team name/lineup/flag/rating/colour arrays to 32 teams.
 - [ ] Bracket screen layout for 32 teams.

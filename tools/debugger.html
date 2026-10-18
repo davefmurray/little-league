@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Little League ROM debugger</title>
+<style>
+  body { background:#0c241c; color:#f4e8d2; font:12px ui-monospace,monospace; margin:0; padding:14px; }
+  .wrap { display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; }
+  canvas { width:512px; height:480px; image-rendering:pixelated; background:#000; border:3px solid #15201a; box-shadow:0 0 0 2px #e0a63c; }
+  h2 { font-size:12px; color:#e0a63c; margin:8px 0 4px; letter-spacing:.08em; }
+  table { border-collapse:collapse; font-size:11px; }
+  td, th { border-bottom:1px solid #1e3a2c; padding:2px 6px; text-align:left; }
+  .panel { background:#102a20; border:1px solid #1e3a2c; padding:8px; min-width:300px; }
+  .regs { display:grid; grid-template-columns:repeat(4, auto); gap:2px 14px; }
+  .v { color:#fff; }
+  .warn { color:#e0a63c; }
+  button { font:inherit; padding:5px 8px; background:#f4e8d2; color:#15201a; border:2px solid #15201a; cursor:pointer; margin:2px; }
+  #log { height:180px; overflow:auto; background:#08160f; padding:4px; font-size:10px; white-space:pre; }
+  .muted { color:#7a9a86; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <canvas id="screen" width="256" height="240"></canvas>
+    <div>
+      <button id="run">Run/Pause</button>
+      <button id="frame">Step frame</button>
+      <button id="step60">60f</button>
+      <button id="reset">Reset</button>
+      <button id="clearlog">Clear log</button>
+    </div>
+    <div class="muted" id="status">loading…</div>
+  </div>
+
+  <div class="panel">
+    <h2>CPU</h2>
+    <div class="regs" id="regs"></div>
+    <h2>ROM watches</h2>
+    <table id="watch"></table>
+    <h2>Display list</h2>
+    <div id="list" class="muted"></div>
+  </div>
+
+  <div class="panel">
+    <h2>OAM (non-FF)</h2>
+    <div id="oam" style="max-height:220px; overflow:auto"></div>
+    <h2>Write log</h2>
+    <div id="log"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsnes@1.2.1/dist/jsnes.min.js"></script>
+<script>
+const canvas = document.getElementById('screen');
+const ctx = canvas.getContext('2d');
+const img = ctx.createImageData(256, 240);
+const statusEl = document.getElementById('status');
+const logEl = document.getElementById('log');
+const WATCH = [
+  ['PAGE', 0x07C0], ['CURSOR', 0x07C1], ['SELECTED', 0x07C3],
+  ['BUTTONS', 0x07C6], ['TMP06', 0x06], ['LIST_LEN', 0x32],
+  ['TMP05', 0x05], ['TMP07', 0x07],
+];
+const LOG_ADDRS = new Set([0x06, 0x05, 0x07, 0x32, 0x07C0, 0x07C1, 0x07C3, 0x07C6,
+                           0x2006, 0x2007, 0x4014]);
+let nes = null, running = false, logs = [], frame = 0;
+
+function drawFrame(buffer) {
+  const d = img.data;
+  for (let i = 0, j = 0; i < buffer.length; i++, j += 4) {
+    const p = buffer[i];
+    d[j] = (p >> 16) & 0xff; d[j+1] = (p >> 8) & 0xff; d[j+2] = p & 0xff; d[j+3] = 0xff;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function hex(v, n=2) { return v.toString(16).toUpperCase().padStart(n, '0'); }
+
+function installWriteLog() {
+  const orig = nes.mmap.write.bind(nes.mmap);
+  nes.mmap.write = (addr, value) => {
+    if (LOG_ADDRS.has(addr)) {
+      logs.push({ frame, pc: nes.cpu.REG_PC, addr, value });
+      if (logs.length > 300) logs.shift();
+    }
+    return orig(addr, value);
+  };
+}
+
+function renderPanels() {
+  const c = nes.cpu, m = c.mem;
+  document.getElementById('regs').innerHTML =
+    [['A', c.REG_ACC], ['X', c.REG_X], ['Y', c.REG_Y], ['SP', c.REG_SP],
+     ['PC', c.REG_PC], ['P', c.REG_STATUS]].map(([k, v]) =>
+      `<span class="muted">${k}</span> <span class="v">$${hex(v)}</span>`).join('');
+  document.getElementById('watch').innerHTML = WATCH.map(([name, a]) =>
+    `<tr><td class="muted">${name}</td><td class="v">$${a.toString(16).toUpperCase().padStart(4,'0')}</td>` +
+    `<td class="warn">$${hex(m[a])}</td></tr>`).join('');
+  document.getElementById('list').textContent =
+    Array.from({length:24}, (_, i) => hex(m[0x300+i])).join(' ');
+  const rows = [];
+  for (let i = 0; i < 64; i++) {
+    const y=m[0x200+i*4], t=m[0x201+i*4], a=m[0x202+i*4], x=m[0x203+i*4];
+    if (y < 0xF0 && x < 0xF0) rows.push(`<tr><td>${i}</td><td>${x},${y}</td><td>$${hex(t)}</td><td>$${hex(a)}</td></tr>`);
+  }
+  document.getElementById('oam').innerHTML = rows.length
+    ? `<table><tr><th>#</th><th>x,y</th><th>tile</th><th>attr</th></tr>${rows.join('')}</table>`
+    : '<span class="muted">none</span>';
+  logEl.textContent = logs.slice(-120).map(l =>
+    `${String(l.frame).padStart(5)} PC $${hex(l.pc,4)}  $${hex(l.addr,4)} = $${hex(l.value)}`).join('\n');
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function frameOnce() { if (!nes) return; nes.frame(); frame++; renderPanels(); }
+function loop() { if (!running) return; frameOnce(); requestAnimationFrame(loop); }
+
+async function load(url) {
+  const res = await fetch(url, {cache:'no-store'});
+  const bytes = new Uint8Array(await res.arrayBuffer());
+  let s = ''; const chunk = 0x8000;
+  for (let i=0;i<bytes.length;i+=chunk) s += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk));
+  nes = new jsnes.NES({ onFrame: drawFrame, onAudioSample: () => {} });
+  nes.loadROM(s);
+  window.nes = nes;
+  installWriteLog();
+  statusEl.textContent = `loaded ${bytes.length.toLocaleString()} bytes`;
+  for (let i=0;i<120;i++) { nes.frame(); frame++; }
+  renderPanels();
+}
+
+document.getElementById('run').onclick = () => { running = !running; if (running) loop(); };
+document.getElementById('frame').onclick = () => frameOnce();
+document.getElementById('step60').onclick = () => { for (let i=0;i<60;i++) frameOnce(); };
+document.getElementById('reset').onclick = () => location.reload();
+document.getElementById('clearlog').onclick = () => { logs = []; renderPanels(); };
+setInterval(() => { if (nes && !running) renderPanels(); }, 250);
+
+const rom = new URLSearchParams(location.search).get('rom')
+  || '../Little%20League%20Baseball%20-%20Championship%20Series%20(USA).nes';
+load(rom).catch(e => { statusEl.textContent = 'error: ' + e.message; });
+</script>
+</body>
+</html>
