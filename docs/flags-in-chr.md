@@ -111,3 +111,14 @@ Next fix: make an `append_flag` helper that takes the list index in `$06` and
 flag number in `$07`, returns the new index, and never relies on `X` surviving
 pointer math. Call it eight times, then append the name/marker from the returned
 index.
+
+
+## In-ROM result
+
+The selector now draws eight flags per page:
+
+- 48-tile CHR copy from bank 10 `$A000` into slots `$AC00`.
+- Destination slots are filtered to **exclude `$20–$5F`** — the font range. That
+  was the corruption bug: early slots included `$20–$3D`, overwriting glyphs.
+- Eight runs via `append_flag`, addresses at `$AC80`.
+- 24×16 flags at rows 3–4 / 9–10, above the codes.

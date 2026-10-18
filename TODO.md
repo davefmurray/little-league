@@ -41,8 +41,8 @@ section to five items or fewer.
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
 - [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the
       CHR copy and one 9-byte run render correctly.
-- [ ] **Draw flags in the grid.** Eight runs via an `append_flag` helper that
-      keeps the list index in `$06`; current inline loop corrupts the list.
+- [x] **Draw flags in the grid.** Eight 24×16 flags above the codes, page-time
+      CHR copy into safe slots, `append_flag` helper. Verified in-harness.
 - [ ] **Bench / pinch-hitter bound + pitching test.** On the 16×20 build,
       confirm the 20-player bench is reachable and all three pitcher slots work.
 - [ ] **32-slot bracket.** Five rounds, 32 first-round slots, new bracket table

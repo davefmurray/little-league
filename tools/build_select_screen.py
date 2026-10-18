@@ -20,6 +20,9 @@ CODE = 0x8000
 MARKER = 0x9320
 PTR = 0x9330
 NAMES = 0x9400
+TILES = 0xA000
+SLOTS = 0xAC00
+FLAGADDR = 0xAC80
 PAGE = 0x07C0
 BUTTONS = 0x07C6
 CURSOR = 0x07C1
@@ -65,6 +68,8 @@ def assemble(lines, origin):
             code += bytes([0x99, item[1] & 0xFF, item[1] >> 8])
         elif op == "LDA":
             code += bytes([0xAD, item[1] & 0xFF, item[1] >> 8])
+        elif op == "LDAy":
+            code += bytes([0xB9, item[1] & 0xFF, item[1] >> 8])
         elif op == "CMP":
             code += bytes([0xCD, item[1] & 0xFF, item[1] >> 8])
         elif op == "ADC":
@@ -94,9 +99,9 @@ def assemble(lines, origin):
             branches.append((len(code), item[1]))
             code += bytes([{"BNE": 0xD0, "BPL": 0x10, "BCC": 0x90,
                             "BCS": 0xB0, "BEQ": 0xF0}[op], 0x00])
-        elif op in ("INX", "INY", "DEX", "DEY", "ASL", "LSR", "TAX", "SEC", "CLC", "SEI", "RTS"):
+        elif op in ("INX", "INY", "DEX", "DEY", "ASL", "LSR", "TAX", "TAY", "TYA", "SEC", "CLC", "SEI", "RTS"):
             code.append({"INX": 0xE8, "INY": 0xC8, "DEX": 0xCA, "DEY": 0x88,
-                         "ASL": 0x0A, "LSR": 0x4A, "TAX": 0xAA, "SEC": 0x38,
+                         "ASL": 0x0A, "LSR": 0x4A, "TAX": 0xAA, "TAY": 0xA8, "TYA": 0x98, "SEC": 0x38,
                          "CLC": 0x18, "SEI": 0x78, "RTS": 0x60}[op])
         else:
             raise SystemExit(f"bad op {op}")
@@ -161,12 +166,29 @@ def screen_code():
         "release:", ("JSR", "read_pad"), ("LDA", BUTTONS), ("BNE", "release"),
         ("JMP", "main"),
         "draw_page:", ("LDA#", 0x00), ("STA", 0x2001),
+        ("LDA", PAGE), ("ASL",), ("CLC",), ("ADC", PAGE),
+        ("CLC",), ("ADC#", 0xA0), ("STA", 0x01),
+        ("LDA#", 0x00), ("STA", 0x00),
+        ("LDX#", 0x00),
+        "flagcopy:", ("LDAx", SLOTS), ("STA", 0x04),
+        ("LSR",), ("LSR",), ("LSR",), ("LSR",), ("STA", 0x2006),
+        ("LDA", 0x04), ("ASL",), ("ASL",), ("ASL",), ("ASL",), ("STA", 0x2006),
+        ("LDY#", 0x00),
+        "fcbyte:", ("LDAiY", 0x00), ("STA", 0x2007), ("INY",), ("CPY#", 0x10), ("BNE", "fcbyte"),
+        ("LDA", 0x00), ("CLC",), ("ADC#", 0x10), ("STA", 0x00),
+        ("LDA", 0x01), ("ADC#", 0x00), ("STA", 0x01),
+        ("INX",), ("CPX#", 0x30), ("BNE", "flagcopy"),
         ("LDA", PAGE), ("ASL",), ("TAX",),
         ("LDAx", PTR), ("STA", 0x00), ("LDAx", PTR + 1), ("STA", 0x01),
         ("LDY#", 0x00), ("LDAiY", 0x00), ("STA", 0x32), ("STA", 0x05),
         ("INY",),
         "copy:", ("LDAiY", 0x00), ("STAy", 0x02FF), ("INY",), ("DECz", 0x05), ("BNE", "copy"),
-        ("LDX", 0x32),
+        ("LDX", 0x32), ("STX", 0x06),
+        ("LDA#", 0x00), ("STA", 0x07),
+        "fl8:", ("JSR", "append_flag"),
+        ("LDA", 0x07), ("CLC",), ("ADC#", 0x01), ("STA", 0x07),
+        ("CMP#", 0x08), ("BNE", "fl8"),
+        ("LDX", 0x06),
         ("LDA#", 0x22), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0xA2), ("STAx", 0x0300), ("INX",),
         ("STX", 0x06),
@@ -180,7 +202,7 @@ def screen_code():
         "namecopy:", ("LDAiY", 0x00), ("STAx", 0x0300), ("INX",), ("INY",),
         ("CPY#", 0x0E), ("BNE", "namecopy"),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",),
-        ("STX", 0x06),
+        ("STX", 0x06), ("STX", 0x07F3),
         ("LDA", CURSOR), ("ASL",), ("TAX",),
         ("LDAx", MARKER), ("STA", 0x02),
         ("LDAx", MARKER + 1), ("STA", 0x03),
@@ -189,7 +211,7 @@ def screen_code():
         ("LDA", 0x02), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0x2D), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",),
-        ("STX", 0x06),
+        ("STX", 0x06), ("STX", 0x07F4),
         ("LDA", SELECTED), ("CMP#", 0xFF), ("BEQ", "sel_done"),
         ("LDA", PAGE), ("ASL",), ("ASL",), ("ASL",),
         ("CLC",), ("ADC", CURSOR), ("CMP", SELECTED), ("BNE", "sel_done"),
@@ -199,11 +221,23 @@ def screen_code():
         ("LDA#", 0x4F), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0x4B), ("STAx", 0x0300), ("INX",),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",), ("STX", 0x06),
-        "sel_done:", ("LDX", 0x06), ("STX", 0x32),
+        "sel_done:", ("STX", 0x07F5), ("LDA", 0x06), ("STA", 0x07F7),
+        ("LDX", 0x06), ("STX", 0x07F6), ("STX", 0x32),
         ("JSR", 0xC53A),
         ("LDA#", 0x00), ("STA", 0x2005), ("STA", 0x2005),
         ("LDA#", 0x1E), ("STA", 0x2001),
         ("RTS",),
+        "append_flag:",
+        ("LDA", 0x07), ("ASL",), ("TAX",),
+        ("LDAx", FLAGADDR), ("STA", 0x04),
+        ("LDAx", FLAGADDR + 1), ("STA", 0x05),
+        ("LDX", 0x06),
+        ("LDA", 0x05), ("STAx", 0x0300), ("INX",),
+        ("LDA", 0x04), ("STAx", 0x0300), ("INX",),
+        ("LDA", 0x07), ("ASL",), ("STA", 0x08), ("ASL",), ("CLC",), ("ADC", 0x08), ("TAY",),
+        ("LDA#", 0x06), ("STA", 0x09),
+        "slotloop2:", ("LDAy", SLOTS), ("STAx", 0x0300), ("INX",), ("INY",), ("DECz", 0x09), ("BNE", "slotloop2"),
+        ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",), ("STX", 0x06), ("RTS",),
         "read_pad:", ("LDA#", 0x01), ("STA", 0x4016), ("LDA#", 0x00), ("STA", 0x4016),
         ("LDX#", 0x08), ("LDA#", 0x00), ("STA", BUTTONS),
         "rd:", ("LDA", 0x4016), ("LSR",), ("ROL", BUTTONS), ("DEX",), ("BNE", "rd"), ("RTS",),
@@ -248,6 +282,9 @@ def main():
         off = NAMES + t["id"] * 16
         rom[b10 + (off - 0x8000):b10 + (off - 0x8000) + 16] = name
 
+    faddrs = [0x2062,0x2069,0x2070,0x2077,0x2122,0x2129,0x2130,0x2137]
+    ftab = bytes(x for a in faddrs for x in (a & 0xFF, a >> 8))
+    rom[b10 + (FLAGADDR - 0x8000):b10 + (FLAGADDR - 0x8000) + 16] = ftab
     hook = fixed + (HOOK - 0xC000)
     rom[hook:hook + 5] = bytes([0x20, 0x00, 0xFF, 0xEA, 0xEA])
     tramp = bytes([0xA9, 0x0A, 0x20, 0x4E, 0xC1, 0x4C, 0x00, 0x80])

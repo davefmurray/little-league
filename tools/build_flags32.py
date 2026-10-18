@@ -84,7 +84,9 @@ def main():
 
     # 48 empty CHR bank-0 slots
     chr_base = HEADER + rom[4] * PRG_BANK
-    empty = [t for t in range(256) if rom[chr_base + t * TILE:chr_base + t * TILE + TILE] == b"\x00" * TILE]
+    empty = [t for t in range(256)
+             if not (0x20 <= t <= 0x5F)
+             and rom[chr_base + t * TILE:chr_base + t * TILE + TILE] == b"\x00" * TILE]
     if len(empty) < 48:
         raise SystemExit(f"only {len(empty)} empty tiles")
     slots = empty[:48]
