@@ -162,31 +162,28 @@ $ python3 tools/expand_rom.py ROM -o build/expanded.nes --prg-banks 16
 
 ---
 
-### 512 KiB PRG
+### 512 KiB is not possible with 128 KiB CHR on MMC1
 
-MMC1 allows 32 PRG banks (512 KiB). The expander already generalizes:
+The 512 KiB build boots in jsnes, but it is **not a valid MMC1 cartridge**.
 
-```
-python3 tools/expand_rom.py build/32x20.nes -o build/32x20-512k.nes --prg-banks 32
-  PRG         32 banks (512 KiB)
-  CHR         16 banks (128 KiB, unchanged)
-  fixed bank  31 (copy of bank 15)
-  free banks  16-30 (15 banks, 240 KiB)
-```
+Per the [NESdev MMC1 specification](https://www.nesdev.org/wiki/MMC1), the CHR
+bank register's bit 4 is **CHR A16 when CHR is 128 KiB**, and the same line is
+**PRG A18 when PRG is 512 KiB**. They are mutually exclusive. Every 512 KiB
+SxROM board (SUROM, SXROM) addresses only **8 KiB of CHR RAM**, not 128 KiB CHR
+ROM.
 
-Two caveats matter more than the extra space:
+So:
 
-1. **The fifth PRG bit is not in the PRG register.** MMC1 stores PRG A18 in
-   **CHR register 0, bit 4**. The stock switch routine at `$C14E` writes five
-   bits serially to `$FFFF`; the PRG register only latches four, so banks 16–31
-   are aliases until the routine also updates CHR0 bit 4 (while preserving the
-   CHR bank). Banks 8–15 work today; 16–30 need that mapper patch.
-2. **CHR is still capped at 128 KiB.** 512 KiB buys code/data room only — not
-   new tiles, flags or fonts.
+- **256 KiB PRG + 128 KiB CHR** is the MMC1 maximum for this game. That is the
+  current build (banks 8–15 switchable, 112 KiB free).
+- **512 KiB PRG + 128 KiB CHR** requires a different mapper. MMC3 (mapper 4)
+  supports 512 KiB PRG and up to 256 KiB CHR, but converting means replacing the
+  MMC1 serial bank routine, the CHR bank routines, mirroring and PRG-RAM setup —
+  a mapper port, not a header edit.
 
-The 512 KiB build renders the title and the PRG-RAM cache in jsnes, then jsnes
-throws an internal `nes.stop` error; validate it in Mesen2/FCEUX before trusting
-it. Real hardware needs a 512 KiB PRG donor or flash cart with A18 wired.
+The 512 KiB `.nes` is kept only as an emulator experiment; do not treat it as
+hardware-valid. The practical path is to finish the 32-team UI on the 256 KiB
+build, and only port to MMC3 if the 112 KiB of free PRG actually runs out.
 
 ## Progress log
 
