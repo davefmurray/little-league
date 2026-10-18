@@ -185,6 +185,19 @@ The 512 KiB `.nes` is kept only as an emulator experiment; do not treat it as
 hardware-valid. The practical path is to finish the 32-team UI on the 256 KiB
 build, and only port to MMC3 if the 112 KiB of free PRG actually runs out.
 
+### Team select: 4 pages × 8
+
+The 32-team selector uses four pages of eight teams (2 rows × 4 columns). Full
+team names do not fit a 56-pixel cell at the 8×8 font — the ROM's "short name"
+tables are actually full names with a leading attribute byte — so cells show a
+three-letter code and the detail bar shows the full name, record, skill and
+region.
+
+![Team select mockup](team-select-mockup.png)
+
+Page 1 covers teams 0–7, page 2 8–15, page 3 16–23, page 4 24–31. Left/Right at
+the grid edge flips page; per-page cursor memory; A selects.
+
 ## Progress log
 
 - `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
