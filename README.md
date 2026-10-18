@@ -195,6 +195,7 @@ docs/
   game-writeup.md     the long-form history / technical companion
   roster-format.md    data tables and field map
   prior-art-llbcs.md  external editor findings + verified corrections
+  cheats-and-ram.md   Game Genie codes translated + RAM address map
   rom-layout.md       cartridge, banks, MMC1, vectors
   expanding-teams-and-rosters.md
                       dependency map and phased plan for 32 teams / 20 players

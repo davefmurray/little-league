@@ -56,6 +56,11 @@ section to five items or fewer.
 
 ## Next (P1)
 
+- [x] **Cheat/ROM-map research.** Game Genie codes decoded to ROM offsets and
+      RAM-map addresses documented in `docs/cheats-and-ram.md`.
+- [ ] **Capture DataCrystal ROM map.** Page is Cloudflare-blocked and has no
+      Wayback snapshot; needs a browser session, then reconcile with our docs.
+
 - [x] **ROM debugger.** `tools/debugger.html`: registers, named watches, OAM,
       display list, write-to-address log with PC.
 
