@@ -13,12 +13,13 @@ HEADER = 16
 BANK = 0x4000
 FIXED = 15
 HOOK = 0xCBE6
-LIST_BASE = 0xFB83
-STRIDE = 120
-PALETTE = 0xFD70
-CODE = 0xFD90
-MARKER = 0xFFD0
-PTR = 0xFFE0
+LIST_BASE = 0x9000
+STRIDE = 160
+PALETTE = 0x9300
+CODE = 0x8000
+MARKER = 0x9320
+PTR = 0x9330
+NAMES = 0x9400
 PAGE = 0x07C0
 BUTTONS = 0x07C6
 CURSOR = 0x07C1
@@ -167,14 +168,13 @@ def screen_code():
         ("CLC",), ("ADC", CURSOR), ("STA", 0x02),
         ("ASL",), ("ASL",), ("ASL",), ("ASL",), ("STA", 0x00),
         ("LDA", 0x02), ("LSR",), ("LSR",), ("LSR",), ("LSR",), ("STA", 0x01),
-        ("LDA", 0x00), ("CLC",), ("ADC#", 0x80), ("STA", 0x00),
-        ("LDA", 0x01), ("ADC#", 0x80), ("STA", 0x01),
-        ("LDA#", 0x09), ("JSR", 0xC14E),
+        ("LDA", 0x00), ("CLC",), ("ADC#", 0x00), ("STA", 0x00),
+        ("LDA", 0x01), ("ADC#", 0x94), ("STA", 0x01),
         ("LDY#", 0x00), ("LDX", 0x06),
         "namecopy:", ("LDAiY", 0x00), ("STAx", 0x0300), ("INX",), ("INY",),
         ("CPY#", 0x0E), ("BNE", "namecopy"),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",),
-        ("STX", 0x06), ("LDA#", 0x00), ("JSR", 0xC14E), ("LDX", 0x06),
+
         ("LDA", CURSOR), ("ASL",), ("TAX",),
         ("LDAx", MARKER), ("STA", 0x02),
         ("LDAx", MARKER + 1), ("STA", 0x03),
@@ -204,6 +204,7 @@ def main():
     rom = bytearray(open(args.rom, "rb").read())
     teams = json.load(open(args.teams))["teams"]
     fixed = bank_file(FIXED)
+    b10 = bank_file(10)
     ptrs = []
     for page in range(4):
         lst = page_list(teams, page)
@@ -212,25 +213,32 @@ def main():
             raise SystemExit(f"page {page} list {len(block)} > {STRIDE}")
         block = block.ljust(STRIDE, b"\xff")
         off = LIST_BASE + page * STRIDE
-        rom[fixed + (off - 0xC000):fixed + (off - 0xC000) + STRIDE] = block
+        rom[b10 + (off - 0x8000):b10 + (off - 0x8000) + STRIDE] = block
         ptrs.append((off & 0xFF, off >> 8))
 
     code = screen_code()
-    if CODE + len(code) > PTR:
-        raise SystemExit(f"screen code too large: {len(code)} (ends ${CODE + len(code):04X})")
-    rom[fixed + (CODE - 0xC000):fixed + (CODE - 0xC000) + len(code)] = code
+    if CODE + len(code) > LIST_BASE:
+        raise SystemExit(f"screen code too large: {len(code)}")
+    rom[b10 + (CODE - 0x8000):b10 + (CODE - 0x8000) + len(code)] = code
     palette = bytes([0x1A, 0x30, 0x27, 0x0F] + [0x0F] * 28)
-    rom[fixed + (PALETTE - 0xC000):fixed + (PALETTE - 0xC000) + 32] = palette
+    rom[b10 + (PALETTE - 0x8000):b10 + (PALETTE - 0x8000) + 32] = palette
     table = bytes(x for pair in ptrs for x in pair)
-    rom[fixed + (PTR - 0xC000):fixed + (PTR - 0xC000) + len(table)] = table
+    rom[b10 + (PTR - 0x8000):b10 + (PTR - 0x8000) + len(table)] = table
     markers = [0x20A1, 0x20A8, 0x20AF, 0x20B6, 0x2161, 0x2168, 0x216F, 0x2176]
     mtable = bytes(x for a in markers for x in (a & 0xFF, a >> 8))
-    rom[fixed + (MARKER - 0xC000):fixed + (MARKER - 0xC000) + len(mtable)] = mtable
+    rom[b10 + (MARKER - 0x8000):b10 + (MARKER - 0x8000) + len(mtable)] = mtable
+    for t in teams:
+        name = t["name"].encode("ascii")[:14].ljust(14, b" ") + b"\xff\xff"
+        off = NAMES + t["id"] * 16
+        rom[b10 + (off - 0x8000):b10 + (off - 0x8000) + 16] = name
 
     hook = fixed + (HOOK - 0xC000)
-    rom[hook:hook + 5] = bytes([0x20, CODE & 0xFF, CODE >> 8, 0xEA, 0xEA])
+    rom[hook:hook + 5] = bytes([0x20, 0x00, 0xFF, 0xEA, 0xEA])
+    tramp = bytes([0xA9, 0x0A, 0x20, 0x4E, 0xC1, 0x4C, 0x00, 0x80])
+    rom[fixed + (0xFF00 - 0xC000):fixed + (0xFF00 - 0xC000) + len(tramp)] = tramp
+
     open(args.out, "wb").write(rom)
-    print(f"wrote {args.out}: code {len(code)} bytes at ${CODE:04X}, lists at ${LIST_BASE:04X}")
+    print(f"wrote {args.out}: bank 10 code {len(code)} bytes at ${CODE:04X}, lists ${LIST_BASE:04X}")
 
 
 if __name__ == "__main__":

@@ -298,6 +298,27 @@ The next five steps start with a relocation:
 The relocation is the gate: it frees the fixed bank and gives the selector room
 for flags, feedback and the bracket handoff without byte golf.
 
+### Bank-10 relocation (done)
+
+The selector now lives entirely in **bank 10**:
+
+| Range | Contents |
+|---|---|
+| `$8000` | code (541 bytes) |
+| `$9000` | four page lists, 160-byte blocks |
+| `$9300` | palette |
+| `$9320` | marker address table |
+| `$9330` | page pointer table |
+| `$9400` | 32 × 16-byte names |
+
+The fixed bank keeps a trampoline at `$FF00`: `LDA #10 / JSR $C14E / JMP $8000`.
+Because the names are local to bank 10, the code never switches banks mid-run.
+
+![Selector running from bank 10](team-select-bank10.png)
+
+Cursor, edge-paging, dynamic detail and A-selection all work from bank 10, and
+roughly 4 KiB before `$9000` is free for flags and selection feedback.
+
 ## Progress log
 
 - `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
