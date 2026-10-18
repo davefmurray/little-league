@@ -49,7 +49,7 @@ def main():
         if bank >= 0xFF:
             continue
         o = ids[team]
-        img = Image.new("RGBA", (24, 32), (0, 0, 0, 0))
+        img = Image.new("RGBA", (32, 24), (0, 0, 0, 0))
         px = img.load()
         for s in range(12):
             tile, attr = tab[o + s * 2], tab[o + s * 2 + 1]
@@ -59,7 +59,7 @@ def main():
             off = bank * 0x1000 + tile * 16
             if off + 16 > len(chr_data):
                 continue
-            cx, cy = (s // 4) * 8, (s % 4) * 8
+            cx, cy = (s // 3) * 8, (s % 3) * 8
             for y in range(8):
                 p0, p1 = chr_data[off + y], chr_data[off + 8 + y]
                 for x in range(8):
@@ -67,7 +67,7 @@ def main():
                     v = ((p0 >> bit) & 1) | (((p1 >> bit) & 1) << 1)
                     if v:
                         px[cx + (7 - x if hflip else x), cy + (7 - y if vflip else y)] = pal[v]
-        big = img.resize((96, 128), Image.NEAREST)
+        big = img.resize((128, 96), Image.NEAREST)
         name = teams[team]["name"].split()[0].lower()
         big.save(os.path.join(args.out, f"{team:02d}-{name}.png"))
         tiles.append((team, teams[team]["name"], big))

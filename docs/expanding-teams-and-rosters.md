@@ -333,9 +333,10 @@ Two limits surfaced:
 
 - Only teams 0–8 have per-team CHR entries; 9–15 are `FF` and need their shared
   bank resolved.
-- The 12 sprites compose correctly but the row/column order is still being
-  refined (both orders produce fragmented art), so these are extracted assets,
-  not yet final flag bitmaps.
+- The draw loop is **4 columns × 3 rows** (X advances inside the inner loop),
+  not 3 × 4; the extractor now uses that order.
+- The blocks contain both flag art and team-label glyphs, so they are extracted
+  assets rather than separated flag bitmaps yet.
 
 ### Next five landmarks
 
