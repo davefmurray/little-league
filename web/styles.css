@@ -587,6 +587,8 @@ input[type="range"]:focus-visible { outline: 3px solid var(--gold); outline-offs
 .foot p { margin: 0 0 6px; max-width: 920px; }
 .foot .muted { color: rgba(244, 232, 210, .4); }
 .foot strong { color: var(--gold); letter-spacing: .08em; }
+.foot a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(224, 166, 60, .45); }
+.foot a:hover { border-bottom-color: var(--gold); }
 
 /* ---------- drop overlay + toasts ---------- */
 
