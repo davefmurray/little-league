@@ -270,8 +270,13 @@ space at each marker position so the previous marker is cleared on redraw.
 
 ![Cursor and page edge](team-select-cursor.png)
 
-The detail name is still page-level; making it follow the cursor and wiring
-A-to-select are the next layer.
+The detail name is now appended per draw from the bank-9 name table, so it
+follows the cursor. A stores the selected team (`page * 8 + cursor`) at `$07C3`.
+
+![Detail follows the cursor](team-select-detail.png)
+
+Verified: cursor 1 shows ARIZONA, and A writes team `1` to `$07C3`. Flags and a
+visible selection confirmation are next.
 
 ## Progress log
 
