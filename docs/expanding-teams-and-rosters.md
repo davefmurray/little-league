@@ -220,10 +220,10 @@ The game draws screens through a display list in RAM:
 | `$32` | list length (bytes used) |
 | `$C53A` | flush list to PPU (`LDX #0`, then `$C53C`) |
 | `$C76D` | append a run: PPU address in `$06B3/$06B4`, data at `$06B5` terminated `$FE` |
-| `$C790` | append an RLE run (high byte `\|$40`, low, count, tile) |
+| `$C790` | append an RLE run (high byte `| $40`, low, count, tile) |
 
 Run format: `[PPU high, PPU low, tile…, $FE]`, repeated; `$32` is the end index.
-With `$C040` bit 6 set, the high byte is `address \| $40` and the run becomes
+With `$C040` bit 6 set, the high byte is `address | $40` and the run becomes
 `[high, low, count, tile]` (fill).
 
 So the 2×4 screen becomes: build header/cells/detail runs into `$0300`, set
