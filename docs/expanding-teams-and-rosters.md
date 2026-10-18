@@ -321,6 +321,22 @@ Inventory: **940 empty** tiles and **1,689 duplicates**. The sparsest banks are
 18 (189 empty), 25 (156), 29 (135), 27 (91), 0 (71). That is where spare tiles
 for copied flag art will come from.
 
+### Flag extraction
+
+`tools/extract_flags.py` renders every team's 24×32 sprite block using the
+per-team CHR bank from `$FB4E`, the tile/attribute pairs from `$976A`, and the
+attribute palette/flip bits.
+
+![Extracted flag blocks](flags-sheet.png)
+
+Two limits surfaced:
+
+- Only teams 0–8 have per-team CHR entries; 9–15 are `FF` and need their shared
+  bank resolved.
+- The 12 sprites compose correctly but the row/column order is still being
+  refined (both orders produce fragmented art), so these are extracted assets,
+  not yet final flag bitmaps.
+
 ### Next five landmarks
 
 The selector code is now 557 bytes at `$FD90`, ending at `$FFC5`; the marker and
