@@ -127,3 +127,28 @@ CPU `$B224` — matching our existing ratings table at `$B224`.
 - [ ] Player field map: power/speed/skill per above; re-test in-game.
 - [x] Flag pipeline: bank-4 `$975A`/`$976A`, CHR bank `$1B`; all 16 extract.
 - [x] Lineup parser: unpack nibbles (order/position); round-trip identical.
+
+## Validation (roster map)
+
+Two independent checks:
+
+1. **Round-trip:** `extract` → `apply` → `cmp` is byte-identical over the whole
+   ROM for names, ratings, colours, lineups, and player rows.
+2. **Mutation:** change Japan player 0 to `TESTER`, primary colour `05`→`0F`,
+   lineup byte `08`→`81`, batting rating `1`→`4`. The diff touches exactly:
+
+```
+0x0F234  01 -> 04     ratings
+0x10430  55 4D 45 44 41 20 -> 54 45 53 54 45 52   UMEDA -> TESTER
+0x116DA  08 -> 81     lineup order/position
+0x1FAD0  05 -> 0F     primary colour
+```
+
+Re-extracting the mutated ROM returns the new values.
+
+## Still not mapped/verified
+
+- Player attribute **semantics** (power/speed/skill byte meaning in-game).
+- Editing pitcher records (read-only trailer copy today).
+- Editable flags (extraction works; write path does not).
+- Bracket tables, passwords, short-name pointer table details.
