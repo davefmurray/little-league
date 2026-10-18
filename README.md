@@ -100,6 +100,10 @@ python3 tools/roster.py apply   ROM data/roster.json -o build/hack.nes
 # one-off player edit
 python3 tools/roster.py patch ROM --team 2 --slot 14 --name DAVE --skill 5 -o build/demo.nes
 
+# cartridge layout / PRG expansion
+python3 tools/expand_rom.py ROM --inspect
+python3 tools/expand_rom.py ROM -o build/expanded.nes --prg-banks 16
+
 # 6502 trace from RESET (needs the py65 venv)
 python3 -m venv .venv && .venv/bin/pip install py65
 .venv/bin/python tools/trace.py ROM 600
@@ -147,6 +151,7 @@ web/                  browser editor (no build step)
   roster.json         preview data
 tools/
   roster.py           CLI extract/apply/patch
+  expand_rom.py       PRG expansion with fixed-bank relocation
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server
@@ -154,6 +159,8 @@ docs/
   game-writeup.md     the long-form history / technical companion
   roster-format.md    data tables and field map
   rom-layout.md       cartridge, banks, MMC1, vectors
+  expanding-teams-and-rosters.md
+                      dependency map and phased plan for 32 teams / 20 players
   editor.png          screenshot
 Dockerfile            hosting image
 railway.json          Railway build/deploy config
