@@ -198,6 +198,18 @@ region.
 Page 1 covers teams 0–7, page 2 8–15, page 3 16–23, page 4 24–31. Left/Right at
 the grid edge flips page; per-page cursor memory; A selects.
 
+The metadata is packed into **bank 9** at `$8000`:
+
+| Range | Contents |
+|---|---|
+| `$8000–$807F` | 32 × 4-byte codes (3 chars + NUL) |
+| `$8080–$827F` | 32 × 16-byte names (14 chars + `FF FF`) |
+| `$8280–$829F` | 32 × 1-byte region (0 ASIA, 1 AMERICA, 2 EUROPE, 3 HAWAII, 4 NEW) |
+
+`tools/pack_team_table.py` writes it; the 32-team ROM boots with the cache and
+table intact. Screen state is planned at `$07C0` page, `$07C1` cursor,
+`$07C2–$07C5` per-page cursor memory.
+
 ## Progress log
 
 - `tools/expand_rom.py` — done and verified: 16 PRG banks, fixed bank 15, banks
