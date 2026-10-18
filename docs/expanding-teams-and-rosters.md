@@ -224,9 +224,30 @@ requires one of:
 3. copying the active teams' records into RAM at game start (only the active
    roster fits, not all 32).
 
-Option 1 is the cleanest and is the next concrete task. The 16 × 20 build keeps
-rosters in bank 4 precisely because of this constraint; that is why it works
-without touching those routines.
+Option 1 is the cleanest **if** the readers must move. But there is a better
+route: **copy-on-select**.
+
+### Chosen: copy-on-select
+
+Keep all 32 rosters in bank 8, but never let the engine read them directly.
+
+1. The old 16-team roster block in bank 4 (`$8420–$9620`, 4,608 bytes) becomes a
+   **scratch area**.
+2. When a team is selected, previewed or loaded into a game, a new routine in the
+   **fixed bank** switches to bank 8, copies that team's `0x170` block into
+   scratch, switches back to bank 4, and repoints that team's entry in the
+   `$8400` table at the scratch address.
+3. Two teams per game × `0x170` = 736 bytes, so both fit in scratch with room to
+   spare.
+4. Every existing bank-4 reader keeps working unchanged — it still reads
+   `$8400,X` and still gets a bank-4 address.
+
+This avoids relocating any code. The only new code is the copy routine (fixed
+bank, free space at `$BB83`) plus hooks at the team-select confirm, the player
+card, and game start. It is the approach the 32-team build will use.
+
+The 16 × 20 build keeps rosters permanently in bank 4, which is why it works
+without any of this.
 
 ### Milestone 2 — 32 teams × 20 players
 
