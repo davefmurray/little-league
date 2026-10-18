@@ -250,7 +250,18 @@ clears the nametable, copies a prebuilt display list to `$0300`, flushes it with
 ![Team select running in the ROM](team-select-inrom.png)
 
 The static screen proves the full pipeline: bank-9 table → display list → font
-tiles → PPU. Input, highlight, flags and pages are the next layer.
+tiles → PPU.
+
+### Four-page input
+
+Four page lists live at `$FB83` (160-byte blocks, length byte first); the screen
+code at `$FE30` reads the controller, maps Left/Right to page ±1 mod 4, and
+re-flushes the list. The pointer table is at `$FFE0`.
+
+![Page 4 of the selector](team-select-pages.png)
+
+Left/Right wraps 1 → 4 and back; each page shows its own eight codes and detail
+bar. Cursor movement, highlight, flags and selection are the next layer.
 
 ## Progress log
 
