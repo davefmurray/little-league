@@ -227,9 +227,18 @@ With `$C040` bit 6 set, the high byte is `address | $40` and the run becomes
 `[high, low, count, tile]` (fill).
 
 So the 2×4 screen becomes: build header/cells/detail runs into `$0300`, set
-`$32`, `JSR $C53A`, then enable rendering. The remaining unknown is the
-ASCII→tile mapping used by the font; once that is located, the screen is pure
-list construction.
+`$32`, `JSR $C53A`, then enable rendering.
+
+### Font
+
+The font is **CHR bank 0**, tiles `$20–$5F` in ASCII order: space and
+punctuation, `0–9`, then `A–Z`. Text strings are copied verbatim into `$06B5`
+and straight into the display list — there is no ASCII conversion.
+
+![Team select with the game font](team-select-font.png)
+
+Caveat: `<`, `>` and `/` do not sit at their ASCII tiles in this font. Use words
+(`PREV` / `NEXT`) or custom arrow tiles instead of punctuation arrows.
 
 ## Progress log
 
