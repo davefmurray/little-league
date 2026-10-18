@@ -93,3 +93,21 @@ all four pages = 4,608 bytes. Bank 10 has room.
 3. Add page-time CHR copy and a per-flag tile table to bank 10.
 4. Draw flags above the codes; update attributes.
 5. Verify in the harness page by page.
+
+
+## Debug result (isolated test)
+
+`tools/build_flag_test.py` builds a ROM that does exactly one 6-tile CHR copy and
+one flag run at `$2062`, with no page list or cursor code.
+
+Result: the run is correct in RAM —
+`20 62 00 01 02 03 04 05 FE` — slots `0–5`, and the flag renders. So:
+
+- the CHR copy is correct,
+- a single display-list flag run is correct,
+- the corruption was in the eight-run/page integration, not the primitive.
+
+Next fix: make an `append_flag` helper that takes the list index in `$06` and
+flag number in `$07`, returns the new index, and never relies on `X` surviving
+pointer math. Call it eight times, then append the name/marker from the returned
+index.

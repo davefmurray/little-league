@@ -39,9 +39,10 @@ section to five items or fewer.
       `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.
 - [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
-- [ ] **Draw flags in the grid.** 3×2 background tiles per cell, page-time CHR
-      copy from bank 10 into the reserved slots, then add the nine-byte display
-      list run per flag.
+- [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the
+      CHR copy and one 9-byte run render correctly.
+- [ ] **Draw flags in the grid.** Eight runs via an `append_flag` helper that
+      keeps the list index in `$06`; current inline loop corrupts the list.
 - [ ] **Bench / pinch-hitter bound + pitching test.** On the 16×20 build,
       confirm the 20-player bench is reachable and all three pitcher slots work.
 - [ ] **32-slot bracket.** Five rounds, 32 first-round slots, new bracket table
