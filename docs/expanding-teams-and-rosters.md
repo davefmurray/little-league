@@ -227,27 +227,31 @@ requires one of:
 Option 1 is the cleanest **if** the readers must move. But there is a better
 route: **copy-on-select**.
 
-### Chosen: copy-on-select
+### Chosen: copy-on-select through PRG RAM
 
-Keep all 32 rosters in bank 8, but never let the engine read them directly.
+PRG ROM cannot be written at runtime, so the cache must live in RAM. The cart has
+8 KiB of PRG RAM at `$6000`.
 
-1. The old 16-team roster block in bank 4 (`$8420–$9620`, 4,608 bytes) becomes a
-   **scratch area**.
-2. When a team is selected, previewed or loaded into a game, a new routine in the
-   **fixed bank** switches to bank 8, copies that team's `0x170` block into
-   scratch, switches back to bank 4, and repoints that team's entry in the
-   `$8400` table at the scratch address.
-3. Two teams per game × `0x170` = 736 bytes, so both fit in scratch with room to
-   spare.
-4. Every existing bank-4 reader keeps working unchanged — it still reads
-   `$8400,X` and still gets a bank-4 address.
+1. At boot, a fixed-bank routine copies the roster pointer table `$8400–$841F`
+   to **PRG RAM `$7000`**.
+2. Every real table read is repointed from `$84xx` to `$70xx`. There are exactly
+   **10** such instructions: `$B085`, `$B08C`, `$B0A6`, `$B0AB`, `$AB2C`,
+   `$AB33`, `$8432`, `$8439` (bank 4) and `$CB2C`, `$CB36` (fixed bank).
+3. When teams are selected, a fixed-bank routine switches to bank 8, copies their
+   `0x170` blocks into PRG RAM (`$6000`, `$6170`, …), and writes their addresses
+   into the RAM table.
+4. The engine reads the RAM table and dereferences into PRG RAM. No reader
+   relocation, no ROM writes.
 
-This avoids relocating any code. The only new code is the copy routine (fixed
-bank, free space at `$BB83`) plus hooks at the team-select confirm, the player
-card, and game start. It is the approach the 32-team build will use.
+**Proven in emulator:** two teams in bank 8 were renamed `ZZA01…` / `ZZB01…`,
+copied at boot to `$6000` / `$6170`, the RAM table entries set to `$6000` /
+`$6170`, and the pre-game lineup screen rendered `ZZA01`–`ZZA09` for New York.
 
-The 16 × 20 build keeps rosters permanently in bank 4, which is why it works
-without any of this.
+![Copy-on-select proof](copy-on-select-proof.png)
+
+`tools/build_copy_on_select.py` builds this proof ROM. The next step is to move the
+copy from a boot hook to on-demand hooks at team select, player card and game
+load, then fill bank 8 with all 32 teams.
 
 ### Milestone 2 — 32 teams × 20 players
 
