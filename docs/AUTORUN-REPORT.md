@@ -525,3 +525,29 @@ point; in the stub it returns and execution falls through `$AF1D` data into
 Next: break at `$AF12` **from `$D014` in stock**, capture `$051B`, `$047B`,
 `$23/$24`, registers and stack at that exact call, then reproduce those at the
 stub. That is the last state delta before the field switch.
+
+## Round 22 — D019 state delta; block is not independently callable
+
+| | stock | stub |
+|---|---|---|
+| frame | 2330 | 11 |
+| A/X/Y | 0 / 1 / 4 | 0 / 0 / 32 |
+| P | $26 | $06 |
+| S | $FB | $FB |
+| `$051B` | 00 | 01 |
+| `$047B` | 02 | 02 |
+| `$0023/$0024` | 1B 1D | 00 00 |
+| stack | `f881 c381 a6cf e3cd a00f 18d0 e8cf 13cc` | mostly `FF` |
+
+Matching `$23/$24=1B1D`, `$051B=0`, `X=1`, `Y=4`, `A=0` still jams at `$C012`.
+The stack proves why: stock reaches `$D019` through the full cutscene call
+chain; the stub calls `$D014` directly, so every caller frame is missing.
+
+Conclusion: `$D014`/`$AF12`/`$C1E5` are **not independently callable scene
+blocks**. They depend on the live cutscene call chain, not just registers/RAM.
+
+Next architecture: stop calling internal field blocks. Either
+1. enter the stock **matchup scene** (`$047B=$11`, where `$C1E5` was hit) and let
+   stock build its own chain, or
+2. patch the two selected team ids into the stock password/matchup path and let
+   it run to the field normally.
