@@ -1320,3 +1320,23 @@ scene 12).
 
 Next: break at `$9E41`, capture bank and stack, then trace one frame to see
 where it goes and why `$047B` stays 12.
+
+## Round 54 — FF80 never runs; bank stays 11
+
+Added bank-5 mapping to `FF80` (MMC1 reset, serial bank5, `$27=5`, NMI on,
+`JMP $98BD`).
+
+At the crash:
+
+```
+$27 = $0B
+PC  = $B005
+$047B = $12
+```
+
+So `$FF80` never executed — the A RTS is not returning to `$98BC` at all in
+this build. The stack copy may be restoring, but the RTS target is still wrong.
+
+Next: break at `$98BC` and `$FF80` in `stackcopy4-input` specifically, and
+capture S/top-after-copy at the `RTS` (`$818A`). If `$98BC` is not reached, the
+RTS is popping an unexpected frame despite the restore.
