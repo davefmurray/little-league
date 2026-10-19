@@ -15,6 +15,7 @@ PRG = 0x4000
 BANK11 = 0x8000
 STUB = bytes([0xA9, 0xA5, 0x8D, 0xFF, 0x07, 0x4C, 0x00, 0x80])
 DISPATCH = bytes([
+    0x8D, 0x00, 0x20,        # STA $2000 (the instruction the hook replaced)
     0xAD, 0xC3, 0x07,        # LDA $07C3
     0xC9, 0xFF,              # CMP #$FF
     0xF0, 0x08,              # BEQ selector
@@ -44,8 +45,12 @@ def main():
     nb = rom[4]
     fixed = bank_off(nb - 1) + (0xFF00 - 0xC000)
     rom[fixed:fixed + len(DISPATCH)] = DISPATCH
+    # Restore stock at $CBE6 (LDA #$00) and hook after reset init at $CC06
+    base = bank_off(nb - 1)
+    rom[base + (0xCBE6 - 0xC000):base + (0xCBE6 - 0xC000) + 5] = bytes([0xA9, 0x00, 0x8D, 0x01, 0x20])
+    rom[base + (0xCC06 - 0xC000):base + (0xCC06 - 0xC000) + 3] = bytes([0x20, 0x00, 0xFF])
     if args.force is not None:
-        rom[fixed:fixed + 3] = bytes([0xA9, args.force, 0xEA])
+        rom[fixed + 3:fixed + 6] = bytes([0xA9, args.force, 0xEA])
 
     stub = bank_off(11) + (BANK11 - 0x8000)
     rom[stub:stub + len(STUB)] = STUB

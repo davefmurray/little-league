@@ -166,3 +166,20 @@ frame in stock game start vs this resume path; replicate the missing init before
 `JMP $CBE9`.
 
 Experimental handler reverted; default A behavior unchanged.
+
+## Round 10 — hook moved after reset init (GREEN)
+
+Root problem: `$CBE6` is `LDA #$00`, not a callable routine. Replacing it with
+`JSR $FF00` skipped that load and made `STA $2001` run with the wrong A.
+
+Fix in `build_dispatcher.py`:
+
+- restore `$CBE6..$CBEA` to `A9 00 8D 01 20` (LDA #0 / STA $2001)
+- hook at `$CC06` (`STA $2000`) instead
+- trampoline starts with `STA $2000`, preserving the store it replaced
+- `--force` patches the dispatch's `LDA $07C3`, not the trampoline prologue
+
+Verified:
+- default selector renders with full stock reset init complete
+- 32-team bracket renders with `FLA` at leaf 0, full init complete
+- stock regression still MATCH / 0 RAM diff
