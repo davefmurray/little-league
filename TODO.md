@@ -17,7 +17,8 @@ Full plan: `docs/PLAN-32-TEAM.md` (Fable 5.1, repo-verified).
 The `--state` bracket patch is now a **reference implementation**, not the
 shipped path. No more reset-vector hacks.
 
-M2 handoff contract documented in `docs/bracket-handoff.md`: `$04EF/$04F0` are
+M3 bank-11 logic is implemented and py65-tested (`tools/build_bank11.py`): init,
+31-match advance, champion slot 62, win counts sum 31. M2 handoff contract documented in `docs/bracket-handoff.md`: `$04EF/$04F0` are
 the two team ids; `$04EB/$04EC` alive; `$074B/$074C` results. M1 dispatcher is
 implemented and verified (`tools/build_dispatcher.py`). Next: M2 poke test and
 M3 logic port to bank 11.

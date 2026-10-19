@@ -11,7 +11,7 @@ bracket, password, and screen untouched.
 Why:
 
 - The stock state is 16-team-shaped everywhere: 8 packed nibbles at `$074D`,
-  slots `$0650`, losses `$0670`, match counter `$0746`, and consumers we have
+  slots `$0650`, wins `$0670`, match counter `$0746`, and consumers we have
   not all found.
 - A new scene has one unknown boundary (handoff to the game engine) instead of
   dozens of patched consumers.
@@ -44,7 +44,7 @@ Any trampoline must still start with the jsnes-safe MMC1 reset
 |---|---|---|
 | Roster cache | `$6000-$76FF` | `0x1700` |
 | Bracket slots | `$7700-$773E` | 63 |
-| Loss counts | `$7740-$775F` | 32 |
+| Win/advance counts | `$7740-$775F` | 32 |
 | Round / match counter | `$7760` / `$7761` | 2 |
 | Human team / seed order | `$7762`, `$7770-$778F` | 1 + 32 |
 | Password scratch | `$7790-$77AF` | 32 |
@@ -80,7 +80,7 @@ dispatcher reads `$07C3`.)
 Remaining acceptance: poke two ids from the debugger and confirm a match starts.
 
 **M3 — Bracket logic only.** Port advance/display loops into bank 11 using
-`$7700` state. Test: py65 replay of 31 matches, champion at slot 62, losses sum
+`$7700` state. Test: py65 replay of 31 matches, champion at slot 62, wins sum
 to 31, and no writes to `$0650-$068F` from bank 11.
 
 **M4 — Bracket screen.** Four columns of eight, five round labels, Koushien
@@ -88,7 +88,7 @@ layout, text-only first. Test: screenshots at round 0 and round 4; A launches a
 game via the M2 contract; winner advances and screen redraws. Only now claim
 “32-team tournament playable.”
 
-**M5 — Password.** Encode seed order (32×5 bits) + losses (32×3 bits) + round +
+**M5 — Password.** Encode seed order (32×5 bits) + wins (32×3 bits) + round +
 checksum. Test: 100 random round-trips in Python, then 3 in-ROM states.
 
 **M6 — Soak.** Full five-round run, stock-mode regression, byte diff showing

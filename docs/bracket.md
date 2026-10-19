@@ -7,7 +7,7 @@
 - Round sizes: 8, 4, 2, 1.
 - RAM:
   - `$0650` bracket slots (team IDs)
-  - `$0670` loss counts
+  - `$0670` win/advance counts
   - `$0746` current round
   - `$074B–$0756` password state
 
@@ -62,7 +62,7 @@ round 3 (1 match)
 32 teams need:
 
 - 63 bracket slots (`0x3F`)
-- 32 loss counts
+- 32 win/advance counts
 
 = 95 bytes. The current region `$0650–$068F` is only 64 bytes and the loss
 counts begin at `$0670`, so the 32-team table **cannot** be dropped in without
@@ -70,11 +70,11 @@ relocating RAM.
 
 Options:
 
-1. Move slots and loss counts to a larger free RAM block and patch every
+1. Move slots and win/advance counts to a larger free RAM block and patch every
    `$0650`/`$0670` reference (many sites).
 2. Keep slots at `$0650` but spill rounds beyond `$067F` into a second area and
    add a base-offset helper.
-3. Shrink loss counts to nibbles (32 teams → 16 bytes), buying 16 bytes but still
+3. Shrink win/advance counts to nibbles (32 teams → 16 bytes), buying 16 bytes but still
    16 short.
 
 Recommended: option 1, after mapping all `$0650`/`$0670` references.
@@ -98,7 +98,7 @@ no state format and cannot play a 32-team bracket yet.
 `tools/build_32bracket.py --state` now:
 
 - seeds fixed `$FD00` with 32 bytes `0..31`;
-- rewrites init at `$9B5F` to copy seeds to `$7700` and zero `$7740` (32 losses);
+- rewrites init at `$9B5F` to copy seeds to `$7700` and zero `$7740` (32 wins);
 - repoints advance/display operands to `$7700`/`$7740`.
 
 CPU-level validation (py65, bank 5 mapped):
@@ -106,7 +106,7 @@ CPU-level validation (py65, bank 5 mapped):
 ```
 init reached advance in 226 steps
 slots  = 0,1,2,...,31
-losses = 0 x32
+wins = 0 x32
 round=4 advance returns at $9BC0 in 97 steps
 champion slot 62 = 0
 ```
@@ -130,7 +130,7 @@ player/uniform variables (`$067B`, `$0684`, `$0685`, `$0689`).
 
 Plan:
 
-- New PRG-RAM bracket state: slots `$7700` (63 bytes), losses `$7740` (32).
+- New PRG-RAM bracket state: slots `$7700` (63 bytes), wins `$7740` (32).
 - Patch only the bracket routines (`$9B5F–$9C40`) to use it, leaving shared
   arrays alone.
 - New 32-byte seed table; stop packing two teams per byte.
