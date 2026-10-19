@@ -754,3 +754,30 @@ method: **correct handler + correct bank = working scene**.
 The password screen also reports `$047B=$13`, so it is a **sub-state** of the
 same handler, not a different scene. Next: diff the intro/password sub-state
 variables and drive `$995F` directly to the password/matchup branch.
+
+## Round 31 — bank index bug; correct handler is bank 5 $995F
+
+Scene bank lookup is `$047B >> 1`, so scene `$13` uses index **9**, not 6:
+
+```
+$CCAC[9] = 5   -> bank 5
+handler   = $995F (bank 5)
+```
+
+Bank 5 `$995F` is real code:
+
+```
+995F  LDA $047C
+9962  JSR $C232
+9965  .word ...    ; inline dispatch table
+```
+
+Calling bank-5 `$995F` from the bracket is clean: it renders the intro player,
+then the pledge, then the anniversary screen; A advances toward the title.
+
+But password also reports `$047B=$13`. Setting `$047C=8` (its password value)
+before the call still renders intro, so `$047C` is not the full selector.
+
+Next: capture `$047C`, `$06E0`, `$047A`, `$0478/79` and `$051B` at the exact
+password frame, then call `$995F` with the full set; if intro still wins, the
+inline table at `$9965` is indexed by another byte that must be found.
