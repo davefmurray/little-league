@@ -104,3 +104,21 @@ produces:
 now supports `--seed-human`; the production selector supplies `$07C3`.
 
 Phase 3 is green. Next: render names from `$7700` and then return to launch.
+
+## Round 6 — dynamic names blocked by display-list/RLE state
+
+- Seed integration remains green (commit `9cea1e0`).
+- Attempted to rewrite each team run in the copied display list from
+  `$7700`/code table. The list itself updated correctly (`FLA` appeared at
+  leaf 0), but `$C53A` then stalled in its RLE branch and the screen went blank.
+- `BIT $C040` selects the RLE path. ROM byte `$C040` is `$40`, yet the static
+  list (high bytes `$20`) rendered earlier, so the runtime value/semantics need
+  measurement, not assumptions.
+- Render experiment reverted; no broken build committed.
+
+### Next probe
+
+Read `$C040` on the CPU bus at the moment of flush (romdev memory read at
+`$C040`, not `$0040/$00C0`), and compare a static list vs the rewritten list.
+If the static list is normal-mode, our rewritten bytes must be corrupting a run
+header; dump `$0300..$033F` before flush.
