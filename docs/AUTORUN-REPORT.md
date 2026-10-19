@@ -876,3 +876,23 @@ the live team-select/password caller context, not a direct call.
 This is the same class of failure as every internal entry: these routines are
 not standalone. The only viable integration remains a hook **inside** the live
 stock flow (team-select END or password entry), not a call from the bracket.
+
+## Round 36 — stock flow can sim a full game; pivot to scene registration
+
+Repeated A presses on the stock password/matchup path ran all the way to a
+**box score** (HAW vs ARI, 5-1). So the stock game loop, sim, and result screen
+work end-to-end.
+
+But `$98B7` was never hit by the breakpoint on that path, so it is not the
+launch entry we assumed.
+
+Strategic conclusion after ~20 failed entry points: stop trying to enter stock
+scenes from the bracket. Instead **register the bracket as a stock scene**:
+
+1. Add a new scene id (e.g. `$20`) to `$CCAC` with bank 11.
+2. Add an inline handler-pointer entry for it.
+3. Let stock dispatch into the bracket with its own stack/table machinery.
+4. On bracket A, set the next stock scene (`$13`) and RTS, so stock continues
+   its normal password/matchup/field chain.
+
+This is the only path that preserves every caller frame by construction.
