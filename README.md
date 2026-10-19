@@ -193,6 +193,7 @@ tools/
   import_flag.py      import a 24x24 PNG as a team flag
   bracket.py          decode/print bracket; generate 32-team table
   build_32bracket.py  install 31-record table and repoint readers
+  build_dispatcher.py M1 $07C3 scene dispatcher (selector/bank11)
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server

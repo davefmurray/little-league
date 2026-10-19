@@ -18,8 +18,9 @@ The `--state` bracket patch is now a **reference implementation**, not the
 shipped path. No more reset-vector hacks.
 
 M2 handoff contract documented in `docs/bracket-handoff.md`: `$04EF/$04F0` are
-the two team ids; `$04EB/$04EC` alive; `$074B/$074C` results. Remaining: in-game
-poke test, then M1 dispatcher.
+the two team ids; `$04EB/$04EC` alive; `$074B/$074C` results. M1 dispatcher is
+implemented and verified (`tools/build_dispatcher.py`). Next: M2 poke test and
+M3 logic port to bank 11.
 
 ## Status snapshot
 

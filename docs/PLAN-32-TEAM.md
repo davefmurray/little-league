@@ -70,9 +70,10 @@ table order. Password seeding is deferred to M5.
 
 ## Milestones
 
-**M1 — Dispatcher.** `$FF00` dispatches on `$07C3`. Test: selector unchanged;
-with `$07C3=5` preset, PC reaches bank 11 `$8000`, `$27=11`, NMI still toggles
-`$047D`. Do not claim bracket entry yet.
+**M1 — Dispatcher.** DONE: `tools/build_dispatcher.py`. Default path shows the
+selector; forced non-`FF` path reaches bank 11 `$8000` with `$27=11` and the
+stub writing `$07FF=$A5`. (`--force` exists only for the test build; the real
+dispatcher reads `$07C3`.)
 
 **M2 — Handoff contract.** Documented in `docs/bracket-handoff.md`: team ids
 `$04EF/$04F0`, alive flags `$04EB/$04EC`, 16-bit results `$074B/$074C`.
