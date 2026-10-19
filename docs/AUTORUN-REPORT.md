@@ -183,3 +183,32 @@ Verified:
 - default selector renders with full stock reset init complete
 - 32-team bracket renders with `FLA` at leaf 0, full init complete
 - stock regression still MATCH / 0 RAM diff
+
+## Round 11 — stock game path reached (GREEN)
+
+The stock flow was misread earlier. The team-select prompt is:
+
+- **CONTINUE** = keep editing teams (returns to map)
+- **END** = finish selection
+
+Correct path:
+
+```
+team select -> END -> PASSWORD -> A -> matchup (Italy vs Pennsylvania)
+-> A -> SPEED MODE / WATCH THE GAME -> down + A -> pre-match cutscene
+-> field
+```
+
+Field state captured:
+
+```
+$04EF = $0D (Italy)
+$04F0 = $02 (Pennsylvania)
+$047B = $03 (field scene)
+$C1   = $76
+$0746 = $0000
+```
+
+This is the authoritative target. Setting the same bytes directly from the
+32-team bracket still returns to the bracket, so the missing piece is the
+pre-match/scene init routine (the password/matchup path), not the handoff values.
