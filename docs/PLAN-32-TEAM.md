@@ -70,6 +70,12 @@ table order. Password seeding is deferred to M5.
 
 ## Milestones
 
+**Phase 3 — 32-team seeding (logic).** DONE: bank-11 `seed` at `$8011`
+reads `$07C3`, writes it to leaf 0, fills the other 31 ascending. py65:
+human 0/15/31 at slot 0, all 32 unique. Also fixed the builder's zero-page
+operand sizing, which had shifted seed/advance branches; advance re-verified
+(champion 0, win sum 31).
+
 **M1 — Dispatcher.** DONE: `tools/build_dispatcher.py`. Default path shows the
 selector; forced non-`FF` path reaches bank 11 `$8000` with `$27=11` and the
 stub writing `$07FF=$A5`. (`--force` exists only for the test build; the real

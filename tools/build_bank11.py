@@ -26,6 +26,23 @@ ASM = [
     ("CPX #$20",),
     ("BNE init_loop",),
     ("RTS",),
+    ("seed:",),
+    ("LDA $07C3",),
+    ("STA $7700",),
+    ("STA $02",),
+    ("LDX #$01",),
+    ("LDA #$00",),
+    ("seed_loop:",),
+    ("CMP $02",),
+    ("BEQ seed_skip",),
+    ("STA $7700,X",),
+    ("INX",),
+    ("seed_skip:",),
+    ("CLC",),
+    ("ADC #$01",),
+    ("CMP #$20",),
+    ("BNE seed_loop",),
+    ("RTS",),
     ("advance:",),
     ("LDX #$00",),
     ("adv_loop:",),
@@ -88,6 +105,8 @@ def size_of(line):
         return 1
     if operand.startswith("#"):
         return 2
+    if re.fullmatch(r"\$[0-9A-Fa-f]{1,2}", operand):
+        return 2
     if mnemonic in BRANCHES:
         return 2
     return 3
@@ -129,7 +148,8 @@ def main():
 
     open(args.out, "wb").write(rom)
     print(f"wrote {args.out}: code {len(code)} bytes at $8000, table $A000 "
-          f"(init ${labels['init']:04X}, advance ${labels['advance']:04X})")
+          f"(init ${labels['init']:04X}, seed ${labels['seed']:04X}, "
+          f"advance ${labels['advance']:04X})")
 
 
 if __name__ == "__main__":
