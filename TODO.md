@@ -57,8 +57,16 @@ M3 logic port to bank 11.
 
 - [ ] **Integrate the selector into the game flow.** Replace the 16-team
       list/map path with the bank-10 selector and pass the chosen team
-      (`$07C3`) into the bracket setup. Today the selector is a standalone
-      boot ROM (`build/select-screen.nes`).
+      (`$07C3`) into the bracket setup. The selector's A still just redraws;
+      wire selector → `$07C3` → bracket → `tools/build_launch_bridge.py`.
+- [x] **Bracket → game launch bridge.** `$98B9` (scene 18) tail-jumps to a
+      fixed-bank trampoline that runs bank 11, rebuilds the password and
+      re-enters the stock scene-18 body. Password → matchup → speed mode →
+      cutscene → field verified, `S=$FF`, regression green. See
+      `docs/LAUNCH-DEBUG-LOG.md`; build with `tools/build_launch_bridge.py`.
+- [ ] **Team handoff through the bridge.** The bracket writes `$04EF/$04F0`
+      but the launch path reads `$33/$34`; copy the bracket pick there so the
+      field teams match the bracket.
 - [ ] **On-demand roster cache for teams 16–31.** Boot caches only 0–15.
       Add copy hooks at team-select confirm, player card and game load; copy
       `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.

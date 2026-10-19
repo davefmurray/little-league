@@ -64,7 +64,12 @@ def main():
         0xBD, LIST & 0xFF, LIST >> 8,
         0x9D, 0x00, 0x03,
         0xE8, 0xE0, len(listing), 0xD0, 0xF5,
-        0xA9, 0x00, 0x8D, 0x40, 0xC0,
+        # Was `LDA #$00 / STA $C040`.  $C040 is ROM (the $40 BIT mask used by
+        # the display-list flush at $C548), so the store never changed it --
+        # but $C040 is also MMC1's CHR-1 register: the store pushed one stray
+        # bit into the mapper shift register, and the next 5-bit bank write
+        # landed on the wrong bank (5 -> 10).  Same 5 bytes, now NOPs.
+        0xEA, 0xEA, 0xEA, 0xEA, 0xEA,
         0xA2, 0x00,
         0xA0, 0x00,
         0x84, 0x04,

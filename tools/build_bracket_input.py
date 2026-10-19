@@ -64,6 +64,7 @@ ASM = [
     "STA $04F0",
     "LDA #$B0",
     "STA $07FF",
+    "__RETURN_ON_A__",
     "marker:",
     "LDA $07C6",
     "STA $07C8",
@@ -103,15 +104,24 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
     ap.add_argument("-o", "--out", default="build/bracket-input.nes")
+    ap.add_argument("--return-on-a", action="store_true",
+                    help="A sets $04EF/$04F0 then RTSs to the caller instead "
+                         "of looping; used by the launch bridge")
     args = ap.parse_args()
 
+    asm = [line for line in ASM if line != "__RETURN_ON_A__"]
+    if args.return_on_a:
+        i = asm.index("marker:")
+        asm.insert(i, "RTS")
+
     rom = bytearray(open(args.rom, "rb").read())
-    code, labels = assemble(ASM, ENTRY)
+    code, labels = assemble(asm, ENTRY)
     off = HEADER + 11 * PRG + (ENTRY - 0x8000)
     rom[off:off + len(code)] = code
     open(args.out, "wb").write(rom)
     print(f"wrote {args.out}: entry ${ENTRY:04X}, {len(code)} bytes, "
-          f"loop ${labels['loop']:04X}")
+          f"loop ${labels['loop']:04X}, "
+          f"return-on-a={'yes' if args.return_on_a else 'no'}")
 
 
 if __name__ == "__main__":
