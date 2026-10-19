@@ -781,3 +781,23 @@ before the call still renders intro, so `$047C` is not the full selector.
 Next: capture `$047C`, `$06E0`, `$047A`, `$0478/79` and `$051B` at the exact
 password frame, then call `$995F` with the full set; if intro still wins, the
 inline table at `$9965` is indexed by another byte that must be found.
+
+## Round 32 — password is an overlay, not scene 13
+
+Decoded the inline table at bank-5 `$9965`:
+
+```
+$047C=0 -> $9977
+$047C=8 -> $A01E
+```
+
+Directly calling `$A01E` with `$047B=$13`, `$047C=8`, bank 5 mapped still
+renders the intro player, not the password screen.
+
+So `$047B/$047C` are not the password selector. The password screen is likely
+an overlay drawn by a separate routine while scene 13 (intro) continues behind
+it, or the stock password path uses a different call context entirely.
+
+Next: find the routine that writes the password text. Break on writes to the
+display list / `$06B5` text buffer during the password screen, capture its
+caller, and identify the actual overlay entry point.
