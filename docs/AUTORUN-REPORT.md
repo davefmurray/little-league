@@ -1340,3 +1340,24 @@ this build. The stack copy may be restoring, but the RTS target is still wrong.
 Next: break at `$98BC` and `$FF80` in `stackcopy4-input` specifically, and
 capture S/top-after-copy at the `RTS` (`$818A`). If `$98BC` is not reached, the
 RTS is popping an unexpected frame despite the restore.
+
+## Round 55 — crash happens before the A RTS
+
+Two-byte frame save/restore in place. At the crash:
+
+```
+$07F8/F9 = BB 98   (correct return)
+$07F7    = FB
+S        = FB
+PC       = $B005
+```
+
+If the `RTS` had executed, `S` would be `FD` and PC would be `$98BC`. Instead `S`
+is still `FB`: **the RTS never ran.** Execution jumped to `$B005` before the
+handler finished.
+
+So the failure is not the return frame anymore. It is an interrupt/stack event
+between bracket A and the RTS, or the input loop jumping into data.
+
+Next: free-running trace from the moment A is pressed in the bracket input loop
+until PC becomes `$B005`, and capture the first non-sequential transition.
