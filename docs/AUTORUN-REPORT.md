@@ -87,3 +87,20 @@ Boot the screen, immediately after the seed copy `$7700..$771F` to system RAM
 inside the same routine (before enabling rendering/NMI), and inspect that copy.
 If it is clean, the corruption is post-seed from NMI; if not, instrument each
 store.
+
+## Round 5 — seed integration GREEN
+
+Root cause of the earlier corruption: the test ROM jumped to an empty `$8100`
+(input stub missing) and executed `FF`; the seed itself was fine. With the input
+stub present and NMI disabled immediately before `JSR $8200`, the boot-time seed
+produces:
+
+```
+0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e
+10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
+```
+
+32 unique values, human 15 at leaf 0, stable across frames. `build_bracket_screen.py`
+now supports `--seed-human`; the production selector supplies `$07C3`.
+
+Phase 3 is green. Next: render names from `$7700` and then return to launch.

@@ -70,7 +70,8 @@ table order. Password seeding is deferred to M5.
 
 ## Milestones
 
-**Phase 3 — 32-team seeding (logic).** DONE: bank-11 `seed` at `$8011`
+**Phase 3 — 32-team seeding (GREEN).** Screen build seeds cart RAM from `$07C3`
+with NMI off; romdev reads 32 unique, human at leaf 0. DONE: bank-11 `seed` at `$8011`
 reads `$07C3`, writes it to leaf 0, fills the other 31 ascending. py65:
 human 0/15/31 at slot 0, all 32 unique. Also fixed the builder's zero-page
 operand sizing, which had shifted seed/advance branches; advance re-verified
