@@ -1201,3 +1201,24 @@ So `$995F` runs, then its inline table (indexed by `$047C`) dispatches to
 
 Next: break at `$995F`, capture `$047C`, single-step the `JSR $C232` and record
 the computed Y and target. Then correct `$047C` before entry.
+
+## Round 49 — JSR hook architecture; wrong RTS target
+
+Cleaner hook:
+
+```
+98B9  JSR $FF20   ; enter bracket
+98BC  JMP $98BD   ; resume stock after bracket returns
+FF20: NMI off, map bank11, $27=11, JMP $8000
+bracket A: IDs, LDA $33, STA $34, RTS
+```
+
+This preserves a real stock return address (`$98BC`) on the stack.
+
+Result: A returns to **`$B005`** instead of `$98BC`; `$047B=$12`.
+
+`$B005` is inside bank 11 bracket code, so the bracket is leaving an extra
+return frame (or overwriting the top of stack) before A.
+
+Next: break at the bracket A `RTS` and capture `S` + top six stack bytes to find
+which bracket JSR is unbalanced.
