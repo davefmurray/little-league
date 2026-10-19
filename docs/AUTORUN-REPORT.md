@@ -1107,3 +1107,24 @@ inside `$98D5` (its JSRs at `$992B/$993D`).
 Next: break at each `$98D5` RTS (`$992A`, `$9939`, `$993C`, `$994E`) and capture
 S plus the top four stack bytes at the first hit. That will show which frame is
 one byte off.
+
+## Round 45 — stack at 98E1 already missing the JSR frame
+
+Captured at `$98E1` after the END hook:
+
+```
+S=$FD
+$01F0..FF = 73 82 47 82 d1 81 a6 cf e3 cd 08 12 51 b9 13 cc
+top ($01FE/FF) = 13 CC  -> $CC13
+$07F8/F9 = 13 CC
+```
+
+`$98BD` is `JSR $98D5`, so the top of stack at `$98E1` should be
+`$98C0`. Instead it is `$CC13`: the `JSR $98D5` frame is already missing before
+any `$98D5` RTS executes.
+
+That explains the eventual `$0200`: the routine is running with a shifted stack.
+
+Next: break at `$98D5` entry and capture `S`/stack. If the JSR frame is missing
+there too, the fault is the `$FF60` push order; if it is present at entry but
+gone by `$98E1`, an instruction inside `$98D5` is popping it.
