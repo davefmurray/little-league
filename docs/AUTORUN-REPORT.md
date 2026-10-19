@@ -132,3 +132,22 @@ is 245, and the dynamic renderer writes 3 tiles into each 6-byte run.
 
 romdev screenshot: human team 15 (`FLA`) at leaf 0, then `JPN, ARI, PEN, ...`
 with team 15 skipped — exactly the seeded order. Phase 3 is now green end-to-end.
+
+## Round 8 — regression guard GREEN
+
+`tools/verify_regression.py` loads two ROMs in romdev, runs both 180 frames,
+compares screenshots and all 2 KiB of system RAM.
+
+Stock vs default `build/32bracket.nes` (table-only):
+
+```
+screenshots MATCH
+system_ram differs in 0 bytes
+```
+
+This is now the stop-rule oracle: any phase that changes stock behavior fails
+this test.
+
+Attempted to force the stock bracket screen from the `$CBE6` hook
+(`$C1|=2`, `$047C=0`, bank5 `$9BC1`); it stayed black. Parked; that scene needs
+more state than a post-init jump provides.
