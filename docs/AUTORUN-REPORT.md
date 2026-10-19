@@ -1176,3 +1176,28 @@ still reaches `$C002`.
 
 Next: trace from `$CC0E` **after** the NMI-enable removal (no storm now) and find
 the first handler jump into data.
+
+## Round 48 — scene13 dispatches into data at 9B63
+
+After removing the NMI storm, the END resume reaches stock scene 13 cleanly:
+
+```
+PC = $9B63
+$047B = $13
+S = $FD
+```
+
+But the frame trace shows `$9B63` is **data**: execution runs sequentially
+`$9B63..$9BFF`, `$9Cxx`, … all the way through `$BFxx` into `$C002`.
+
+The outer table entry for scene `$13` is correct:
+
+```
+base $CC51 + 2*$13 + 1 -> 5F 99 -> $995F
+```
+
+So `$995F` runs, then its inline table (indexed by `$047C`) dispatches to
+`$9B63`, which is not code.
+
+Next: break at `$995F`, capture `$047C`, single-step the `JSR $C232` and record
+the computed Y and target. Then correct `$047C` before entry.
