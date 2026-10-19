@@ -677,3 +677,25 @@ crash is **before** scene dispatch, not in the dispatcher table.
 
 Next: trace the single frame from the A branch to `$5248` and find the first
 bad jump. The controller-read `RTS` fix is required in the real builder.
+
+## Round 28 — trace shows jump to $0200 after the A store
+
+Instruction trace from bracket A:
+
+```
+... 816C 816E 8170 CDF4(RTI) 8172 8174 -> 0200 -> 028A ... 02FE -> 5248
+```
+
+`$8174` is `STA $047B`; its next instruction should be `$8177`. Instead PC
+becomes `$0200` (the OAM buffer), runs sequentially through zero page, then
+lands at `$5248`.
+
+So `$047B=$13` does stick, but an interrupt/return frame pops `$0200` as a PC.
+That is stack-pointer corruption or a wrapped return, not scene dispatch.
+
+Disabling NMI and entering at `$CC0E` (`$047D=0`) still jams at `$C002`, so NMI
+is not the only cause.
+
+Next: capture `S` and `$01F0..$01FF` exactly at `$8174`, then single-step the
+`STA` and the interrupt. If `S` is near `$00`, find the JSR/RTS leak in the
+input loop; if `S` is normal, the return address itself is being overwritten.
