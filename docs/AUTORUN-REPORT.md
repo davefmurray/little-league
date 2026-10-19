@@ -58,3 +58,32 @@ Watch CPU writes to `$7700` in romdev during the seed (`breakpoint on:write`),
 and log the MMC1 CHR0 value at the same instant. If writes are dropped, test
 SNROM PRG-RAM enable semantics or move bracket state into system RAM until the
 board behavior is understood.
+
+## Round 4 — PRG RAM is writable; NMI corrupts the seed
+
+Decisive CPU test (romdev):
+
+```
+LDA #$AB
+STA $7700
+LDA $7700
+STA $0400
+RTS
+```
+
+`$0400` read back `$AB`, so PRG RAM is writable; the mapper is not blocking
+writes. A hardcoded-human seed run from system RAM with `$2000=0` (NMI off)
+produced a perfect 32-slot array. The same seed at boot still leaves `$7702=FF`,
+so something in the boot/screen path corrupts it after the seed.
+
+Manual seed with NMI left on wrote nothing; with NMI off it wrote correctly.
+That points at the stock NMI handler touching cart RAM, not the seed loop.
+
+Screen feature reverted; no broken build committed.
+
+### Next probe
+
+Boot the screen, immediately after the seed copy `$7700..$771F` to system RAM
+inside the same routine (before enabling rendering/NMI), and inspect that copy.
+If it is clean, the corruption is post-seed from NMI; if not, instrument each
+store.
