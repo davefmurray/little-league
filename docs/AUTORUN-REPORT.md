@@ -122,3 +122,13 @@ Read `$C040` on the CPU bus at the moment of flush (romdev memory read at
 `$C040`, not `$0040/$00C0`), and compare a static list vs the rewritten list.
 If the static list is normal-mode, our rewritten bytes must be corrupting a run
 header; dump `$0300..$033F` before flush.
+
+## Round 7 — seeded names render GREEN
+
+Root cause of the previous blank/RLE corruption: team 5's code is `"NY"` (2
+chars), so its display-list run was 5 bytes and every later run shifted by one,
+corrupting a run header. Codes are now padded to 3 chars (`"NY "`), list length
+is 245, and the dynamic renderer writes 3 tiles into each 6-byte run.
+
+romdev screenshot: human team 15 (`FLA`) at leaf 0, then `JPN, ARI, PEN, ...`
+with team 15 skipped — exactly the seeded order. Phase 3 is now green end-to-end.
