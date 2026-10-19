@@ -951,3 +951,24 @@ scene registration is parked alongside cold scene entry.
 Recommendation: stop stock-scene integration. Implement launch by modifying the
 stock team-select confirm in place (same call context) rather than entering or
 registering scenes.
+
+## Round 39 — END hook reaches bracket, A resume fails
+
+In-place hook at the real END path:
+
+```
+$98B7 -> JMP $FF20
+$FF20: map bank 11, JMP $8000
+bracket A: write IDs, LDA $33, JMP $98B9
+```
+
+END now reaches bank-11 bracket input with the stock stack intact, and
+`$047B=$13` (password scene) is set. This is the correct structural hook.
+
+New bug: after A, PC stays at `$816F` in the input loop instead of resuming
+`$98B9`. The A branch is not being taken or the input loop is stuck reading the
+controller.
+
+Next: capture `$07C6/$07C9` at `$816F` after A and verify the A bit (`$80`);
+then single-step to see whether the branch is taken. If the controller read is
+stuck, the hook path is clobbering `$4016`/NMI timing.
