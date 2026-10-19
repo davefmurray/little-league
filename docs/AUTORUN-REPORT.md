@@ -415,3 +415,31 @@ The launch path must be a **fixed-bank/RAM stub** that:
 Next probe: find the stock routine that begins the bank-6 field loop (the
 `0->6 at $CC0C` transition) and call that from a fixed-bank stub, rather than
 `JMP $CC09`.
+
+## Round 18 — exact bank-6 writer
+
+Exact write breakpoint on `$27=6` through the stock field transition:
+
+```
+pc=$C14E  A=6  X=0  Y=6  S=$F9
+old->new = $01 -> $06
+```
+
+`$C14E` is the bank-switch helper itself. Its callStack (`$CC1B -> $CECC ->
+$CEE1`) is **not trustworthy**: `$CEE1` is `JSR LCEED`, which reads `$4016`
+(controller), not a bank switch. Stock uses RTS-threaded dispatch, so stack
+walks lie.
+
+Static `LDA #6; JSR $C14E` sites: 31, all in fixed bank 7. Likely field-entry
+candidates:
+
+```
+$CBB9  early scene init
+$D02A  scene-3 block (after $D014)
+$D045  scene-3 block
+$D098
+```
+
+Next: PC breakpoint at `$CBB9` and `$D02A` independently during the transition,
+trace one frame from each, and identify which one sets `$27=6` for the field
+loop. That call site is the target for the fixed-bank launch stub.
