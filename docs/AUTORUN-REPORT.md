@@ -1251,3 +1251,27 @@ is not what the disassembly suggests.
 
 Next: capture the exact `S` immediately before and after the A `RTS` with a
 write-watch on `$01F8..$01FF`, and dump the six bytes above `S` at that moment.
+
+## Round 51 — full stack save/restore still lands at B005
+
+Implemented the robust version:
+
+```
+FF20: TSX -> $07F7, copy $0100-$01FF -> $7800-$78FF,
+      NMI off, map bank11, $27=11, JMP $8000
+
+bracket A: IDs, LDA $33, STA $34, NMI off,
+      copy $7800-$78FF -> $0100-$01FF,
+      LDX $07F7, TXS, RTS
+
+98BC: JMP FF80
+FF80: NMI on, JMP 98BD
+```
+
+The A-branch disassembly is correct (copy loop branches to itself, RTS at `$818A`).
+
+Result: still `PC=$B005`, `$047B=$12`.
+
+So either `$98BC/$FF80` is never reached, or stock resumes and then immediately
+dispatches into data. Next: break at `$98BC`, then `$FF80`, then `$98BD` in
+sequence and record which is the first that is not reached.
