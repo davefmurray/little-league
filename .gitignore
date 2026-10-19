@@ -6,3 +6,4 @@ build/
 .railway-home/
 .gh-home/
 .DS_Store
+.npm-cache/
