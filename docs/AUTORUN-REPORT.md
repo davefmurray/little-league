@@ -601,3 +601,36 @@ is rendered. That avoids entering the scene cold entirely.
 
 Next: find the scene-13 init call that copies team ids into `$0650`/`$06B5` and
 hook immediately after it.
+
+## Round 25 — scene dispatch is RTS-table based (structural)
+
+Fixed `$C232`:
+
+```
+C232  ASL A
+C233  TAY
+C234  INY
+C235  PLA          ; pop inline table address
+C236  STA $35
+C238  PLA
+C239  STA $36
+C23B  LDA ($35),Y  ; fetch handler low
+...
+C246  JMP ($35)
+```
+
+It is an **RTS-trick dispatcher**: the caller must `JSR $C232` with an inline
+pointer table immediately after the call. Cold-jumping into the scene code pops
+whatever happens to be on the stack, which is why scene 13 landed at `$5248`.
+
+The scene-13 table entry `$B9C0` is itself another RTS-table state machine
+(`JSR $C232` with inline tables at `$B9C9`, `$B9D1`, `$B9DC`). Calling it with
+bank 2 mapped keeps the CPU alive but freezes at `$B9D1` — it is waiting for its
+dispatcher frames, not drawing.
+
+Conclusion: cold-entering stock scenes is impossible without reproducing their
+stack-resident tables. The only safe integration is to let stock run its own
+flow and patch **state** at a known point.
+
+Next: hook the post-password scene-13 state machine where it copies team ids,
+not its entry point.
