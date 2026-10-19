@@ -380,3 +380,38 @@ Bank-5 mapping via a fixed trampoline (`$FF20`, five `STA $E000` writes):
 So this is a **bank switch under a bank-5-resident call**, not a corrupt return
 address. The next probe is to log the fifth MMC1 PRG write during the field
 transition and find which code switches away from bank 5 while PC is inside it.
+
+## Round 17 — bank activity during the stock field transition
+
+Watched `$27` (the MMC1 PRG shadow) for 2200 frames from mode select, driving
+down+A through the cutscene. 122 bank changes; representative sequence:
+
+```
+f2327  4->6 at $C264
+f2329  6->2 at $C636
+f2330  2->4 at $C271
+f2333  0->6 at $CC0C
+f2638  2->5 at $C155
+f2639  5->3 at $E2F2
+f2645  3->6 at $AA30
+f2657  6->5 at $986B
+f2667  5->6 at $9FEC
+```
+
+The field routine runs primarily in **banks 2, 5, and 6**; `$9F0B` is a bank-5
+OAM routine called in that rotation. Bank 11 is never part of the field's
+expected bank state.
+
+Conclusion: a bank-11-resident scene **cannot jump into the stock main loop** and
+expect it to work, even with `$27=5` set once. The field's own `$C14E` calls
+immediately rotate banks 6→2→5→3, and any return into `$9Fxx` after the rotation
+executes whatever bank is mapped.
+
+The launch path must be a **fixed-bank/RAM stub** that:
+1. writes the handoff and scene state,
+2. enters a stock scene entry with the bank state stock expects,
+3. never returns to bank 11.
+
+Next probe: find the stock routine that begins the bank-6 field loop (the
+`0->6 at $CC0C` transition) and call that from a fixed-bank stub, rather than
+`JMP $CC09`.
