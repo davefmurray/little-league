@@ -1128,3 +1128,30 @@ That explains the eventual `$0200`: the routine is running with a shifted stack.
 Next: break at `$98D5` entry and capture `S`/stack. If the JSR frame is missing
 there too, the fault is the `$FF60` push order; if it is present at entry but
 gone by `$98E1`, an instruction inside `$98D5` is popping it.
+
+## Round 46 — scene 13 sets, CC0E entry still crashes
+
+Bypassed `$98D5` entirely in `$FF60`:
+
+```
+NMI off
+map bank5, $27=5
+$0746=0, $BE=0, $047C=7, $07ED=1
+INC $047B          ; 12 -> 13
+$047D=0
+TXS=$FF
+JMP $CC0E
+```
+
+Readback: `$047B=$13` — scene state succeeds.
+
+But PC still reaches `$C002` within the frame, even with:
+
+- NMI permanently off
+- stack pointer reset to `$FF`
+- no RTS into stock
+
+So the crash is in the **scene-13 handler execution after `$CC0E`**, not the
+password generator or the saved frame. The next branch of work is to trace the
+first 200 instructions from `$CC0E` and identify the handler that jumps into
+data.
