@@ -274,3 +274,50 @@ the scene-3 handler: breaking there hit while `$047B` was still 2.
 
 Probe 1 outcome: no meaningful byte diff is possible until the `$CC09` entry is
 fixed. That is the next blocker, not CHR or team pointers.
+
+## Round 14 — stack/PC dump at the $C002 crash
+
+`$C002` is opcode `$02` = **KIL/JAM**. The CPU is dead, not looping. There is no
+`JMP $C002`, `JSR $C002`, or `JMP ($C000)` anywhere in the ROM, so the PC came
+from a corrupted return/RTI frame.
+
+At `$CC09` entry (after A):
+
+```
+PC=$CC09  A=$80  X=$00  Y=$20  P=$A4  S=$FD
+stack $01F0..FF = e3cd0a40d7a40b9fa9d0d2cf13cc08cc
+$2C=$00  $AC=$00  $AD=$1E  $0190=$00  $047B=02
+```
+
+At the `$C002` hit:
+
+```
+PC=$C002  A=$40  X=$10  Y=$40  P=$37  S=$F7
+stack $01F0..FF = e3cd0a40d7a40b9fa9d0d2cf13cc08cc
+$2C=$00  $047B=02
+```
+
+`S` moved FD→F7 (6 bytes), but the stack contents look like scene data
+(`9F0B D2CF ...`), not balanced JSR frames. Resetting `S=$FF` before
+`JMP $CC09` did **not** fix it.
+
+Relevant NMI rule:
+
+```
+$CD8A  LDA $2C
+$CD8C  STA $04E6
+$CD8F  BNE $CDE1          ; skip main body if locked
+...
+$CDE4  LDA $AD
+$CDE6  AND #$1E
+$CDE8  BEQ $CDEF          ; only clear $047D when rendering bits set
+$CDEA  LDA #$00
+$CDEC  STA $047D
+```
+
+Trace from `$CC09` sits at `$CD86` (NMI entry) and never returns to the main
+loop; once jammed, traces are all `$C002`.
+
+Next: capture the exact instruction before `$C002` with a held-A trace from the
+input loop, and log every push/pop in the NMI path. The prime suspect is a
+return frame consumed during scene 2→3 transition.
