@@ -9,6 +9,17 @@ section to five items or fewer.
 
 ---
 
+## Plan of record (adopted)
+
+**New 32-team bracket scene in bank 11; stock 16-team path untouched.**
+Full plan: `docs/PLAN-32-TEAM.md` (Fable 5.1, repo-verified).
+
+The `--state` bracket patch is now a **reference implementation**, not the
+shipped path. No more reset-vector hacks.
+
+Next action: **M2 handoff contract** — trace `$9BC1` → `$9C42`, log stores to
+`$04xx/$06xx/$07xx`, and document how the game loader receives the two teams.
+
 ## Status snapshot
 
 | Area | State |

@@ -205,6 +205,7 @@ docs/
   text-table.md       TBL mapping + verified text offsets
   koushien-bracket.md 32-team Japanese bracket reference
   bracket.md          bracket format, 32-team table, RAM blocker
+  PLAN-32-TEAM.md     adopted architecture and milestones (bank 11 scene)
   cheats-and-ram.md   Game Genie codes translated + RAM address map
   rom-layout.md       cartridge, banks, MMC1, vectors
   expanding-teams-and-rosters.md
