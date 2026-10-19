@@ -634,3 +634,26 @@ flow and patch **state** at a known point.
 
 Next: hook the post-password scene-13 state machine where it copies team ids,
 not its entry point.
+
+## Round 26 — menu integration works; header bug found
+
+Critical bug: the base ROM header declares **8 PRG banks**. Writing bank 11
+extended the file to 256 KiB but left byte 4 = 8, so the mapper could never
+select bank 11. Any menu hook was silently jumping into whatever bank was
+mapped.
+
+Fix: start from `expand_rom.py` output (16 banks, header byte 4 = 16, fixed bank
+15), then patch.
+
+Working integration:
+
+- scene `$0D` (team select) handler is `$B9C0` in bank 2
+- patch `$B9C0` to `JMP $FF20`
+- fixed trampoline `$FF20`: five `STA $E000` writes select bank 11, then
+  `JMP $8000`
+- boot stock -> menu -> Championship -> Start New Series -> bracket appears
+
+Remaining bug: bracket A sets `$047B=$13`, `$C1=$76`, then `JMP $CC09`. After
+300 frames the readback is `$047B=$0D`, `$C1=$00`: the stores are being lost
+before the scene handler runs. Next: verify the A-branch bytes and whether the
+scene-0D handler/JMP path re-enters before the stores execute.
