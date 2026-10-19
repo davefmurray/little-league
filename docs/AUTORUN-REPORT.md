@@ -1056,3 +1056,27 @@ so the tool trace is misaligned under this path and cannot be trusted.
 Next: use free-running `traceInstructions` for the frame, not single-step, and
 capture the stack at `$98D4` (RTS) to see whether the routine is returning early
 or falling through.
+
+## Round 43 — saved frame is $CC13
+
+Hook now saves the return address before entering the bracket:
+
+```
+FF20: PLA -> $07F8, PLA -> $07F9, map bank11, JMP $8000
+FF60: map bank5, restore $34, PHA $07F9, PHA $07F8, JMP $98BD
+```
+
+At the crash, saved bytes are:
+
+```
+$07F8/$07F9 = 13 CC   -> $CC13
+```
+
+So `$98B9` is reached from the main loop (`JSR $CC30`, return `$CC13`), not
+from a team-select-specific caller. Restoring `$CC13` is correct, but the run
+still ends at `PC=$0200`, `$047B=$12`.
+
+Therefore the crash is inside `$98D5` before its RTS, not from the restored
+return frame. Next: break at the four RTS sites in `$98D5` (`$992A`, `$9939`,
+`$993C`, `$994E`) and see which is reached, or capture the first bad PC after
+`$98E1`.
