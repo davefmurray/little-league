@@ -922,3 +922,32 @@ bank = $CCAC[scene>>1]
 Next: use that exact formula to dump the real handler entries for scenes
 `$0E..$1F`, choose one that is genuinely unused, and register bank 11 + `$8000`
 using the measured base, not the guessed `$CC52`.
+
+## Round 38 — scene15 registration still runs away
+
+Registered scene `$0F` with:
+
+```
+$CCAC[7]=11
+handler table $CC70 = $8000
+$CC8E[15]=0   (skip sound hook)
+reset hook CC06 -> FF20 -> scene $0F, C1=$76 -> JMP CC09
+```
+
+Boot still jams at `$C002`. First-frame trace:
+
+```
+start $ACF1
+... $BF8A ... $BFFF -> $C002 (KIL)
+```
+
+Reset vector is intact (`$CBD5`), so boot reaches stock init and then runs away
+through bank data. Scene `$0F` never reaches `$8000`.
+
+This means registration is not just a table entry: the dispatcher's caller
+context/bank state is wrong before the handler lookup. Given repeated failures,
+scene registration is parked alongside cold scene entry.
+
+Recommendation: stop stock-scene integration. Implement launch by modifying the
+stock team-select confirm in place (same call context) rather than entering or
+registering scenes.
