@@ -321,3 +321,33 @@ loop; once jammed, traces are all `$C002`.
 Next: capture the exact instruction before `$C002` with a held-A trace from the
 input loop, and log every push/pop in the NMI path. The prime suspect is a
 return frame consumed during scene 2→3 transition.
+
+## Round 15 — exact runaway path found
+
+Frame-by-frame `traceInstructions` from `$CC09` caught the transition:
+
+```
+... CFA7 CFA9 CDE4 ... CDF4 (RTI)
+9F0B 9F0E 9F11 ... A000 ... BFFF C002 (KIL)
+```
+
+The RTI at `$CDF4` returns to **`$9F0B`**, then execution runs sequentially
+through the entire `$9F0B–$BFFF` window into `$C000` data and jams at `$C002`.
+
+Key facts:
+
+- `$9F0B` is a **bank-5** code address. While our bracket build has **bank 11**
+  mapped at `$8000–$BFFF`, `$9F0B` is bank-11 data, not that routine.
+- No `JSR $9F0B` / `JMP $9F0B` exists in the hack ROM.
+- Disabling NMI, resetting `S=$FF` before entry, and entering at `$CC0E`
+  (skipping the `$047D` wait) **all still jam at `$C002`**.
+- Therefore the failure is a **bank-relative resume into bank 5 while bank 11 is
+  mapped**, not merely a corrupted stack byte.
+
+Implication: jumping into stock scene code from the bank-11 scene is unsafe
+while stock still has bank-5-relative continuations. The launch path must either
+keep bank 5 mapped until those continuations finish, or enter through a stock
+routine that establishes bank-11-safe frames.
+
+Next: log every `JMP`/`RTS` target in the frame and identify the first target
+that assumes bank 5, then either remap that pointer or preserve bank 5.
