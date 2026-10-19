@@ -469,3 +469,29 @@ state (`$04E6`, `$2C`, stack chain) that `$D014` assumes.
 Next: set `$0511/$0512` from `$04EF/$04F0`, `$04E6=1`, `$2C=0`, then call
 `$D014`; if it still jams, capture `$23/$24` immediately after the two table
 lookups and compare stock.
+
+## Round 20 — non-returning C1E5 is the fall-through
+
+Bank-4 `$AF12`:
+
+```
+AF12  LDA $051B
+AF15  BEQ $AF1A
+AF17  JMP $AFE9
+AF1A  JSR $C1E5
+AF1D  .byte $23 ...        ; data
+
+AFE9  JSR $C1E5
+AFEC  .byte $22 ...        ; data
+```
+
+Both paths call `$C1E5` and then fall into **data** — `$C1E5` is a non-returning
+scene routine. In our path it returns, so execution runs through `$AF1D`/`$AFEC`
+and eventually into `$C002`.
+
+Setting `$051B=1` before calling `$D014` still jams at `$C012`; `$0511/$0512`,
+`$04E6`, `$2C`, `$051B` are not the return condition.
+
+Next: break at `$C1E5` from the stub, capture its entry registers and stack, and
+compare with the stock field transition. Then either satisfy its exit condition
+or call `$C1E5` directly from the fixed stub with the stock state.
