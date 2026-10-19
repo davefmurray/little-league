@@ -1361,3 +1361,30 @@ between bracket A and the RTS, or the input loop jumping into data.
 
 Next: free-running trace from the moment A is pressed in the bracket input loop
 until PC becomes `$B005`, and capture the first non-sequential transition.
+
+## Round 56 — A crashes before the branch at 8162
+
+Disassembly of the frame2 input handler:
+
+```
+8127 JSR $810B (read pad)
+...
+815B LDA $07C9
+815E AND #$80
+8160 BEQ $8188
+8162 LDA $07C7   <- A branch starts here
+...
+8187 RTS
+```
+
+With A input:
+
+- breakpoint at `$8162` is **never hit**
+- PC is already `$B005`
+
+So the crash happens inside `$810B` (controller read) or the loop before the
+branch, not in the resume/RTS code.
+
+Next: break at `$810B` entry and `$8126` return with A held; capture `S` at each.
+If `S` changes unexpectedly, the controller-read subroutine is corrupting the
+stack.
