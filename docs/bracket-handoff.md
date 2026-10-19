@@ -73,3 +73,25 @@ the persistent tournament state.
 Contract documented from disassembly (`$9C08`–`$9D40`, consumers above).
 The in-game poke test (set `$04EF/$04F0`, start a match, confirm the teams) is
 still pending; do not claim it verified until that runs.
+
+
+## romdev confirmation (fceumm)
+
+Loaded `build/bracket-input.nes` in romdev (session `llb-bracket`). A write
+breakpoint on `$04EF` with a scheduled A press hit at:
+
+```
+pc = $8165   bank 11   value = $00
+caller = $CBE6 (JSR)
+```
+
+This is our bracket handoff write, confirmed on a real MMC1 core.
+
+A stock-path probe did not hit `$04EF` within 500 frames after selecting a team
+and confirming at CONTINUE/END. That supports the "mirror vs owner" warning:
+`$04EF/$04F0` are likely written when the bracket/game screen initializes, not
+by the team-select screen. The next probe should watch reads of `$04EF` at game
+start, and/or widen the stock probe to the bracket screen.
+
+romdev note: its NES framebuffer is 256x224 (8 px cropped top/bottom), which is
+why the first bracket row looked missing in the browser harness too.
