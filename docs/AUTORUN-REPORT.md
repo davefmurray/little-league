@@ -1001,3 +1001,36 @@ At this point the launch integration has consumed many rounds without a green
 field. Recommended: revert the launch hook, keep the working 32-team selector,
 bracket, seed, and stock regression, and treat launch as a separate project with
 a clean in-place stock patch rather than more probes.
+
+## Round 41 — hook was mid-instruction (real bug fixed)
+
+Original bank-5 bytes:
+
+```
+98B0  LDA #$80
+98B2  SBC $00
+98B4  STA $00
+98B6  RTS
+98B7  .byte $00
+98B8  DEY
+98B9  LDA $33      <- real entry
+98BB  STA $34
+98BD  JSR $98D5
+```
+
+We had hooked `$98B7` (data), and resumed at `$98B9`, which executed the
+leftover `$33` opcode — an illegal RLA. That explains the PC parking mid-code.
+
+Corrected hook:
+
+```
+$98B9 -> JMP $FF20 (bank 11 bracket)
+bracket A -> JMP $FF40
+$FF40: map bank 5, LDA $33, STA $34, JMP $98BD
+```
+
+Result: still jams at `$C002`; `$047B=$12` (before the INC to 13). So the new
+failure is inside `$98BD`/`$98D5`, not the hook.
+
+Next: break at `$98BD`, capture `$27`, `$A8/$A9`, `$33`, S and step into
+`$98D5` to find the bad access.
