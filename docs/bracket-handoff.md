@@ -138,3 +138,33 @@ writing raw 0..31 is likely the wrong value domain. Phase 1 must either:
 
 Next probe: log `$33`, `$C46F` return, and `$04EF/$04F0` at the stock
 game-start transition, then at the same point in our bracket build.
+
+## Live call result (romdev)
+
+Called the bank-6 caller at `$AC3A` directly (after mapping bank 6 and setting
+`$C1 = 2`) via `cpu({op:'call'})`. It returned and left:
+
+```
+$04EF = $02
+$04F0 = $06
+```
+
+But `$C46F` is not a team lookup:
+
+```
+$C46F  INC $34
+$C471  LDA $34
+$C473  AND #$3F
+$C475  TAX
+$C476  LDA $C4FA,X
+$C479  RTS
+```
+
+It is a table-driven sequencer (sine/pseudo-random table at `$C4FA`). That makes
+the bank-0 routine a **different context** (likely field/demo state), not proof
+that the bracket launch uses derived values.
+
+The bracket path still writes raw slot values at `$9C0E/$9C14`, and `$9CAC`
+indexes `$9CD0,Y` with them. **Do not change the contract yet.** The decisive
+test is launching from the bracket screen and checking which writer runs at that
+transition.
