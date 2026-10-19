@@ -91,7 +91,7 @@ def main(argv):
                             "length": num(rest[1]) if len(rest) > 1 else 1}))
     elif cmd == "write":
         out(call("memory", {"op": "write", "region": "system_ram",
-                            "offset": num(rest[0]), "bytes": rest[1]}))
+                            "offset": num(rest[0]), "hex": rest[1]}))
     elif cmd == "bp":
         payload = {"on": "pc", "address": num(rest[0]),
                    "maxFrames": num(rest[1]) if len(rest) > 1 else 600}

@@ -217,3 +217,35 @@ Working harness path (stock END, `--stock-flow`) still reaches the field:
 END -> bracket -> A -> password -> matchup -> speed mode -> cutscene -> field
 $047B = $03, $27 = $06, S = $FF
 ```
+
+## Loop 11 — `$0522` (ROOT CAUSE of the production order-screen stall)
+
+Comparing the cutscene state in both paths:
+
+| var | stock harness | production |
+|---|---|---|
+| `$047B/$047C` | `11/08` | `11/08` |
+| `$0522` | `00` | **`FF`** |
+| `$04EF/$04F0` | `0c/00` | `0d/08` |
+| `$33/$34` | `2d/39` | `a2/30` |
+
+`$0522` is read at the top of the scene-15 handler (`$96ED`):
+`LDA $0522 / BNE $96F8` — **nonzero skips the lineup init** (`$C585`/`$972C`).
+It is `$FF` at boot, and the stock team-select path clears it. The selector
+path never does, so scene 15 skipped its init and sat on the order screen.
+
+Poke test from the production cutscene: `$0522=0` → field within 900 frames.
+
+Fix: the trampoline stores `$0522=0` before resuming (a no-op in the stock
+path, where it is already 0).
+
+Production flow now reaches the field:
+
+```
+selector A -> $047B=$12 -> scene 18 hook -> bracket -> A
+-> $FF35 -> $98D5 -> $98C0 -> $047B=$13
+-> password -> matchup -> speed mode -> cutscene -> field
+$047B=$03, $27=$06, S=$FF (main loop); gameplay PC=$CE01, S=$F7
+```
+
+Both builds (production and `--stock-flow`) reach the field; regression green.

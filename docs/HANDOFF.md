@@ -21,8 +21,7 @@ launch path; this file is the map, not the story.
   - stock takes over: password screen → matchup → speed mode → cutscene → field.
 - **Selector → bracket → launch** in the production build: the selector's A
   hands the stock dispatcher scene 18, the hook runs the bracket, and the same
-  bridge resumes. Reaches password/matchup/cutscene; the pre-game order screen
-  (scene 15) is the remaining gate (see §6).
+  bridge resumes. Reaches password → matchup → speed mode → cutscene → field.
 - Stock regression green:
 
 ```sh
@@ -69,6 +68,7 @@ Build outputs are gitignored.
 | `$047B` | scene id |
 | `$047C` | scene sub-state / sub-handler index |
 | `$047D` | frame flag: main loop waits for 0, NMI clears it, `$CC0E` sets it |
+| `$0522` | lineup-init flag: `$FF` at boot, cleared by the stock team select; scene 15 skips its init when nonzero |
 | `$2C` | NMI reentrancy guard (`$CD8A`) |
 | `$2D` | bank-switch / deferred-task guard (`$C14E`, `$CF74`, `$CE45`) |
 | `$AD` | PPU mask shadow (`$2001`), compared at `$CDBD` |
@@ -92,9 +92,9 @@ Build outputs are gitignored.
 
 - Bank 5 `$98B9`: `4C 20 FF EA EA EA` (`JMP $FF20`; NOPs). The scene-18
   handler is tail-jumped, so the stock caller's frame stays on the stack.
-- Fixed bank `$FF20` (54 bytes, listed in the log): assert `$2C/$2D`, NMI
+- Fixed bank `$FF20` (59 bytes, listed in the log): assert `$2C/$2D`, NMI
   off, bank 11, `JSR $8000` (bracket), bank 5, `$AD=$1E`, NMI on, `$047B=$12`,
-  `JSR $98D5`, release guards, `JMP $98C0`.
+  `$0522=0`, `JSR $98D5`, release guards, `JMP $98C0`.
 - The bracket is built with `--return-on-a`, so its A handler ends in `RTS`.
 
 Production entry: the selector's A handler waits for release, drops the
@@ -118,20 +118,14 @@ stock: `S=$FF` at the main loop after the resume.
 
 ## 6. What is still open
 
-1. **Production pre-game order screen.** Selector → bracket → password →
-   matchup → speed mode → cutscene works, then the flow enters scene 15
-   (`$047B=$0F`) — the pre-game batting-order / lineup screen ("CHANGE
-   ORDERS"). It does not advance on A/B/START/SELECT in a quick sweep and the
-   player portraits are garbled. Likely a CHR-bank / scene-state difference
-   from the COM-vs-COM harness path, which reaches the field directly. This is
-   the next integration item; it is **not** a launch-bridge failure.
-2. **Team handoff.** The bracket writes `$04EF/$04F0` as *slot indices*, and
-   the stock password/matchup path recomputes the launched teams from the
-   password state. Make the bracket write real team ids from `$7700` (and set
-   `$33/$34`) once the order-screen path is understood.
-3. **Password format** is still the stock 16-slot table (`$994F`); the
+1. **Team handoff / data.** Both launch paths reach the field, but the teams
+   shown at the field do not match the bracket pick (the stock password path
+   recomputes them; `$04EF/$04F0` are written as slot indices). Make the
+   bracket write real team ids from `$7700` and set `$33/$34`; the password
+   format (`$994F`, 16 slots) also needs extending for a 32-team tournament.
+2. **Password format** is still the stock 16-slot table (`$994F`); the
    32-team tournament state is not encoded.
-4. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
+3. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
    selector flow it is the real pick (0–31).
 
 ## 7. Dead ends — do not repeat
