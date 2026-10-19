@@ -818,3 +818,35 @@ in-RAM buffer, confirming it is an overlay/data path rather than a scene.
 Next: find who fills `$0650/$0651` during the password transition. That routine
 is the real password entry and is the correct hook point for the bracket’s team
 IDs.
+
+## Round 34 — real series-start routine found
+
+Writer of `$0651` at password entry:
+
+```
+pc=$98D9  bank 5  A=$FF
+```
+
+Disassembly reveals the full series initializer at **`$98B7`**:
+
+```
+98B7  LDA $33
+98B9  STA $34
+98BD  JSR $98D5        ; fill $064F-$065F with $FF
+98C0  LDA #$00
+98C2  STA $0746        ; matches played = 0
+98C5  STA $BE
+98C7  LDA #$07
+98C9  STA $047C        ; state 7
+98CC  LDA #$01
+98CE  STA $07ED
+98D1  INC $047B        ; advance scene
+98D4  RTS
+```
+
+`$98D5` clears 17 bytes at `$064F` then generates the password text from `$33`
+and table `$994F`.
+
+This is the correct “start new series” entry, far more useful than poking
+scene IDs. Next: map `$33`/`$994F` to team selection, then call `$98B7` from the
+bracket with bracket teams and let stock build password → matchup → field.
