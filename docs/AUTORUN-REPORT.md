@@ -1296,3 +1296,27 @@ data, not `$8000`.
 Next: break at `$8000` and `$8100` during the END transition to confirm whether
 the bracket code is entered at all. If not, the `JSR $FF20` hook is not firing
 or its return path is bypassing `$8000`.
+
+## Round 53 — RTS now returns into stock (£9E41)
+
+With MMC1 reset + full stack save/restore + NMI enabled only after RTS:
+
+- bracket code enters at `$8000`
+- input loop runs at `$8100`
+- A executes the copy-back and RTS
+- **execution returns into stock at `$9E41`** (first successful stock re-entry)
+
+But:
+
+```
+$047B = $12
+```
+
+and after ~60 frames PC reaches `$B005` again.
+
+So the hook and return path now work. The remaining bug is the resumed stock
+code at `$9E41` not reaching the `$98BD`/`INC $047B` path (or being reset to
+scene 12).
+
+Next: break at `$9E41`, capture bank and stack, then trace one frame to see
+where it goes and why `$047B` stays 12.
