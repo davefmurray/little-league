@@ -657,3 +657,23 @@ Remaining bug: bracket A sets `$047B=$13`, `$C1=$76`, then `JMP $CC09`. After
 300 frames the readback is `$047B=$0D`, `$C1=$00`: the stores are being lost
 before the scene handler runs. Next: verify the A-branch bytes and whether the
 scene-0D handler/JMP path re-enters before the stores execute.
+
+## Round 27 — A-state now sticks; crash is before C232
+
+Found a real bug in the experimental handler: a global `RTS` replacement had
+also rewritten the **controller-read subroutine** to `JMP $CC09`. The input
+loop therefore jumped to the main loop before its A branch.
+
+With that fixed (only the A branch jumps to `$CC09`):
+
+```
+$047B = $13   (sticks)
+```
+
+but the CPU immediately lands at `$5248` and never reaches `$C232`. So the
+crash is **before** scene dispatch, not in the dispatcher table.
+
+`$C232` breakpoint during the transition: `hit:false`, `pcNow=$5248`.
+
+Next: trace the single frame from the A branch to `$5248` and find the first
+bad jump. The controller-read `RTS` fix is required in the real builder.
