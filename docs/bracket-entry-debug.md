@@ -36,3 +36,19 @@ reset-vector trampoline, PPU init, or a later bank switch before the call.
   before the call.
 - If the mapper is right at the call, check whether `$9C42`/`$9B5F` switches
   banks before the crash PC.
+
+
+## Root cause (resolved)
+
+Two separate mistakes:
+
+1. `$C102` was called with `A=0`, which sets **PRG mode 0** (32 KiB). The later
+   bank-5 write therefore did not map bank 5 at `$8000`. Control must be
+   `$0C` (PRG mode 3, fixed last bank). With `$0C`, the invalid-opcode crash
+   disappears.
+2. `$9BF0` is **not a routine entry** — `$9BEF` is `JSR $C1A4` and `$9BF0` is
+   its operand. The real screen handler is `$9BC1`. Calling `$9BC1` reaches the
+   setup path; `$9BF0` skips it.
+
+The screen is still blank in the standalone test because the scene handler
+expects full scene state/NMI timing; entry wiring remains open.

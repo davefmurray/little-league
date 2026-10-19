@@ -85,8 +85,9 @@ Recommended: option 1, after mapping all `$0650`/`$0670` references.
 repoints:
 
 ```
-$9BA3  LDY $FC00,X   ; advance
-$9C08  LDY $FC02,X   ; display
+$9BA3  LDY $FC00,X   ; source A
+$9BAF  LDY $FC02,X   ; destination
+$9C08  LDY $FC00,X   ; display source A
 ```
 
 Verified by disassembly and the ROM boots. This is the **safe half**: it changes
@@ -97,8 +98,8 @@ no state format and cannot play a 32-team bracket yet.
 `tools/build_32bracket.py --state` now:
 
 - seeds fixed `$FD00` with 32 bytes `0..31`;
-- rewrites init at `$9B5F` to copy seeds to `$6800` and zero `$6840` (32 losses);
-- repoints advance/display operands to `$6800`/`$6840`.
+- rewrites init at `$9B5F` to copy seeds to `$7700` and zero `$7740` (32 losses);
+- repoints advance/display operands to `$7700`/`$7740`.
 
 CPU-level validation (py65, bank 5 mapped):
 
@@ -129,8 +130,26 @@ player/uniform variables (`$067B`, `$0684`, `$0685`, `$0689`).
 
 Plan:
 
-- New PRG-RAM bracket state: slots `$6800` (63 bytes), losses `$6840` (32).
+- New PRG-RAM bracket state: slots `$7700` (63 bytes), losses `$7740` (32).
 - Patch only the bracket routines (`$9B5F–$9C40`) to use it, leaving shared
   arrays alone.
 - New 32-byte seed table; stop packing two teams per byte.
 - Then wire the 32-team team-select handoff.
+
+
+## Review corrections (2026)
+
+A multi-model review found and we fixed:
+
+- **Display operand:** `$9C09` must point at the table base (`$FC00`, source A),
+  not `$FC02`. The old value displayed slot 32 as the first team.
+- **Destination operand:** `$9BB0` (`LDY $8943,X`) is the destination reader and
+  must be patched to `$FC02`. The old build only patched `$9BA4`.
+- **Slot load:** `$9BA7` (`LDA $0650,Y`) must be patched to the new slot base.
+- **Fixed bank:** derive `nb-1`; expanded ROMs use bank 15.
+- **RAM collision:** `$6800/$6840` sat inside the `$6000–$76FF` roster cache.
+  Moved to `$7700/$7740`.
+- **Default build:** now installs the original **15-record** table so stock play
+  keeps its 16-team destinations; only `--state` installs the 31 records.
+- **31-match validation:** after init, replay `$0746 = 0..30`; champion reaches
+  slot 62. Earlier `$0746=4` only processed four records.

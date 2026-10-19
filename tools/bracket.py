@@ -26,8 +26,8 @@ def read_table(rom, addr=TABLE, records=RECORDS):
     return [tuple(raw[i:i + 3]) for i in range(0, len(raw), 3)]
 
 
-def rounds(records):
-    out, i, size = [], 0, 8
+def rounds(records, size=8):
+    out, i = [], 0
     while i < len(records) and size >= 1:
         out.append(records[i:i + size])
         i += size
@@ -35,8 +35,8 @@ def rounds(records):
     return out
 
 
-def show(records):
-    for r, matches in enumerate(rounds(records)):
+def show(records, size=8):
+    for r, matches in enumerate(rounds(records, size)):
         print(f"round {r} ({len(matches)} matches)")
         for a, b, dest in matches:
             print(f"  slot {a:2d} vs {b:2d}  ->  {dest:2d}")
@@ -74,7 +74,7 @@ def main():
         if args.hex:
             print(bytes(b for r in recs for b in r).hex(" "))
         else:
-            show(recs)
+            show(recs, 16)
         return
 
     if not args.rom:
