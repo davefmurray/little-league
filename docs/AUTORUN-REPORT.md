@@ -212,3 +212,38 @@ $0746 = $0000
 This is the authoritative target. Setting the same bytes directly from the
 32-team bracket still returns to the bracket, so the missing piece is the
 pre-match/scene init routine (the password/matchup path), not the handoff values.
+
+## Round 12 — field scene writer found (partial)
+
+Exact write breakpoint on `$047B=3` through the stock mode-select/pre-match path:
+
+```
+pc        = $D010   (bank 7)
+instruction = INC $047B
+caller    = $CC11
+old -> new = $02 -> $03
+```
+
+Routine:
+
+```
+$D001  STA $B6
+$D003  JSR $D161
+$D006  LDA #$00
+$D008  STA $0486
+$D00B  LDA #$04
+$D00D  STA $047A
+$D010  INC $047B
+$D013  RTS
+```
+
+So `$047B=3` is reached by **incrementing from 2**, not by a direct store. The
+scene-3 handler then runs (`$D014...`, banks 4/6, `$8EF8`, `$AE34`, `$E80A`).
+
+From the 32-team bracket, setting `$047B=2`, `$047A=4`, `$0486=0`, `$C1=$76`
+and returning to `$CC09` now reaches a scene-3 screen (no longer the bracket),
+but it renders garbled field/text tiles: CHR and the team pointers
+(`$0511/$0512`, `$23/$24`) are not initialized.
+
+Next probe: freeze the stock field state, diff full RAM against this scene-3
+state, and set the missing pre-match fields before entering `$CC09`.
