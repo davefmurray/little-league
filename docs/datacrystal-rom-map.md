@@ -162,5 +162,8 @@ Re-extracting the mutated ROM returns the new values.
 - **Flags:** `tools/write_flags.py --swap A B` or `--set TEAM OFFSET` edits the
   `$975A` offset table. Swapping Japan (`0x00`) and Korea (`0x30`) swaps the
   rendered flags, confirmed by re-extraction.
+- **Flag PNG import:** `tools/import_flag.py --team N --png` writes 3x3 tiles
+  into CHR bank `$1B` and rewrites the team's `(tile, attr)` record, clearing
+  flips and preserving palette bits. Verified by re-extraction.
 - Flags recorded at offset `$48` are shared: repointing or rewriting one affects
   every team using that record (all USA-flag teams).
