@@ -443,3 +443,29 @@ $D098
 Next: PC breakpoint at `$CBB9` and `$D02A` independently during the transition,
 trace one frame from each, and identify which one sets `$27=6` for the field
 loop. That call site is the target for the fixed-bank launch stub.
+
+## Round 19 — D02A confirmed; D014 direct call insufficient
+
+PC breakpoint at `$D02A` during the stock mode→field transition hit at frame
+2330. Raw bytes there:
+
+```
+D02A  A9 06        LDA #$06
+D02C  20 4E C1     JSR $C14E   ; select bank 6
+```
+
+So `$D02A` is the field-loop bank-6 switch, inside the scene-3 block that starts
+at `$D014`.
+
+Calling `$D014` from the fixed-bank stub (`JSR $D014 ; JMP $CC09`) still ends in
+data at `$C012`, with the bracket screen frozen. The scene block reads
+`$0511/$0512` and indexes tables `$D05F/$D062` to set `$23/$24`, then calls
+`$AF12` (bank 4), `$8EF8` (bank 6), `$AE34` (bank 4).
+
+Missing precondition: `$0511/$0512` team/alive state. In stock field both were
+`0000`, but the preceding password/matchup path sets the surrounding scene
+state (`$04E6`, `$2C`, stack chain) that `$D014` assumes.
+
+Next: set `$0511/$0512` from `$04EF/$04F0`, `$04E6=1`, `$2C=0`, then call
+`$D014`; if it still jams, capture `$23/$24` immediately after the two table
+lookups and compare stock.
