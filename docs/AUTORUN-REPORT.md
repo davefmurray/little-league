@@ -850,3 +850,29 @@ and table `$994F`.
 This is the correct “start new series” entry, far more useful than poking
 scene IDs. Next: map `$33`/`$994F` to team selection, then call `$98B7` from the
 bracket with bracket teams and let stock build password → matchup → field.
+
+## Round 35 — 98B7 runs but scene resets
+
+Called the real series initializer from the bracket:
+
+```
+$33 = $EB
+$C1 = $76
+stub: bank 5, JSR $98B7, JMP $CC09
+```
+
+Result after 300 frames:
+
+```
+PC = $CC09 (alive)
+$047B = 01     (intro scene, not password)
+$33   = $58
+$0650.. = FF
+```
+
+So `$98B7` executes but the scene falls back to 1 and `$33` is rewritten. It needs
+the live team-select/password caller context, not a direct call.
+
+This is the same class of failure as every internal entry: these routines are
+not standalone. The only viable integration remains a hook **inside** the live
+stock flow (team-select END or password entry), not a call from the bracket.
