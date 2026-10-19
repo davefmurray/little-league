@@ -190,6 +190,7 @@ tools/
   debugger.html       ROM debugger: regs, watches, OAM, write log
   tbl.py              text encode/decode/scan
   write_flags.py      swap/repoint team flag records
+  bracket.py          decode/print bracket; generate 32-team table
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server
@@ -201,6 +202,7 @@ docs/
   ram-map.md          verified RAM addresses (pitcher, game state, buffers)
   text-table.md       TBL mapping + verified text offsets
   koushien-bracket.md 32-team Japanese bracket reference
+  bracket.md          bracket format, 32-team table, RAM blocker
   cheats-and-ram.md   Game Genie codes translated + RAM address map
   rom-layout.md       cartridge, banks, MMC1, vectors
   expanding-teams-and-rosters.md

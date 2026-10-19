@@ -1,0 +1,86 @@
+# Tournament bracket
+
+## US 16-team table
+
+- Location: bank 5, CPU `$8941` (file `0x14951`).
+- 15 records × 3 bytes: `slotA, slotB, destSlot`.
+- Round sizes: 8, 4, 2, 1.
+- RAM:
+  - `$0650` bracket slots (team IDs)
+  - `$0670` loss counts
+  - `$0746` current round
+  - `$074B–$0756` password state
+
+Code:
+
+```
+$9BA3  LDY $8941,X     ; slot A
+$9BA6  LDA $0650,Y     ; team A
+$9BAA  INC $0670,X     ; loss count
+$9BAF  LDY $8943,X     ; destination
+$9BB2  STA $0650,Y     ; advance
+...
+$9C08  LDY $8941,X     ; display: round*3
+$9C0B  LDA $0650,Y     ; team A
+$9C11  LDA $0651,Y     ; team B
+```
+
+Pointers to the table live at bank-5 `$9BA4` and `$9C09`.
+
+## Decode
+
+`python3 tools/bracket.py ROM` prints:
+
+```
+round 0 (8 matches)
+  slot  0 vs  1  ->  16
+  ...
+round 3 (1 match)
+  slot 28 vs 29  ->  30
+```
+
+## 32-team design
+
+31 records × 3 = **93 bytes**:
+
+```
+00 01 20  02 03 21  04 05 22  06 07 23
+08 09 24  0a 0b 25  0c 0d 26  0e 0f 27
+10 11 28  12 13 29  14 15 2a  16 17 2b
+18 19 2c  1a 1b 2d  1c 1d 2e  1e 1f 2f
+20 21 30  22 23 31  24 25 32  26 27 33
+28 29 34  2a 2b 35  2c 2d 36  2e 2f 37
+30 31 38  32 33 39  34 35 3a  36 37 3b
+38 39 3c  3a 3b 3d  3c 3d 3e
+```
+
+- Leaves 0–31 → 32–47 → 48–55 → 56–59 → 60–61 → 62.
+- Generate with `python3 tools/bracket.py --gen32 --hex`.
+
+## RAM blocker
+
+32 teams need:
+
+- 63 bracket slots (`0x3F`)
+- 32 loss counts
+
+= 95 bytes. The current region `$0650–$068F` is only 64 bytes and the loss
+counts begin at `$0670`, so the 32-team table **cannot** be dropped in without
+relocating RAM.
+
+Options:
+
+1. Move slots and loss counts to a larger free RAM block and patch every
+   `$0650`/`$0670` reference (many sites).
+2. Keep slots at `$0650` but spill rounds beyond `$067F` into a second area and
+   add a base-offset helper.
+3. Shrink loss counts to nibbles (32 teams → 16 bytes), buying 16 bytes but still
+   16 short.
+
+Recommended: option 1, after mapping all `$0650`/`$0670` references.
+
+## Next
+
+- Enumerate every `$0650`/`$0670` access.
+- Choose a free RAM block that does not collide with passwords at `$074B`.
+- Patch the table (93 bytes) into free ROM and repoint `$9BA4`/`$9C09`.
