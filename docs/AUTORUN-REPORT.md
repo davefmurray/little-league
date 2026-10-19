@@ -699,3 +699,33 @@ is not the only cause.
 Next: capture `S` and `$01F0..$01FF` exactly at `$8174`, then single-step the
 `STA` and the interrupt. If `S` is near `$00`, find the JSR/RTS leak in the
 input loop; if `S` is normal, the return address itself is being overwritten.
+
+## Round 29 — A branch is clean; NMI/dispatch wall
+
+At `$8174`:
+
+```
+A=$13  S=$FD
+stack: d181 a6cf e3cd 1031 45a4 e3ce 2981 13cc
+```
+
+Single-step `STA $047B` lands correctly at `$8177`. All A-branch stores execute.
+At `$8180 JMP $CC09`, an NMI arrives before the jump and vectors to `$CD86`.
+
+At that moment:
+
+```
+$2C=00  $AD=$40  $047D=01
+```
+
+`$AD` is `$40`, not `$1E`, so the NMI handler's later gate would set it, but the
+handler appears to storm at `$CD86`. Disabling NMI and entering at `$CC0E` with
+`$2C=0`, `$AD=$1E`, `$047D=0` still jams at `$C002`.
+
+So the failure is not a single flag; entering the stock main loop from the
+bracket still violates its dispatch/stack expectations.
+
+Next definitive probe: break at `$C232` with `$047B=$13` during the **stock**
+password screen, single-step the dispatcher, and record the exact popped table
+address and JMP target. That names the real scene-13 handler instead of guessing
+from table layout.
