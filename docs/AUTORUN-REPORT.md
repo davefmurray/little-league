@@ -1222,3 +1222,32 @@ return frame (or overwriting the top of stack) before A.
 
 Next: break at the bracket A `RTS` and capture `S` + top six stack bytes to find
 which bracket JSR is unbalanced.
+
+## Round 50 — JSR hook returns into bank11 data
+
+JSR hook version:
+
+```
+98B9 JSR FF20 -> map bank11 -> JMP $8000
+bracket A: IDs, LDA $33, STA $34, RTS
+98BC JMP $98BD
+```
+
+After A:
+
+```
+PC = $B005   (bank11 data)
+S  = $FD
+stack $01F0..FF = 7382 4782 d181 a6cf e3cd 2981 bb98 13cc
+```
+
+Top of stack at `$B005` is **`$CC13`**, then `$8129` (bracket input loop), then
+`$98BB` (near the JSR hook return). So the RTS consumed an unseen frame above
+these and landed on `$B005`.
+
+`$B005` is data between the code table and palette. The A-branch `RTS` at
+`$8176` also failed to hit under a direct breakpoint, so its execution context
+is not what the disassembly suggests.
+
+Next: capture the exact `S` immediately before and after the A `RTS` with a
+write-watch on `$01F8..$01FF`, and dump the six bytes above `S` at that moment.
