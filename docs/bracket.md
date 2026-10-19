@@ -79,8 +79,35 @@ Options:
 
 Recommended: option 1, after mapping all `$0650`/`$0670` references.
 
-## Next
+## Applied: table relocation
 
-- Enumerate every `$0650`/`$0670` access.
-- Choose a free RAM block that does not collide with passwords at `$074B`.
-- Patch the table (93 bytes) into free ROM and repoint `$9BA4`/`$9C09`.
+`tools/build_32bracket.py` writes the 31 records to fixed-bank `$FC00` and
+repoints:
+
+```
+$9BA3  LDY $FC00,X   ; advance
+$9C08  LDY $FC02,X   ; display
+```
+
+Verified by disassembly and the ROM boots. This is the **safe half**: it changes
+no state format and cannot play a 32-team bracket yet.
+
+## Next: state format
+
+The init routine is the real blocker:
+
+```
+$9B63  LDA $074D,Y    ; 8 packed bytes = 16 team IDs
+```
+
+32 teams need 5-bit IDs and 32 seeds, but `$074D–$0754` is only 8 bytes and
+`$0755/$0756` are password state. The loss array at `$0670` is also shared with
+player/uniform variables (`$067B`, `$0684`, `$0685`, `$0689`).
+
+Plan:
+
+- New PRG-RAM bracket state: slots `$6800` (63 bytes), losses `$6840` (32).
+- Patch only the bracket routines (`$9B5F–$9C40`) to use it, leaving shared
+  arrays alone.
+- New 32-byte seed table; stop packing two teams per byte.
+- Then wire the 32-team team-select handoff.

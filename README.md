@@ -192,6 +192,7 @@ tools/
   write_flags.py      swap/repoint team flag records
   import_flag.py      import a 24x24 PNG as a team flag
   bracket.py          decode/print bracket; generate 32-team table
+  build_32bracket.py  install 31-record table and repoint readers
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server
