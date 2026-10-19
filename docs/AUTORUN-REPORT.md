@@ -1275,3 +1275,24 @@ Result: still `PC=$B005`, `$047B=$12`.
 So either `$98BC/$FF80` is never reached, or stock resumes and then immediately
 dispatches into data. Next: break at `$98BC`, then `$FF80`, then `$98BD` in
 sequence and record which is the first that is not reached.
+
+## Round 52 — bank 11 verified, still lands in data
+
+Added MMC1 shift reset (`LDX #$FF; STX $9FFF`) before the bank-11 serial
+writes, plus the full stack save/restore.
+
+At the crash:
+
+```
+$27 = $0B   (bank 11)
+PC  = $B005
+$047B = $12
+```
+
+ROM inspection confirms bank 11 `$8000` holds the bracket code and `$8100` holds
+the input loop. So the bank mapping is correct, but execution is at `$B005`
+data, not `$8000`.
+
+Next: break at `$8000` and `$8100` during the END transition to confirm whether
+the bracket code is entered at all. If not, the `JSR $FF20` hook is not firing
+or its return path is bypassing `$8000`.
