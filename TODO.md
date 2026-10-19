@@ -77,6 +77,8 @@ section to five items or fewer.
 - [x] **32-team bracket state.** Seeds `$FD00`, slots `$6800`, losses `$6840`;
       init/advance/display patched. CPU-validated through five rounds. Opt-in
       via `--state` so the default build keeps the stock seed path.
+- [x] **Bracket entry root cause.** jsnes 1.2.1 MMC1 counter needs a bit-7
+      reset; use `STX $9FFF`, control `$1E`, `$C14E` shadow. Probe verified.
 - [ ] **Wire bracket entry.** Feed 32 teams from the selector/password and enter
       the bracket screen; today the stock flow still seeds 16.
 - [ ] **Passwords.** Locate encode/decode; extend to 32 teams.

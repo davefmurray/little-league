@@ -52,3 +52,39 @@ Two separate mistakes:
 
 The screen is still blank in the standalone test because the scene handler
 expects full scene state/NMI timing; entry wiring remains open.
+
+
+## Confirmed by multi-model review (Opus 5.5)
+
+Live jsnes 1.2.1 reproduction found the decisive cause: **the mapper's MMC1
+shift counter is `undefined` after `loadROM`**. `nes.js` calls `reset()` before
+`mmap` exists, so `Mappers[1].reset` never runs and every serial write does
+`undefined++` → `NaN`; `NaN === 5` never latches. A bit-7 write initializes it.
+
+Working probe (tested):
+
+```
+FF00 78        SEI
+FF01 D8        CLD
+FF02 A2 FF     LDX #$FF
+FF04 9A        TXS
+FF05 8E FF 9F  STX $9FFF     ; MMC1 reset
+...
+FF1A A9 1E     LDA #$1E
+FF1C 20 02 C1  JSR $C102     ; control: 8 KiB CHR mode, PRG mode 3
+FF1F A9 05     LDA #$05
+FF21 20 4E C1  JSR $C14E     ; also sets $27 shadow
+FF24 AD F0 9B  LDA $9BF0
+FF27 8D FF 07  STA $07FF
+FF2A 4C 2A FF  JMP $FF2A
+```
+
+Result in-harness: `$07FF = $A4`, `$27 = 5`, `$9BF0 = A4 C1 A9 18` — bank 5 is
+mapped. Notes:
+
+- Use `$C14E`, not `$C150`, so the `$27` bank shadow is updated.
+- `$0C` selects 8 KiB CHR mode; this game uses `$1E`.
+- The last ad-hoc test ROM had RESET still pointing at stock `$CBD5`, so the
+  `$FF00` trampoline never ran. Always verify the reset vector after building.
+- `JSR $9BF0` maps correctly but returns into a hang at `$C26F`; real entry
+  should hook after stock reset/NMI init, like the selector at `$CBE6`.
