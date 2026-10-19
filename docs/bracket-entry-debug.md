@@ -88,3 +88,20 @@ mapped. Notes:
   `$FF00` trampoline never ran. Always verify the reset vector after building.
 - `JSR $9BF0` maps correctly but returns into a hang at `$C26F`; real entry
   should hook after stock reset/NMI init, like the selector at `$CBE6`.
+
+## Review disagreement (resolved)
+
+- **Opus 5.5** reproduced the crash live and proved the jsnes 1.2.1 MMC1
+  counter bug; its probe (`STX $9FFF`, control `$1E`, `$C14E`) produced
+  `$07FF=$A4`, `$27=5`, bank-5 bytes `A4 C1 A9 18`.
+- **Fable 5.1** reviewed an older build and correctly noted that RESET still
+  pointed at stock `$CBD5`, so the trampoline was not on the real boot path.
+  It also claimed `$9BC1` is mid-routine; disassembly shows `$9BC1` is the
+  screen-handler entry (`LDA $0746 / CMP #$0F / ...`), while `$9BF0` is the
+  mid-handler address. The live probe is authoritative here.
+- **GPT-6.1-Sol** found four independent P1s in the builder: display operand,
+  destination operand, fixed-bank hardcode, and the `$6800` cache collision.
+  All four are fixed in `tools/build_32bracket.py` (commit `34af69a`).
+
+No reviewer edits were applied blindly; the confirmed Opus probe and Sol's
+disassembly-backed fixes were used.
