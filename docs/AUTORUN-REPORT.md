@@ -972,3 +972,32 @@ controller.
 Next: capture `$07C6/$07C9` at `$816F` after A and verify the A bit (`$80`);
 then single-step to see whether the branch is taken. If the controller read is
 stuck, the hook path is clobbering `$4016`/NMI timing.
+
+## Round 40 — bank-5 resume trampoline still stalls at $816F
+
+Added the correct resume path:
+
+```
+$98B7 -> JMP $FF20 -> map bank 11 -> bracket
+bracket A -> JMP $FF40 -> map bank 5, LDA $33, JMP $98B9
+```
+
+Also disabled NMI at input-loop entry.
+
+Result:
+
+```
+PC = $816F (constant)
+S  = $F5
+$047B = $13
+```
+
+The A branch is reached (PC is past the controller test) but the CPU stops
+advancing inside it. Disassembly at `$816F` is mid-instruction in the shifted
+build, which means either the PC is landing mid-instruction or an interrupt is
+parking it there.
+
+At this point the launch integration has consumed many rounds without a green
+field. Recommended: revert the launch hook, keep the working 32-team selector,
+bracket, seed, and stock regression, and treat launch as a separate project with
+a clean in-place stock patch rather than more probes.
