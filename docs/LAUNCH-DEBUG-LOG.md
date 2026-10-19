@@ -249,3 +249,24 @@ $047B=$03, $27=$06, S=$FF (main loop); gameplay PC=$CE01, S=$F7
 ```
 
 Both builds (production and `--stock-flow`) reach the field; regression green.
+
+## Loop 12 — where the launched teams actually come from
+
+At the production field (`$047B=$03`):
+
+```
+$04EF/$04F0 = 0d 08
+$0650..     = 08 0d 0f 03 01 0c 0a 05 0b 06 00 00 04 0e 07 02
+$7700..     = 00 01 02 ... 1f        (the 32-team seed, correct)
+```
+
+The field teams are `$0650[0]`/`$0650[1]`, not `$7700` and not the bracket
+cursor. `$0650` is built by `$98D5` → `$992B` from the fixed 16-value table at
+`$994F` (`05 0c 03 0a 01 08 0f 06 0d 04 0b 02 09 00 07 0e`), rotated by `$04`
+(`($C46F + $F5) & 15`). So the stock password path **always** launches a
+16-team permutation of teams 0–15, independent of `$04EF/$04F0` and `$33/$34`.
+
+That is why the bracket pick (and the team-name conversion tried earlier) does
+not reach the field. Making the launched game use the bracket's teams requires
+replacing this password/seed generator with the 32-team `$7700` array — i.e.
+the "Password format for 32 teams / 5 rounds" milestone, not a launch fix.

@@ -64,9 +64,12 @@ M3 logic port to bank 11.
       re-enters the stock scene-18 body. Password → matchup → speed mode →
       cutscene → field verified, `S=$FF`, regression green. See
       `docs/LAUNCH-DEBUG-LOG.md`; build with `tools/build_launch_bridge.py`.
-- [ ] **Team handoff through the bridge.** The bracket writes `$04EF/$04F0`
-      but the launch path reads `$33/$34`; copy the bracket pick there so the
-      field teams match the bracket.
+- [ ] **Team handoff through the bridge.** The field teams come from
+      `$0650`, which `$98D5`/`$992B` build from the fixed 16-value table
+      `$994F` rotated by `$04` — not from `$04EF/$04F0`, `$7700` or `$33/$34`.
+      Replacing that generator with the 32-team `$7700` array is the same
+      work as the 32-team password format (`$0650` is a permutation of
+      teams 0–15 today).
 - [ ] **On-demand roster cache for teams 16–31.** Boot caches only 0–15.
       Add copy hooks at team-select confirm, player card and game load; copy
       `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.
