@@ -495,3 +495,33 @@ Setting `$051B=1` before calling `$D014` still jams at `$C012`; `$0511/$0512`,
 Next: break at `$C1E5` from the stub, capture its entry registers and stack, and
 compare with the stock field transition. Then either satisfy its exit condition
 or call `$C1E5` directly from the fixed stub with the stock state.
+
+## Round 21 — stock reaches D02A, stub does not
+
+Stock `$D02A` entry (frame 2329):
+
+```
+A=$80  X=$04  Y=$06  S=$FB
+$27=04  $047B=02
+$0511/$0512=0000
+$0023/$0024=08 1D
+```
+
+Stub (`$D014` from fixed bank) with the same handoff/state:
+
+```
+PC=$C012  (jammed)
+$D02A never reached
+```
+
+So the divergence is **before** the bank-6 switch, inside `$D014`'s first
+`JSR $AF12` path. In stock, `$C1E5` is a non-returning scene handoff at that
+point; in the stub it returns and execution falls through `$AF1D` data into
+`$C012`.
+
+`$C1E5` is not field-specific: an earlier stock hit occurred at `$047B=$11`,
+`$051B=$FF`. Its return behavior depends on caller state, not a single flag.
+
+Next: break at `$AF12` **from `$D014` in stock**, capture `$051B`, `$047B`,
+`$23/$24`, registers and stack at that exact call, then reproduce those at the
+stub. That is the last state delta before the field switch.
