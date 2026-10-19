@@ -32,6 +32,7 @@ def build_list(teams):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
+    ap.add_argument("--loop-to", type=lambda s: int(s, 0))
     ap.add_argument("-o", "--out", default="build/bracket-screen.nes")
     args = ap.parse_args()
 
@@ -65,7 +66,7 @@ def main():
         0x4C, 0x00, 0x80,
     ])
     code = bytearray(code)
-    loop = 0x8000 + len(code) - 3
+    loop = args.loop_to if args.loop_to is not None else 0x8000 + len(code) - 3
     code[-3:] = bytes([0x4C, loop & 0xFF, loop >> 8])
     code = bytes(code)
 
@@ -73,7 +74,8 @@ def main():
     rom[off:off + len(code)] = code
     codes = b"".join(t["code"].ljust(4).encode("ascii") for t in teams)
     rom[off + (CODES - 0x8000):off + (CODES - 0x8000) + len(codes)] = codes[:128]
-    pal = bytes([0x0F, 0x30, 0x16, 0x12] + [0] * 28)
+    pal = bytes([0x0F, 0x30, 0x16, 0x12] + [0] * 12 +
+                [0x0F, 0x30, 0x16, 0x12] + [0] * 12)
     rom[off + (PALETTE - 0x8000):off + (PALETTE - 0x8000) + 32] = pal
     rom[off + (LIST - 0x8000):off + (LIST - 0x8000) + len(listing)] = listing
 
