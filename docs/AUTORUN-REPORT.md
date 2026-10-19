@@ -896,3 +896,29 @@ scenes from the bracket. Instead **register the bracket as a stock scene**:
    its normal password/matchup/field chain.
 
 This is the only path that preserves every caller frame by construction.
+
+## Round 37 — scene-15 registration attempt jams
+
+Tried registering an unused scene for the bracket:
+
+```
+$CCAC[7] = 11          ; scene $0F -> bank 11
+$CC52 + 2*15 = $8000   ; handler table entry
+reset -> $FF20 -> scene $0F, C1=$76 -> JMP $CC09
+```
+
+Boot jams at `$C002` instead of entering `$8000`.
+
+So the assumed table bases/entry offsets are wrong. We already know the decode
+for scene `$13` works:
+
+```
+$C232 pops $CC51
+Y = 2*scene+1
+table base = $CC51 + Y
+bank = $CCAC[scene>>1]
+```
+
+Next: use that exact formula to dump the real handler entries for scenes
+`$0E..$1F`, choose one that is genuinely unused, and register bank 11 + `$8000`
+using the measured base, not the guessed `$CC52`.
