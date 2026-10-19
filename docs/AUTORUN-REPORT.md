@@ -1080,3 +1080,30 @@ Therefore the crash is inside `$98D5` before its RTS, not from the restored
 return frame. Next: break at the four RTS sites in `$98D5` (`$992A`, `$9939`,
 `$993C`, `$994E`) and see which is reached, or capture the first bad PC after
 `$98E1`.
+
+## Round 44 — shadow fixed, saved frame correct, RTS still pops $0200
+
+NMI-safe serial trampolines now also maintain the `$27` shadow:
+
+```
+FF20: save return, NMI off, map bank11, $27=11, JMP $8000
+FF60: NMI off, map bank5, $27=5, restore $33/$34,
+      push saved return, NMI on, JMP $98BD
+```
+
+At the crash:
+
+```
+$27        = 05
+$07F8/F9   = 13 CC  ($CC13)
+$047B      = 12
+PC         = $0200
+```
+
+So bank mapping and the saved frame are both correct, yet the eventual RTS
+returns to `$0200`. The remaining suspect is a second, unbalanced frame pushed
+inside `$98D5` (its JSRs at `$992B/$993D`).
+
+Next: break at each `$98D5` RTS (`$992A`, `$9939`, `$993C`, `$994E`) and capture
+S plus the top four stack bytes at the first hit. That will show which frame is
+one byte off.
