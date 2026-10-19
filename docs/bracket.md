@@ -94,7 +94,7 @@ no state format and cannot play a 32-team bracket yet.
 
 ## Applied: PRG-RAM state
 
-`tools/build_32bracket.py` (default mode) now:
+`tools/build_32bracket.py --state` now:
 
 - seeds fixed `$FD00` with 32 bytes `0..31`;
 - rewrites init at `$9B5F` to copy seeds to `$6800` and zero `$6840` (32 losses);
@@ -110,9 +110,10 @@ round=4 advance returns at $9BC0 in 97 steps
 champion slot 62 = 0
 ```
 
-The ROM also boots to the title screen. Entry is not wired: the stock
-team-select/password flow still seeds the old 16-team format, and the rewritten
-init ignores that seed and starts from `0..31`.
+The ROM also boots to the title screen. This state patch is **opt-in**
+(`--state`), because the rewritten init ignores the stock 16-team seed. The
+default build only relocates the table and is safe for normal play. Entry is not
+wired: the stock team-select/password flow still seeds the old 16-team format.
 
 ## Next: state format
 

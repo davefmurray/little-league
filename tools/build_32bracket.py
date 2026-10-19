@@ -52,7 +52,8 @@ def fixed_off(addr):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
-    ap.add_argument("--table-only", action="store_true")
+    ap.add_argument("--state", action="store_true",
+                    help="also install the experimental 32-team PRG-RAM state")
     ap.add_argument("-o", "--out", default="build/32bracket.nes")
     args = ap.parse_args()
 
@@ -66,7 +67,7 @@ def main():
     rom[bank5_off(DISPLAY_OPERAND):bank5_off(DISPLAY_OPERAND) + 2] = \
         (TABLE + 2).to_bytes(2, "little")
 
-    if not args.table_only:
+    if args.state:
         rom[fixed_off(SEED):fixed_off(SEED) + 32] = bytes(range(32))
 
         # LDX #0 / LDA seed,X / STA slots,X / LDA #0 / STA losses,X / INX /
@@ -90,7 +91,7 @@ def main():
         rom[bank5_off(0x9C12):bank5_off(0x9C12) + 2] = (SLOTS + 1).to_bytes(2, "little")
 
     open(args.out, "wb").write(rom)
-    mode = "table only" if args.table_only else "table + PRG-RAM state"
+    mode = "table + PRG-RAM state" if args.state else "table only (safe default)"
     print(f"wrote {args.out}: {mode}; seed ${SEED:04X}, slots ${SLOTS:04X}, "
           f"losses ${LOSSES:04X}")
 

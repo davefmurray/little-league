@@ -75,7 +75,8 @@ section to five items or fewer.
 - [x] **Bracket table relocation.** 31 records at fixed `$FC00`; readers
       repointed; ROM boots.
 - [x] **32-team bracket state.** Seeds `$FD00`, slots `$6800`, losses `$6840`;
-      init/advance/display patched. CPU-validated through five rounds.
+      init/advance/display patched. CPU-validated through five rounds. Opt-in
+      via `--state` so the default build keeps the stock seed path.
 - [ ] **Wire bracket entry.** Feed 32 teams from the selector/password and enter
       the bracket screen; today the stock flow still seeds 16.
 - [ ] **Passwords.** Locate encode/decode; extend to 32 teams.
