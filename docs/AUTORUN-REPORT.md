@@ -247,3 +247,30 @@ but it renders garbled field/text tiles: CHR and the team pointers
 
 Next probe: freeze the stock field state, diff full RAM against this scene-3
 state, and set the missing pre-match fields before entering `$CC09`.
+
+## Round 13 — probe 1: aligned diff (negative result)
+
+A naive 300-frame field-vs-hack diff was meaningless (1178 system bytes, wholly
+different phases). Aligned instead on the exact `$047B=3` write.
+
+Stock at that instant:
+
+```
+$047B=03  $047A=04  $C1=$76
+$04EF=0B 06 (Mexico/California)
+$0023=08 08   $0511=0000
+```
+
+Hack (`bracket-scene2`) after A:
+
+```
+$047B=02  $047A=$FF
+PC=$C002  (executing the data table at $C000, not code)
+```
+
+The hack **never reaches scene 3**. Its garbled screen was stale scene-2
+rendering; the `JMP $CC09` path crashes into `$C000` data. Also, `$D014` is not
+the scene-3 handler: breaking there hit while `$047B` was still 2.
+
+Probe 1 outcome: no meaningful byte diff is possible until the `$CC09` entry is
+fixed. That is the next blocker, not CHR or team pointers.
