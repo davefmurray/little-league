@@ -1034,3 +1034,25 @@ failure is inside `$98BD`/`$98D5`, not the hook.
 
 Next: break at `$98BD`, capture `$27`, `$A8/$A9`, `$33`, S and step into
 `$98D5` to find the bad access.
+
+## Round 42 — corrected hook reaches 98BD but INC not reached
+
+With the corrected entry:
+
+```
+$98B7 .byte 00 / DEY
+$98B9 LDA $33   <- hooked
+$98BB STA $34
+$98BD JSR $98D5
+```
+
+The bracket A resume lands at `$98BD` with bank 5, `$33=$EB`, `S=$FD`.
+`$98D5` returns to `$98C0`, and execution reaches `$98CC`.
+
+But `$047B` remains `$12`; the `INC $047B` at `$98D1` is not being executed.
+`stepInstructions` reports PCs on operand bytes (`$98C3`, `$98C6`, `$98CF`),
+so the tool trace is misaligned under this path and cannot be trusted.
+
+Next: use free-running `traceInstructions` for the frame, not single-step, and
+capture the stack at `$98D4` (RTS) to see whether the routine is returning early
+or falling through.
