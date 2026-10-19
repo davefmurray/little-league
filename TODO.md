@@ -64,12 +64,13 @@ M3 logic port to bank 11.
       re-enters the stock scene-18 body. Password → matchup → speed mode →
       cutscene → field verified, `S=$FF`, regression green. See
       `docs/LAUNCH-DEBUG-LOG.md`; build with `tools/build_launch_bridge.py`.
-- [ ] **Team handoff through the bridge.** The field teams come from
-      `$0650`, which `$98D5`/`$992B` build from the fixed 16-value table
-      `$994F` rotated by `$04` — not from `$04EF/$04F0`, `$7700` or `$33/$34`.
-      Replacing that generator with the 32-team `$7700` array is the same
-      work as the 32-team password format (`$0650` is a permutation of
-      teams 0–15 today).
+- [x] **Team handoff through the bridge.** `$FF60` copies `$7700[0..15]`
+      into `$0650` and repacks `$074D`; `$9C00` reads
+      `$0650[$8941[3*$0746]]` into `$04EF/$04F0`. Field now shows the
+      bracket's first-round pair (JAPAN vs ARI).
+- [ ] **True 32-slot tournament.** `$8941`/`$0746` still describe the stock
+      16-team / 15-match bracket; port the 32-slot state from
+      `tools/build_32bracket.py` (`--state`).
 - [ ] **On-demand roster cache for teams 16–31.** Boot caches only 0–15.
       Add copy hooks at team-select confirm, player card and game load; copy
       `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.

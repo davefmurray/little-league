@@ -270,3 +270,49 @@ That is why the bracket pick (and the team-name conversion tried earlier) does
 not reach the field. Making the launched game use the bracket's teams requires
 replacing this password/seed generator with the 32-team `$7700` array — i.e.
 the "Password format for 32 teams / 5 rounds" milestone, not a launch fix.
+
+---
+
+# Session 3 — team handoff (loops 13+)
+
+## Loop 13 — `$0650` is the team source; seed it from `$7700`
+
+`$9C00` (scene 19 substate 2) is the real handoff:
+
+```
+$9C00 LDA $0746          ; match index
+$9C03 ASL A / ADC $0746  ; 3*$0746
+$9C07 TAX
+$9C08 LDY $8941,X        ; bracket slot table
+$9C0B LDA $0650,Y        ; team
+$9C0E STA $04EF
+$9C11 LDA $0651,Y        ; opponent
+$9C14 STA $04F0
+```
+
+So the field teams are `$0650[$8941[3*match]]`/`+1`. `$0650` was built by
+`$98D5` → `$992B` from the fixed table `$994F`, which is why nothing we wrote
+to `$33/$34`, `$04EF/$04F0` or `$7700` reached the field.
+
+Fix: a new fixed-bank routine `$FF60` (`TEAMSETUP`) replaces `JSR $98D5` in
+the trampoline. It copies `$7700[0..15]` straight into `$0650` (and sets
+`$064F=$FF`), then rebuilds the packed `$074D..$0754` pairs with the stock
+packing loop.
+
+Result, production field:
+
+```
+$04EF/$04F0 = 00 01        (bracket slot 0 vs slot 1)
+$0650       = 00 01 .. 0f  (the bracket seed)
+$074D       = 01 23 45 67 89 ab cd ef
+field       = JAPAN vs ARI  (screenshot)
+```
+
+That is the bracket's first-round pairing on the field. The harness build
+(`--stock-flow`) still launches, but its `$07C3` is `$FF`, so `$7700[0]=$FF`
+and the harness field teams are garbage — expected: `$07C3` is a selector
+variable that path never sets.
+
+Limits: this maps the **first 16 bracket slots** into the stock 16-team
+tournament. A real 32-team tournament (32 slots, 5 rounds, new `$8941`/state)
+is still the larger milestone; the first match now matches the bracket.

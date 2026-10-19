@@ -94,11 +94,46 @@ TRAMPOLINE = bytes([
                             #                    path does not, and scene 15
                             #                    then skips its lineup init and
                             #                    stalls on the order screen.
-    0x20, 0xD5, 0x98,       # JSR $98D5          password buffer (needs NMI)
+    0x20, 0x60, 0xFF,       # JSR $FF60          seed the 16-team tournament
+                            #                    buffer from the bracket's
+                            #                    $7700 pair order (replaces the
+                            #                    stock $98D5 shuffle of $994F)
     0xA9, 0x00,             # LDA #$00
     0x85, 0x2C,             # STA $2C            release guard
     0x85, 0x2D,             # STA $2D            release guard
     0x4C, 0xC0, 0x98,       # JMP $98C0          resume scene-18 body
+])
+
+# $FF60: tournament seed buffer setup.
+#
+# The stock $98D5 fills $0650 with a permutation of the fixed 16-value table
+# $994F (rotated by $04 from $C46F + $F5), then packs pairs into $074D..$0754.
+# $9C00 later reads $0650[$8941[3*$0746]] / +1 into $04EF/$04F0, so the field
+# teams come from $0650 -- not from $7700 or the bracket pick.
+#
+# Copy the bracket's first 16 seeds straight into $0650 and rebuild the packed
+# form, so the first-round matchup is the bracket's slot 0 vs slot 1.
+TEAMSETUP_ADDR = 0xFF60
+TEAMSETUP = bytes([
+    0xA9, 0xFF,             # LDA #$FF
+    0x8D, 0x4F, 0x06,       # STA $064F          terminator byte
+    0xA2, 0x0F,             # LDX #$0F
+    0xBD, 0x00, 0x77,       # LDA $7700,X        copy: $7700[0..15] -> $0650
+    0x9D, 0x50, 0x06,       # STA $0650,X
+    0xCA,                   # DEX
+    0x10, 0xF7,             # BPL copy
+    0xA2, 0x00,             # LDX #$00
+    0xA0, 0x00,             # LDY #$00
+    0xBD, 0x50, 0x06,       # LDA $0650,X        pack: 8 bytes -> $074D
+    0x0A, 0x0A, 0x0A, 0x0A, # ASL A x4
+    0xE8,                   # INX
+    0x1D, 0x50, 0x06,       # ORA $0650,X
+    0x99, 0x4D, 0x07,       # STA $074D,Y
+    0xC8,                   # INY
+    0xE8,                   # INX
+    0xC0, 0x08,             # CPY #$08
+    0xD0, 0xEC,             # BNE pack
+    0x60,                   # RTS
 ])
 
 
@@ -145,6 +180,14 @@ def main():
             f"fixed-bank ${TRAMPOLINE_ADDR:04X} is not free: {old.hex(' ')}")
     rom[off:off + len(TRAMPOLINE)] = TRAMPOLINE
     print(f"fixed ${TRAMPOLINE_ADDR:04X}: {len(TRAMPOLINE)} bytes trampoline")
+
+    off = bank_off(FIXED, TEAMSETUP_ADDR, 0xC000)
+    old = bytes(rom[off:off + len(TEAMSETUP)])
+    if old.count(0xFF) != len(old):
+        raise SystemExit(
+            f"fixed-bank ${TEAMSETUP_ADDR:04X} is not free: {old.hex(' ')}")
+    rom[off:off + len(TEAMSETUP)] = TEAMSETUP
+    print(f"fixed ${TEAMSETUP_ADDR:04X}: {len(TEAMSETUP)} bytes team setup")
 
     open(args.out, "wb").write(rom)
     print(f"wrote {args.out}")

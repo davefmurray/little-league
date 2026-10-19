@@ -63,7 +63,10 @@ Build outputs are gitignored.
 | Address | Meaning |
 |---|---|
 | `$07C3` | selected team (`$FF` = selector, otherwise team id) |
-| `$04EF/$04F0` | team IDs written by the bracket (currently slot indices) |
+| `$04EF/$04F0` | matchup team IDs, set at `$9C00` from `$0650[$8941[...]]` |
+| `$0650-$065F` | 16-team tournament buffer (seeded by `$FF60` from `$7700`) |
+| `$074D-$0754` | packed password bytes, rebuilt by `$FF60` |
+| `$0522` | lineup-init flag: `$FF` at boot, cleared by the stock team select |
 | `$33/$34` | team ids used by the password/game path |
 | `$047B` | scene id |
 | `$047C` | scene sub-state / sub-handler index |
@@ -94,7 +97,10 @@ Build outputs are gitignored.
   handler is tail-jumped, so the stock caller's frame stays on the stack.
 - Fixed bank `$FF20` (59 bytes, listed in the log): assert `$2C/$2D`, NMI
   off, bank 11, `JSR $8000` (bracket), bank 5, `$AD=$1E`, NMI on, `$047B=$12`,
-  `$0522=0`, `JSR $98D5`, release guards, `JMP $98C0`.
+  `$0522=0`, `JSR $FF60`, release guards, `JMP $98C0`.
+- Fixed bank `$FF60` (`TEAMSETUP`): `$064F=$FF`, `$7700[0..15] -> $0650`,
+  repack `$074D..$0754`. This is what makes the field teams match the
+  bracket's first-round pair.
 - The bracket is built with `--return-on-a`, so its A handler ends in `RTS`.
 
 Production entry: the selector's A handler waits for release, drops the
@@ -118,11 +124,12 @@ stock: `S=$FF` at the main loop after the resume.
 
 ## 6. What is still open
 
-1. **Team handoff / data.** Both launch paths reach the field, but the teams
-   shown at the field do not match the bracket pick (the stock password path
-   recomputes them; `$04EF/$04F0` are written as slot indices). Make the
-   bracket write real team ids from `$7700` and set `$33/$34`; the password
-   format (`$994F`, 16 slots) also needs extending for a 32-team tournament.
+1. **Full 32-team tournament state.** The first-round matchup now matches the
+   bracket: `$FF60` copies `$7700[0..15]` into `$0650`, and `$9C00` reads
+   `$0650[$8941[3*$0746]]`. But the stock game still runs a 16-team / 15-match
+   bracket (`$8941`, `$0746`). A true 32-slot, 5-round tournament needs that
+   table and the advance/display logic ported (the `--state` work in
+   `tools/build_32bracket.py` is the starting point).
 2. **Password format** is still the stock 16-slot table (`$994F`); the
    32-team tournament state is not encoded.
 3. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
