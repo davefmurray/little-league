@@ -17,8 +17,9 @@ Full plan: `docs/PLAN-32-TEAM.md` (Fable 5.1, repo-verified).
 The `--state` bracket patch is now a **reference implementation**, not the
 shipped path. No more reset-vector hacks.
 
-Next action: **M2 handoff contract** — trace `$9BC1` → `$9C42`, log stores to
-`$04xx/$06xx/$07xx`, and document how the game loader receives the two teams.
+M2 handoff contract documented in `docs/bracket-handoff.md`: `$04EF/$04F0` are
+the two team ids; `$04EB/$04EC` alive; `$074B/$074C` results. Remaining: in-game
+poke test, then M1 dispatcher.
 
 ## Status snapshot
 

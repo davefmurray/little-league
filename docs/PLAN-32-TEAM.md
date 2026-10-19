@@ -74,9 +74,9 @@ table order. Password seeding is deferred to M5.
 with `$07C3=5` preset, PC reaches bank 11 `$8000`, `$27=11`, NMI still toggles
 `$047D`. Do not claim bracket entry yet.
 
-**M2 — Handoff contract.** Disassemble the game loader. Test: poke two team IDs
-from the debugger after title, confirm a game starts between them. Write
-`docs/bracket-handoff.md`.
+**M2 — Handoff contract.** Documented in `docs/bracket-handoff.md`: team ids
+`$04EF/$04F0`, alive flags `$04EB/$04EC`, 16-bit results `$074B/$074C`.
+Remaining acceptance: poke two ids from the debugger and confirm a match starts.
 
 **M3 — Bracket logic only.** Port advance/display loops into bank 11 using
 `$7700` state. Test: py65 replay of 31 matches, champion at slot 62, losses sum
