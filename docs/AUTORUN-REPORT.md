@@ -1155,3 +1155,24 @@ So the crash is in the **scene-13 handler execution after `$CC0E`**, not the
 password generator or the saved frame. The next branch of work is to trace the
 first 200 instructions from `$CC0E` and identify the handler that jumps into
 data.
+
+## Round 47 — NMI storm before FF60 fixed
+
+At `$FF60` after END, single-step showed:
+
+```
+FF62 -> CD86 (NMI)
+S: $FF -> $99
+```
+
+The bracket auto-resume code enabled NMI (`LDA #$80; STA $2000`) immediately
+before `JMP $FF60`. That triggered an NMI storm and pushed 99 bytes onto the
+stack before the trampoline could disable it.
+
+Removed the NMI enable from the auto-resume path. The storm is gone.
+
+Remaining: scene 13 is set (`$047B=$13`), NMI stays off, `S=$FF`, but execution
+still reaches `$C002`.
+
+Next: trace from `$CC0E` **after** the NMI-enable removal (no storm now) and find
+the first handler jump into data.
