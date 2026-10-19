@@ -19,6 +19,10 @@ launch path; this file is the map, not the story.
   - the trampoline rebuilds the password buffer and re-enters the stock
     scene-18 body;
   - stock takes over: password screen → matchup → speed mode → cutscene → field.
+- **Selector → bracket → launch** in the production build: the selector's A
+  hands the stock dispatcher scene 18, the hook runs the bracket, and the same
+  bridge resumes. Reaches password/matchup/cutscene; the pre-game order screen
+  (scene 15) is the remaining gate (see §6).
 - Stock regression green:
 
 ```sh
@@ -37,16 +41,21 @@ BASE="Little League Baseball - Championship Series (USA).nes"
 python3 tools/build_dispatcher.py build/select-screen.nes -o build/dispatcher.nes
 .venv/bin/python tools/build_bracket_screen.py build/dispatcher.nes --loop-to 0x8100 -o build/bracket-screen.nes
 
-# launch bridge
+# launch bridge (production: selector -> bracket -> launch)
 .venv/bin/python tools/build_bracket_input.py build/bracket-screen.nes \
   --return-on-a -o build/bracket-launch-input.nes
+.venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
+  -o build/launch-prod.nes
+
+# harness build: stock team select -> END -> bracket -> launch
 .venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
   --stock-flow -o build/launch-stock.nes
 ```
 
 `--stock-flow` restores stock `$CC06` so the stock team-select path runs and
-END reaches `$98B9`; it is **test scaffolding**. Without it the bank-10 selector
-boots and the END hook is never hit.
+END reaches `$98B9`; it is **test scaffolding** and the path that verifiably
+reaches the field. Without it the bank-10 selector boots and its A hands off to
+the hooked scene 18.
 
 Build outputs are gitignored.
 
@@ -55,7 +64,7 @@ Build outputs are gitignored.
 | Address | Meaning |
 |---|---|
 | `$07C3` | selected team (`$FF` = selector, otherwise team id) |
-| `$04EF/$04F0` | raw team IDs written by the bracket |
+| `$04EF/$04F0` | team IDs written by the bracket (currently slot indices) |
 | `$33/$34` | team ids used by the password/game path |
 | `$047B` | scene id |
 | `$047C` | scene sub-state / sub-handler index |
@@ -83,12 +92,15 @@ Build outputs are gitignored.
 
 - Bank 5 `$98B9`: `4C 20 FF EA EA EA` (`JMP $FF20`; NOPs). The scene-18
   handler is tail-jumped, so the stock caller's frame stays on the stack.
-- Fixed bank `$FF20` (49 bytes, listed in the log): assert `$2C/$2D`, NMI off,
-  bank 11, `JSR $8000` (bracket), bank 5, `$AD=$1E`, NMI on, `JSR $98D5`,
-  release guards, `JMP $98C0`.
+- Fixed bank `$FF20` (54 bytes, listed in the log): assert `$2C/$2D`, NMI
+  off, bank 11, `JSR $8000` (bracket), bank 5, `$AD=$1E`, NMI on, `$047B=$12`,
+  `JSR $98D5`, release guards, `JMP $98C0`.
 - The bracket is built with `--return-on-a`, so its A handler ends in `RTS`.
 
-The stack is exactly stock: `S=$FF` at the main loop after the resume.
+Production entry: the selector's A handler waits for release, drops the
+`JSR $FF00` frame, sets `$047B=$12` and `JMP $CC09`, so the stock dispatcher
+calls the hooked scene-18 handler with a normal frame. The stack is exactly
+stock: `S=$FF` at the main loop after the resume.
 
 ## 5. The four root causes (short form)
 
@@ -106,16 +118,21 @@ The stack is exactly stock: `S=$FF` at the main loop after the resume.
 
 ## 6. What is still open
 
-1. **Production wiring.** The selector's A handler currently just redraws. It
-   must set `$07C3` and transfer to the bracket (bank 11), and the bracket's A
-   must fall into the same `$FF20` bridge. Today the bridge is reached through
-   the stock END path (`--stock-flow`).
-2. **Team handoff.** The bracket writes `$04EF/$04F0`, but the launched game's
-   teams come from `$33/$34` (the password path). Set `$33/$34` from the
-   bracket pick, and seed `$7700` from the selector's `$07C3`, so the field
-   teams match the bracket.
-3. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
-   selector flow it is the real pick.
+1. **Production pre-game order screen.** Selector → bracket → password →
+   matchup → speed mode → cutscene works, then the flow enters scene 15
+   (`$047B=$0F`) — the pre-game batting-order / lineup screen ("CHANGE
+   ORDERS"). It does not advance on A/B/START/SELECT in a quick sweep and the
+   player portraits are garbled. Likely a CHR-bank / scene-state difference
+   from the COM-vs-COM harness path, which reaches the field directly. This is
+   the next integration item; it is **not** a launch-bridge failure.
+2. **Team handoff.** The bracket writes `$04EF/$04F0` as *slot indices*, and
+   the stock password/matchup path recomputes the launched teams from the
+   password state. Make the bracket write real team ids from `$7700` (and set
+   `$33/$34`) once the order-screen path is understood.
+3. **Password format** is still the stock 16-slot table (`$994F`); the
+   32-team tournament state is not encoded.
+4. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
+   selector flow it is the real pick (0–31).
 
 ## 7. Dead ends — do not repeat
 

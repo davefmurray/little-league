@@ -162,3 +162,58 @@ FF4E 4C C0 98   JMP $98C0      resume scene-18 body
   selector's `$07C3`) so the launched game uses the bracket teams.
 - The `--stock-flow` patch (restoring stock `$CC06`) is test scaffolding, not
   the shipped wiring.
+
+---
+
+# Session 2 — production wiring (loops 8–10)
+
+## Loop 8 — selector → bracket → bridge
+
+The bank-10 selector's A handler only set `$07C3` and redrew. Wired it to the
+stock dispatcher instead of hardwiring `$FF20`:
+
+```
+select:  ... STA $07C3; JMP launch
+launch:  wait for buttons released
+         PLA / PLA            ; drop the JSR $FF00 return frame
+         LDA #$12 / STA $047B ; scene 18 (the hooked handler)
+         JMP $CC09            ; stock main loop
+```
+
+This reuses the exact stock call path and stack: the main loop's
+`JSR $CC30` frame is the one the bridge's final `RTS` returns to. Verified:
+
+```
+selector A -> $047B=$12, $27=$0B, bracket input S=$F9 (inside JSR $817F)
+bracket A  -> $FF35 S=$FD -> $98D5 -> $98C0 RTS -> $CC14 S=$FF
+password   -> $047B=$13 $047C=$08
+```
+
+Bug hit on the way: `STA $047B` in the fixed-bank trampoline was assembled as
+`85 7B` (zero page $7B) instead of `8D 7B 04`; the scene stayed 0 and the
+password path advanced to scene 1. Absolute and zero-page forms are easy to
+confuse in hand-assembled bytes.
+
+## Loop 9 — the bracket inherited the selector's nametable
+
+In the stock flow the scene transition clears the screen, so the bracket looked
+clean. In the production flow the selector's tiles stayed on screen around the
+bracket's runs. Added a nametable clear at the top of the bracket init
+(`$2000-$23FF`, four 256-byte pages) — 25 bytes, no hardcoded branch offsets
+changed.
+
+## Loop 10 — production flow reaches the pre-game order screen
+
+Selector → bracket → password → matchup → speed mode → cutscene now works and
+ends at scene 15 (`$047B=$0F`) — the **pre-game batting-order / lineup screen**
+("CHANGE ORDERS"), which the stock COM-vs-COM harness flow skips. It does not
+advance on A/B/START/SELECT and the player portraits are garbled, so this is a
+new open item (CHR-bank/state or an input this sweep did not hit), not a launch
+bridge failure.
+
+Working harness path (stock END, `--stock-flow`) still reaches the field:
+
+```
+END -> bracket -> A -> password -> matchup -> speed mode -> cutscene -> field
+$047B = $03, $27 = $06, S = $FF
+```

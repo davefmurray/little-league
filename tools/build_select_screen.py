@@ -99,10 +99,10 @@ def assemble(lines, origin):
             branches.append((len(code), item[1]))
             code += bytes([{"BNE": 0xD0, "BPL": 0x10, "BCC": 0x90,
                             "BCS": 0xB0, "BEQ": 0xF0}[op], 0x00])
-        elif op in ("INX", "INY", "DEX", "DEY", "ASL", "LSR", "TAX", "TAY", "TYA", "SEC", "CLC", "SEI", "RTS"):
+        elif op in ("INX", "INY", "DEX", "DEY", "ASL", "LSR", "TAX", "TAY", "TYA", "SEC", "CLC", "SEI", "RTS", "PLA"):
             code.append({"INX": 0xE8, "INY": 0xC8, "DEX": 0xCA, "DEY": 0x88,
                          "ASL": 0x0A, "LSR": 0x4A, "TAX": 0xAA, "TAY": 0xA8, "TYA": 0x98, "SEC": 0x38,
-                         "CLC": 0x18, "SEI": 0x78, "RTS": 0x60}[op])
+                         "CLC": 0x18, "SEI": 0x78, "RTS": 0x60, "PLA": 0x68}[op])
         else:
             raise SystemExit(f"bad op {op}")
     for pos, label in branches:
@@ -146,7 +146,18 @@ def screen_code():
         ("JMP", "main"),
         "back:", ("LDA#", 0xFF), ("STA", SELECTED), ("JSR", "draw_page"), ("JMP", "release"),
         "select:", ("LDA", PAGE), ("ASL",), ("ASL",), ("ASL",),
-        ("CLC",), ("ADC", CURSOR), ("STA", SELECTED), ("JSR", "draw_page"), ("JMP", "release"),
+        ("CLC",), ("ADC", CURSOR), ("STA", SELECTED), ("JSR", "draw_page"),
+        ("JMP", "launch"),
+        # Wait for the buttons to clear, then hand control to the stock scene
+        # dispatcher with scene 19's predecessor (18 = the END/series-init
+        # handler) queued.  Scene 18's entry is where the launch bridge hooks
+        # in, so this reuses the stock call path and stack: no fixed-bank
+        # address is hardwired here, and a build without the bridge simply
+        # runs the stock series-init handler.
+        "launch:", ("JSR", "read_pad"), ("LDA", BUTTONS), ("BNE", "launch"),
+        ("PLA",), ("PLA",),   # discard the JSR $FF00 return frame
+        ("LDA#", 0x12), ("STA", 0x047B),
+        ("JMP", 0xCC09),
         "up:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCC", "release"),
         ("SEC",), ("SBC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
         "down:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCS", "release"),

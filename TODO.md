@@ -55,10 +55,10 @@ M3 logic port to bank 11.
 - [x] **Fix lineup parser.** 9 packed-nibble bytes per team at `$96CA`; decoded
       to order/position and round-tripped byte-identically.
 
-- [ ] **Integrate the selector into the game flow.** Replace the 16-team
-      list/map path with the bank-10 selector and pass the chosen team
-      (`$07C3`) into the bracket setup. The selector's A still just redraws;
-      wire selector → `$07C3` → bracket → `tools/build_launch_bridge.py`.
+- [~] **Integrate the selector into the game flow.** Selector A now sets
+      `$07C3`, hands the stock dispatcher scene 18 and the bridge runs the
+      bracket. Reaches password → matchup → cutscene; the pre-game order
+      screen (scene 15) does not advance yet — see `docs/HANDOFF.md` §6.
 - [x] **Bracket → game launch bridge.** `$98B9` (scene 18) tail-jumps to a
       fixed-bank trampoline that runs bank 11, rebuilds the password and
       re-enters the stock scene-18 body. Password → matchup → speed mode →

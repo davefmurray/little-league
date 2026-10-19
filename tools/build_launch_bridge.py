@@ -85,6 +85,8 @@ TRAMPOLINE = bytes([
                             #                    which only the NMI clears
     0xA5, 0x33,             # LDA $33
     0x85, 0x34,             # STA $34
+    0xA9, 0x12,             # LDA #$12
+    0x8D, 0x7B, 0x04,       # STA $047B          scene 18, so $98C0's INC -> 19
     0x20, 0xD5, 0x98,       # JSR $98D5          password buffer (needs NMI)
     0xA9, 0x00,             # LDA #$00
     0x85, 0x2C,             # STA $2C            release guard
