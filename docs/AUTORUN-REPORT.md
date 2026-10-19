@@ -351,3 +351,32 @@ routine that establishes bank-11-safe frames.
 
 Next: log every `JMP`/`RTS` target in the frame and identify the first target
 that assumes bank 5, then either remap that pointer or preserve bank 5.
+
+## Round 16 — $9F0B is valid bank-5 code
+
+Disassembly of bank 5 at `$9F0B`:
+
+```
+9F09  LDX #$E6
+9F0B  STX $0201
+9F0E  INX
+9F0F  STX $0205
+9F12  INX
+9F13  STX $0209
+9F16  INX
+9F17  STX $020D
+9F1A  RTS
+```
+
+It is a legitimate OAM/sprite routine, not data. With bank 11 mapped, the same
+address is bank-11 data — hence the runaway to `$BFFF`/`$C002`.
+
+Bank-5 mapping via a fixed trampoline (`$FF20`, five `STA $E000` writes):
+
+- **without NMI**: PC waits cleanly at `$CC09` (no jam)
+- **with NMI**: jams again at `$C002`
+- **bank 5 + `$047D=0` + `JMP $CC0E`**: jams again
+
+So this is a **bank switch under a bank-5-resident call**, not a corrupt return
+address. The next probe is to log the fifth MMC1 PRG write during the field
+transition and find which code switches away from bank 5 while PC is inside it.
