@@ -95,3 +95,46 @@ start, and/or widen the stock probe to the bracket screen.
 
 romdev note: its NES framebuffer is 256x224 (8 px cropped top/bottom), which is
 why the first bracket row looked missing in the browser harness too.
+
+## Stock owner found (Phase 0, romdev + xrefs)
+
+Static references to `$04EF` include 52 sites. The writers are:
+
+| Bank | Address | Instruction | Role |
+|---|---|---|---|
+| 0 | `$AD1B` | `STA $04EF` | **owner**, derives from `$33` |
+| 0 | `$AD22` | `STA $04F0` | owner, from `JSR $C46F` |
+| 0 | `$AD2B` | `STA $04F0` | owner, XOR with `$33 & 1` |
+| 1 | `$B119` | `STX $04EF` | swaps `$04EF/$04F0` (home/away) |
+| 2 | `$BC8C` | `STA $04EF,X` | copies from table `$B8C9` |
+| 5 | `$9C0E/$9C14` | `STA $04EF/$04F0` | bracket display path |
+
+The bank-0 routine:
+
+```
+$AD15  LDA $33
+$AD17  PHA
+$AD18  AND #$1C
+$AD1A  LSR A
+$AD1B  STA $04EF
+$AD1E  JSR $C46F
+$AD21  ASL A
+$AD22  STA $04F0
+$AD25  PLA
+$AD26  AND #$01
+$AD28  EOR $04F0
+$AD2B  STA $04F0
+$AD2E  LDA #$08
+$AD30  STA $047B
+$AD33  RTS
+```
+
+**This invalidates the simple contract.** `$04EF/$04F0` are not raw team
+ids; they are derived from game-state `$33` and `$C46F`. Our bracket A-handler
+writing raw 0..31 is likely the wrong value domain. Phase 1 must either:
+
+- compute these the same way stock does from the selected teams, or
+- find the upstream owner of `$33`/`$C46F` and set that instead.
+
+Next probe: log `$33`, `$C46F` return, and `$04EF/$04F0` at the stock
+game-start transition, then at the same point in our bracket build.
