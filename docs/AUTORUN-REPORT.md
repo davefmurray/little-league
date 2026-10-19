@@ -551,3 +551,30 @@ Next architecture: stop calling internal field blocks. Either
    stock build its own chain, or
 2. patch the two selected team ids into the stock password/matchup path and let
    it run to the field normally.
+
+## Round 23 — poked IDs are honored by the field (GREEN)
+
+At the stock matchup screen (Mexico vs California), poked:
+
+```
+$04EF = $0F  (Florida)
+$04F0 = $00  (Japan)
+```
+
+then ran A -> mode -> down+A -> cutscene. The resulting field shows:
+
+```
+FLO  0
+JAPAN 0
+```
+
+with Japanese player names (`ESAKA`, `DON`). Stock fully honors the poked team
+IDs. This validates the “patch IDs, reuse stock flow” architecture.
+
+Attempting to enter scene `$047B=$11` directly from the bracket sets the scene
+and `$C1=$76`, and bank-4 code starts (`$AF9D JSR $AA00`), but the PPU stays on
+the bracket frame and the PC freezes at `$AF9D`. The scene expects the stock
+password/matchup transition setup, not a cold scene poke.
+
+Next: enter the matchup scene through the stock **password screen** path (or
+initialize its PPU/CHR/transition state), then let it run with poked IDs.
