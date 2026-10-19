@@ -83,10 +83,10 @@ Remaining acceptance: poke two ids from the debugger and confirm a match starts.
 `$7700` state. Test: py65 replay of 31 matches, champion at slot 62, wins sum
 to 31, and no writes to `$0650-$068F` from bank 11.
 
-**M4 — Bracket screen.** Four columns of eight, five round labels, Koushien
-layout, text-only first. Test: screenshots at round 0 and round 4; A launches a
-game via the M2 contract; winner advances and screen redraws. Only now claim
-“32-team tournament playable.”
+**M4 — Bracket screen (partial).** `tools/build_bracket_screen.py` renders 32
+codes in four columns of eight in bank 11 (`docs/bracket-screen.png`). Still
+missing: header row, round labels, cursor, and A → `$04EF/$04F0` handoff. Do not
+claim playable yet.
 
 **M5 — Password.** Encode seed order (32×5 bits) + wins (32×3 bits) + round +
 checksum. Test: 100 random round-trips in Python, then 3 in-ROM states.
