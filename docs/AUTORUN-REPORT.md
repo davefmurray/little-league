@@ -39,3 +39,22 @@ scene. This is not the launch entry. Parked under the 30-minute rule.
 ## Regression
 
 Stock ROM untouched; default build remains table-only. No red regression left.
+
+## Round 3 — PRG RAM investigation (partial)
+
+- iNES header byte 8 (PRG RAM size) is `0`. Patching it to `1` (8 KiB) did **not**
+  change behavior in fceumm.
+- Bank-11 seed logic passes in py65 with the human copied to `$07CA` instead of
+  zero-page `$02` (which stock code clobbers): human 15 → slot 0, all 32 unique.
+- In-ROM seed at `$8200` still corrupts: `$7702` stays `FF`, values after it
+  shift, and a manual `cpu call` to the seed leaves the slots untouched even
+  after `$C11C` CHR0=0. Cart RAM region writes via romdev work, so the mapper
+  write path is the suspect, not the array.
+- Screen integration reverted; no broken build committed.
+
+### Next probe
+
+Watch CPU writes to `$7700` in romdev during the seed (`breakpoint on:write`),
+and log the MMC1 CHR0 value at the same instant. If writes are dropped, test
+SNROM PRG-RAM enable semantics or move bracket state into system RAM until the
+board behavior is understood.
