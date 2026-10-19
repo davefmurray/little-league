@@ -189,6 +189,7 @@ tools/
   harness.html        jsnes browser test harness
   debugger.html       ROM debugger: regs, watches, OAM, write log
   tbl.py              text encode/decode/scan
+  write_flags.py      swap/repoint team flag records
   rominfo.py          cartridge report
   trace.py            6502 trace
   serve.py            local + Railway server

@@ -152,3 +152,15 @@ Re-extracting the mutated ROM returns the new values.
 - Editing pitcher records (read-only trailer copy today).
 - Editable flags (extraction works; write path does not).
 - Bracket tables, passwords, short-name pointer table details.
+
+
+## Editing support
+
+- **Pitchers:** `roster.py pitchers(t)` / `set_pitchers(t, records)` write the
+  three 8-byte records at `base + 0xF0 + 0x18`. Round-trip is byte-identical;
+  changing stamina/skill touches only the expected bytes.
+- **Flags:** `tools/write_flags.py --swap A B` or `--set TEAM OFFSET` edits the
+  `$975A` offset table. Swapping Japan (`0x00`) and Korea (`0x30`) swaps the
+  rendered flags, confirmed by re-extraction.
+- Flags recorded at offset `$48` are shared: repointing or rewriting one affects
+  every team using that record (all USA-flag teams).

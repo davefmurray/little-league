@@ -60,6 +60,17 @@ section to five items or fewer.
       and screen. Koushien reference captured in `docs/koushien-bracket.md`.
 - [ ] **Password format** for 32 teams / 5 rounds.
 
+## Data-map completion (in progress)
+
+- [ ] **Player attribute semantics in-game.** Prove byte 9 = power, byte 10 =
+      speed, byte 11 = printed Skill by editing one player and reading the card.
+- [x] **Pitcher record editing.** `roster.py` reads/writes the three 8-byte
+      records; round-trip identical, mutation hits only `+0x109`/`+0x10E`.
+- [~] **Flag writing.** `tools/write_flags.py` swaps/repoints the `$975A` table;
+      verified by swapping Japan/Korea. PNG tile import still to do.
+- [ ] **Bracket tables and passwords.** Locate the 16-team bracket slots and
+      password encode/decode, then extend to 32.
+
 ## Next (P1)
 
 - [x] **Text table.** `data/llbcs.tbl` + `tools/tbl.py`; verified team/menu

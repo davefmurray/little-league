@@ -20,7 +20,8 @@ import argparse
 import json
 import sys
 
-from llbcs_map import (TEAM_BASES, COLOR_PRIMARY, COLOR_SECONDARY, LINEUPS)
+from llbcs_map import (TEAM_BASES, COLOR_PRIMARY, COLOR_SECONDARY,
+                       LINEUPS, TRAILER, PITCHERS_AT)
 
 HEADER = 16
 BANK = 16384
@@ -164,6 +165,18 @@ class Rom:
             out.append((order << 4) | pos)
         self.put(4, LINEUPS + t * 9, bytes(out))
 
+    # --- pitchers -------------------------------------------------------
+    def pitchers(self, t):
+        base = TEAM_BASES[t] + TRAILER + PITCHERS_AT
+        raw = self.get(4, base, 24)
+        return [list(raw[i * 8:(i + 1) * 8]) for i in range(3)]
+
+    def set_pitchers(self, t, records):
+        if len(records) != 3 or any(len(r) != 8 for r in records):
+            raise ValueError("need 3 pitcher records of 8 bytes")
+        base = TEAM_BASES[t] + TRAILER + PITCHERS_AT
+        self.put(4, base, bytes(b for r in records for b in r))
+
     # --- players --------------------------------------------------------
     def players(self, t):
         out = []
@@ -202,6 +215,7 @@ def extract(rom):
                 "ratings": rom.ratings()[t],
                 "colors": rom.colors(t),
                 "lineup": rom.lineup(t),
+                "pitchers": rom.pitchers(t),
                 "players": rom.players(t),
             }
             for t in range(TEAMS)
@@ -224,6 +238,8 @@ def apply(rom, doc):
             rom.set_colors(t, team["colors"]["primary"], team["colors"]["secondary"])
         if team.get("lineup"):
             rom.set_lineup(t, team["lineup"])
+        if team.get("pitchers"):
+            rom.set_pitchers(t, team["pitchers"])
         players = team.get("players", [])
         if len(players) != PLAYERS:
             raise SystemExit(f"team {t}: expected {PLAYERS} players, found {len(players)}")
