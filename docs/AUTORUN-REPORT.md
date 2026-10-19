@@ -151,3 +151,18 @@ this test.
 Attempted to force the stock bracket screen from the `$CBE6` hook
 (`$C1|=2`, `$047C=0`, bank5 `$9BC1`); it stayed black. Parked; that scene needs
 more state than a post-init jump provides.
+
+## Round 9 — resume path enters a baseball scene (partial)
+
+After writing `$04EF/$04F0` and setting `$C1` bit 1, jumping to `$CBE9` (the
+instruction after the `$CBE6` hook) enters a baseball scene instead of the
+bracket: green field tiles, blue dots, a player sprite, PC in bank 6. The scene
+is visually broken because stock scene init (CHR/PPU/nametable) was skipped by
+the hook.
+
+This is the first confirmed path from bracket input into game code. Next probe:
+compare `$2000`, CHR0/CHR1, `$C1`, `$047C`, `$0746`, and PPU mask at the same
+frame in stock game start vs this resume path; replicate the missing init before
+`JMP $CBE9`.
+
+Experimental handler reverted; default A behavior unchanged.
