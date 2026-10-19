@@ -19,10 +19,12 @@ def run(addr, text):
 
 def build_list(teams):
     out = bytearray()
-    out += run(0x2008, "32 TEAM BRACKET")
+    labels = "R32   R16   QF    SF    F".ljust(32)
+    out += run(0x2048, labels)
+    out += run(0x2068, "32 TEAM BRACKET")
     for i, t in enumerate(teams):
         col = i % 4
-        row = 4 + (i // 4) * 2
+        row = 5 + (i // 4) * 2
         out += run(0x2000 + row * 32 + 1 + col * 8, t["code"])
     return bytes(out)
 
