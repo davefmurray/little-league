@@ -729,3 +729,28 @@ Next definitive probe: break at `$C232` with `$047B=$13` during the **stock**
 password screen, single-step the dispatcher, and record the exact popped table
 address and JMP target. That names the real scene-13 handler instead of guessing
 from table layout.
+
+## Round 30 — real scene-13 handler decoded: $995F
+
+Broke at `$C246` during the stock password screen:
+
+```
+A=$13  Y=$28  $35/$36 = 5F 99
+target = $995F   (bank 2)
+```
+
+So scene 13 is handled by **`$995F`**, not `$B9C0` (that is team select).
+
+Calling `$995F` from a fixed bank-2 stub:
+
+- no jam, PC returns to main loop
+- renders the Little League Pledge screen
+- A advances to the 50th Anniversary screen
+- A advances to the title screen
+
+This is the first successful stock-scene call from the bracket. It proves the
+method: **correct handler + correct bank = working scene**.
+
+The password screen also reports `$047B=$13`, so it is a **sub-state** of the
+same handler, not a different scene. Next: diff the intro/password sub-state
+variables and drive `$995F` directly to the password/matchup branch.
