@@ -801,3 +801,20 @@ it, or the stock password path uses a different call context entirely.
 Next: find the routine that writes the password text. Break on writes to the
 display list / `$06B5` text buffer during the password screen, capture its
 caller, and identify the actual overlay entry point.
+
+## Round 33 — password text is RAM-driven
+
+Break on writes to `$06B5` at password entry:
+
+```
+pc=$C835  A='B'  X=0  Y=0
+$A8/$A9 = $0651
+```
+
+`$C835` copies from `($A8),Y` into `$06B5` until `$FF`. The source is **RAM
+`$0651`**, not a ROM string. So the password screen is built from a decoded
+in-RAM buffer, confirming it is an overlay/data path rather than a scene.
+
+Next: find who fills `$0650/$0651` during the password transition. That routine
+is the real password entry and is the correct hook point for the bracket’s team
+IDs.
