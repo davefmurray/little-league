@@ -578,3 +578,26 @@ password/matchup transition setup, not a cold scene poke.
 
 Next: enter the matchup scene through the stock **password screen** path (or
 initialize its PPU/CHR/transition state), then let it run with poked IDs.
+
+## Round 24 — autonomous probe batch (6 probes)
+
+1. Matchup scene is `$047B=$13`, not `$11`. The password screen is **also**
+   scene 13 with a different sub-state.
+2. Cold-entering scene 13 from the bracket crashes at PC `$5248`.
+3. Poking `$04EF/$04F0` at the password screen is overwritten; matchup still
+   shows the original teams.
+4. Poking at the **matchup screen** is honored: field renders `FLO` vs `JAPAN`
+   with Japanese player names (`docs/poke-field.png`). This is the proven ID
+   path.
+5. Password→matchup RAM diff found scene-13 candidates: `$047F` 04→30,
+   `$047E` ff→01, `$047C` 08→03, `$0478/79` 00→01, plus `$04EB/EC=80`,
+   `$0650` seed table.
+6. Cold scene 13 with those substate values still crashes at `$5248`.
+
+Conclusion: scene 13 depends on the password transition chain, not just substate
+bytes. The low-risk integration is now a **post-password hook**: let stock build
+scene 13, then overwrite `$04EF/$04F0` from the bracket before the matchup text
+is rendered. That avoids entering the scene cold entirely.
+
+Next: find the scene-13 init call that copies team ids into `$0650`/`$06B5` and
+hook immediately after it.
