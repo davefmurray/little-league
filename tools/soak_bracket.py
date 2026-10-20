@@ -57,14 +57,32 @@ def wait_for(pred, max_frames, chunk=250, label="", on_scene=None):
 
 
 def leave_lineup():
-    """Confirm the pre-game order screens.
+    """Confirm the pre-game order screens (both teams).
 
-    Each team gets one: the menu defaults to CHANGE ORDERS, B backs out of
-    the player editor, three RIGHTs reach END, and A accepts.  The second
+    B backs out of the player editor, three RIGHTs walk CHANGE ORDERS ->
+    PLAYER CHANGE -> CHANGE FIELDER -> END, and A accepts.  The second
     team's screen already has END selected, so a second A starts the game.
     """
     press("b", 2)
     step(5)
+    for _ in range(3):
+        press("right", 2)
+        step(5)
+    press("a", 2)
+    step(30)
+    if rd_sys(0x047B)[0] == 0x0F:
+        press("a", 2)
+        step(30)
+
+
+def leave_lineup_top():
+    """Pre-game order screen: it opens on the top-level menu.
+
+    Three RIGHTs walk CHANGE ORDERS -> PLAYER CHANGE -> CHANGE FIELDER ->
+    END; A accepts the first team's END and the second team's END starts the
+    game.  Do not press B here: on the top-level menu it steps the selection
+    backwards and the fixed RIGHT count then lands on CHANGE FIELDER.
+    """
     for _ in range(3):
         press("right", 2)
         step(5)
@@ -101,6 +119,9 @@ def main():
     ap.add_argument("--shot-every", type=int, default=0)
     ap.add_argument("--winner", choices=("forced", "score"), default="forced",
                     help="forced: first team always wins; score: use $048B/$048C")
+    ap.add_argument("--mode", choices=("speed", "watch"), default="speed",
+                    help="speed: SPEED MODE (per-pitch input may be needed); "
+                         "watch: WATCH THE GAME (one cutscene A, then auto)")
     args = ap.parse_args()
 
     romdev.call("loadMedia", {"platform": "nes",
@@ -133,12 +154,25 @@ def main():
         press("a", 2)
         step(60)
         press("a", 2)
-        step(40)
+        step(60)
+        if args.mode == "watch":
+            press("down", 2)
+            step(10)
         press("a", 2)
-        wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 30000, 500,
-                 f"match {m} result",
-                 on_scene=lambda: (leave_lineup()
-                                   if rd_sys(0x047B)[0] == 0x0F else None))
+        if args.mode == "watch":
+            # The pre-match cutscene waits for A; after that WATCH runs
+            # itself to the box score (the score may be 0-0, a tie -> A).
+            step(500)
+            press("a", 2)
+            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 20000, 500,
+                     f"match {m} result",
+                     on_scene=lambda: (leave_lineup_top()
+                                       if rd_sys(0x047B)[0] == 0x0F else None))
+        else:
+            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 30000, 500,
+                     f"match {m} result",
+                     on_scene=lambda: (leave_lineup()
+                                       if rd_sys(0x047B)[0] == 0x0F else None))
 
         slot = rd_cart(0x7720 + m)[0]
         scores = rd_sys(0x048B, 2)

@@ -2083,3 +2083,63 @@ python3 tools/soak_bracket.py --rom build/direct18.nes --matches 2 --winner scor
 
 P1 remains open, but the tournament state machine is now correct through
 round 2 with real scores.
+
+
+## Round 82 — high-team launch mapping; full soak hits the order screen
+
+Teams 16-31 still have placeholder data and the stock game dies at scene `$10`
+on the first high-team pairing.  Added a P1-only diagnostic mapping in the
+A handler:
+
+```
+$07FA = $7700[2*$07FC] & $0F
+$07FB = $7700[2*$07FC+1] & $0F
+```
+
+The real pair stays in `$7700`; the score-winner routine at `$83A0` still
+reads the real pair, so the winning side maps back to the real team id.
+Build:
+
+```sh
+python3 tools/build_high_team_launch.py build/direct18.nes -o build/direct19.nes
+```
+
+### Match 8 proof (first high-team pair)
+
+Live-bracket state: `$07FC=08`.
+
+```
+real pair  $7710/11 = 10 11
+launch     $07FA/FB = 00 01   (masked)
+score      $048B/8C = 05 00
+slot 40    $7728    = 10      (team A wins, real id)
+index      $07FC    = 09
+```
+
+So the high-team pairing now launches, plays to scene 0B, and advances the
+real bracket id. No scene-`$10` black screen.
+
+### Full soak: matches 0-4 pass, match 5 hits the order screen
+
+Added `--mode watch` to the harness.  WATCH skips the per-pitch input: select
+WATCH at the speed menu, press A once for the cutscene, then the game runs to
+scene 0B.  Matches 0-4 advanced correctly (scores were mostly 0-0, so the
+score winner fell back to team A on the tie).
+
+Match 5 (`09` vs `0A`) then stopped at scene `$0F`, the pre-game batting-order
+screen (`CHANGE ORDERS`).  This is not the high-team problem and not the
+bracket logic: the stock COM-vs-COM harness flow skips this screen, while the
+direct build's state shows it for some pairs.  The harness cannot reliably
+walk the menu because the selected option is not exposed in a documented RAM
+byte; blind RIGHT/A sequences sometimes enter the CHANGE FIELDER submenu.
+
+Next concrete P1 step: make the order screen deterministic, either
+
+1. find the condition that makes the stock COM-vs-COM path skip scene 0F and
+   reproduce it at launch (likely the `$04EB/$04EC`/player-control state), or
+2. patch the scene-0F handler to auto-select END (the END branch is bank1
+   `$993B-$9945`: `LDA #$03 / STA $047B / JMP $CBA2`).
+
+Then the 31-match WATCH soak can run to champion slot 62 (`$773E`).
+
+P1 remains open.
