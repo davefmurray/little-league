@@ -80,8 +80,10 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 - [ ] **Wire the 32-team password into the stock screen** (after the screen
       format decision above) and keep the stock 16-team `$074D` path working.
-- [ ] **Full-game soak with substitutions/save-password.** 26 complete real
-      games already pass; add substitution and save/password round-trip runs.
+- [ ] **Full-game soak with substitutions/save-password.** A 4-match
+      `tools/soak32.py` run passes with real scores and the 400-round-trip
+      password model (`build/soak32.json`). In-game substitution and the
+      save-password UI still need the live field / password screen.
 - [ ] **Match 26 crash follow-up.** `11/13` at 2-0 enters scene `$1D`,
       `PC=$00C3` (RAM jam). Trace the stock post-game path beyond its 16-team
       design.

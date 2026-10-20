@@ -119,7 +119,9 @@ def main():
     # CONTINUE -> END, then A enters the bracket and launches match 0.
     press("right", 4)
     press("a", 2)
-    step(15)
+    step(60)
+    press("a", 2)
+    step(30)
 
     for m in range(args.matches):
         idx = rd_sys(0x07FC)[0]

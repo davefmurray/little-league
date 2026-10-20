@@ -4292,3 +4292,28 @@ This is a **data-level** test. The in-game player card read that would prove
 the printed power/speed/skill mapping is still blocked by the high-team field
 (P0), so the semantics remain a strong data inference rather than a live
 card reading.
+
+
+## Round 159 — soak32 harness; 4-match soak passes
+
+Added `tools/soak32.py`, a JSON-report wrapper around
+`tools/soak_bracket.py` with `--winner score` as the default for the
+real-score build, plus a password round-trip run with every soak.
+
+Harness fixes for the current bracket build:
+
+- the bracket draw needs `step(60)` after entering the bracket;
+- a second A launches match 0 after the CONTINUE/END prompt.
+
+4-match run (`build/direct31.nes`, speed, score):
+
+```
+match 00: 0F v 00 -> 0F (9-1)  OK
+match 01: 01 v 02 -> 02 (0-12) OK
+match 02: 03 v 04 -> 04 (0-7)  OK
+match 03: 05 v 06 -> 06 (0-5)  OK
+password: 100 hex + 100 letter + 100 stock-tile + 100 11-char short OK
+saved state soak-final and /tmp/soak-final.png
+```
+
+Report: `build/soak32.json` (gitignored build artifact).
