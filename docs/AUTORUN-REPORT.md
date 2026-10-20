@@ -3117,3 +3117,33 @@ old 15-player/trailer path, producing `FF` pitcher values and the silent
 This is the next concrete fix target: restore/repoint the 16x20 trailer
 stub for the cache build and re-check `$04F9/$04FB` before chasing the
 pitch loop.
+
+
+## Round 112 — trailer stub and forced COM flags: negative results
+
+Restored the 16x20 pitcher-trailer stub for the cache build:
+
+```
+$B094 -> JMP $FEB0
+$FEB0: LDX $04EE / LDA $04FD,X / ASL x4 / JSR $B07C
+       ... ADC $7F00,X / ADC #$50 ... RTS
+```
+
+The stub is **not called** during the high-team field (breakpoint at `$FEB0`
+misses for 20 frames), and `$04F9/$04FA` stays `FF/0D`; the score does not
+move. So the silent field is not the trailer lookup alone.
+
+Forcing the pitch-control bytes at the stalled field:
+
+```
+before: $04E9-$04EC = 01 00 80 00
+after:  $04E9-$04EC = 00 00 80 80
+```
+
+The flags hold, but the score stays 0-0 over 1800 frames and the match index
+stays 08. The field is waiting on a state we have not identified, not just
+the COM/pitch flags.
+
+Next candidates: the scene-3 sub-state/`$047A` value, the `$06DF`/`$06DE`
+scroll counters, or the pre-match handoff fields that the bracket path does
+not initialize.
