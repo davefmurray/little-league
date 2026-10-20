@@ -3725,3 +3725,32 @@ Verified on a complete match-0 run (`FLA` wins, scene `0B`): the box-score
 rows are gone and the bracket reads as a clean 4-column grid of all 32 codes
 (`docs/bracket-clear-post.png`). The remaining top-row overlap is the
 header/title layout, not leftover box-score content.
+
+
+## Round 139 — clean bracket header/title (P1)
+
+Two leftovers after the codes/clear fixes:
+
+1. the 32-char header run wraps its last 8 chars onto row 4, starting with a
+   stray `F` from the old `SF` tail (`$B21A`);
+2. the static title run is 15 chars (`32 TEAM BRACKET`) but the live round
+   label copies only 14, leaving a trailing `T` at `$0333`.
+
+`tools/build_bracket_layout.py` patches the header byte to a space and
+appends `LDA #$20 / STA $0333` before the round-label `RTS` (replacing six
+bytes, so the ROM size and all following addresses stay intact).
+
+Verified on the rebuilt bracket:
+
+```
+docs/bracket-layout.png
+R32   R16   QF    SF
+ROUND 1 R32
+FLA TPE TEX MEX AUS PAN BRA HKG
+JPN KOR HAW CAN CUB NED COL GUM
+ARI NY  ESP ITA DOM GER NIC NZL
+PEN CAL PUR ILL VEN RSA PHI CZE
+WIN
+```
+
+No stray `F`/`T`, all 32 codes readable, cursor marker present.

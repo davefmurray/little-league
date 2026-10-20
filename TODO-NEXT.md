@@ -23,7 +23,8 @@ log is in `docs/AUTORUN-REPORT.md`.
 - [x] **Post-game bracket cleanup.** Real 32-team codes
       (`build_bracket_codes32.py`) + nametable clear before the draw
       (`build_bracket_clear.py`); verified with a full match and
-      `docs/bracket-clear-post.png`. Remaining: top-row header/title overlap.
+      `docs/bracket-clear-post.png`. Header/title leftovers fixed
+      (`build_bracket_layout.py`, `docs/bracket-layout.png`).
       `$23-$26` shadows differ from the normal entry but are **not** the
       latched MMC1 CHR banks; writing them glitches the screen. Needs a
       mapper/PPU-level probe of the latched banks.
