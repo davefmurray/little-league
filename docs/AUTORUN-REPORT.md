@@ -3878,3 +3878,39 @@ the card loop instead of starting the live field.
 Next: arm the `$047B` write breakpoint **before** the B press at scene `0F`
 and capture the exact write PC/value, then compare the stock order-screen END
 path (`$BE=07`, A confirms) with this back path.
+
+
+## Round 144 — `$06E1` controls the order-screen B=END path
+
+The order-screen handler at bank1 `$9BAB` branches on `$06E1`:
+
+```
+9C42 LDA $06E1
+9C45 BEQ $9C4C
+9C47 LDA #$07
+9C49 STA $BE        ; B = END
+9C4B RTS
+9C4C LDA #$02
+9C4E STA $047B      ; B = back to scene 2 (cards)
+```
+
+At the high-team scene `0F`, `$06E1=00`, so B takes the **back** path and
+returns to the card loop. The stock path has `$06E1 != 0`, so B sets
+`$BE=7` (END).
+
+Setting `$06E1=1` **before** entering scene `0F`:
+
+```
+0F: $BE=04, $06E1=01
+B  -> $BE=07
+A  -> $BE=04, $BA 05 -> 09, scene stays 0F
+```
+
+So B now selects END and A confirms, but the confirmation advances the
+order menu (`$BA`) instead of starting the match. Further B/A presses cycle
+`$BA` and `$BE` without leaving scene `0F`; `$06E1` is consumed/cleared.
+
+Next: identify the menu item/sequence that starts the match after END
+(possibly two team END confirmations, or START). The high-team order screen
+is reachable and B=END works once; the missing piece is the final
+"start match" selection.

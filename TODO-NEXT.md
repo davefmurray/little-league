@@ -26,7 +26,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       forcing 4 runs the interpreter then clears it; the missing piece is the
       match-start/order-screen exit that sets the live-field phase. The
       high-team order screen's B acts as back/cancel (`$BE=02`), returning to
-      the card loop; the stock `B+A` END path is not reached.
+      the card loop; `$06E1` selects B=END vs back. Setting `$06E1=1` makes B
+      set `$BE=7`, but A only advances the `$BA` menu; the final match-start
+      selection is still missing.
 
 ## P1 — visible/gameplay correctness
 
