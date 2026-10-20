@@ -1388,3 +1388,25 @@ branch, not in the resume/RTS code.
 Next: break at `$810B` entry and `$8126` return with A held; capture `S` at each.
 If `S` changes unexpectedly, the controller-read subroutine is corrupting the
 stack.
+
+## Round 57 — B005 occurs without a second A press
+
+Captured `$B005` in `frame2-input` with no A after entering the bracket:
+
+```
+$2C   = 00
+$AD   = 1E
+$047D = 01
+S     = FB
+stack = ... bb98 bb98 13cc
+```
+
+`$B005` is reached **before** the A branch and without a second A press, about
+30 frames after the bracket starts. `$2C=0`, `$AD=1E` means the NMI gate is
+healthy, yet `$047D` remains 1.
+
+The stack contains the hook return `$98BB` twice, then `$CC13`.
+
+Next: the crash is in the bracket frame/interrupt loop before input, not caused
+by the controller read. Break at `$C232`/`$B005` and capture the previous block,
+or watch writes to `$01FA-$01FF` to find who pushes `$B005`.
