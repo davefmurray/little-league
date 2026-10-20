@@ -3147,3 +3147,20 @@ the COM/pitch flags.
 Next candidates: the scene-3 sub-state/`$047A` value, the `$06DF`/`$06DE`
 scroll counters, or the pre-match handoff fields that the bracket path does
 not initialize.
+
+
+## Round 113 — `$C1` is not the field mode
+
+The high-team field has the stock scene-3 handoff values:
+
+```
+$047A=04  $047B=03  $0486=00
+```
+
+but `$C1=00` where the stock field target is `$C1=$76`. Forcing `$C1=$76`
+at the stalled field makes it decay to `$0E`/`$0C`/`$00` over the next
+frames, and the score stays 0-0. So `$C1` is a transient/scroll value, not
+the missing field-mode switch.
+
+The remaining field-stall candidates are the pre-match handoff fields and
+the pitcher/batter lineup mapping. No ROM change was kept this round.
