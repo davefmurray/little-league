@@ -19,7 +19,9 @@ change, a commit, and a report/TODO update. Historical detail is in
        Rebuild `launch-prod` + `build_extra_rosters`/`build_names32` + the
        data chain, then patch `$FF60` (currently `$7700[0..15]`) to the
        selected bracket pair; then drive AUS/CUB through scene 13/11/0F and
-       the field.
+       the field. The data chain (extra rosters/names/ratings/lineups) applies
+       to launch-prod, but `build_round_labels` fails at `$8077` (WIN tail
+       layout differs); adapt/skip those cosmetic steps.
 2. [ ] **High-team order-screen / field start (P0).**
        If the match still stalls at scene 0F, fix `$0489`/`$95`/`$C7` or
        force the field entry from the order screen.

@@ -4658,3 +4658,30 @@ Two gaps remain for the 32-team high team:
 Next: apply `build_extra_rosters.py` + `build_names32.py` + the data chain
 to `launch-prod`, then patch `$FF60` to use `$04EF/$04F0` (or
 `$7700+2*$07FC`) for the selected pair.
+
+
+## Round 173 — 32-team data on launch-prod; round-label layout mismatch
+
+Applied the data chain directly to `build/launch-prod.nes`:
+
+```
+build_extra_rosters -> build_names32 -> build_ratings32 -> build_lineups32
+  -> /tmp/lp4.nes (build/launch32.nes)  all four OK
+build_round_labels -> FAIL at $8077:
+  expected WIN tail, found 38 03 b9 02 b0 9d 39
+```
+
+The launch-prod bracket draw is not the `direct20` layout, so the round
+labels/top-row/codes/clear/layout steps do not apply as-is.
+
+Driving lp4 in romdev (stock flow -> team A -> A2):
+
+```
+scene 13 both times; A2 -> scene 13, $04EF/$04F0=00/01, scores FFFF
+```
+
+So the 32-team data loads, but the bracket A still does not launch the
+match. The bridge's `$FF60` copies `$7700[0..15]` (first-round slots), and
+the cursor/selected pair is not propagated; that is the next patch, together
+with adapting or skipping the round-label/codes steps for the launch-prod
+draw.
