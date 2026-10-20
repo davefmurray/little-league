@@ -3914,3 +3914,27 @@ Next: identify the menu item/sequence that starts the match after END
 (possibly two team END confirmations, or START). The high-team order screen
 is reachable and B=END works once; the missing piece is the final
 "start match" selection.
+
+
+## Round 145 — low-team order screen auto-confirms faster than the poll
+
+A 30,000-frame `wait_for scene == $0F` on a fresh low-team match timed out;
+at the timeout the game was already at the box score:
+
+```
+scene 0B   $0489=03   score 9-1   $0543/45=03 FF 03
+```
+
+Pressing B/A at the box score launched the **next** match; a write
+breakpoint on `$047B` caught the bracket A handler:
+
+```
+pc=$8302  A=$13  old=$00  ->  $047B=$13 (password)
+```
+
+So the low-team field/order path **auto-confirms** and reaches `0B` without
+a pauseable `0F`, while the high-team path stops at `0F`. The comparison
+needs a per-frame capture of the low-team live field (or a trace of the
+`$047C`/`$0489` writes in the field-enter routine), not a 10-frame poll.
+
+No ROM change was kept this round.

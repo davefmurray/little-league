@@ -28,7 +28,8 @@ log is in `docs/AUTORUN-REPORT.md`.
       high-team order screen's B acts as back/cancel (`$BE=02`), returning to
       the card loop; `$06E1` selects B=END vs back. Setting `$06E1=1` makes B
       set `$BE=7`, but A only advances the `$BA` menu; the final match-start
-      selection is still missing.
+      selection is still missing. The low-team path auto-confirms past
+      scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness
 
