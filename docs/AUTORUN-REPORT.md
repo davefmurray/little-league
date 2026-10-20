@@ -1508,3 +1508,26 @@ now correct, but control does not stay in the stock main loop; it ends in data.
 Next: replace the final `JMP` with a write to `$047D=1` and a tight
 `JMP $CC09`, and place an explicit `JMP $CC09` guard at `$8347` so any
 fallthrough re-enters the main loop instead of data.
+
+## Round 62 — fixed-bank jump before bank5 switch; still 8352
+
+Found the structural bug: the direct launch stub selected bank 5 **before** its
+final jump, so the jump opcode itself was fetched from bank 5 data.
+
+Fixed by jumping to a fixed-bank trampoline before any bank-5 write:
+
+```
+8338 JMP $FF90
+FF90: MMC1 reset, select bank5, $27=5, NMI on, JMP $CC09
+```
+
+Verified ROM bytes. Result unchanged:
+
+```
+$047B = $13
+PC    = $8352   (bank11 $FF)
+```
+
+`$8352` is `$FF`, not code. Next: break at `$8338` and `$FF90` to see whether
+either is reached. If not, the A branch's `JMP $8300` target itself is not being
+executed in this build.
