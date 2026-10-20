@@ -3565,3 +3565,35 @@ stock table, ruling out a patched handler as the field-stall cause.
 
 Next: trace one frame at the high-team field and map the hot bank6 routines
 (the emulator session was evicted before the trace could run).
+
+
+## Round 133 — field trace: live card/CHR routines; `$047A` stays 04
+
+One-frame `traceInstructions` at the high-team field (8,597 instructions):
+
+```
+$CC09-$CC17   3701  main loop / $047D wait
+$CDF9-$CE0A   2944  vblank wait
+$CEBD-$CF30    474  controller read / per-frame update
+$E2B2-$E3FB    ~600 card setup/animation
+$816C-$850B    ~180 bank6 field/card code
+$C11C-$C14C    77  CHR/PRG bank switches
+```
+
+So the field logic is running; it is not a dead CPU. The card routines at
+`$E2B2-$E3FB` and the bank6 `$8480` COM loop are active.
+
+State checks:
+
+- `$0485=FF`, `$0555` = `40 40 80 80 80 80 80 80 7B FF...`; the stock
+  field has the same `40/80` pattern, so the player-status bytes are not the
+  difference.
+- Reasserting `$04EB/$04EC=8080` and `$04E9=0` every 120 frames still gives
+  0-0.
+- `$047A` stays `04` for 1,000+ frames. `docs/rom-layout.md` says
+  `$CE30-$CE42` is the immediate CHR update path gated by `$047A` bits 1-2;
+  the field is sitting in that CHR/transition state, not the live pitch
+  loop.
+
+Next probe: trace writes to `$047A` and the `$CE30-$CE42` branch, and find
+which routine is supposed to clear bit 2 / advance the field.

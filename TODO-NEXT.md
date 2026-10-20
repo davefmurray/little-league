@@ -12,6 +12,11 @@ log is in `docs/AUTORUN-REPORT.md`.
       flags `$04EB/$04EC`, `$C1`, the `$04/$05` card pointer, and `$047E`
       resets. Next: find the scene-3 dispatch target and trace its pitch
       sub-state (`$047A`, `$06DE/$06DF`, the batter/pitcher role bytes).
+      Progress: the scene-3 handler is a no-op in stock too; a one-frame
+      trace shows the card/CHR routines (`$E2B2-$E3FB`, `$C11C/$C14C`) and
+      `$047A` stays `04` (the immediate CHR path at `$CE30-$CE42`). COM
+      flags/`$04E9` reassertion did not start a pitch; player statuses
+      (`$0555`) match the stock pattern.
 
 ## P1 — visible/gameplay correctness
 
