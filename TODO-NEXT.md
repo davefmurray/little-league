@@ -79,7 +79,10 @@ History: `docs/AUTORUN-REPORT.md`.
         `$95` bit mapping (`$80` vs `$40`)/the `$C7` path. **Found:** the
         order path is `$9E8A`/`$9EAD`/`$BE`/`$BA`/`$C6`; `$C7=1` is the
         menu confirm, `$BA` the sub-state, `$C6` the 0x67 timer. Pair2's
-        order runs the timer but never exits; next trace `$BA`/`$BE`/`$C6`.
+        order is advancing (BE=4, BA=9, B2=10) but `$9E79` does
+        `$B2 & 0x0F` -> `$BC=0` -> `$06E2[0]`; the high team 16 resolves
+        to the team-0 group. Next: the `$06E2` 32-team group table/the
+        `$9A1C` high-team mapping.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

@@ -5327,3 +5327,31 @@ the 0x67-frame timer. `$9A4E` draws the team card from `$BC`/`$06E2`.
 The pair2 order is at `$BE=0`, `$C7=0`, `$C6` timer, `$BA` sub-state; the
 team 09/0A substate (`$047C=8`/`$95=0x80`) is the context. The order runs
 the timer but never exits; `$BA`/`$BE`/`$C6` is the next trace.
+
+
+## Round 197 — order progressing; high team 16 maps to $06E2[0]
+
+Read the pair2 order state:
+
+```
+$BE=04, $BA=09, $C6=00, $C7=00
+$B2=10, $BC=FF
+$047C=08, $95=00, $93=00, $047B=0F
+$0545=02, $05D3=FF, $0547=00, $0527=FF
+```
+
+So the order is **advancing** (BE 0 -> 4, BA 9, B2 0x10), not frozen.
+
+Path: `$9E8A` with `$BE=4` -> `$9E79`:
+
+```
+9E79: LDA $B2 / AND #$0F / STA $BC
+9E7F: JSR $9A1C
+```
+
+`$B2=0x10` (team 16) -> `$BC=0` -> `$9A1C` uses `$06E2[0]`, the stock
+16-team group table entry for team 0. The **high nibble is dropped**: the
+high team 16 resolves to the team-0 group, so the order/team is wrong.
+
+The next mapping gap is the `$06E2` group table / `$9A1C` path for teams
+16-31, not the timer or the input.
