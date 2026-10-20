@@ -5725,3 +5725,23 @@ team-select highlight, not the LIST OF TEAMS list. The list's `$A1AA`/
 
 Next: seed `$06E2` 32 bytes + `$071A` 32 bytes at the team-select/list
 entry, then re-run the list name check.
+
+
+## Round 215 — list $06E2 seed patch not reached
+
+Patched the `$A1C6` list entry:
+
+```
+A1C6: JSR $BF00 / JMP $A1AA
+BF00: LDX #0 / LDY #0
+      LDA $FD80,X / STA $06E2,X / INX / INX / INY
+      CPY #$10 / BCC
+      LDA #$0F / STA $C0 / RTS
+```
+
+At scene `0x0D` the `$06E2` is still FF and `$06B5` is only
+"CONTINUE END"; the `$A1C6` entry is not called at this screen.
+
+So the next step is to identify the actual LIST OF TEAMS scene/menu
+handler that calls `$A1AA`/`$A1C6` (the `$047B` value and the caller),
+then seed `$06E2` there.

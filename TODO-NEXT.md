@@ -25,6 +25,9 @@ History: `docs/AUTORUN-REPORT.md`.
        `$06E2=FF` and only "CONTINUE END". The list's `$A1AA`/`$9FA9`
        needs `$06E2` populated first. Next: seed `$06E2` 32 +
        `$071A` 32 at the list/team-select.
+       **Round 215:** the `$A1C6`/`$BF00` seed patch did not run at scene
+       0x0D ($06E2 still FF); the list caller/scene must be identified
+       first (the `$047B` value and the `$A1AA`/`$A1C6` caller).
        Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
        only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not
