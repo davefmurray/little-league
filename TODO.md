@@ -307,7 +307,9 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 - [ ] Real names/regions/colours/ratings/lineups for teams 16–31.
 - [ ] On-demand roster cache for teams 16–31.
-- [ ] 20-player bench + all three pitcher slots.
+- [x] 20-player bench + three pitcher slots at the data level
+      (`tools/audit_roster32.py`: 16 x (20 players + 3 records)).
+- [ ] In-game substitution/pitcher test with a 20-player team.
 - [ ] Prove power/speed/skill byte semantics in-game.
 
 ### P4 — Polish (deferred)

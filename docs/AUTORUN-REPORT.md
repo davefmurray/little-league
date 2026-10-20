@@ -2717,3 +2717,23 @@ The example `--seed 0x12345678 --results 0x01234567` encodes to
 This completes the 32-team password encode/decode **model** and the
 100-round-trip check. Still pending: wire it into the stock password screen
 and keep the 16-team `$074D` path working.
+
+
+## Round 98 — 32-team roster audit (20 players, three pitchers)
+
+`tools/audit_roster32.py` checks every team 16-31 in a 32-team build:
+
+- 20 player records with printable 6-char names;
+- exactly three pitcher slots `08`/`16`/`24`;
+- the 48-byte trailer (`FF*16`, `00*8`, three 8-byte pitcher records).
+
+```
+python3 tools/audit_roster32.py build/32x20-extra.nes
+...
+team 31: 20 players, pitchers 08/10/18, first=NOVAK  last=KELLY
+audit OK: 16 x (20 players + 3 pitcher records)
+```
+
+This verifies the bench and all three pitcher records at the data level.
+The in-game substitution/pitcher test is still pending (it needs a live
+game with a 20-player team and a START-menu substitution).
