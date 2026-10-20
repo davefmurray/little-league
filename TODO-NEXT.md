@@ -140,7 +140,9 @@ History: `docs/AUTORUN-REPORT.md`.
         `$BC=9` -> `$06E2[9]=0x43` -> team 4 (group 4/team 1), field 09.
         Next: the `$06E2` group/team semantics in
         `$9A1C`/`$9A4E`/`$9FA9`.
-11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
+11. [x] **STEP 2: audit gaps and write new TODO — done.**
+        `docs/STEP2-AUDIT.md` (7/11 done, 3 active, gaps/new areas) and
+        `TODO-STEP2.md` (fresh P0/P1/P2 list).
 
 ## Done / do not re-open
 

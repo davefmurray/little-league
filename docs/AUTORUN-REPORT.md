@@ -5693,3 +5693,15 @@ Added `docs/bench-card.md`:
 
 Item 8's design/spec deliverable is done; the in-game card implementation
 remains.
+
+
+## Round 213 — STEP 2 audit + fresh TODO
+
+Added `docs/STEP2-AUDIT.md` and `TODO-STEP2.md`:
+- 7/11 items done; 3 active (list, password, pitch).
+- Gaps: table sizes (`$06E2` 16->32, `$9A70` 64->128, `$071A` 16->32),
+  high teams vs stock 16-team tables, field pitch at match 8, bank5
+  32-team decode, hardware/audio/SRAM untested.
+- New need areas: audio regression, SRAM CONTINUE, 2-player, release
+  pipeline, regression/CI.
+- Fresh P0/P1/P2 list in `TODO-STEP2.md`.
