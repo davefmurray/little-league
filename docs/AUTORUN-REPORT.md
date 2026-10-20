@@ -5421,3 +5421,20 @@ receives the first 16 group bytes. The high teams 16-31 have no group
 entries and the page-1 `$9A1C`/`$9A4E`/`$9F89` reads still use page 0.
 
 Next: the 32-byte `$06E2`/page offset (`$B2` bit 4) in the three readers.
+
+
+## Round 201 — 32-byte $06E2 + page offset plan
+
+- `$AD51` copies `$FD80` lineups into `$06E2` with `CPX #$12` (18 bytes);
+  the 16-byte group table. The 32-team `$FD80` has 32 lineups, so the
+  loop would need `#$22` (34 bytes) for the 32-byte table
+  (`$06E2-$0701`).
+- Readers:
+  - `$9A4E`: `LDA $BC / ASL / ORA $BD / TAY / LDA $06E2,Y`;
+  - `$9A1C`: `$06E2[$BC]`;
+  - `$9F89`: `$06E2[2*$00 + $BD]`.
+- The page is `$B2` bit 4 (`0x10`); a 32-byte table needs `+16` added to
+  `Y` before the `$06E2,Y` read.
+
+Next: pair3 = the 34-byte `$AD51` writer + `$B2 & 0x10` page offsets in
+`$9A4E`/`$9A1C`/`$9F89`; test the match 5/8.

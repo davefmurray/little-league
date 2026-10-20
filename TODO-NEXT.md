@@ -92,7 +92,9 @@ History: `docs/AUTORUN-REPORT.md`.
         **Found:** the `$06E2` writer `$AD51` copies from the `$FD80`
         lineups (`LDA $FD80,X / STA $06E2,X / CPX #$12`), so it only
         covers the 16-byte group table; the 32-team `$FD80` has 32
-        lineups but `$06E2` gets only the low 16.
+        lineups but `$06E2` gets only the low 16. **Plan:** `$AD51` loop
+        `CPX #$12` -> `#$22` (34) for the 32-byte `$06E2`; add the page
+        offset `$B2 & 0x10` (+16) in `$9A4E`/`$9A1C`/`$9F89`; test pair3.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
