@@ -4604,3 +4604,31 @@ A -> scene 12, $04EF/$04F0=20/20, $07FF=FF, PC $81B2
 The A branch is not firing in the seeded input; the seed's controller/edge
 state (`$07C6-$07C9`) or the cursor write is the next trace. The tool change
 is committed.
+
+
+## Round 171 — TODO finish list; the real launch bridge was never in the chain
+
+Rewrote `TODO-NEXT.md` as the ordered finish list (10 items) plus the STEP 2
+audit.
+
+Seed A probe:
+
+```
+write breakpoint on $04EF -> pc $8165, value 00; $04F0=01, $07C6=80, $07C9=80
+step -> $07FF stays FF, scene stays 12/00
+```
+
+So the A handler **does run** and sets `$04EF/$04F0`; the `$07FF`/`$8300`
+launch does not stick because the seeded stack/context is not the launch
+bridge's. Calling `$8300` directly sets `$07FD/$07FE=10/11` (AUS/CUB) but
+then jams at `$76F3`; `$FF90` is data in this build.
+
+The repo already contains the real launch path:
+`tools/build_launch_bridge.py` hooks bank5 scene-18 `$98B9` -> `$FF20`,
+sets the NMI guards, `JSR $8000` bracket, `$FF60` team seed, resumes
+`$98C0`, with `--direct-teams`/`--skip-password`. It is **not in
+`build_32team_full.py`**, and `$FF20` is occupied by the stock boot table in
+`direct31`.
+
+Next: rebuild from the selector/dispatcher base + bridge, then apply the
+32-team data and verify the AUS/CUB launch/field.
