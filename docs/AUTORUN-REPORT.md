@@ -3164,3 +3164,18 @@ the missing field-mode switch.
 
 The remaining field-stall candidates are the pre-match handoff fields and
 the pitcher/batter lineup mapping. No ROM change was kept this round.
+
+
+## Round 114 — web editor: high-team scoreboard name is read-only
+
+In `bank8-32` mode, teams 16-31 get their scoreboard name from the bank9
+3-letter code; `applyRom` does not rewrite that short-name table. The editor
+now reflects this:
+
+- the scoreboard-name input is **disabled** for high teams;
+- its limit label reads `bank9 code`;
+- the input title explains that the ROM export does not rewrite it;
+- low teams keep the normal editable field.
+
+`node --check web/app.js` passes. This avoids an edit that would silently
+not be written by the ROM export.

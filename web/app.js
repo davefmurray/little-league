@@ -149,11 +149,18 @@ function renderEditor() {
 
   $('teamEyebrow').textContent = `Team ${String(state.selected + 1).padStart(2, '0')} / ${state.teams.length}`;
   $('teamTitle').textContent = team.name || '—';
-  $('shortPreview').textContent = team.shortName || '—';
+  const high32 = state.meta?.layout === 'bank8-32' && team.id >= 16;
+  $('shortPreview').textContent = high32
+    ? (team.shortName || team.name.slice(0, 3) || '—')
+    : (team.shortName || '—');
   $('teamName').value = team.name;
   $('shortName').value = team.shortName;
+  $('shortName').disabled = high32;
+  $('shortName').title = high32
+    ? 'Teams 16-31 use the bank9 3-letter code; the ROM export does not rewrite it.'
+    : '';
   $('shortName').maxLength = team.shortWidth;
-  $('shortLimit').textContent = `${team.shortWidth} max`;
+  $('shortLimit').textContent = high32 ? 'bank9 code' : `${team.shortWidth} max`;
 
   renderRatings(team);
   $('playerBody').innerHTML = team.players.map(playerRow).join('');
