@@ -73,6 +73,10 @@ History: `docs/AUTORUN-REPORT.md`.
         `$B8FC` path (`$0547=3`/`$0527=0`). Stock orders use `$047C=02`;
         pair2's skip-password patch did not yield the order substate. Next:
         the `$047C`/`$98C8` substate and the `$0527` match init.
+        **Found:** `$98C0` sets `$047C=02`; the later `$AEDD`/`$CA9F` sets
+        `$047C=08` for the team-09 `$0650[0]` -> `$95=0x80` (bit 7). The
+        stock team-00 gives 02/`$95=0x40`. Next: the `$9EF0` input decoder's
+        `$95` bit mapping (`$80` vs `$40`)/the `$C7` path.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

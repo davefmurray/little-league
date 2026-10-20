@@ -5269,3 +5269,31 @@ substate here.
 All set 0/1 in the stock; pair2's `$0527=FF` is the uninitialized value.
 
 Next: the `$047C`/`$98C8` substate and the `$0527` match init.
+
+
+## Round 195 — $98B9/FF20 team setup; $047C=08 is the team-09 substate
+
+Disassembled the pair2 bank5 series init:
+
+```
+98B9: JSR $FF20      ; stock team setup (the direct20 relocation)
+98BC: JMP $FF80
+...
+98C0: LDA #$00 / STA $0746 / STA $BE
+      LDA #$02 / STA $047C
+      LDA #$01 / STA $07ED
+      INC $047B / RTS
+```
+
+So `$98C0` correctly sets `$047C=02`; the order-stage `$047C=08` comes later.
+`$047C` writers include `$9504`, `$9523`, `$A58E`, `$AEDD`, `$B6EA`, `$98C9`,
+`$9BCA`, `$9E74`. At `$AEDD` the value comes from `JSR $CA9F`.
+
+The pair2's `$0650[0]=09` makes `$CA9F` return 8; the stock `$0650[0]=00`
+returns 2. So the **team-09 substate is 08**, which routes `$B8A9` through
+`$B8C6` to `$95=0x80` (bit 7). The stock's first-team 00 gives `$047C=02`
+and `$95=0x40`.
+
+The order input for the field team 09/0A therefore depends on the `$9EF0`
+input decoder's `$95` bit mapping (`$80` vs `$40`), not on the `$0527`
+order flag alone. Next: `$9EF0`/`$C7` and the `$95=0x80` path.
