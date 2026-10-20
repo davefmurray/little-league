@@ -62,7 +62,11 @@ log is in `docs/AUTORUN-REPORT.md`.
       `encode_stock`/`decode_stock`); `tools/render_chr_tiles.py` is available
       for glyph confirmation, but the initial bank `$1B`/`$18` renders were
       blank/fragments. Still need the right CHR bank/tile base plus a wider
-      buffer or 11-char compression.
+      buffer or 11-char compression. The 11-char fallback is implemented:
+      16-bit seed + 31-bit results + version -> 10 base-32 chars + XOR
+      checksum (`encode_short`/`decode_short`, 100 round-trips). It needs 32
+      glyphs, so the stock 16-glyph font still needs a two-screen form or a
+      wider buffer.
 - [ ] **In-game bench / substitution test.** The data audit is green
       (16 x 20 players + 3 pitcher records); still need a live START-menu
       substitution/pitcher change on a 20-player team.

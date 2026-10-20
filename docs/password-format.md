@@ -141,3 +141,22 @@ Example: `--seed 0x12345678 --results 0x01234567` gives
 The glyphs still need to be confirmed against the password CHR bank, and the
 stock `$06B5` buffer is 11 characters, so the 16-tile form still needs a
 wider buffer or an 11-tile compression before ROM wiring.
+
+
+## 11-character screen decision
+
+The stock `$06B5` buffer is 11 characters. A full 32-bit seed + 31-bit
+results + version is 64 bits; 11 characters at 4 bits each is only 44 bits,
+so the full model cannot fit.
+
+Chosen fallback for the 11-char screen:
+
+- 16-bit seed + 31-bit results + 1 version bit = 48 bits;
+- **10 base-32 characters** (50 bits) + **1 XOR checksum** = 11 characters;
+- `encode_short` / `decode_short` in `tools/password32.py`, 100 round-trips.
+
+Example: `encode_short(0x1234, 0x01234567)` -> `EBENCWOERUX`.
+
+This needs 32 glyphs instead of the stock 16; the existing 16-glyph font
+would need a two-screen form or a wider buffer. The full 32-team model
+remains `encode`/`decode`; the short form is only for the stock-width screen.

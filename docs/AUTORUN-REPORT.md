@@ -4251,3 +4251,22 @@ path (`$9D9F -> $9DAE -> $96E6`), which is never dispatched.
 So the P0 field is blocked at two levels: the card wait is a read-only dead
 loop, and the order-screen start path is not reached from it. No ROM change
 from this probe was kept.
+
+
+## Round 157 — 11-character password fallback implemented
+
+The stock `$06B5` buffer is 11 characters. The full 32-bit seed + 31-bit
+results + version is 64 bits, too wide for 11 x 4 bits, so a short form was
+added to `tools/password32.py`:
+
+```
+16-bit seed + 31-bit results + 1 version = 48 bits
+10 base-32 chars (50 bits) + 1 XOR checksum = 11 chars
+encode_short(0x1234, 0x01234567) -> "EBENCWOERUX"
+```
+
+The password test now runs **100 hex + 100 letter + 100 stock-tile + 100
+11-char short** round-trips, all OK.
+
+This still needs 32 glyphs instead of the stock 16; the current 16-glyph
+font would need a two-screen form or a wider buffer.

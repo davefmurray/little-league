@@ -23,6 +23,7 @@ LETTERS = "ABCDEFGHIJKLMNOP"
 # Candidate stock password alphabet (bank5 $908B, 16 tile codes).
 STOCK_TILES = bytes([0x35, 0x37, 0x48, 0x4A, 0x4B, 0x4D, 0x4F, 0x51,
                      0x53, 0x55, 0x65, 0x67, 0x68, 0x6A, 0x6C, 0x6E])
+B32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 
 
 def xorshift32(state):
@@ -103,6 +104,44 @@ def decode_stock(raw):
     return decode(hexstr)
 
 
+def encode_short(seed16, results):
+    """11-char screen-friendly form: 16-bit seed + 31-bit results + version.
+
+    Ten base-32 chars carry 50 bits (48 used); the 11th char is a XOR
+    checksum. This fits the stock 11-character $06B5 buffer if the screen
+    font is extended from 16 to 32 glyphs.
+    """
+    if not (0 <= seed16 <= 0xFFFF) or not (0 <= results <= 0x7FFFFFFF):
+        raise ValueError("seed16/results out of range")
+    bits = seed16 | (results << 16) | (1 << 47)
+    out = []
+    for i in range(10):
+        out.append(B32[(bits >> (5 * (9 - i))) & 31])
+    check = 0
+    for c in out:
+        check ^= B32.index(c)
+    out.append(B32[check])
+    return "".join(out)
+
+
+def decode_short(text):
+    text = text.strip().upper()
+    if len(text) != 11 or any(c not in B32 for c in text):
+        raise ValueError("expected 11 chars from the base-32 alphabet")
+    body, check = text[:10], text[10]
+    want = 0
+    for c in body:
+        want ^= B32.index(c)
+    if B32.index(check) != want:
+        raise ValueError("checksum mismatch")
+    bits = 0
+    for c in body:
+        bits = (bits << 5) | B32.index(c)
+    if not (bits >> 47) & 1:
+        raise ValueError("version bit missing")
+    return bits & 0xFFFF, (bits >> 16) & 0x7FFFFFFF
+
+
 def test(rounds=100):
     rng = random.Random(0x50415353)
     for _ in range(rounds):
@@ -130,12 +169,19 @@ def test(rounds=100):
         assert dseed == seed and dres == results
         assert dslots == advance(seed_order(seed), results)
 
+    for _ in range(rounds):
+        seed16 = rng.getrandbits(16)
+        results = rng.getrandbits(31)
+        text = encode_short(seed16, results)
+        assert len(text) == 11
+        assert decode_short(text) == (seed16, results)
+
     # Known edge: seed 0 with all-A wins -> champion is the first seed.
     text = encode(0, (1 << 31) - 1)
     _, _, order, slots = decode(text)
     assert slots[62] == order[0]
     print(f"password32: {rounds} hex + {rounds} letter + {rounds} stock-tile "
-          f"round-trips OK; champion all-A = {slots[62]}")
+          f"+ {rounds} 11-char short round-trips OK; champion all-A = {slots[62]}")
 
 
 def main():
