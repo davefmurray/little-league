@@ -5053,3 +5053,30 @@ team 0 (JAPAN).
 The 32-team build's list is still the stock screen; the missing piece is
 its own setup, not the name table. Next: find/port the stock list setup or
 replace the screen with the 32-team selector.
+
+
+## Round 188 — match-5 stall is the 0F order screen with dead input
+
+Rebuilt the 6-match soak on `direct31`:
+
+```
+match 00: 0F v 00 -> OK (9-1)
+match 01: 01 v 02 -> OK (0-12)
+match 02: 03 v 04 -> OK (0-7)
+match 03: 05 v 06 -> OK (0-5)
+match 04: 07 v 08 -> OK (0-1)
+match 05: 09 v 0A -> timeout after 40000 frames
+```
+
+Captured the timeout state:
+
+```
+scene 0F, $07FC=05, $0489=01, $0545=03, $05D3=FF
+$95=00, $C7=00, $BE=00, $C3=90
+$04EF/$04F0=0A/09, $06B5 "...RICO", PC $C5xx
+```
+
+Buttons A / B / START / B+A / B+A x2 / A x3 do not advance. It is the same
+order-screen input issue (`$95`/`$C7` never set); the soak's `leave_lineup`
+works on matches 0-4 but not this 09/0A pair. Team 0A (Puerto Rico) is the
+new variable.

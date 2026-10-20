@@ -30,6 +30,11 @@ History: `docs/AUTORUN-REPORT.md`.
        the stock list setup or replace the screen with the 32-team selector.
 5. [ ] **Match-5 soak stall (P1).**
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
+       Captured: scene 0F, $07FC=05, $0489=01, $0545=03, $05D3=FF,
+       $95=00, $C7=00, $BE=00, $C3=90, $04EF/$04F0=0A/09, $06B5 "...RICO";
+       A/B/START/B+A do not advance. Same order-screen `$95`/`$C7` dead
+       input; team 0A (Puerto Rico) is the variable. Next: the `$B8A9`/`$B90C`
+       `$95` writer and the 0A lineup state.
 6. [x] **Scene 1E/1F / match-26 (P1).**
        Resolved: table is bank-relative and stock-identical; 0x17 -> bank6
        `$B0EE`, 0x1D -> bank5 `$81A8`, 0x1E/1F `$0101`/bank `$AD` is the
