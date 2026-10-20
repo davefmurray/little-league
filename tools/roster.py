@@ -247,7 +247,67 @@ def apply(rom, doc):
             rom.set_player(t, p, player["name"], player["attrs"])
 
 
+BANK8_BASE = HEADER + 8 * BANK
+BANK9_NAMES = HEADER + 9 * BANK + 0x80
+FIXED_LINEUPS = HEADER + 15 * BANK + (0xFD80 - 0xC000)
+RATINGS32 = 0xBC80
+NAMES32 = 0xBCC0
+
+
+def _printable(raw):
+    return all(0x20 <= b < 0x7F for b in raw)
+
+
+def is_32team(rom):
+    """True when the bank-8 team-16 block has the extra 20-player roster."""
+    o = BANK8_BASE + 16 * 0x170
+    if len(rom.data) < o + 6 or rom.data[4] < 16:
+        return False
+    return _printable(rom.data[o:o + 6])
+
+
+def show32(rom):
+    print(f"{'#':>2} {'TEAM':<16} {'BAT RUN PIT DEF':<15} roster (20 players)")
+    for t in range(32):
+        if t < 16:
+            raw = rom.get(1, 0x9180 + t * 16, 14)
+            r = rom.get(3, 0xB224 + t * 4, 4)
+        else:
+            raw = rom.data[BANK9_NAMES + t * 16:BANK9_NAMES + t * 16 + 14]
+            if not _printable(raw):
+                raw = rom.get(1, NAMES32 + (t - 16) * 8, 7)
+            r = rom.get(3, RATINGS32 + t * 4, 4)
+            if not all(1 <= b <= 4 for b in r):
+                r = bytes([2, 2, 2, 2])
+        name = raw.decode("ascii", "replace").rstrip() or f"TEAM {t + 1}"
+
+        base = BANK8_BASE + t * 0x170
+        if t < 16 and not _printable(rom.data[base:base + 6]):
+            ps = [p["name"] for p in rom.players(t)]
+        else:
+            ps = [rom.data[base + p * 16:base + p * 16 + 6]
+                  .decode("ascii", "replace").rstrip() for p in range(20)]
+        line = " ".join(f"{n:<6}" for n in ps)
+
+        if t < 16:
+            c = rom.colors(t)
+            lu = "".join(f"{e['order']}{e['position']}" for e in rom.lineup(t))
+            cs = f"c {c['primary']:02X}/{c['secondary']:02X}"
+        else:
+            cs = "c --/--"
+            o = FIXED_LINEUPS + t * 9
+            lu_raw = rom.data[o:o + 9]
+            if all(1 <= (b & 0x0F) <= 9 and (b >> 4) <= 8 for b in lu_raw):
+                lu = "".join(f"{b >> 4}{b & 0x0F}" for b in lu_raw)
+            else:
+                lu = "--"
+        print(f"{t:2d} {name:<16} {r[0]:3d} {r[1]:3d} {r[2]:3d} {r[3]:3d} "
+              f"{cs}  lu {lu}  {line}")
+
+
 def show(rom):
+    if is_32team(rom):
+        return show32(rom)
     names = rom.team_names()
     ratings = rom.ratings()
     print(f"{'#':>2} {'TEAM':<16} {'BAT RUN PIT DEF':<15} roster")

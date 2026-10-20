@@ -2924,3 +2924,28 @@ The only `BA D0` hit was `DEC $BA / BNE`, not a table pointer. There is no
 colour-table consumer in this revision, so the 32-team colour table is a
 no-op; the task is closed as "audited, no reader" rather than adding dead
 data.
+
+
+## Round 105 — `roster.py show` handles the 32-team layout
+
+`tools/roster.py` was 16-team-only. It now detects the bank-8 team-16 block
+and prints all 32 teams:
+
+- low teams (0-15): the bank-8 block when it is populated, otherwise the
+  original bank-4 15-player roster;
+- high teams (16-31): 20 players from bank8 `$8000 + t*$170`;
+- names: bank1 `$9180` (0-15), bank9 `$8080` (16-31), then the bank1
+  `$BCC0` 7-char table fallback;
+- ratings: bank3 `$B224` (0-15), `$BC80` (16-31) when valid;
+- lineups: bank4 `$96CA` (0-15), fixed `$FD80` (16-31) when valid.
+
+Verified:
+
+```
+python3 tools/roster.py show build/direct31.nes
+# 32 rows; team 16 = TEAM 17, 20 players, ratings 2/1/3/1, lu 0816...
+python3 tools/roster.py show build/select-screen.nes
+# team 16 = AUSTRALIA, 20 players, c --/--, lu --
+python3 tools/roster.py show "Little League ... (USA).nes"
+# unchanged 16-team output
+```
