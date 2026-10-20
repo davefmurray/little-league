@@ -1791,3 +1791,20 @@ bracket; `JMP $8000` from `$FFC0` did not produce a visible bracket redraw.
 Next: check whether the bracket code actually runs after `JMP $8000` (break at
 $8000 from scene 0B), and whether it needs the PPU/NMI state reset that the
 normal entry path performs.
+
+## Round 75 — 8000 breakpoint armed too late
+
+`direct13` bytes are correct:
+
+```
+CC68 -> C0 FF  ($FFC0)
+FFC0: AD 00 77 / 8D 20 77 / 4C 00 80
+```
+
+`$7720=0F` proves `$FFC0` did execute during the scene-0B transition. But the
+`$8000` breakpoint was armed **after** the box score was already up, so it could
+not catch the jump.
+
+Next: arm `$8000` while still on the field, then let SPEED MODE finish and catch
+the bracket entry in-context. That distinguishes "bracket code runs but doesn't
+render" from "JMP never happens".
