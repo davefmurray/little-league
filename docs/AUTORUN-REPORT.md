@@ -3391,3 +3391,20 @@ The README's 32-team section now reflects the current build:
 TODO cleanup: marked the 32-slot tournament, 32-slot bracket, 32-team
 password format model, and bracket-table relocation as done; replaced the
 stale NMI-guard field note with the current scene-3/pitch-loop status.
+
+
+## Round 126 — CI covers `roster.py show32`
+
+`tools/test_roster32.py` now also exercises the 32-team `show32` path on
+its synthetic fixture:
+
+- 33 output lines (header + 32 teams);
+- `TEAM 16` appears (the bank1 `$BCC0` name);
+- `P1600` appears (the first high-team player).
+
+CI already runs this test, so the `show32` renderer is now covered alongside
+the `extract/apply` round-trip.
+
+```
+test_roster32: fixture round-trip + edit + show32 OK
+```

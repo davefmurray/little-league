@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Self-contained round-trip test for tools/roster32.py (no base ROM needed)."""
+import contextlib
+import io
 import os
 import sys
 import tempfile
@@ -8,6 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from roster32 import (BANK8, BANK9_NAMES, BANK, STRIDE, PLAYERS, RECORD,
                       NAME_LEN, RATINGS32, NAMES32, apply_rom, extract)
 from roster32 import off
+from roster import Rom, show32
 
 
 def build_fixture(path):
@@ -59,7 +62,16 @@ def main():
         back = extract(out)
         assert back["teams"][16]["players"][0]["name"] == "TESTER"
         assert back["teams"][16]["players"][0]["attrs"][5] == 4
-        print("test_roster32: fixture round-trip + edit OK")
+
+        # roster.py show32 must also recognize the fixture.
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            show32(Rom(src))
+        lines = buf.getvalue().splitlines()
+        assert len(lines) == 33, f"expected header + 32 teams, got {len(lines)}"
+        assert "TEAM 16" in buf.getvalue()
+        assert "P1600" in buf.getvalue()
+        print("test_roster32: fixture round-trip + edit + show32 OK")
 
 
 if __name__ == "__main__":
