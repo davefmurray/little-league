@@ -19,6 +19,7 @@ import argparse
 import random
 
 VERSION_BIT = 31
+LETTERS = "ABCDEFGHIJKLMNOP"
 
 
 def xorshift32(state):
@@ -72,6 +73,20 @@ def decode(text):
     return seed, results, order, advance(order, results)
 
 
+def encode_letters(seed, results):
+    """Same 8-byte password, rendered as 16 letters (A-P)."""
+    hexstr = encode(seed, results)
+    return "".join(LETTERS[int(c, 16)] for c in hexstr)
+
+
+def decode_letters(text):
+    text = text.strip().upper()
+    if len(text) != 16 or any(c not in LETTERS for c in text):
+        raise ValueError("expected 16 letters A-P")
+    hexstr = "".join(f"{LETTERS.index(c):X}" for c in text)
+    return decode(hexstr)
+
+
 def test(rounds=100):
     rng = random.Random(0x50415353)
     for _ in range(rounds):
@@ -83,11 +98,20 @@ def test(rounds=100):
         expected = advance(seed_order(seed), results)
         assert slots == expected
         assert slots[62] is not None
+    for _ in range(rounds):
+        seed = rng.getrandbits(32)
+        results = rng.getrandbits(31)
+        text = encode_letters(seed, results)
+        dseed, dres, _, dslots = decode_letters(text)
+        assert dseed == seed and dres == results
+        assert dslots == advance(seed_order(seed), results)
+
     # Known edge: seed 0 with all-A wins -> champion is the first seed.
     text = encode(0, (1 << 31) - 1)
     _, _, order, slots = decode(text)
     assert slots[62] == order[0]
-    print(f"password32: {rounds} round-trips OK; champion all-A = {slots[62]}")
+    print(f"password32: {rounds} hex + {rounds} letter round-trips OK; "
+          f"champion all-A = {slots[62]}")
 
 
 def main():

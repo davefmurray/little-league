@@ -3938,3 +3938,25 @@ needs a per-frame capture of the low-team live field (or a trace of the
 `$047C`/`$0489` writes in the field-enter routine), not a 10-frame poll.
 
 No ROM change was kept this round.
+
+
+## Round 146 — 32-team password letter codec
+
+`tools/password32.py` now renders the same 8-byte password as 16 letters
+(A-P nibble mapping):
+
+```python
+encode_letters(0x12345678, 0x01234567) -> "HIFGDEBCGHEFCDIB"
+decode_letters("HIFGDEBCGHEFCDIB")     -> seed 0x12345678, results 0x01234567
+```
+
+`test` now runs **100 hex + 100 letter** round-trips:
+
+```
+password32: 100 hex + 100 letter round-trips OK; champion all-A = 19
+```
+
+This is the model layer for the stock letter-coded screen. The screen's
+`$06B5` buffer is 11 characters, so a 16-letter password still needs a wider
+buffer or an 11-letter compression; the actual S/U alphabet table also needs
+to be mapped before ROM wiring.

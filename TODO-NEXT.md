@@ -44,7 +44,10 @@ log is in `docs/AUTORUN-REPORT.md`.
 - [ ] **32-team password screen.** The model is done
       (`tools/password32.py`: 8-byte seed + 31 result bits + version), but the
       stock screen is an 11-character **letter-coded** buffer (`$06B5`), not
-      16 hex digits. Decide: letter alphabet + wider buffer, or a new screen.
+      16 hex digits. The A-P letter codec is implemented
+      (`encode_letters`/`decode_letters`, 100 letter round-trips); still
+      need the stock S/U alphabet mapping plus a wider buffer or 11-char
+      compression.
 - [ ] **In-game bench / substitution test.** The data audit is green
       (16 x 20 players + 3 pitcher records); still need a live START-menu
       substitution/pitcher change on a 20-player team.

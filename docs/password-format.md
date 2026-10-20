@@ -96,3 +96,23 @@ seed `0x12345678`, results `0x01234567`, champion `05`.
 
 This is the format/model layer. Wiring it into the stock password screen
 and leaving the 16-team `$074D` path untouched is the next P2 step.
+
+
+## Letter rendering (model)
+
+`tools/password32.py` now has a letter codec alongside the hex form:
+
+```python
+LETTERS = "ABCDEFGHIJKLMNOP"
+encode_letters(seed, results) -> 16 letters
+decode_letters(text) -> (seed, results, order, slots)
+```
+
+Example: `--seed 0x12345678 --results 0x01234567` encodes to
+`HIFGDEBCGHEFCDIB` and decodes back to the same seed/results.
+
+`python3 tools/password32.py test` now runs **100 hex + 100 letter**
+round-trips. The stock password screen's `$06B5` buffer is 11 characters,
+so a 16-letter password still needs a wider buffer or an 11-letter
+compression; the actual stock letter alphabet (the S/U table) also needs to
+be mapped before ROM wiring.
