@@ -35,7 +35,10 @@ History: `docs/AUTORUN-REPORT.md`.
        (`$A0C6/$A106/$A146/$A186/$A1C6/$A206/$A246/$A286`, stride `$40`);
        `$A1C6` is an entry, not code, and `$A1AA` is also a data table
        (`ADC $A1AA,Y` at `$A15F`). Next: follow the table/data to the real
-       LIST dispatch.
+       LIST dispatch. **Round 218:** the `$9B68` table has no direct refs
+       either; the chain is multi-level indirect (`$9B68` -> `$A0C6..`
+       stride `$40` -> `$A1AA` data). Next: trace the title menu scene
+       (`$047B`) that draws the list.
        Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
        only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not

@@ -5775,3 +5775,19 @@ So `$A1C6` is the 5th entry of an 8-entry pointer table at `$9B68`
 
 Next: follow the `$9B68` pointer table and the `$A1AA` data reads to find
 the real LIST OF TEAMS dispatch and its `$06E2` seed point.
+
+
+## Round 218 — $9B68 pointer table also has no direct refs
+
+Scanned for `LDA $9B68`/`LDA $9B68,X/Y` and the `68 9B` pair: none.
+The 8-entry pointer table at `$9B68` is itself reached indirectly; the
+`$A1AA`/`$A1C6` region is a data/pointer bank (the `$A15F` `ADC $A1AA,Y`
+read), not a simple list routine.
+
+So the LIST OF TEAMS dispatch is a multi-level indirect chain
+(`$9B68` table -> `$A0C6..` stride `$40` -> `$A1AA` data), and the
+`$06E2` seed point must be found from the actual list screen's scene
+handler, not from a code reference.
+
+Next: trace the title menu scene (the `$047B` value that draws the list)
+and the data tables it indexes.
