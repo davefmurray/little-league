@@ -3273,3 +3273,28 @@ writer is just an init (`STA $0511` = 0).
 This rules out the last handoff-pointer lead for the silent field. The
 remaining field work needs a different angle (the scene-3 sub-state machine
 or the pitcher/batter role selection), not the `$0511` byte pair.
+
+
+## Round 121 — `$04F9` is read from the wrong player-record pointer
+
+The `$04F9` writer is:
+
+```
+AF09  LDA ($04),Y     ; Y=3 after INY from 2
+AF0B  JSR $ADBC
+AF0E  STA $04F9,X
+```
+
+It reads the **current player record's byte 3** (part of the 6-char name)
+and stores the converted value. At the high-team field `$04F9=FF`, so
+`($04)` points at `FF` data.
+
+The field's current player pointer is `$04/$05 = $7E34`, which is **outside**
+the `$7800` cache block (0x170 bytes, ending $7970) and just below the
+`$7F00` table. A correct team-16 player record should be `$7800..$796F`, not
+`$7E34`. The `$B07C` player-record computation is therefore using the wrong
+base or index for the cached high team.
+
+This is the strongest remaining field lead: trace the `$B07C` inputs
+(`$04EF`, `$04FD`, `$06E2`) and find why the high-team pointer lands at
+`$7E34`.
