@@ -5376,3 +5376,29 @@ low-team groups.
 
 Next: make the `$06E2`/`$B2` page mapping (or the 32-team group table)
 cover page 1 / teams 16-31.
+
+
+## Round 199 — $06E2 is 8 groups x 2 teams (16 bytes); page 1 missing
+
+The table at the pair2 order:
+
+```
+$06E2 = 04 07 17 16 23 24 36 32 42 43 55 58 68 65 79 79
+$B2=0x10, $BD=1
+```
+
+So `$06E2` is 8 groups x 2 teams = 16 bytes (the low teams 0-15):
+- `$9A4E`: `$06E2[$BC*2 + $BD]`
+- `$9A1C`: `$06E2[$BC]`
+- `$9F89`/list: `$06E2`
+
+With `$B2=0x10` (page 1) and `$BD=1`, `$BC=0` reads `$06E2[1]`, a
+page-0 group entry. The high teams 16-31 have no group entries.
+
+Writers: bank4 `$AC31-$AD51` (the team setup); readers also bank1
+`$9E6C`/`$9853`/`$98A1`/`$9A31`/`$9A66`/`$9FB3`/`$A11A` and bank4
+`$AB9F`/`$ABBB`/`$AC1C`/`$AC68`/`$AD12`.
+
+The 32-team build needs a 32-byte group table (16 groups x 2) plus the
+page offset (`$B2` bit 4 / 16) in `$9A1C`/`$9A4E`/`$9F89`. Next: the
+bank4 `$AC` writer and the page offset.

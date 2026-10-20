@@ -85,7 +85,10 @@ History: `docs/AUTORUN-REPORT.md`.
         `$9A1C` high-team mapping. **Found:** `$B2=0x10` is page 1/team 16;
         `$BC=0` makes `$9A1C` read the page-0 `$06E2[0]`, so the table is
         not page-specific. Next: the `$06E2`/`$B2` page mapping (32-team
-        groups for page 1).
+        groups for page 1). **Found:** `$06E2` is 8 groups x 2 =
+        16 bytes (`04 07 17 16 ...`); `$9A4E` uses `$06E2[$BC*2+$BD]`,
+        `$9A1C` `$06E2[$BC]`. The 32-team needs a 32-byte table (16 groups
+        x 2) and the page offset (`$B2` bit 4) in those readers.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
