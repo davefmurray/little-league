@@ -3230,3 +3230,25 @@ Verified locally:
 ```
 test_roster32: fixture round-trip + edit OK
 ```
+
+
+## Round 117 — post-game CHR shadows differ, but are not the bank values
+
+At the post-game scene-0B bracket (`/tmp/bracket-post2.state`):
+
+```
+$27 = 0B          (bank 11 mapped)
+$23-$26 = 18 1B 05 1C
+```
+
+The normal bracket entry had `$23-$26 = 1B 1B 18 1C`. The shadows differ,
+but writing CHR0=1B / CHR1=18 with the stock helpers (`$C11C`/`$C134`)
+turns the screen into a checkerboard/flag glitch, not the correct bracket.
+So the shadows are not the latched CHR bank values.
+
+A direct CHR write followed by a save-state diff is also inconclusive: the
+tail byte `0x35b7` changes to `0x1E` for an A=0x1F write, which is the
+MMC1 shift buffer/count, not a recoverable bank byte.
+
+The next CHR probe needs a mapper/PPU-level view of the latched banks, not
+the `$23-$26` shadows or the save-state tail.
