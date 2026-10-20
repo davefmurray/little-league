@@ -1880,14 +1880,14 @@ P1 now stands at:
 - [x] 63-slot state
 - [x] scene-0B winner write
 - [x] post-game return to bracket (visually corrupted, deferred)
-- [ ] dynamic match index / next pairing
-- [ ] five-round soak, champion slot 62
+- [x] dynamic match index / next pairing
+- [ ] five-round soak, champion slot 62 (blocked by teams 16-31)
 
 Next concrete P1 step: add a match counter (`$07FC`), index pairing by
 `2*$07FC`, write the winner to `$7720 + ($07FC>>1)`, and increment after the
 game. Then run two matches to prove advancement.
 
-## Round 80 — dynamic match counter did not run
+## Round 80a — first dynamic-counter attempt (superseded)
 
 Built `direct16`:
 
@@ -1912,3 +1912,112 @@ return may be stock's own path rather than our FFC0.
 
 Next: break at FFC0/FEE0 during a SPEED game to confirm whether either executes;
 if not, `CC68` is not the handler actually used for scene 0B.
+
+**Superseded by 80b.** The handler does execute with a bank-switch trampoline
+at `$FFC0` and the winner body in bank 11 at `$8380`. 80a's build put the
+winner body at `$FEE0`, used the wrong destination formula (`m>>1`), and its
+readback saw `$07FC=$00`, so its negative result was a test-path issue, not a
+proof that `$CC68` is unused.
+
+
+## Round 80b — match index + heap winner advance (P1 core GREEN)
+
+The old next-step formula was wrong for rounds 2-5. `$7720 + ($07FC>>1)` would
+write round-2 winners to `$7728-$772B`, colliding with round-2 sources. The
+63-slot state is a heap:
+
+```
+slots 0..31   first-round teams   $7700-$771F
+slots 32..62  winners             $7720-$773E
+
+match m        pair = slots 2m, 2m+1       source = $7700 + 2m
+match m winner destination = slot 32 + m  dest   = $7720 + m
+```
+
+Why source `2m` works in every round: the cumulative matches before a round
+equal half the slots consumed, so the next round's source base is exactly
+`2*m` (0, 32, 48, 56, 60 for rounds 1-5). The destination is always `32+m`
+(32, 48, 56, 60, 62). Match 30 therefore writes the champion to slot 62.
+
+### Implementation (`tools/build_match_index.py`)
+
+Built on `direct14` (functional post-game return, corrupted bracket tiles):
+
+```
+bank11 $8360  A handler: pair = $7700[2*$07FC], $7700[2*$07FC+1] -> $07FA/$07FB
+bank11 $8380  initial END entry: $07FC=0, slots 32..62 = $FF
+bank11 $83A0  scene 0B: $7720[$07FC] = pair[0]; INC $07FC; JMP $8000
+fixed  $FF53  END entry JMP $8000 -> JMP $8380   (one-time init)
+fixed  $FFE4  scene 0B  JMP $8000 -> JMP $83A0   (winner + advance)
+```
+
+The one-time init lives on the `$FF20` END path, not on `$8000`, because
+`$8000` redraws the bracket after every game and must not erase the winners.
+direct14's old scene-0B hook also had `LDA $7700 / STA $7720` at `$FFC0`;
+the build NOPs those six bytes, because that stale pre-write would clobber
+match 0's winner after every later game. The two-match proof below was
+re-run on the cleaned build.
+
+### In-context proof (romdev, fceumm)
+
+Two complete matches, no cold pokes:
+
+| match | pair | slot | value | `$07FC` after |
+|---|---|---|---|---|
+| 0 | `0F` FLORIDA vs `00` JAPAN | `$7720` | `0F` | `01` |
+| 1 | `01` vs `02` | `$7721` | `01` | `02` |
+
+Six consecutive matches (0-5) produced
+`$7720-$7725 = 0F 01 03 05 07 09`, i.e. the first team of every pair, and
+returned to the bracket input loop each time (`PC=$81C5`, `$27=0B`).
+
+Round-2 probe at the live bracket: set `$07FC=$10`, press A. The handler read
+`$7720/$7721 = 0F/01` into `$07FA/$07FB`, the game ran, and the scene-0B hook
+wrote `$7730=0F` (slot 48) then `$07FC=$11`. This proves the heap formula for
+round 2, not just round 1.
+
+Harness: `tools/soak_bracket.py` drives N matches from power-on (or a
+CONTINUE/END savestate), handles both pre-game order screens, and verifies each
+forced winner against its pair.
+
+```sh
+python3 tools/build_match_index.py build/direct14.nes -o build/direct17.nes
+python3 tools/soak_bracket.py --rom build/direct17.nes --matches 6
+```
+
+### Full-soak blocker: teams 16-31
+
+The 31-match soak passed matches 0-7, then stopped on match 8 (`10` vs `11`,
+the first pairing using ids >= `$10`). At the timeout the CPU was alive at
+`PC=$AF69` but the screen was black, scene `$10`, substate `04`. This matches
+the known P3 placeholder-roster state for teams 16-31, not a bracket bug.
+Next: either fill the P3 data or map `id & $0F` for the stock launch only
+(keeping the real id in `$7700`) so the P1 state loop can soak all 31 matches.
+
+### Score bytes found: `$048B` / `$048C`
+
+The earlier P1 rounds ruled out `$0515/$0516` and `$04E0-$04FF`; the actual
+live scores were in the RAM map all along:
+
+```
+bank4 $AA5F  STA $048B / $048C      clears both at game start (0-0)
+bank7 $A418  INC $048B,X            X=$04ED, scoring increment
+bank4 $B133  LDA $048B              HUD score draw
+bank4 $B141  LDA $048C              HUD score draw
+```
+
+At the round-2 probe's scene-0B transition the bytes were `$048B=00`,
+`$048C=01` while the forced stub wrote the first team (`0F`). So the forced
+winner was wrong in that game and the score pair is usable. Next P1 change:
+replace the forced first-team write with
+
+```
+if $048B >= $048C: winner = pair[0] else winner = pair[1]
+```
+
+and re-run a game where the actual winner is the second team to prove the
+selection end-to-end.
+
+P1 is not green yet: the match-index core works, but the five-round soak and
+champion slot 62 still need the high-team launch path and the score-based
+winner.

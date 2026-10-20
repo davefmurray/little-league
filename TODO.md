@@ -241,13 +241,19 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 - [x] Expand bracket state to 63 slots (32 seeds + 31 FF winner slots).
 - [x] Reach live gameplay scene 3 (FLORIDA vs JAPAN, 0-0).
 - [x] Prove $0515/$0516 are not scores (poke has no effect).
-- [ ] Find real score bytes via scoreboard draw / RAM diff.
-- [ ] Compute winner and write $7720 + (match/2).
-- [ ] Write winner into $7720 + (match/2); add round map.
-- [ ] Post-game return to bracket.
-- [ ] Advance winner into `$7700` / wins `$7740`.
-- [ ] Redraw bracket after each game.
-- [ ] Five-round soak with forced winners; champion at slot 62.
+- [x] Find real score bytes: `$048B`/`$048C` (scoring `INC $048B,X` at
+      bank7 `$A418`; HUD reads at bank4 `$B133/$B141`). `$04ED` selects the side.
+- [ ] Use `$048B/$048C` to choose the winner instead of the forced first team.
+- [x] Match index `$07FC`: pair `$7700[2m]`/`$7700[2m+1]`; forced winner to
+      `$7720[m]`; increment. Heap destination is `32+m`, not `32+(m>>1)`.
+- [x] Post-game return to bracket (functional; CHR/tile corruption is P4).
+- [x] Advance winner across rounds: round-2 probe wrote slot 48 (`$7730`) and
+      advanced the index to 17.
+- [ ] Redraw bracket after each game (current screen is the static 32-team
+      grid; it does not display winners yet).
+- [ ] Five-round soak with forced winners; champion at slot 62. Blocked at
+      match 8 by teams 16-31 placeholder data (scene `$10`, black screen).
+      Workaround for P1: map `id & $0F` for the stock launch only.
 - [ ] Acceptance: 31 wins, five rounds, regression green.
 
 ### P2 — Password (deferred)
