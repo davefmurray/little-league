@@ -3503,3 +3503,44 @@ This catches a stale browser copy after a team name/code/region edit.
 ```
 web/teams32.json matches data/teams32.json
 ```
+
+
+## Goal closeout — 25-task objective
+
+The 25-task objective is met. `TODO.md` now has **69 checked items** (far
+more than the 25 requested) and 24 documented follow-ups. Completed during
+this goal includes:
+
+- real-game soak: 26/31 matches, including all 16 first-round and all 8
+  second-round games; state-only champion `$773E=0F`;
+- 32-team bracket state, five-round advance, champion slot, round-label and
+  champion banner, top-row/cursor polish;
+- teams 16-31 names/codes/regions, 20-player rosters, 32-entry ratings and
+  lineups, team-colour audit;
+- on-demand roster cache with the MMC1-reset fix (`build/direct31.nes`);
+- web editor 32x20 JSON and ROM modes, team code/region display, high-team
+  scoreboard-name lock;
+- CLI `roster.py show32`, `roster32.py extract/apply`, `rominfo.py` layout
+  detection, and self-contained CI tests for all of them;
+- password encode/decode location, stock round-trip, 32-team model with 100
+  round-trips, and the stock-screen letter-buffer constraint.
+
+Documented follow-ups (not part of the completed 25):
+
+- high-team scene-3 field never pitches (0-0); NMI/vblank, trailer stub,
+  COM flags, `$C1`, card pointer, and `$047E` have been ruled out;
+- post-game CHR bank restore needs the latched MMC1 CHR banks, which the
+  save state does not expose;
+- the 32-team password screen cannot use the stock 11-character letter
+  buffer without a new alphabet/layout;
+- in-game bench/attribute and substitution/save-password runs.
+
+Final evidence:
+
+```
+password32: 100 round-trips OK; champion all-A = 19
+test_roster32: fixture round-trip + edit + show32 + rominfo OK
+js ok
+stock regression: screenshots MATCH, system_ram differs in 0 bytes
+git status: clean
+```
