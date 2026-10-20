@@ -4229,3 +4229,25 @@ So the top-level P0 blocker is the **bank6 card loop holding the CPU**; the
 order-screen input/status issues are downstream of it. The high-team field
 cannot reach the `$9D9F -> $9DAE -> $96E6` live-field path until the card
 loop exits.
+
+
+## Round 156 — the card loop is a read-only wait; skipping it does not start
+
+At `/tmp/high-field.state`, write breakpoints on `$05D3`, `$047B`, and
+`$0545` all miss for 10 frames. The `$9011` loop only **reads** `$05D3` and
+rewrites `$047F=$7C`; no code advances the timer or the card step.
+
+Diagnostic patch `build/direct31-skipcard.nes` replaces `$9011` with:
+
+```
+LDA #$00 / STA $0545 / RTS
+```
+
+With `$0545=0`, the scene stays `03`, `$047E=0`, `$047F=$7C`, score 0-0,
+and the PC stays in the fixed main loop. Skipping the card wait lands in the
+**idle field**, not the live match. The live start still needs the order
+path (`$9D9F -> $9DAE -> $96E6`), which is never dispatched.
+
+So the P0 field is blocked at two levels: the card wait is a read-only dead
+loop, and the order-screen start path is not reached from it. No ROM change
+from this probe was kept.
