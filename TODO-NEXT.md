@@ -84,9 +84,12 @@ log is in `docs/AUTORUN-REPORT.md`.
       `tools/soak32.py` run passes with real scores and the 400-round-trip
       password model (`build/soak32.json`). In-game substitution and the
       save-password UI still need the live field / password screen.
+- [ ] **Match 5 soak stall (new).** 26-match speed soak: matches 0-4 pass,
+      match 5 (09 v 0A) times out after 40k frames. Capture the field state at
+      the timeout; determine whether it is the card loop or a COM/pitch stall.
 - [ ] **Match 26 crash follow-up.** `11/13` at 2-0 enters scene `$1D`,
-      `PC=$00C3` (RAM jam). Trace the stock post-game path beyond its 16-team
-      design.
+      `PC=$00C3` (RAM jam). Static finding: `direct31` scene `1E`/`1F` table
+      entries are `$0101`/bank `$AD` (stock has `$38F0`/`$877F`/bank `$31`).
 - [ ] **Hardware validation** on a flash cart / MMC1 donor. Checklist is
       written (`docs/hardware-checklist.md`); bench execution still pending.
 - [ ] **Sound/music checks** after the data moves. Checklist is written

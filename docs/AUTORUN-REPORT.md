@@ -4338,3 +4338,27 @@ Report: `build/soak32.json` (gitignored build artifact).
   writer absent), in-game bench/attribute card, password-screen font/wiring.
 - Open: match-26 (scene 1E/1F table entries are `$0101`/bank `$AD` in the
   32-team build), hardware/sound execution.
+
+
+## Round 160 — 26-match soak stalls at match 5 (new issue)
+
+A 26-match `soak32` run on `direct31.nes` (speed, score):
+
+```
+match 00: 0F v 00 -> 0F (9-1)  OK
+match 01: 01 v 02 -> 02 (0-12) OK
+match 02: 03 v 04 -> 04 (0-7)  OK
+match 03: 05 v 06 -> 06 (0-5)  OK
+match 04: 07 v 08 -> 08 (0-1)  OK
+match 05: 09 v 0A -> TIMEOUT after 40,000 frames
+```
+
+The run never reaches match 26. This is a **new field stall** for the
+09/0A pairing on the current build (low teams, so not the high-team
+card/order issue). The earlier "26 complete games" result is not reproduced
+here; it needs a per-match state capture at the timeout.
+
+Static match-26 risk remains: in `direct31.nes` the scene `1E`/`1F` handler
+table entries are `$0101` with bank `$AD`, while the stock `32bracket.nes`
+has `$38F0`/`$877F` and bank `$31`. If the post-game path ever enters scene
+`1E`, the dispatcher jumps to `$00C3` (the reported RAM jam).
