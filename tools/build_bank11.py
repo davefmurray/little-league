@@ -128,6 +128,12 @@ def assemble(lines, origin):
             continue
         for name, addr in sorted(labels.items(), key=lambda kv: -len(kv[0])):
             line = re.sub(rf"\b{re.escape(name)}\b", f"${addr:04X}", line)
+        m = re.fullmatch(r"(B\w+)\s+\$([0-9A-Fa-f]{4})", line)
+        if m and m.group(1) in BRANCHES:
+            rel = int(m.group(2), 16) - (origin + len(code) + 2)
+            if not -128 <= rel <= 127:
+                raise SystemExit(
+                    f"branch out of range at +${len(code):04X}: {line} ({rel:+d})")
         code += bytes(a.assemble(line, origin + len(code)))
     return bytes(code), labels
 

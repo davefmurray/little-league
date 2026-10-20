@@ -106,7 +106,11 @@ def assemble(lines, origin):
         else:
             raise SystemExit(f"bad op {op}")
     for pos, label in branches:
-        code[pos + 1] = (labels[label] - (pos + 2)) & 0xFF
+        rel = labels[label] - (pos + 2)
+        if not -128 <= rel <= 127:
+            raise SystemExit(
+                f"branch out of range at +${pos:04X} -> {label} ({rel:+d})")
+        code[pos + 1] = rel & 0xFF
     for pos, label in fixups:
         addr = origin + labels[label]
         code[pos + 1] = addr & 0xFF
@@ -137,13 +141,17 @@ def screen_code():
         ("LDA#", 0xFF), ("STA", SELECTED),
         ("JSR", "draw_page"),
         "main:", ("JSR", "read_pad"),
-        ("LDA", BUTTONS), ("AND#", 0x40), ("BNE", "back"),
-        ("LDA", BUTTONS), ("AND#", 0x80), ("BNE", "select"),
-        ("LDA", BUTTONS), ("AND#", 0x08), ("BNE", "up"),
-        ("LDA", BUTTONS), ("AND#", 0x04), ("BNE", "down"),
-        ("LDA", BUTTONS), ("AND#", 0x02), ("BNE", "left"),
-        ("LDA", BUTTONS), ("AND#", 0x01), ("BNE", "right"),
-        ("JMP", "main"),
+        # Each check uses a short BEQ to the next check and an absolute JMP to
+        # the handler.  The handler bodies are far enough apart that a direct
+        # BNE can exceed the +-127 branch range and silently wrap (that is how
+        # "right" stopped working after the launch block was added).
+        ("LDA", BUTTONS), ("AND#", 0x40), ("BEQ", "k1"), ("JMP", "back"),
+        "k1:", ("LDA", BUTTONS), ("AND#", 0x80), ("BEQ", "k2"), ("JMP", "select"),
+        "k2:", ("LDA", BUTTONS), ("AND#", 0x08), ("BEQ", "k3"), ("JMP", "up"),
+        "k3:", ("LDA", BUTTONS), ("AND#", 0x04), ("BEQ", "k4"), ("JMP", "down"),
+        "k4:", ("LDA", BUTTONS), ("AND#", 0x02), ("BEQ", "k5"), ("JMP", "left"),
+        "k5:", ("LDA", BUTTONS), ("AND#", 0x01), ("BEQ", "k6"), ("JMP", "right"),
+        "k6:", ("JMP", "main"),
         "back:", ("LDA#", 0xFF), ("STA", SELECTED), ("JSR", "draw_page"), ("JMP", "release"),
         "select:", ("LDA", PAGE), ("ASL",), ("ASL",), ("ASL",),
         ("CLC",), ("ADC", CURSOR), ("STA", SELECTED), ("JSR", "draw_page"),
@@ -158,10 +166,12 @@ def screen_code():
         ("PLA",), ("PLA",),   # discard the JSR $FF00 return frame
         ("LDA#", 0x12), ("STA", 0x047B),
         ("JMP", 0xCC09),
-        "up:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCC", "release"),
-        ("SEC",), ("SBC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
-        "down:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCS", "release"),
-        ("CLC",), ("ADC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
+        "up:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCS", "upmove"),
+        ("JMP", "release"),
+        "upmove:", ("SEC",), ("SBC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
+        "down:", ("LDA", CURSOR), ("CMP#", 0x04), ("BCC", "downmove"),
+        ("JMP", "release"),
+        "downmove:", ("CLC",), ("ADC#", 0x04), ("STA", CURSOR), ("JSR", "draw_page"), ("JMP", "release"),
         "left:", ("LDA", CURSOR), ("AND#", 0x03), ("BNE", "leftmove"),
         ("LDA", PAGE), ("SEC",), ("SBC#", 0x01), ("AND#", 0x03), ("STA", PAGE),
         ("LDA", CURSOR), ("AND#", 0x04), ("ORA#", 0x03), ("STA", CURSOR),
@@ -247,7 +257,10 @@ def screen_code():
         ("LDA", 0x04), ("STAx", 0x0300), ("INX",),
         ("LDA", 0x07), ("ASL",), ("STA", 0x08), ("ASL",), ("CLC",), ("ADC", 0x08), ("TAY",),
         ("LDA#", 0x06), ("STA", 0x09),
-        "slotloop2:", ("LDAy", SLOTS), ("STAx", 0x0300), ("INX",), ("INY",), ("DECz", 0x09), ("BNE", "slotloop2"),
+        "slotloop2:", ("LDAy", SLOTS), ("CMP#", 0xFF), ("BNE", "slotkeep"),
+        ("LDA#", 0x00),   # $FF is the display-list end marker; the flag tile
+        "slotkeep:",      # area is an unimplemented $FF placeholder, so blank
+        ("STAx", 0x0300), ("INX",), ("INY",), ("DECz", 0x09), ("BNE", "slotloop2"),
         ("LDA#", 0xFE), ("STAx", 0x0300), ("INX",), ("STX", 0x06), ("RTS",),
         "read_pad:", ("LDA#", 0x01), ("STA", 0x4016), ("LDA#", 0x00), ("STA", 0x4016),
         ("LDX#", 0x08), ("LDA#", 0x00), ("STA", BUTTONS),

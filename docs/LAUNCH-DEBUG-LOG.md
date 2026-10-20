@@ -316,3 +316,31 @@ variable that path never sets.
 Limits: this maps the **first 16 bracket slots** into the stock 16-team
 tournament. A real 32-team tournament (32 slots, 5 rounds, new `$8941`/state)
 is still the larger milestone; the first match now matches the bracket.
+
+## Loop 14 — selector regressions found while testing a non-default pick
+
+Trying to pick team 5 exposed two real selector bugs (both pre-existing in the
+dynamic-redraw path, both now fixed):
+
+1. **Out-of-range branches.** Adding the `launch:` block pushed the direction
+   handlers past the +-127 branch range. The assembler masked the offsets, so
+   `BNE right` wrapped to `$802D` and up/down's `BCC/BCS release` wrapped too.
+   The main loop now uses `BEQ nextcheck` + absolute `JMP handler`, and both
+   assemblers (`build_select_screen.py`, `build_bank11.py`) raise on an
+   out-of-range branch instead of masking it.
+2. **Dynamic redraw hung the display-list flush.** `append_flag` copies 6
+   bytes per team from the unimplemented flag area at `$AC00`, which is `$FF`
+   filler. The flush (`$C55C CMP #$FE / BCS`) treats `$FF` as an end-of-run
+   marker, then reads the next `$FF` as an RLE header and copies 255 bytes,
+   overshooting `$32` forever. `append_flag` now replaces `$FF` with `$00`
+   (blank tile), so the redraw completes.
+
+Verified picks:
+
+```
+team 0  -> $7700 = 00 01 02 03...  -> 04EF/04F0 = 00 01  -> JAPAN vs ARI
+team 5  -> $7700 = 05 00 01 02...  -> 04EF/04F0 = 05 00  -> NEW YORK vs JAPAN
+```
+
+Both reach the field with the same pair. The flags themselves are still
+placeholders (blank tiles) in this chain — that is the separate flags milestone.
