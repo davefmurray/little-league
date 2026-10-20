@@ -20,6 +20,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       card/order state machine: `$047F` is rewritten to `$7C` every frame at
       bank6 `$9018`, `$05D3` is stuck below the `$903C[$0545]` threshold,
       and START can reach scene `0F` but B+A returns to the card loop.
+      `$0489=0` is the live field phase, `$0489=3` is the box score; the
+      blocker is the `$0545=3` card-cutscene step whose `$05D3` timer never
+      reaches `$903C[$0545]`.
 
 ## P1 — visible/gameplay correctness
 

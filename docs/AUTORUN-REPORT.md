@@ -3787,3 +3787,31 @@ So the high-team field is stuck in the **pre-game card/order state machine**,
 not a dead CPU or a missing pitch routine. Next: find the caller of the
 bank6 `$9011`/bank7 `$93CF` card routines and the transition that should
 clear the card state and enter the live field.
+
+
+## Round 141 — `$0489` is the game phase; `$0545` is the card cutscene step
+
+At the high-team field:
+
+```
+$0489=00  $0545=03  $05D3 below $903C[$0545]
+```
+
+Forcing `$0489`:
+
+- `$0489=03` -> scene `$0B` (box score), `$07FC` jumps `08` -> `09`, score 0-0.
+  So `$0489=3` is the **game-over/result** phase.
+- `$0489=01`/`02` -> scene stays `03`, `$0545=00` after the force, score 0-0.
+  The live field is `$0489=0` with `$0545=0` (the card cutscene finished).
+
+A low-team match captured at the box score confirms:
+
+```
+scene 0B  $0489=03  score 9-1  $07FC=01
+```
+
+So the high-team blocker is the **`$0545=3` card cutscene step**, not
+`$0489`. The card routine `$9011` waits for `$05D3 >= $903C[$0545]` and
+rewrites `$047F=$7C` every frame; the timer never reaches the threshold.
+Next: find the input/animation path that advances `$05D3` during the
+low-team card sequence.
