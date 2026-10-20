@@ -3375,3 +3375,19 @@ WATCH is the scene-10 path; the scene-03 field is SPEED and expects a
 pitch/COM handoff. Patching `$047E` alone is not the field-stall fix.
 
 No ROM change was kept; the `direct39` probe still stalls at 0-0.
+
+
+## Round 125 — README/TODO status refresh
+
+The README's 32-team section now reflects the current build:
+
+- working: bracket, selector, rosters, ratings, lineups, on-demand cache,
+  round labels, champion banner, browser editor 32x20 ROM/JSON, CLI
+  `roster.py show` and `roster32.py extract/apply`;
+- embedded the selector page-3 screenshot (`docs/teams16-31-select.png`);
+- gaps updated to the scene-3 field stall, the 11-character letter password
+  screen, and the post-game CHR latches.
+
+TODO cleanup: marked the 32-slot tournament, 32-slot bracket, 32-team
+password format model, and bracket-table relocation as done; replaced the
+stale NMI-guard field note with the current scene-3/pitch-loop status.

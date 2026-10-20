@@ -70,15 +70,29 @@ stock 16-team game. The working parts are:
   16-31 (`data/roster32.json`, `tools/build_extra_rosters.py`).
 - **Bracket UI**: live `ROUND 1..5` / `CHAMPION` title, `WIN<code>` line,
   cursor marker.
+- **Roster cache**: the two current teams are copied to `$7800`/`$7A00` and
+  `$7F00` is repointed; the MMC1 reset before the bank-8 switch was the
+  missing step.
+- **32-team data**: ratings at bank3 `$BC80`, lineups at fixed `$FD80`,
+  browser editor 32x20 ROM/JSON modes, CLI `roster.py show` and
+  `roster32.py extract/apply`.
 
-Known gaps before it replaces the stock flow:
+<p align="center">
+  <img src="docs/teams16-31-select.png" alt="32-team selector page 3: Australia, Cuba, Dominican Republic, Venezuela" width="640">
+</p>
 
-- on-demand roster cache for teams 16-31 (the direct builds still use the
-  original 16-team pointer table);
-- team colours/ratings/lineups are still the 16-team tables;
-- the 32-team password is not implemented;
-- the browser editor is still 16 teams x 15 players;
-- post-game CHR banks still corrupt the bracket tiles (P4).
+Known gaps / work in progress:
+
+- the high-team field reaches scene `$03` and runs frames, but the SPEED
+  pitch loop does not advance (0-0); the scene-3 state machine is the open
+  blocker;
+- the 32-team password model is implemented (`tools/password32.py`), but the
+  stock password screen is an 11-character letter buffer, so the screen
+  wiring is still open;
+- post-game CHR bank restore still corrupts the bracket tiles (the mapper
+  CHR latches are not exposed by the save state);
+- the hosted editor defaults to the stock 16-team demo; the 32-team mode is
+  loaded from a 32-team ROM or the Data menu.
 
 See `docs/AUTORUN-REPORT.md` and `TODO.md` for the current state.
 
