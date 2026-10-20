@@ -79,6 +79,9 @@ def main():
     ap.add_argument("rom")
     ap.add_argument("--state", action="store_true",
                     help="install the experimental 32-team PRG-RAM state")
+    ap.add_argument("--keep-seed", action="store_true",
+                    help="with --state, do not overwrite $7700 from $FD00; "
+                         "use the seed the bracket screen already wrote")
     ap.add_argument("-o", "--out", default="build/32bracket.nes")
     args = ap.parse_args()
 
@@ -105,6 +108,12 @@ def main():
             0xD0, 0xF0,
             0x4C, ADVANCE & 0xFF, ADVANCE >> 8,
         ])
+        if args.keep_seed:
+            # BD 00 FD -> BD 00 77: the copy becomes a self-copy, so the
+            # bracket screen's human-first $7700 seed survives.
+            init = bytearray(init)
+            init[3] = SLOTS & 0xFF
+            init[4] = SLOTS >> 8
         rom[bank5_off(INIT):bank5_off(INIT) + len(init)] = init
 
         patch16(rom, LOAD_A, SLOTS)

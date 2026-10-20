@@ -502,3 +502,33 @@ name buffer `$06B5` lands at `$AF65` (the LONG-name loader, bank 1), so the
 different path and is almost certainly tied to the placeholder block being a
 copy of team 15's (Florida) — the roster/name data milestone, not a table
 pointer bug. Cosmetic; the game plays.
+
+## Loop 32 — 32-team bracket state in the launch path
+
+`build_32bracket.py --state` installs a 31-record table at `$FC00`, a seed at
+`$FD00`, slots at `$7700` and counters at `$7740`, and rewrites the bank-5 init
+(`$9B5F`) to copy the seed and zero the counters.
+
+The stock `--state` init overwrites `$7700`, which would discard the bracket
+screen's human-first seed. Added `--keep-seed`: the init's `LDA $FD00,X` becomes
+`LDA $7700,X` (a self-copy), so the screen's seed survives and the counters are
+still zeroed.
+
+Verified: team-5 pick → matchup `05/00`, `$7700 = 05 00 01 02 …`,
+`$7740 = 00 …`. The advance routine checks the 16-bit result mask at
+`$0755/$0756`, picks slot A/B from `$FC00`, increments the selected team's
+`$7740` counter and writes it to the destination `$FC02`. A CPU call with
+`$0746=1`, `$0755=1` advanced team 0 to slot 32 and incremented `$7740[0]`.
+
+## Loop 33/34 — a full COM game returns to the title, no advance
+
+Stepping 20 000 frames from the field ends at scene 2 (`$047B=$02`, handler
+`$CFAA`, the title/boot scene) with a garbled screen, on **both** the stock
+16-team `launch32` and the 32-team-state build. `$0746` stays 0 and no slot is
+advanced.
+
+So this is a launch-path/post-game issue that predates the 32-team state: the
+hack reaches a playable field, but the end-of-game path returns to a broken
+title scene instead of a result/bracket update. Next probe: log `$047B` in
+300-frame slices from the field to catch the field → result → title
+transitions, then inspect the first non-field scene.
