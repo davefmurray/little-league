@@ -5756,3 +5756,22 @@ reference scan.
 
 Next: search the 2-byte pointer tables for `$A1AA`/`$A1C6` (low/high
 bytes) and trace the title/menu dispatch that reaches the list.
+
+
+## Round 217 — $A1C6 is a pointer-table entry, not code
+
+Byte-pair scan:
+
+```
+9B68: C6 A0 | 06 A1 | 46 A1 | 86 A1 | C6 A1 | 06 A2 | 46 A2 | 86 A2
+      -> pointers $A0C6, $A106, $A146, $A186, $A1C6, $A206, $A246, $A286
+         (stride $40)
+A15F: ... 79 AA A1 ...   ; ADC $A1AA,Y -> $A1AA is also a data table
+```
+
+So `$A1C6` is the 5th entry of an 8-entry pointer table at `$9B68`
+(stride `$40`), not a code entry, and `$A1AA` is read as a data table at
+`$A15F`. The earlier "list entry at `$A1C6`" interpretation was wrong.
+
+Next: follow the `$9B68` pointer table and the `$A1AA` data reads to find
+the real LIST OF TEAMS dispatch and its `$06E2` seed point.

@@ -31,6 +31,11 @@ History: `docs/AUTORUN-REPORT.md`.
        **Round 216:** no direct `JSR/JMP $A1AA`/`$A1C6` anywhere; the list
        is reached indirectly. Next: scan 2-byte pointer tables for
        `$A1AA`/`$A1C6` and trace the title/menu dispatch.
+       **Round 217:** `$9B68` is an 8-entry pointer table
+       (`$A0C6/$A106/$A146/$A186/$A1C6/$A206/$A246/$A286`, stride `$40`);
+       `$A1C6` is an entry, not code, and `$A1AA` is also a data table
+       (`ADC $A1AA,Y` at `$A15F`). Next: follow the table/data to the real
+       LIST dispatch.
        Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
        only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not
