@@ -18,7 +18,9 @@ History: `docs/AUTORUN-REPORT.md`.
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not
        because the table is corrupt. Next: initialize the stock 4-team
        slots for the list path, or replace the screen with the 32-team
-       selector/table.
+       selector/table. **Located:** the LIST OF TEAMS menu action is bank1
+       `$A1C6` (`$C0=0x0E`) -> `$A1AA`; the list reads `$C0`/`$BD`/`$071A`.
+       Trace those rows and initialize the 32-team data.
 5. [ ] **Match-5 soak stall (P1).**
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
 6. [x] **Scene 1E/1F / match-26 (P1).**
