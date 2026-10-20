@@ -266,10 +266,13 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       in-context games 0/1/8/16).
 - [x] P1 closeout: state-only 31/31, champion `$773E=0F`, visible
       `"WIN<code>"` redraw, stock regression green. P1 scheduled loop disabled.
-- [ ] **P3 follow-up:** real-game field control for some pairings (first seen
-      at match 5, `09/0A`). The field waits for a human pitch; `$047E` is the
-      SPEED/WATCH byte, `$04EA` is never written on that path. The bracket
-      state machine is unaffected.
+- [x] **P3 follow-up (mitigated):** real-game field control for some pairings.
+      The soak harness reasserts `$04EB/$04EC=$80`, `$04E9=0` at scene 03 and
+      presses A at a waiting cutscene. Real SPEED flow now passes matches 0-25
+      with real scores (all round 1, all round 2, two round-3 games).
+- [ ] **P3 stock-path follow-up:** match 26 (`11/13`, 2-0) goes to scene `$1D`
+      and jams at `PC=$00C3`; the stock post-game path is past its 16-team
+      design. State-only soak still covers champion math.
 
 ### P2 — Password (deferred)
 

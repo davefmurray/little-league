@@ -2414,3 +2414,44 @@ champion math are unaffected and are proven by the state-only soak.
 
 This real-game field control is moved to the P3 follow-up list. The P1
 scheduled loop is disabled at this closeout.
+
+
+## Round 89 — real-game soak reaches 26/31
+
+The match-5 field stall is bypassable in the harness without a ROM patch.
+At scene 03 the harness reasserts the COM state that made the field auto-play:
+
+```
+$04EB = $80
+$04EC = $80
+$04E9 = $00
+```
+
+and at scene 11 it presses A once to advance a waiting cutscene. With that,
+the real SPEED flow ran **matches 0-25 with real scores**:
+
+```
+round 1: all 16 matches
+round 2: matches 16-23
+round 3: matches 24-25
+```
+
+Every winner was written to the correct heap slot and the index advanced
+1:1. This is the strongest real-game evidence so far; the full table is in
+the soak log.
+
+### Match 26 crash
+
+Match 26 (`11` vs `13`, score 2-0) never reached scene 0B. At the timeout:
+
+```
+scene $1D   PC=$00C3 (RAM, jammed)   $07FC=$1A   $048B/8C=02/00
+```
+
+`$0746=0`, so this is not the stock match counter. Scene `$1D` looks like a
+post-game/next-round stock path beyond the 16-team design; the stock game
+has only 15 matches of its own, and match 26 is past double that. The
+bracket state machine is unaffected (the state-only 31-match soak is green).
+
+This is now a P3 stock-path follow-up: either intercept scene `$1D` too, or
+cap/reset the stock tournament bookkeeping before it overflows.

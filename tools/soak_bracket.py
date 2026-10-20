@@ -152,10 +152,28 @@ def main():
                      on_scene=lambda: (leave_lineup_top()
                                        if rd_sys(0x047B)[0] == 0x0F else None))
         else:
-            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 30000, 500,
-                     f"match {m} result",
-                     on_scene=lambda: (leave_lineup()
-                                       if rd_sys(0x047B)[0] == 0x0F else None))
+            # The stock field waits for a human pitch on some pairings.
+            # Reassert both-COM at the field and advance a waiting cutscene.
+            seen = {"cut": False, "com": False}
+
+            def handle_scene():
+                scene = rd_sys(0x047B)[0]
+                if scene == 0x0F:
+                    leave_lineup()
+                elif scene == 0x11 and not seen["cut"]:
+                    press("a", 2)
+                    seen["cut"] = True
+                elif scene == 0x03 and not seen["com"]:
+                    romdev.call("memory", {"op": "write",
+                                           "region": "system_ram",
+                                           "offset": 0x04EB, "hex": "8080"})
+                    romdev.call("memory", {"op": "write",
+                                           "region": "system_ram",
+                                           "offset": 0x04E9, "hex": "00"})
+                    seen["com"] = True
+
+            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 40000, 500,
+                     f"match {m} result", on_scene=handle_scene)
 
         slot = rd_cart(0x7720 + m)[0]
         scores = rd_sys(0x048B, 2)
