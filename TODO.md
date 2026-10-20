@@ -260,7 +260,10 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       at `$9C3D`) and A confirms. Harness now uses B+A per team.
 - [ ] Five-round soak; champion at slot 62. Matches 0-4 pass with real scores;
       match 5 reaches the field but waits for a human pitch (not COM auto
-      mode). Next: find the SPEED/WATCH mode byte and force auto-sim.
+      mode). `$047E` is the SPEED/WATCH byte (0=SPEED, 1=WATCH; bank5 `$9EA4`
+      maps it to `$04EA` and scene `$16`/`$10`). Forcing `$047E=0` at the menu
+      did not fix match 5; `$04EA` stayed 0 at the field. Next: write-watch
+      `$047E/$04EA` through the match-5 transition.
 - [ ] Acceptance: 31 wins, five rounds, regression green.
 
 ### P2 — Password (deferred)

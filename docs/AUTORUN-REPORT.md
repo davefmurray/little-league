@@ -2193,10 +2193,43 @@ auto mode. This is now the only thing between the soak and 31 matches.
 - Poking `$04E9` to 0 or `$FF` at the field does not start auto-play (the
   first try only garbled the screen because the state was already broken).
 
-Next concrete probe: a controlled RAM diff at the SPEED/WATCH menu (before
-and after `DOWN`) to find the mode byte, then force it to the auto/COM path
-at launch. Candidates: the menu's own selection byte, `$04E8-$04F0`, or
-`$06E1/$BE/$BF`. Once the field auto-sims, run the 31-match soak and check
+### SPEED/WATCH mode byte found: `$047E`
+
+A controlled RAM diff at the speed menu (before/after `DOWN`) isolates the
+selection to `$047E`:
+
+```
+$047E = 0  SPEED MODE
+$047E = 1  WATCH THE GAME
+```
+
+The consumer is bank5 `$9EA4`:
+
+```
+9EA4  LDA $047E
+9EA7  EOR #$01
+9EA9  STA $04EA
+9EAC  BEQ $9EC2        ; WATCH -> X=$10, scene $10
+9EAE  JSR $C46F
+9EB1  LDX #$16         ; SPEED -> scene $16
+...
+9EC2  STX $047B
+```
+
+So SPEED sets scene `$16`, WATCH sets scene `$10`; the matchup handler's
+`$047E` can carry over, so the menu does not always open on SPEED.
+
+Forcing `$047E=0` from the harness right before the menu's A did **not** fix
+match 5: `$047E` stayed 0, but `$04EA` was still 0 at the field and the game
+still waited for a pitch. Poking `$04EA=1` at the field also did not start
+auto-play. So either the match-5 path does not run the `$9EA4` transition
+after the poke, or another flag (not `$04EA`) gates the field input.
+
+Next concrete probe: write-watch `$047E` and `$04EA` during the whole match-5
+password -> matchup -> speed-menu -> cutscene -> field transition and see
+which instructions write them and whether the scene is `$10` or `$16` when
+the field starts. That distinguishes WATCH from SPEED and names the missing
+control flag. Once the field auto-sims, run the 31-match soak and check
 champion slot 62 (`$773E`).
 
 P1 remains open.
