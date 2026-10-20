@@ -3703,3 +3703,25 @@ screenshot: docs/bracket-codes32.png
 The lower bracket rows now show readable country codes instead of
 placeholder/digit garbage. The remaining garbled rows are the score/round
 placeholders, not the team-code table.
+
+
+## Round 138 — clear the nametable before the bracket draw (P1)
+
+The bracket draw at bank11 `$8000` turns the PPU off and copies its display
+list, but never clears the nametable. After a game, the box-score rows stay
+in the gaps between the bracket runs.
+
+`tools/build_bracket_clear.py` replaces the draw's
+`LDA #$1E / JSR $C102` with a fixed-bank helper that performs the same MMC1
+control write and then fills the 1 KB nametable with tile `$00`. The full
+build chain now runs it before the roster cache:
+
+```
+direct20-names -> ratings32 -> lineups32 -> round labels -> top row
+  -> bracket codes32 -> bracket clear -> roster cache -> direct31.nes
+```
+
+Verified on a complete match-0 run (`FLA` wins, scene `0B`): the box-score
+rows are gone and the bracket reads as a clean 4-column grid of all 32 codes
+(`docs/bracket-clear-post.png`). The remaining top-row overlap is the
+header/title layout, not leftover box-score content.
