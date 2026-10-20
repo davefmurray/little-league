@@ -1531,3 +1531,40 @@ PC    = $8352   (bank11 $FF)
 `$8352` is `$FF`, not code. Next: break at `$8338` and `$FF90` to see whether
 either is reached. If not, the A branch's `JMP $8300` target itself is not being
 executed in this build.
+
+## Round 63 — P0 GREEN: bracket launches the field
+
+Root cause: the direct launch stub selected bank 5 **before** its final jump, so
+the jump opcode was fetched from bank-5 data and execution ran into `$FF`.
+
+Fix: jump to the fixed bank **before** any bank-5 write:
+
+```
+8319 JMP $FF90
+FF90: MMC1 reset, select bank5, $27=5, NMI on, JMP $CC09
+```
+
+Result:
+
+```
+$047B = $13
+PC    = $CC0C   (stock main loop)
+```
+
+Observed screens, in order:
+
+1. `FLORIDA vs FLORIDA`, 1st Round
+2. `SPEED MODE / WATCH THE GAME`
+3. **Field**: FLORIDA vs FLORIDA, players on the diamond
+
+Proof: `docs/p0-field.png`.
+
+P0 acceptance is met: bracket A launches a real stock game field.
+
+Known defect: both sides show FLORIDA. Team IDs are being written to
+`$04EF/$04F0`, but the field uses the same team for both. P1 must fix the
+opponent ID and then advance winners.
+
+The `$B005` JAM guard is still present in the diagnostic build and corrupts
+three bytes of the team-code table; remove it once the branch jumps directly to
+the launch stub.

@@ -220,17 +220,19 @@ python3 -m http.server 8097 --bind 127.0.0.1
 **Scope for the current run: P0 then P1. Stop after P1.**
 Do not start P2–P4 until P0/P1 are green or explicitly re-prioritized.
 
-### P0 — Launch bridge (in progress, blocked)
+### P0 — Launch bridge (GREEN)
 
 Bracket runs; A crashes at `$B005` before the `$8162` A branch. Saved frame is
 intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
-- [ ] Break `$810B` / `$8126` with A held; capture `S` at entry/return.
-- [ ] Capture interrupt state at `$B005`: `$2C`, `$AD`, `$047D`, `$2000`, `$2001`.
-- [ ] Branch-bypass discriminator: patch `$8160 BEQ` to `EA EA`.
-- [ ] Minimal ROM: `JSR $810B; JMP $B005`.
-- [ ] Acceptance: bracket A → stock password/matchup → playable field; stock
-      regression stays green.
+- [x] Break `$810B` / `$8126` with A held; capture `S` at entry/return.
+- [x] Capture interrupt state at `$B005`: `$2C`, `$AD`, `$047D`, `$2000`, `$2001`.
+- [x] Branch-bypass discriminator: patch `$8160 BEQ` to `EA EA`.
+- [x] Minimal ROM: `JSR $810B; JMP $B005`.
+- [x] Acceptance: bracket A → stock matchup → playable field.
+      Proof: `docs/p0-field.png`.
+- [ ] Cleanup: remove diagnostic `$B005` JAM guard, rebuild without corrupting
+      the team-code table, re-verify launch and stock regression.
 
 ### P1 — Tournament loop
 
