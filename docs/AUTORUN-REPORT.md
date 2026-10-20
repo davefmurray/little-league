@@ -2878,3 +2878,24 @@ RAM). So the guard is a symptom: with the PPU rendering re-enabled the
 field logic runs, but the high-team field data sends it into a bad pointer.
 The next probe is a `$0013` crash trace / read-breakpoint to find which
 high-team pointer is invalid, rather than patching the NMI guard.
+
+
+## Round 103 — stock 16-team password round-trip verified
+
+At the live password screen (bank 5 mapped), set `$047D=0`, `$0746=0` and
+call the stock encoder `$98D5`:
+
+```
+$0650 = 03 05 0D 0C 0A 01 0B 06 0F 02 04 07 09 0E 08 00
+$074D = 35 DC A1 B6 F2 47 9E 80
+```
+
+Clear `$0650`, keep `$0746=0`, and call the decoder `$9B5F`:
+
+```
+$0650 = 03 05 0D 0C 0A 01 0B 06 0F 02 04 07 09 0E 08 00
+MATCH
+```
+
+The stock encode -> decode pair is exact. The 16-team `$074D` path is
+intact; the 32-team screen wiring is still the remaining P2 step.
