@@ -70,6 +70,8 @@ jobs:
 
       - name: Test 32-team roster CLI
         run: python3 tools/test_roster32.py
+      - name: Bracket 32 table
+        run: python3 tools/test_bracket32.py
 
       - name: Set up Node
         uses: actions/setup-node@v4
