@@ -24,6 +24,10 @@ History: `docs/AUTORUN-REPORT.md`.
        `$9FA9` validator; if none validates it falls back to team 0 (JAPAN).
        Next: trace `$071A`/`$9FA9` in the 32-team flow and initialize the
        stock team data (or bypass the validator for the 32-team list).
+       Both stock and direct31 have `$06E2`/`$071A` = FF at the title, so
+       the LIST OF TEAMS screen must fill them itself; the 32-team build's
+       list is still the stock screen missing that setup. Next: find/port
+       the stock list setup or replace the screen with the 32-team selector.
 5. [ ] **Match-5 soak stall (P1).**
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
 6. [x] **Scene 1E/1F / match-26 (P1).**

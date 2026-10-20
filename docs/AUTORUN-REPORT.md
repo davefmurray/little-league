@@ -5033,3 +5033,23 @@ the stock 4-team `$071A`/validator state.
 
 Next: trace `$071A`/`$9FA9` in the 32-team flow and initialize the stock
 team data (or bypass the validator for the 32-team list).
+
+
+## Round 187 — $071A/$06E2 are FF at the title in stock and direct31
+
+Read both ROMs after the title boot:
+
+```
+stock:     $06E2 FF..  $071A FF..  $0650 FF..  $074D FF..
+direct31:  $06E2 FF..  $071A FF..  $0650 FF..  $074D FF..
+```
+
+So these tables are **not boot-initialized** in the stock either; the LIST
+OF TEAMS screen itself must fill them. `$A1AA` scans `$071A` (FF -> `AND
+#$03` = 3 -> skips every team) and `$9FA9` validates against the `$06E2`
+team-group table (high nibbles). With both FF, the screen falls back to
+team 0 (JAPAN).
+
+The 32-team build's list is still the stock screen; the missing piece is
+its own setup, not the name table. Next: find/port the stock list setup or
+replace the screen with the 32-team selector.
