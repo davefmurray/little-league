@@ -94,7 +94,8 @@ Known gaps / work in progress:
 - the 32-team password model is implemented (`tools/password32.py`, 100 hex +
   100 letter + 100 stock-tile round-trips), but the stock password screen is
   an 11-character letter buffer and the candidate alphabet's glyph bank is
-  still unconfirmed;
+  still unconfirmed; the 11-char base-32 fallback has a mockup at
+  `docs/password-mockup.html`;
 - the post-game bracket is now clean (real 32-team codes, nametable clear,
   fixed header/title); the remaining garbled rows are score/round
   placeholders;

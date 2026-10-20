@@ -59,7 +59,8 @@ works, what is still blocked, how to build it, and where the evidence lives.
   remaining garbled rows are score/round placeholders.
 - **32-team password screen**: the model and a candidate stock tile
   alphabet exist, but the stock `$06B5` buffer is 11 characters and the
-  glyph render was inconclusive (wrong CHR bank or tile base).
+  glyph render was inconclusive (wrong CHR bank or tile base). The 11-char
+  base-32 fallback and a visual mockup are in `docs/password-mockup.html`.
 - **In-game bench/substitution and attribute semantics**: the data audit is
   green; the live-field UI is blocked by the card/order issue above.
 - **Match-26 crash**: the stock post-game path beyond its 16-team design
