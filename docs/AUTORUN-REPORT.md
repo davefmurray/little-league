@@ -5297,3 +5297,33 @@ and `$95=0x40`.
 The order input for the field team 09/0A therefore depends on the `$9EF0`
 input decoder's `$95` bit mapping (`$80` vs `$40`), not on the `$0527`
 order flag alone. Next: `$9EF0`/`$C7` and the `$95=0x80` path.
+
+
+## Round 196 — order input path: 9E8A/9EAD/BE/BA/C6/C7
+
+Disassembled the order input/menu:
+
+```
+9EE5: JSR $C26F / JSR $9EFF / JSR $C26F
+9EEE: LDA #$01 / STA $C7
+9EF2: LDA #$0A / STA $BA / RTS
+...
+9E8A: JSR $9EAD
+9E8D: LDA $BE / CMP #3 / BEQ $9EA4
+9E93: CMP #6 / BEQ $9EA4
+9E97: CMP #4 / BEQ $9E79
+9E9B: LDA $B2 / AND #$0F / STA $BC / JMP $9A4E
+9EA4: LDA $B2 / AND #$0F / STA $BC / JMP $9A1C
+...
+9EAD: LDA $BE / CMP #3/6/4 -> $B3/RTS
+9EC6: LDA $C7 / BNE $9EDD
+9ECA: LDA $BE / CMP #4 / BEQ $9ED7
+9ED0: LDA #$67 / STA $C6 / INC $BA / RTS
+```
+
+So `$C7=1` is the menu confirm, `$BA` is the menu sub-state, and `$C6` is
+the 0x67-frame timer. `$9A4E` draws the team card from `$BC`/`$06E2`.
+
+The pair2 order is at `$BE=0`, `$C7=0`, `$C6` timer, `$BA` sub-state; the
+team 09/0A substate (`$047C=8`/`$95=0x80`) is the context. The order runs
+the timer but never exits; `$BA`/`$BE`/`$C6` is the next trace.
