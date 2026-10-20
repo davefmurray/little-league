@@ -12,8 +12,8 @@ TEAM_NAMES = [
 ]
 
 # Roster bases, verified by reading the first player name at each address.
-# Not a uniform 0x120 stride: Puerto Rico starts at $8F60 (not $8F40) and
-# Mexico is $9080.
+# The table is exactly $8420 + $120*team (Puerto Rico $8F60 and Mexico $9080
+# included); it stays explicit so a board revision can differ per team.
 TEAM_BASES = [
     0x8420, 0x8540, 0x8660, 0x8780,
     0x88A0, 0x89C0, 0x8AE0, 0x8C00,

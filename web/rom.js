@@ -22,6 +22,16 @@ function fileOffset(bank, cpu) {
   return HEADER + bank * BANK + (cpu - 0x8000);
 }
 
+// Verified stock roster bases (CPU addresses, bank 4). Mirrors
+// tools/llbcs_map.py TEAM_BASES so a non-uniform board revision has one
+// explicit table to edit on both sides. The current table is $8420 + $120*t.
+const BASES16 = [
+  0x8420, 0x8540, 0x8660, 0x8780,
+  0x88a0, 0x89c0, 0x8ae0, 0x8c00,
+  0x8d20, 0x8e40, 0x8f60, 0x9080,
+  0x91a0, 0x92c0, 0x93e0, 0x9500,
+];
+
 const OFF = {
   teamNames: fileOffset(1, 0x9180),
   shortPtr: [fileOffset(1, 0x9280), fileOffset(1, 0x9290)],
@@ -39,6 +49,11 @@ const OFF32 = {
   bank9Codes: HEADER + 9 * BANK,        // bank9 $8000, 32 x 4
   bank9Regions: HEADER + 9 * BANK + 0x280,
 };
+
+/** File offset of team t's roster block in the active layout. */
+function rosterOffset(t, use32) {
+  return use32 ? OFF32.roster + t * OFF32.stride : fileOffset(4, BASES16[t]);
+}
 
 function u16(bytes, off) {
   return bytes[off] | (bytes[off + 1] << 8);
@@ -147,8 +162,6 @@ export function parseRom(bytes) {
   const use32 = isRoster32(bytes);
   const teamCount = use32 ? 32 : TEAMS;
   const playerCount = use32 ? OFF32.players : PLAYERS;
-  const stride = use32 ? OFF32.stride : 0x120;
-  const roster = use32 ? OFF32.roster : OFF.roster;
   const teams = [];
 
   for (let t = 0; t < teamCount; t++) {
@@ -157,7 +170,7 @@ export function parseRom(bytes) {
     const players = [];
 
     for (let p = 0; p < playerCount; p++) {
-      const rec = roster + t * stride + p * RECORD_SIZE;
+      const rec = rosterOffset(t, use32) + p * RECORD_SIZE;
       players.push({
         name: ascii(bytes, rec, NAME_LEN).trimEnd(),
         attrs: Array.from(bytes.slice(rec + NAME_LEN, rec + 16)),
@@ -229,8 +242,6 @@ export function applyRom(bytes, teams) {
   }
   const teamCount = use32 ? 32 : TEAMS;
   const playerCount = use32 ? OFF32.players : PLAYERS;
-  const stride = use32 ? OFF32.stride : 0x120;
-  const roster = use32 ? OFF32.roster : OFF.roster;
   const haveBank9 = use32 && hasBank9Names(bytes);
   const haveRatings32 = use32 && hasRatings32(bytes);
   const out = new Uint8Array(bytes);
@@ -284,7 +295,7 @@ export function applyRom(bytes, teams) {
     }
     for (let p = 0; p < playerCount; p++) {
       const player = team.players[p];
-      const rec = roster + t * stride + p * RECORD_SIZE;
+      const rec = rosterOffset(t, use32) + p * RECORD_SIZE;
       writeAscii(out, rec, player.name, NAME_LEN, `team ${t + 1} player ${p + 1} name`);
       if (!Array.isArray(player.attrs) || player.attrs.length !== ATTRS) {
         throw new Error(`team ${t + 1} player ${p + 1} needs ${ATTRS} attribute bytes`);

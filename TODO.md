@@ -47,7 +47,10 @@ M3 logic port to bank 11.
 - [x] **Fix variable team bases.** `tools/llbcs_map.py` now holds the verified
       bases; `roster.py` and `build_16x20.py` use it. Puerto Rico extracts
       `EMILLO…` correctly and the rebuilt ROM boots.
-- [ ] **Mirror the base table in the web editor** (if it computes offsets).
+- [x] **Mirror the base table in the web editor.** `web/rom.js` now has an
+      explicit `BASES16` table (mirrors `tools/llbcs_map.py`) used by
+      `rosterOffset()`; stock round-trip is byte-identical, 32-team
+      round-trip is exact on a build with the bank-9/names tables.
 - [x] **Fix colour model.** Two 16-byte tables at `$FAC0`/`$FAD0`; extracted
       and applied in `roster.py`.
 - [x] **Fix flag extraction.** Bank-4 offset table `$975A` + records `$976A`,
