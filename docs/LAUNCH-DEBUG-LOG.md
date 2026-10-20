@@ -344,3 +344,24 @@ team 5  -> $7700 = 05 00 01 02...  -> 04EF/04F0 = 05 00  -> NEW YORK vs JAPAN
 
 Both reach the field with the same pair. The flags themselves are still
 placeholders (blank tiles) in this chain — that is the separate flags milestone.
+
+## Loop 15 — the 4-bit password ceiling
+
+Picks from the first page work; a page-2 pick (team 16, `$07C3=$10`) does not:
+
+```
+$7700        = 10 00 01 02 ...     (correct)
+$0650 @pw    = ff 57 46 57 ...     (password text takes the buffer)
+matchup      = 00 00               (id 16 collapsed to 0)
+$0650 @match = 00 00 01 02
+```
+
+The stock password packs team ids as **4-bit nibbles** (`$9916` shifts each id
+left four times), so ids 16–31 truncate to 0–15. Poking `$047C=2` to jump past
+the password display does not help: substate 2 still rebuilds `$0650` from the
+packed bytes.
+
+So the bridge hands off correctly for teams 0–15 (the stock tournament size);
+a real 32-team field needs the password/`$0650` generator replaced (the
+"32-team password format" + 32-slot tournament milestone). This is a data
+format change, not a launch-path bug.
