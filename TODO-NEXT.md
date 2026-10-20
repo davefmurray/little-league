@@ -45,6 +45,10 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 ## P0 continuation (user-requested, started)
 
+- [x] **Bracket entry hook.** The full chain was missing the scene-0D hook;
+      added `build_bracket_entry.py` (scene 0D -> `$FEA0` -> bank11 `$8000`)
+      as the final chain step. 2-match soak passes.
+
 - [ ] **Capture a low-team live-field/card-handoff save state** (or a
       breakpoint trace at the scene-`0F`/field transition). Probe result:
       speed-mode matches are simulated (~0.8 s, no scene `03` seen); watch

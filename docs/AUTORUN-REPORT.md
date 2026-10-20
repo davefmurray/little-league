@@ -4462,3 +4462,30 @@ runs **100 hex + 100 letter + 100 stock-tile + 100 stock-ascii + 100
 The 11-character screen is 44 bits (4 bits/symbol). The 32-team model needs
 64 bits, so it needs a 16-character screen or a larger alphabet — the
 11-char limit is now a measured constraint, not a guess.
+
+
+## Round 165 — the 32-team full chain was missing the bracket entry hook
+
+The user could not reach the 32-team bracket: the menu's "Start New Series"
+went to the stock 4-team series. Root cause: `direct31.nes` had **no bracket
+hook** — bank2 `$B9C0` was the stock `JSR $B9B7`, and `$FF20`/`$FEA0` were
+unused. The bank11 bracket at `$8000` was present but unreachable.
+
+Added `tools/build_bracket_entry.py` and made it the final
+`build_32team_full.py` step:
+
+```
+$B9C0 -> JMP $FEA0
+$FEA0: clear OAM (F0 x 256)
+       LDA #match / STA $07FC
+       LDA #11 / JSR $C14E / JMP $8000
+```
+
+The normal build sets match 0; the test variant
+`build/direct31-highmatch.nes` sets `$07C7=16` (AUS/CUB) and `$07FC=8`.
+On A, `$04EF/$04F0=10/11` and scene 13 (the high-team password/matchup).
+
+Verified: the rebuilt `direct31` enters the bracket on Start New Series and
+the 2-match soak passes (`0F v 00 -> 00 0-10`, `01 v 02 -> 01 15-0`).
+The bracket screen still shows leftover team-select glyphs; the cursor/A
+path is functional.
