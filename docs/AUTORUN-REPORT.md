@@ -3544,3 +3544,24 @@ js ok
 stock regression: screenshots MATCH, system_ram differs in 0 bytes
 git status: clean
 ```
+
+
+## Round 132 — scene-3 dispatch: the handler is a no-op in stock too
+
+The fixed scene dispatcher at `$CC30` maps a bank from `$CCAC` and jumps
+through the table at `$CC52`:
+
+```
+CC36  LDX $047b
+CC41  LDA $047b / LSR A / TAX
+CC46  LDA $CCAC,X / JSR $C14E     ; scene 3 -> bank 6
+CC4C  LDA $047b / JSR $C232       ; table at $CC52, index 1+2*scene
+```
+
+For scene 3, the table entry is `$C3D1`, which is `TXA / RTS` in **both** the
+stock ROM and the 32-team build. So the field simulation is not in the scene
+handler; it runs in the NMI/main loop. The 32-team table is identical to the
+stock table, ruling out a patched handler as the field-stall cause.
+
+Next: trace one frame at the high-team field and map the hot bank6 routines
+(the emulator session was evicted before the trace could run).

@@ -1,0 +1,65 @@
+# TODO — active backlog (post-25-task goal)
+
+This is the clean, prioritized list of what is **actually still open** after the
+25-task goal closeout. The long historical list is in `TODO.md`; the evidence
+log is in `docs/AUTORUN-REPORT.md`.
+
+## P0 — unblock the high-team field
+
+- [ ] **High-team field pitch loop.** Teams 16/17 reach scene `$03` and the
+      engine runs frames, but no pitch is thrown (score stays 0-0). Ruled out:
+      NMI/`$047D`, PPU vblank, pitcher-trailer stub (`$B094`/`$FEB0`), COM
+      flags `$04EB/$04EC`, `$C1`, the `$04/$05` card pointer, and `$047E`
+      resets. Next: find the scene-3 dispatch target and trace its pitch
+      sub-state (`$047A`, `$06DE/$06DF`, the batter/pitcher role bytes).
+
+## P1 — visible/gameplay correctness
+
+- [ ] **Post-game CHR restore.** The post-game bracket tiles are corrupted.
+      `$23-$26` shadows differ from the normal entry but are **not** the
+      latched MMC1 CHR banks; writing them glitches the screen. Needs a
+      mapper/PPU-level probe of the latched banks.
+- [ ] **32-team password screen.** The model is done
+      (`tools/password32.py`: 8-byte seed + 31 result bits + version), but the
+      stock screen is an 11-character **letter-coded** buffer (`$06B5`), not
+      16 hex digits. Decide: letter alphabet + wider buffer, or a new screen.
+- [ ] **In-game bench / substitution test.** The data audit is green
+      (16 x 20 players + 3 pitcher records); still need a live START-menu
+      substitution/pitcher change on a 20-player team.
+- [ ] **Attribute semantics in-game.** Prove byte 9 = power, byte 10 = speed,
+      byte 11 = printed Skill by editing one player and reading the card.
+
+## P2 — password / soak / hardware
+
+- [ ] **Wire the 32-team password into the stock screen** (after the screen
+      format decision above) and keep the stock 16-team `$074D` path working.
+- [ ] **Full-game soak with substitutions/save-password.** 26 complete real
+      games already pass; add substitution and save/password round-trip runs.
+- [ ] **Match 26 crash follow-up.** `11/13` at 2-0 enters scene `$1D`,
+      `PC=$00C3` (RAM jam). Trace the stock post-game path beyond its 16-team
+      design.
+- [ ] **Hardware validation** on a flash cart / MMC1 donor.
+- [ ] **Sound/music checks** after the data moves.
+
+## P3 — docs / product
+
+- [ ] **Regenerate screenshots and refresh the README status table** with the
+      final 32-team build (the selector page-3 shot is already in).
+- [ ] **Final user-facing writeup** of the 32-team hack (what works, what is
+      still blocked, build instructions).
+- [ ] **Web editor base-table mirror** (only if it computes offsets; the
+      current editor reads the ROM tables directly).
+- [ ] **Serve a downloadable patched ROM from the editor?** Decide policy.
+- [ ] **DataCrystal ROM map** — optional; the page is Cloudflare-blocked and
+      has no usable text capture.
+
+## Done / do not re-open
+
+- 32-team bracket state, five rounds, champion slot 62.
+- Round labels, champion banner, top-row shift, cursor marker.
+- Teams 16-31 names/codes/regions, 20-player rosters, ratings, lineups.
+- On-demand roster cache (`build/direct31.nes`, MMC1 reset fix).
+- Web editor 32x20 JSON + ROM modes, team codes/regions.
+- CLI `roster.py show32`, `roster32.py extract/apply`, `rominfo.py` layout.
+- Password encode/decode location, stock round-trip, 100-round-trip model.
+- CI: password model, roster32, rominfo, metadata sync, JS syntax.
