@@ -53,6 +53,10 @@ History: `docs/AUTORUN-REPORT.md`.
        uses `$0755/$0756` result bits and the `$8941` 15x3 table; `$98D5`
        encodes `$0650` -> `$074D` via the `$994F` permutation. Next: the
        16-char screen; the 32-team seed -> `$074D`/`$0755`/`$0756`.
+       **Format confirmed:** 8 bytes = 32-bit seed + 31 result bits +
+       version; `seed_order` xorshift32 Fisher-Yates; `advance` -> 63-slot
+       heap. Plan: the 16-char `$06B5` buffer -> `$074D` 8 bytes; a new
+       32-team decode fills `$7700`/`$7720`; `$98D5`-side encode.
        Stock alphabet `5 7 H J K M O Q S U e g h j l n`; 11-char base-32
        codec done; wire the screen or entry/continue code.
 8. [ ] **In-game bench / attribute card (P2).**

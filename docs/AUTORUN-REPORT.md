@@ -5555,3 +5555,37 @@ So the stock screen state is:
 The 32-team screen needs a 16-char encoding of the full state (the seed/teams + the results), using the same `$98D5`/`$9B5F` pair or a new encode/decode.
 
 Next: the 16-char screen wiring (item 7) and the 32-team seed mapping into `$074D`/`$0755`/`$0756`.
+
+
+## Round 207 — 32-team password format confirmed; 16-char screen plan
+
+`tools/password32.py` format:
+
+```
+8 bytes = 16 chars
+  bytes 0-3  seed, little-endian 32-bit
+  bytes 4-7  result bits 0-30 (1 = team A wins), bit 31 = version (1)
+seed_order(seed): xorshift32 Fisher-Yates shuffle of team ids 0-31
+advance(order, results): 31 result bits -> 63-slot heap; winner at 32+m;
+  champion slot 62
+```
+
+Renderings: 16 hex, 16 letters A-P, 16 stock tile codes, 16 stock-ASCII,
+11-char short (16-bit seed + 31-bit results + XOR checksum).
+
+Stock bank5 pair:
+
+```
+$9B5F decode: $074D 8 bytes -> $0650 (16 team nibbles) + $0670 counters
+              + $0755/$0756 results + $0746 matches + $8941 table
+$98D5 encode: $0650 -> $074D 8 bytes via $994F permutation
+```
+
+Screen plan for the 32-team game:
+- keep the 16-char `$06B5` screen buffer;
+- the 16 chars -> `$074D` 8 bytes (seed + results);
+- replace/augment `$9B5F` with the new 32-team decode (`seed_order` +
+  `advance`) to fill the `$7700` 32-team slots / `$7720` winners;
+- `$98D5`-side encode from the bracket state back to `$074D`.
+
+Next: the `$06B5` buffer and the new decode/encode in bank5.
