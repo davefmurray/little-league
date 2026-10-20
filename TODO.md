@@ -251,8 +251,9 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 - [x] Post-game return to bracket (functional; CHR/tile corruption is P4).
 - [x] Advance winner across rounds: round-2 probe wrote slot 48 (`$7730`) and
       advanced the index to 17.
-- [ ] Redraw bracket after each game (current screen is the static 32-team
-      grid; it does not display winners yet).
+- [x] Redraw bracket after each game: `"WIN<code>"` line at `$22A1`, updated
+      from `$7720[$07FC-1]` by `tools/build_winner_display.py`. Tiles are still
+      hard to read because of the known post-game CHR-bank issue (P4).
 - [x] High-team launch mapping: `id & $0F` for the stock launch only, real ids
       kept in `$7700`. Match 8 (`10/11` -> `00/01`, score 5-0) wrote slot 40
       `$7728=10` and advanced the index.

@@ -2311,3 +2311,71 @@ math, and index increment.
 - In-context real-game evidence: matches 0, 1, 8, and the round-2 probe.
 - Still open: the real-game field control for match 5+ (the flow reaches the
   field but waits for a human pitch), and visible bracket redraw of winners.
+
+
+## Round 87 — visible "WIN <code>" line on the bracket
+
+The bracket screen now shows the latest winner instead of only the static
+32-team grid. Build:
+
+```sh
+python3 tools/build_winner_display.py build/direct19.nes -o build/direct20.nes
+```
+
+### Display-list change
+
+The list at bank11 `$B200` was 245 bytes ($F5). Append one run at row 21,
+column 1:
+
+```
+$22A1  "WIN" + three code tiles + $FE      9 bytes
+list length 254 ($FE)
+```
+
+### Draw change
+
+The old tail at `$8077` was:
+
+```
+LDA #$F5 / STA $32 / JSR $C53A
+```
+
+It now calls a new bank11 routine at `$83D0`, which:
+
+```
+LDA $07FC
+BEQ blank                 ; no winner yet -> three spaces
+SEC / SBC #1 / TAX
+LDA $7720,X               ; last completed match's winner
+ASL A / ASL A / TAY
+LDA $B000,Y / STA $03FA   ; 3 code tiles
+LDA $B001,Y / STA $03FB
+LDA $B002,Y / STA $03FC
+LDA #$FE / STA $32 / JSR $C53A
+RTS
+```
+
+The list-copy loop at `$8044` is patched from `CPX #$F5` to `CPX #$FE`.
+
+### Verified
+
+Initial bracket ($07FC=0): buffer `$03FA..$03FC` = `20 20 20` (spaces).
+
+After match 0 (winner `0F`/FLA): buffer `$03F7..$03FC` = `57 49 4E 46 4C 41`
+=> `"WINFLA"`.
+
+After match 1 (winner `02`/PEN): buffer = `57 49 4E 50 45 4E`
+=> `"WINPEN"`.
+
+So the redraw reads the real winner slot, looks up the three code tiles, and
+updates the visible line after every game. The tiles are still hard to read
+because the post-game CHR banks are wrong — that is the known P4 CHR issue,
+not a display-list problem.
+
+### P1 status
+
+- Champion math: GREEN (state-only 31/31, slot 62 = `0F`).
+- Visible winner redraw: GREEN (`"WIN<code>"` updates each game).
+- In-context real-game proofs: matches 0, 1, 8, round-2 probe.
+- Still open: the real-game field control for match 5+ (the flow reaches the
+  field but waits for a human pitch). This is now the only P1 item.
