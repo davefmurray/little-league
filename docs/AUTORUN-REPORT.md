@@ -3079,3 +3079,41 @@ The high-team field still shows a valid cached batter/pitcher card and a
 (`$8420` stub, `$150 + pitcher_slot`) with the `$7800` cache pointer, and
 the `$04F9/$04FA` "value 4" bytes, which are `FF/0F` at the high-team field
 versus valid values in the stock field state.
+
+
+## Round 111 — high-team field: pitcher trailer lookup is the bad value
+
+At the high-team field (teams 16/17):
+
+```
+$04/$05 = 34 7E        (computed player-record address $7E34)
+$04F9/$04FA = FF 0F    (away pitcher "value 4" = FF)
+$04FB/$04FC = 88 98    (stamina)
+$04FD/$04FE = 03 03    (pitcher lineup positions)
+$04EF/$04F0 = 10 11
+```
+
+The stock field state has valid `$04F9=08`, and the field runs frames but
+never throws a pitch. The trailer lookup in this build is still:
+
+```
+B094  LDX $04EE
+B097  LDA $04FD,X
+B09A  ASL A x4
+B09E  JSR $B07C
+B0A1  CLC
+B0A2  LDY #$0C
+B0A4  LDA ($04),Y
+B0A6  ADC $7F00,X
+...
+```
+
+The `$8420` byte range that `build_16x20.py` uses for its relocated trailer
+stub is **team-name data** in the direct build, not the stub. So the
+20-player cache block (0x170, trailer at 0x140) is being read through the
+old 15-player/trailer path, producing `FF` pitcher values and the silent
+0-0 field.
+
+This is the next concrete fix target: restore/repoint the 16x20 trailer
+stub for the cache build and re-check `$04F9/$04FB` before chasing the
+pitch loop.
