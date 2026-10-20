@@ -16,11 +16,13 @@ and a report/TODO update. History: `docs/AUTORUN-REPORT.md`.
 2. [x] **Order-screen / field start (P0).**
        The proper 0F `$0489=0` A/START enters scene 03; the earlier
        `$0489=FF` stall was the wrong (END) path.
-3. [ ] **Pitch / card loop (P0).**
-       The field renders but does not pitch: `$0545=0`, `$05D3=06`,
-       `$047F=7C`, `$95=0`, `$C7=0`; the `$96E6` live-field init is never
-       dispatched. Next: dispatch `$96E6` / drive `$0545` through the
-       `$9011`/`$903C` card steps.
+3. [ ] **Pitch / live-field handler (P0).**
+       The field cutscene advances 03 (field) -> 05 (cards) -> 02
+       (live-field handler `$ACAA`, bank6), but the CPU jams at `$6006`
+       cart RAM and the field stays static (0-0). The launch-prod/selector
+       base lacks the stock `$6000` RAM field code. Next: port the launch
+       bridge to the stock `direct31` boot (relocate `$FF20` to
+       `$FEA0`/`$FF00`/`$FF60`) or restore the `$6000` copy.
 4. [ ] **LIST OF TEAMS names (P1).**
        The stock list screen repeats JAPAN; wire the bank-9 32-team names.
 5. [ ] **Match-5 soak stall (P1).**

@@ -4722,3 +4722,27 @@ $0489=0  $047A=04  $04E9=01  $04E4=0
 
 So the remaining P0 is the `$96E6` live-field init/card step, not field
 entry.
+
+
+## Round 175 — the field cutscene reaches the live-field handler, then jams at $6006
+
+Long-stepping the launch32-high field:
+
+```
+scene 03 (field) -> 05 (cards) -> 02 (live-field handler $ACAA, bank6)
+$047F 7C -> 34 -> 05; $05D3 0 -> 2 -> 6 -> 8 -> 0
+scene 02: PC $6006 (cart RAM), score 0-0, no input changes
+```
+
+The scene-02 table entry is `$ACAA` (bank6), the real field/pitch handler
+(it reads `$04D8`, `$0643`, `$0555`, calls `$DFAE`/`$A5F3`, sets `$BE/$BF`).
+So the live-field handler is reached. But the CPU then runs `$6006` in
+cart RAM and never leaves; the field screen is static.
+
+Root cause: the launch-prod/selector base does not copy the stock `$6000`
+RAM routine that the stock scene-02 handler depends on. The stock `direct31`
+boot has it; the bridge/selector base rewired the boot.
+
+Next: port the launch bridge to the stock `direct31` boot (relocate the
+`$FF20` trampoline to the free `$FEA0`/`$FF00`/`$FF60` areas) or restore
+the stock `$6000` copy in the launch-prod base.
