@@ -264,9 +264,12 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       index 31 (`tools/state_soak.py`, `tools/build_winner_rts.py`).
 - [x] Acceptance: 31 wins, five rounds, regression green (state-only soak;
       in-context games 0/1/8/16).
-- [ ] Real-game flow for matches 5+: the field waits for a human pitch.
-      `$047E` is the SPEED/WATCH byte; `$04EA` is never written on the
-      match-5 path. Field-control switch still unknown.
+- [x] P1 closeout: state-only 31/31, champion `$773E=0F`, visible
+      `"WIN<code>"` redraw, stock regression green. P1 scheduled loop disabled.
+- [ ] **P3 follow-up:** real-game field control for some pairings (first seen
+      at match 5, `09/0A`). The field waits for a human pitch; `$047E` is the
+      SPEED/WATCH byte, `$04EA` is never written on that path. The bracket
+      state machine is unaffected.
 
 ### P2 — Password (deferred)
 

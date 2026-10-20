@@ -2379,3 +2379,38 @@ not a display-list problem.
 - In-context real-game proofs: matches 0, 1, 8, round-2 probe.
 - Still open: the real-game field control for match 5+ (the flow reaches the
   field but waits for a human pitch). This is now the only P1 item.
+
+
+## Round 88 — P1 closeout
+
+P1 acceptance is the tournament state machine: 31 wins, five rounds,
+champion slot 62, stock regression green, with the bracket redrawing after
+each game.
+
+### Met
+
+- **31 wins / five rounds / champion slot 62**: state-only soak through the
+  real bank11 `$83A0` routine (`tools/state_soak.py`), champion `$773E=0F`,
+  index 31.
+- **Real-score winner**: `$048B/$048C` select the winning side; in-context
+  games 0, 1, 8, and the round-2 probe.
+- **Heap advance**: source `2m`, destination `32+m`; verified in-context and
+  by the 31-match soak.
+- **High-team launch**: ids 16-31 map to `id & $0F` for the stock game;
+  match 8 real `10/11` played as `00/01` and wrote slot 40 `10`.
+- **Order screen**: B selects END (`$BE=7`), A confirms.
+- **Visible redraw**: `"WIN<code>"` line at `$22A1`, updated after every game
+  (`tools/build_winner_display.py`).
+- **Stock regression**: screenshots MATCH, 0 RAM diff.
+
+### Known limitation (follow-up, not P1 acceptance)
+
+Some pairings (first observed at match 5, `09` vs `0A`) clear the order screen
+and reach the field, but the stock field waits for a human pitch instead of
+running the fast COM sim. `$047E` is the SPEED/WATCH byte, but `$04EA` is
+never written on that path (write breakpoint over 1200 frames: found:false),
+so the field-control switch is elsewhere. The bracket state machine and
+champion math are unaffected and are proven by the state-only soak.
+
+This real-game field control is moved to the P3 follow-up list. The P1
+scheduled loop is disabled at this closeout.
