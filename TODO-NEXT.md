@@ -99,6 +99,10 @@ History: `docs/AUTORUN-REPORT.md`.
         matches 0-4, but match 5 (09/0A, low) stalls because `$B2=0x10`
         (team 16/page 1) while `$0650[0]/[1]=09/0A`; the page subroutine
         reads the page-1/high group. Next: `$B2` vs `$0650` team/page.
+        **Found:** the order team is `$B2 & 0x0F` -> `$BC` -> `$06E2`
+        (team 0/16), while the field team is `$0650[0]` (09). The pass case
+        had `$0650[0]=00` and `$B2` low nibble 0. Next: derive `$B2`/`$BC`
+        from `$0650[0]` or set `$B2` from `$0650` at the order start.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

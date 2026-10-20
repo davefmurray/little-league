@@ -5465,3 +5465,23 @@ subroutine reads `$06E2[16+...]` (the page-1/high group) for a low pair.
 
 So the next mismatch is `$B2` (the order's current team/page) vs
 `$0650` (the bracket pair), not the table size.
+
+
+## Round 203 — pair3 page table; $B2/order team vs $0650/field team
+
+Comparing the match-5 pass/fail:
+
+```
+pair  (04EF/4F0):  $0650[0]=00, $B2=0x10 -> $BC=0 -> $06E2[0] (team 0);
+                   field team 00 -> order/field match -> pass
+pair2/pair3:       $0650[0]=09, $B2=0x10 -> $BC=0 -> $06E2[0] (team 0)
+                   or $06E2[16] (team 16); field team 09 -> mismatch -> stall
+```
+
+So the order team comes from `$B2 & 0x0F` -> `$BC` -> `$06E2`, while the
+field team is `$0650[0]`. The `$B2` low nibble (0) does not match the
+field's low team (9). The `$B2` page bit (0x10) also has no relation to
+the bracket pair.
+
+Next: make `$B2`/`$BC` derive from the `$0650[0]`/field team A, or set
+`$B2` from `$0650` at the order start.
