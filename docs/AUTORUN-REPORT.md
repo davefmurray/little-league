@@ -2590,3 +2590,34 @@ the labels are no longer cut by the 8-pixel top crop.
 The existing bracket input handler already writes the cursor sprite at
 `$0200` (tile `$41`) every frame; the P4 cursor marker is present, just
 hard to see under the known post-game CHR corruption.
+
+
+## Round 93 — 32-entry ratings and lineup tables
+
+### Team ratings (POWER ANALYSIS)
+
+The stock table is 16 x 4 at bank3 `$B224`; the only reader is bank3
+`$AFE2  LDA $B224,Y`. `tools/build_ratings32.py` builds a 32 x 4 table at
+bank3 `$BC80`, copies the original 16 entries, appends the generated teams'
+ratings from `data/roster32.json`, and repoints the reader to `$BC80`.
+
+Verified: `$AFE2 = B9 80 BC`; the first 8 entries still read
+`01 03 02 03 02 02 03 04` and the new entries carry the generated ratings.
+
+### Lineups
+
+The stock table is 16 x 9 at bank4 `$96CA`; the only reader is
+bank4 `$AD4E  LDA $96CA,Y` with `Y = team*9`. `tools/build_lineups32.py`
+builds a 32 x 9 table in the fixed bank at `$FD80` (always mapped), copies
+the original 16 entries, appends the default 9-batter order
+`08 16 29 31 42 57 65 73 84` for teams 16-31, and repoints the reader.
+
+Verified: `$AD4E = B9 80 FD`; the first 9 bytes still match Japan's lineup
+and the last 9 are the default.
+
+### Team colours
+
+The two 16-byte colour tables at bank7 `$BAC0`/`$BAD0` have **no direct
+reader** in the ROM (searched for absolute and indexed references). They may
+be unused in this revision. No code change yet; the 32-team colour data is a
+documentation-only gap.

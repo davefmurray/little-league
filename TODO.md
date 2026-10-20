@@ -86,7 +86,12 @@ M3 logic port to bank 11.
       `$CBE6 -> $FB90` cache hook and only initialise 16 table entries. Add a
       two-team scratch cache at `$7800`/`$7970`, update `$7F00 + id*2`, then
       launch real ids without `AND #$0F`.
-- [ ] **Colours/ratings/lineups for teams 16–31.** Still the 16-team tables.
+- [x] **Ratings for teams 16–31.** 32 x 4 table at bank3 `$BC80`
+      (`tools/build_ratings32.py`), reader repointed.
+- [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`
+      (`tools/build_lineups32.py`), reader repointed.
+- [ ] **Colours for teams 16–31.** The `$BAC0`/`$BAD0` tables have no direct
+      reader in this ROM; data-only gap until a consumer is found.
 - [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
 - [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the
