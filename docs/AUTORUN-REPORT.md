@@ -4164,3 +4164,44 @@ and the `$9D9F -> $9DAE -> $96E6` live-field start path is never dispatched.
 The scene-`0F` menu is input-dead for the high-team state. The next step is
 to find the menu input routine (`$B8xx`/`$9EF0`) and why it is not called
 here, or to call it explicitly before the handler.
+
+
+## Round 154 — `$95` is a status byte; its writer is absent at scene `0F`
+
+The `$B8C0 STA $95` line is not a button decoder. It belongs to the status
+routine at `$B8A9`:
+
+```
+B8A9 LDA $047C
+B8AC CMP #$02
+B8AE BCS $B8C6
+B8B0 LDA $0630
+B8B3 BEQ $B8C2
+B8B5 LDX #$80
+B8B7 CMP #$FF
+B8B9 BNE $B8BD
+B8BB LDX #$00
+B8BD TXA / STA $93 / STA $95 / STA $0485
+```
+
+and `$B90C`:
+
+```
+B8FC LDA $0547
+B8FF LDX $0527
+B902 BNE $B90F
+B904 CMP #$03
+B906 BNE $B90F
+B908 LDA #$40 / STA $93 / STA $95
+```
+
+At scene `0F`: `$0547=00`, `$0527=00`, `$0630=00`, `$95=00`.
+Forcing `$0547=3`/`$0527=0` does not set `$95=0x40`, because `$B8A9` is
+not in the scene-`0F` instruction trace. The order handler reads a status
+byte whose writer is never called, so `$C7` stays 0 and the `$BE` start
+handlers are never dispatched.
+
+This is the concrete P0 dead end: the high-team order screen's status/input
+writer (`$B8A9`/`$B90C`) is not called from the scene-`0F` path, while the
+reader (`$9FC3`) is. The stock path has the writer in its loop; the
+high-team card/order state does not.

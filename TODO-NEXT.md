@@ -38,7 +38,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       at the high-team scene `0F`; the input loop that should set it is not
       running, so the `$9D9F` start path is never dispatched. `$C040` is ROM
       `$40`, and `$C7` requires `$95,X` bit 6 (B); the `$B8xx`/`$9EF0` input
-      decoders are not in the scene-`0F` trace, so `$95` stays 0. The low-team path auto-confirms past
+      decoders are not in the scene-`0F` trace, so `$95` stays 0. `$95` is
+      a status byte written by `$B8A9`/`$B90C` (from `$047C`/`$0630`/
+      `$0547`/`$0527`), and that writer is absent from the scene-`0F` loop. The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness
