@@ -3330,3 +3330,31 @@ reads byte 3 from that pointer's FF data.
 
 Next: put a write breakpoint on `$04/$05` during the field entry and capture
 the caller that writes `$7E34`.
+
+
+## Round 123 — `$04/$05` is a hardcoded card-data pointer
+
+The write breakpoint on `$04` at the field hits bank15 `$E34F`, but the
+pointer comes from the field card setup at bank6 `$8EF8`:
+
+```
+8EF8  LDX #$00
+8EFA  STX $047e
+8EFD  LDA #$7C
+8EFF  STA $047f
+8F02  LDA #$80
+8F04  STA $47
+8F06  LDA #$3C
+8F08  STA $63
+8F0A  LDA #$F8
+8F0C  STA $0619
+...
+```
+
+`$47/$63` are hardcoded to `$80/$3C`, and `$0619` to `$F8`; the card
+pointer is `$803C + $F8` (adjusted by the `$E341` path), not a roster
+pointer. So `$04F9` is a **card-data byte**, not the pitcher's roster
+stat. The "wrong player pointer" lead is invalid.
+
+The field stall is still in the card/lineup setup or the pitch loop, not
+the cached roster pointer.
