@@ -307,12 +307,17 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       (`tools/password32.py`: 4-byte seed + 31 result bits + version bit).
 - [x] 100 random round-trips: `python3 tools/password32.py test` (100/100).
 - [ ] Wire into stock password screen.
-- [ ] Keep stock 16-team password path working.
+- [x] Keep the stock 16-team password path working: encoder `$98D5` ->
+      decoder `$9B5F` round-trip is exact (`$0650` before == after,
+      `$074D=35dca1b6f2479e80`).
 
 ### P3 — Content correctness (deferred)
 
-- [ ] Real names/regions/colours/ratings/lineups for teams 16–31.
-- [ ] On-demand roster cache for teams 16–31.
+- [x] Real names/codes/regions for teams 16–31.
+- [x] Ratings table (bank3 `$BC80`) and lineups table (fixed `$FD80`).
+- [ ] Colours for teams 16–31 (the `$BAC0`/`$BAD0` tables have no reader).
+- [x] On-demand roster cache for teams 16–31 (`build/direct31.nes`,
+      MMC1 reset + `$7800/$7A00` + `$7F00` repoints).
 - [x] 20-player bench + three pitcher slots at the data level
       (`tools/audit_roster32.py`: 16 x (20 players + 3 records)).
 - [ ] In-game substitution/pitcher test with a 20-player team.
