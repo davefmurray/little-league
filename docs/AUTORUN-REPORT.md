@@ -1886,3 +1886,29 @@ P1 now stands at:
 Next concrete P1 step: add a match counter (`$07FC`), index pairing by
 `2*$07FC`, write the winner to `$7720 + ($07FC>>1)`, and increment after the
 game. Then run two matches to prove advancement.
+
+## Round 80 — dynamic match counter did not run
+
+Built `direct16`:
+
+```
+CC68 -> FFC0 -> FEE0
+FEE0: winner = $7700 + match*2 -> $7720 + match/2
+      INC $07FC
+      map bank11, JMP $8000
+bracket A pairing: $7700 + 2*$07FC
+```
+
+Verified bytes at FFC0/FEE0/8360 and `CC68 -> FFC0`.
+
+After a SPEED game:
+
+- screen is the bracket (return happened)
+- `$07FC = 0`
+- `$7720/$7721 = 00 00`
+
+So the hook body did **not** execute, even though the bracket returned. The
+return may be stock's own path rather than our FFC0.
+
+Next: break at FFC0/FEE0 during a SPEED game to confirm whether either executes;
+if not, `CC68` is not the handler actually used for scene 0B.
