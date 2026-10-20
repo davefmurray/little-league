@@ -64,7 +64,10 @@ function renderChrome() {
   chip.dataset.mode = state.rom ? 'rom' : 'demo';
   chip.dataset.dirty = String(state.dirty);
   chip.textContent = state.rom
-    ? (state.dirty ? 'ROM · UNSAVED' : 'ROM · READY')
+    ? (state.dirty ? 'ROM · UNSAVED'
+      : (state.meta?.layout === 'bank8-32'
+        ? `ROM · ${state.meta.teams}×${state.meta.players}`
+        : 'ROM · READY'))
     : (state.dirty ? 'DEMO · UNSAVED' : 'DEMO DATA');
 
   $('exportRomBtn').disabled = !state.rom;
@@ -238,7 +241,9 @@ function loadRomBytes(bytes, name) {
   state.dirty = false;
   commitTeams(parsed.teams, { baseline: true, selected: 0 });
 
-  const details = `${bytes.length.toLocaleString()} bytes · MMC1 · ${parsed.meta.prg} PRG banks · ${parsed.meta.chr * 8}K CHR`;
+  const layout = parsed.meta.layout === 'bank8-32'
+    ? ` · ${parsed.meta.teams}×${parsed.meta.players} bank8` : '';
+  const details = `${bytes.length.toLocaleString()} bytes · MMC1 · ${parsed.meta.prg} PRG banks · ${parsed.meta.chr * 8}K CHR${layout}`;
   if (parsed.meta.looksRight) {
     showBanner(`Loaded ${name} — ${details}`, 'ok', { autoHide: true });
   } else {
@@ -265,6 +270,7 @@ async function loadDemo() {
     throw new Error('roster.json has the wrong shape');
   }
   state.playerCount = CONST.PLAYERS;
+  state.meta = null;
   commitTeams(doc.teams, { baseline: true, selected: 0 });
   state.source = 'demo';
   showBanner(
@@ -282,6 +288,7 @@ async function loadDemo32() {
   state.playerCount = 20;
   state.rom = null;
   state.romName = null;
+  state.meta = null;
   state.source = 'demo32';
   commitTeams(doc.teams, { baseline: true, selected: 0 });
   showBanner(

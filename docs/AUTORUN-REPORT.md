@@ -3004,3 +3004,24 @@ Also probed this round (negative results, no ROM committed):
   order screen after ~360 frames, but the deterministic B+A leave did not
   advance that particular state, so the field-card attribute test was not
   completed.
+
+
+## Round 108 — web editor shows the 32-team layout
+
+The editor chrome now reflects the parsed layout:
+
+- clean 32-team ROM: `ROM · 32×20` (instead of a generic `ROM · READY`);
+- load banner: `… · 16 PRG banks · 128K CHR · 32×20 bank8`;
+- the 16-team and 32-team demo loaders clear `state.meta`, so a stale layout
+  cannot leak across a demo reload.
+
+Verified:
+
+```
+node --check web/app.js
+parseRom(32x20-extra).meta  -> bank8-32 32 20
+parseRom(stock).meta        -> stock-16 16 15
+```
+
+The T3 preview host was not available for a browser screenshot this round;
+the metadata path is proven directly.
