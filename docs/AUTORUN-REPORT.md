@@ -1707,3 +1707,22 @@ can be tested. Next P1 step:
 2. at scene 0B, dump the score display RAM and diff against the password
    screen to find the real score bytes;
 3. only then add the winner write.
+
+## Round 70 — real gameplay reached; $0515/16 are NOT scores
+
+After selecting WATCH and pressing A through the cutscene, the game reaches
+scene 3 (live field):
+
+- FLORIDA vs JAPAN
+- TOP 1ST, 0–0
+- P ESaka / 3 ARNOLD
+
+Proof: `docs/p1-gameplay.png`.
+
+Poked `$0515=1`, `$0516=5` and stepped: the scoreboard stayed **0–0**.
+
+Conclusion: `$0515/$0516` are definitely not live score bytes. The winner
+logic must not use them.
+
+Next P1: find the scoreboard's source bytes by breaking on the scene-3 draw of
+the `FLO 0 / JAPAN 0` fields, or by diffing RAM before/after a run scores.

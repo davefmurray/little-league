@@ -239,7 +239,9 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 - [x] Carry real bracket pairing into matchup ($7700/$7701).
 - [x] Expand bracket state to 63 slots (32 seeds + 31 FF winner slots).
-- [ ] Reach scene 0B deterministically; find real game score bytes (not $0515/16).
+- [x] Reach live gameplay scene 3 (FLORIDA vs JAPAN, 0-0).
+- [x] Prove $0515/$0516 are not scores (poke has no effect).
+- [ ] Find real score bytes via scoreboard draw / RAM diff.
 - [ ] Compute winner and write $7720 + (match/2).
 - [ ] Write winner into $7720 + (match/2); add round map.
 - [ ] Post-game return to bracket.
