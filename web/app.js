@@ -43,6 +43,8 @@ function normalizeTeam(raw, i) {
   return {
     id: i,
     name: String(raw.name ?? '').slice(0, CONST.TEAM_NAME_LEN),
+    code: String(raw.code ?? '').slice(0, 3).toUpperCase(),
+    region: String(raw.region ?? ''),
     shortName,
     shortWidth,
     shortAttr: Number.isInteger(raw.shortAttr) ? raw.shortAttr : (raw.short_attr ?? 0),
@@ -147,7 +149,9 @@ function renderEditor() {
   $('emptyState').hidden = true;
   $('teamPanel').hidden = false;
 
-  $('teamEyebrow').textContent = `Team ${String(state.selected + 1).padStart(2, '0')} / ${state.teams.length}`;
+  const tag = [team.code, team.region].filter(Boolean).join(' · ');
+  $('teamEyebrow').textContent =
+    `Team ${String(state.selected + 1).padStart(2, '0')} / ${state.teams.length}${tag ? ` · ${tag}` : ''}`;
   $('teamTitle').textContent = team.name || '—';
   const high32 = state.meta?.layout === 'bank8-32' && team.id >= 16;
   $('shortPreview').textContent = high32
@@ -291,6 +295,17 @@ async function loadDemo32() {
   const doc = await res.json();
   if (!Array.isArray(doc.teams) || doc.teams.length !== 32) {
     throw new Error('roster32.json must have 32 teams');
+  }
+  const metaRes = await fetch('./teams32.json', { cache: 'no-store' });
+  if (metaRes.ok) {
+    const meta = await metaRes.json();
+    for (const team of doc.teams) {
+      const m = (meta.teams || []).find((x) => x.id === team.id);
+      if (m) {
+        team.code = m.code;
+        team.region = m.region;
+      }
+    }
   }
   state.playerCount = 20;
   state.rom = null;

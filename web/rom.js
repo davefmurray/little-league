@@ -36,6 +36,8 @@ const OFF32 = {
   names32: fileOffset(1, 0xbcc0),     // 16 x 8 bytes (7 chars + FF)
   ratings32: fileOffset(3, 0xbc80),   // 32 x 4 if the 32-team build is present
   bank9Names: HEADER + 9 * BANK + 0x80, // bank9 $8080, 32 x 16
+  bank9Codes: HEADER + 9 * BANK,        // bank9 $8000, 32 x 4
+  bank9Regions: HEADER + 9 * BANK + 0x280,
 };
 
 function u16(bytes, off) {
@@ -162,9 +164,19 @@ export function parseRom(bytes) {
       });
     }
 
+    let code = '';
+    let region = '';
+    if (use32 && hasBank9Names(bytes)) {
+      code = ascii(bytes, OFF32.bank9Codes + t * 4, 3).trim();
+      const r = bytes[OFF32.bank9Regions + t];
+      region = ['ASIA', 'AMERICA', 'EUROPE', 'HAWAII', 'NEW'][r] || '';
+    }
+
     teams.push({
       id: t,
       name: readTeamName(bytes, t, use32),
+      code,
+      region,
       shortName: short.name,
       shortWidth: short.width,
       shortAttr: short.attr,

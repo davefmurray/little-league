@@ -1,0 +1,270 @@
+{
+  "teams": [
+    {
+      "id": 0,
+      "name": "JAPAN",
+      "code": "JPN",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 1,
+      "name": "ARIZONA",
+      "code": "ARI",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 2,
+      "name": "PENNSYLVANIA",
+      "code": "PEN",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 3,
+      "name": "CHINESE TAIPEI",
+      "code": "TPE",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 4,
+      "name": "KOREA",
+      "code": "KOR",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 5,
+      "name": "NEW YORK",
+      "code": "NY",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 6,
+      "name": "CALIFORNIA",
+      "code": "CAL",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 7,
+      "name": "TEXAS",
+      "code": "TEX",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 8,
+      "name": "HAWAII",
+      "code": "HAW",
+      "region": "HAWAII",
+      "placeholder": false
+    },
+    {
+      "id": 9,
+      "name": "SPAIN",
+      "code": "ESP",
+      "region": "EUROPE",
+      "placeholder": false
+    },
+    {
+      "id": 10,
+      "name": "PUERTORICO",
+      "code": "PUR",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 11,
+      "name": "MEXICO",
+      "code": "MEX",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 12,
+      "name": "CANADA",
+      "code": "CAN",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 13,
+      "name": "ITALY",
+      "code": "ITA",
+      "region": "EUROPE",
+      "placeholder": false
+    },
+    {
+      "id": 14,
+      "name": "ILLINOIS",
+      "code": "ILL",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 15,
+      "name": "FLORIDA",
+      "code": "FLA",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 16,
+      "name": "AUSTRALIA",
+      "code": "AUS",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 17,
+      "name": "CUBA",
+      "code": "CUB",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 18,
+      "name": "DOMINICAN REP",
+      "code": "DOM",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 19,
+      "name": "VENEZUELA",
+      "code": "VEN",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 20,
+      "name": "PANAMA",
+      "code": "PAN",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 21,
+      "name": "NETHERLANDS",
+      "code": "NED",
+      "region": "EUROPE",
+      "placeholder": false
+    },
+    {
+      "id": 22,
+      "name": "GERMANY",
+      "code": "GER",
+      "region": "EUROPE",
+      "placeholder": false
+    },
+    {
+      "id": 23,
+      "name": "SOUTH AFRICA",
+      "code": "RSA",
+      "region": "EUROPE",
+      "placeholder": false
+    },
+    {
+      "id": 24,
+      "name": "BRAZIL",
+      "code": "BRA",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 25,
+      "name": "COLOMBIA",
+      "code": "COL",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 26,
+      "name": "NICARAGUA",
+      "code": "NIC",
+      "region": "AMERICA",
+      "placeholder": false
+    },
+    {
+      "id": 27,
+      "name": "PHILIPPINES",
+      "code": "PHI",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 28,
+      "name": "HONG KONG",
+      "code": "HKG",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 29,
+      "name": "GUAM",
+      "code": "GUM",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 30,
+      "name": "NEW ZEALAND",
+      "code": "NZL",
+      "region": "ASIA",
+      "placeholder": false
+    },
+    {
+      "id": 31,
+      "name": "CZECH REPUBLIC",
+      "code": "CZE",
+      "region": "EUROPE",
+      "placeholder": false
+    }
+  ],
+  "pages": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ]
+  ]
+}

@@ -3465,3 +3465,24 @@ system_ram differs in 0 bytes
 
 The working tree is clean; the stock regression, password model, 32-team
 roster CLI/editor code, and browser-editor syntax all pass together.
+
+
+## Round 130 — web editor team codes and regions
+
+The editor now carries the 3-letter code and region:
+
+- `web/rom.js` reads bank9 `$8000` codes and `$8280` regions for 32-team
+  ROMs (`JPN`/`ASIA`, `AUS`/`ASIA`, ...);
+- `normalizeTeam` preserves `code`/`region`;
+- the team eyebrow shows `Team 16 / 32 · AUS · ASIA`;
+- `web/teams32.json` is loaded by **Load 32-team demo** and merged by id.
+
+Verified:
+
+```
+select-screen: team 0 JPN/ASIA, team 16 AUS/ASIA
+32x20-extra:   no bank9 table -> empty codes (stock behavior)
+demo merge:    team 0 JPN/ASIA, 16 AUS/ASIA, 31 CZE/EUROPE
+```
+
+The stock 16-team path is unchanged (no bank9 table -> no tag).
