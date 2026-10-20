@@ -180,7 +180,8 @@ M3 logic port to bank 11.
       9. Substitution/save-password runs remain open.
 - [ ] Hardware validation on a flash cart / MMC1 donor.
 - [ ] Sound/music checks after data moves.
-- [ ] Docs: regenerate screenshots, update README status table.
+- [ ] Docs: regenerate screenshots. Selector page 1/3 and the 32-team
+      bracket are refreshed; field/box-score/post-game shots still to do.
 - [ ] CI: build variants on push, publish checksums.
 
 ---
