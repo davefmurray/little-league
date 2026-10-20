@@ -532,3 +532,34 @@ hack reaches a playable field, but the end-of-game path returns to a broken
 title scene instead of a result/bracket update. Next probe: log `$047B` in
 300-frame slices from the field to catch the field → result → title
 transitions, then inspect the first non-field scene.
+
+## Loops 35–40 — the post-game crash was the missing roster cache
+
+A full COM game on the launch builds ended with PC=`$7703` (PRG RAM), jammed,
+and a garbled title scene. The **pure stock ROM does not crash** — it goes
+field → scene 5 → scene 2 cleanly. So the hack introduced it.
+
+`build_32x20.py` repoints roster reads to `$7F00`, expecting the `$FB90` cache
+routine to run from the `$CBE6` hook. But `build_dispatcher.py` restores `$CBE6`
+to stock and hooks `$CC06` instead, so **the cache never ran** and `$7F00` was
+all zeros. The box-score / post-game path dereferences those pointers and jumps
+into RAM.
+
+Fix: `build_dispatcher.py --roster-cache` prepends `JSR $FB90` to the `$FF00`
+dispatcher. First attempt still stalled in the main loop because the cache
+leaves A=0 and the dispatcher's `STA $2000` then disables NMI; added
+`LDA #$80` before it.
+
+With the cache in the chain:
+
+```
+boot: $7F00 = 00 60 70 61 e0 62 ...   (pointers populated)
+field -> scene 11 (box score) -> A -> $0746 = 1, $047B = $13
+box score: JAPAN 3, N.Y. 0 (line score 000300 / 000000)
+```
+
+So a full game completes, the box score shows, and the tournament advances to
+the next match. This also explains the earlier "garbled title" after a game.
+
+Note: `--stock-flow` bypasses the dispatcher, so the harness build does not run
+the cache and still crashes after a game; the production/32-team builds do.
