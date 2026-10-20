@@ -1410,3 +1410,25 @@ The stack contains the hook return `$98BB` twice, then `$CC13`.
 Next: the crash is in the bracket frame/interrupt loop before input, not caused
 by the controller read. Break at `$C232`/`$B005` and capture the previous block,
 or watch writes to `$01FA-$01FF` to find who pushes `$B005`.
+
+## Round 58 — B005 is a JAM in the codes table
+
+Bank 11 bytes:
+
+```
+B000 4a 50 4e 20 41 52 49 ...   "JPN ARI ..."
+B005 52                          JAM
+```
+
+So the CPU is not executing a routine at `$B005`; it has fallen/jumped into the
+`$B000` team-code table and jammed on `$52`.
+
+No direct `JMP/JSR $B000/$B005` exists in the ROM. Therefore the entry into the
+table is via fallthrough, a computed jump, or a corrupted RTS frame.
+
+Given the input loop ends at `$81C8 RTS` and the bank-11 gap after it is `$FF`,
+one strong path is: input loop exits/returns with a bad frame, runs off into
+`$B000`, and jams.
+
+Next: set a breakpoint at `$B000` and capture `S` + previous block; or watch
+execution at `$81C8` to see if the RTS is taken with the wrong frame.
