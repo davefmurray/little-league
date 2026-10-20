@@ -1827,3 +1827,27 @@ Next: arm `$8000` **before** pressing A on the SPEED/WATCH screen, then run
 3000 frames. That catches the only uncaptured transition.
 
 Proof: `docs/p1-boxscore-fast.png`.
+
+## Round 77 — post-game bracket return works, CHR banks wrong
+
+Caught `$8000` in-context: it was entered with **bank 4** mapped, so the previous
+hook ran data. Added bank-11 mapping before the jump:
+
+```
+FFC0: LDA $7700 / STA $7720
+      MMC1 reset
+      select bank 11
+      $27=11
+      JMP $8000
+```
+
+Result: after the SPEED game, the screen is the **32-team bracket** again.
+Post-game return works.
+
+Problem: the bracket is visually corrupted — box-score CHR banks are still
+mapped, so bracket tiles render with the wrong pattern table.
+
+Proof: `docs/p1-return-corrupt.png`.
+
+Next: reset MMC1 CHR0/CHR1 to the bracket's banks before `JMP $8000` (write 0 to
+$A000 and $C000 with the 5-write serial sequence).
