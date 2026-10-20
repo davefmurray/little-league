@@ -4922,3 +4922,32 @@ loop**, not a bad table.
 
 Next for item 6: debug the 0x16 order/lineup state for the 32-team player
 game instead of relocating the scene table.
+
+
+## Round 183 — scene 0x17 is the SPEED/WATCH menu
+
+Captured the scene-0x17 screen (`/tmp/cache13-17.png`): it is the match-mode
+menu:
+
+```
+(baseball marker)  SPEED MODE
+                   WATCH THE GAME
+```
+
+At that menu:
+
+```
+A (marker on SPEED) -> scene 0x0A, $0489=03 (box/result)
+DOWN/UP + A         -> scene 0x1D, $0489=02 (WATCH box)
+```
+
+So the 0x17/0x1D cycle is the mode menu/box, not a broken table. The
+32-team bracket exposes **SPEED MODE / WATCH THE GAME** (COM/sim) and does
+not expose the stock **PLAY** field (player pitch). The field render
+(scene 03) and the match result (0x0A/0x0B) work with the high teams and
+the roster cache.
+
+Conclusion for item 3: the live-field/match engine works; the playable
+pitch is a **separate feature gap** (the 32-team bracket has no PLAY
+option). Item 6 is resolved: the scene table matches stock and needs no
+relocation.
