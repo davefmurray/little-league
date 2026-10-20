@@ -4489,3 +4489,33 @@ Verified: the rebuilt `direct31` enters the bracket on Start New Series and
 the 2-match soak passes (`0F v 00 -> 00 0-10`, `01 v 02 -> 01 15-0`).
 The bracket screen still shows leftover team-select glyphs; the cursor/A
 path is functional.
+
+
+## Round 166 — the bracket is in the stock CONTINUE flow; the entry hook is reverted
+
+The stock 32-team build already enters the bracket at **scene 12**:
+
+```
+Start New Series -> team select -> A -> CONTINUE/END
+  -> RIGHT (CONTINUE) -> A -> scene 12 bracket
+```
+
+At the bracket, 16 DOWN presses set `$07C7=0x10`; A launches the
+**Australia/Cuba** match (`$04EF/$04F0=10/11`, scene 13).
+
+Driving it in romdev:
+
+```
+scene 13 -> A through -> scene 0B (box score), score 12-0, $0489=03
+```
+
+So the high-team match **runs and records a result**. The earlier
+scene-0D bracket-entry hook was unnecessary and broke this stock flow
+(it replaced the team select and skipped the CONTINUE/END state), so
+`build_bracket_entry.py` has been removed from `build_32team_full.py`.
+The build hash is back to
+`28825536aba847871256ca054db2b2bf4c60c88eb920d994aa2c59596bbf1f41`.
+
+The match reached the box score without a rendered field because the
+mode/A-press path selected the auto-sim; to see the field, choose
+**SPEED MODE** at the mode select (or trace the scene-03 render).

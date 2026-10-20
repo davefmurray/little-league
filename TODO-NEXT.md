@@ -45,9 +45,12 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 ## P0 continuation (user-requested, started)
 
-- [x] **Bracket entry hook.** The full chain was missing the scene-0D hook;
-      added `build_bracket_entry.py` (scene 0D -> `$FEA0` -> bank11 `$8000`)
-      as the final chain step. 2-match soak passes.
+- [x] **Bracket entry.** The stock "Start New Series -> team select A ->
+      CONTINUE/END -> RIGHT (CONTINUE) -> A" flow already enters the bracket
+      at scene 12. The scene-0D entry hook was a wrong fix and is reverted.
+      Cursor DOWN x16 -> AUS/CUB; the match runs (12-0 in romdev).
+- [ ] **Field render.** The bracket match auto-simulates to the box score;
+      choose SPEED MODE / trace the scene-03 render to see the live field.
 
 - [ ] **Capture a low-team live-field/card-handoff save state** (or a
       breakpoint trace at the scene-`0F`/field transition). Probe result:
