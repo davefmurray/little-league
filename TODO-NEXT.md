@@ -56,7 +56,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       32 codes). The A launch still uses the wrong stack/context.
 - [ ] **Fix the seeded-bracket match launch.** A on the seed -> scene 00
       (`$81C5`); the scene-12 `JSR $8000`/`JMP $8300` hook jams at `$140D`.
-      Needs the original scene-0D/launch-bridge call chain.
+      Needs the original scene-0D/launch-bridge call chain. `--launch-on-a`
+      rebuild (A -> `JMP $8300`) added; in the seeded ROM the A branch still
+      does not fire (`$04EF/4F0=20/20`), so trace `$07C6-$07C9`/the cursor.
 
 - [ ] **Capture a low-team live-field/card-handoff save state** (or a
       breakpoint trace at the scene-`0F`/field transition). Probe result:

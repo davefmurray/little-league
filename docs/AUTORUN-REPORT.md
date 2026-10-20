@@ -4585,3 +4585,22 @@ bracket input.
 
 So the bracket is now reachable from a cold boot, but the match launch
 needs the original scene-0D/launch-bridge call chain. That is the next fix.
+
+
+## Round 170 — launch-on-A rebuild; the seeded input still misses the A edge
+
+Added `--launch-on-a` to `tools/build_bracket_input.py`: the A branch ends
+with `JMP $8300` (the launch handler) instead of `RTS`, so the launch does
+not depend on the caller's stack.
+
+Rebuilding the seed ROM with it (`direct31-seed-launch.nes`) still stays
+on scene 12 after A:
+
+```
+boot scene 12, $07C7=0, $07FC=8
+A -> scene 12, $04EF/$04F0=20/20, $07FF=FF, PC $81B2
+```
+
+The A branch is not firing in the seeded input; the seed's controller/edge
+state (`$07C6-$07C9`) or the cursor write is the next trace. The tool change
+is committed.

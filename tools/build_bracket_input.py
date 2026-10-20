@@ -104,13 +104,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
     ap.add_argument("-o", "--out", default="build/bracket-input.nes")
+    ap.add_argument("--launch-on-a", action="store_true",
+                    help="A jumps to the $8300 launch handler instead of RTS")
     ap.add_argument("--return-on-a", action="store_true",
                     help="A sets $04EF/$04F0 then RTSs to the caller instead "
                          "of looping; used by the launch bridge")
     args = ap.parse_args()
 
     asm = [line for line in ASM if line != "__RETURN_ON_A__"]
-    if args.return_on_a:
+    if args.launch_on_a:
+        i = asm.index("marker:")
+        asm.insert(i, "JMP $8300")
+    elif args.return_on_a:
         i = asm.index("marker:")
         asm.insert(i, "RTS")
 
