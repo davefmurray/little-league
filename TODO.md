@@ -71,12 +71,13 @@ M3 logic port to bank 11.
 - [ ] **True 32-slot tournament.** `$8941`/`$0746` still describe the stock
       16-team / 15-match bracket; port the 32-slot state from
       `tools/build_32bracket.py` (`--state`).
-- [ ] **On-demand roster cache for teams 16–31.** Boot caches only 0–15.
-      Add copy hooks at team-select confirm, player card and game load; copy
-      `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.
-      Team ids 16–31 now reach the matchup (`--direct-teams`, see
-      `docs/LAUNCH-DEBUG-LOG.md`), but the field is blank without this cache
-      and real 16–31 data.
+- [x] **Teams 16–31 launch.** `--direct-teams` bypasses the 4-bit team
+      unpack, and `tools/build_names32.py` extends the long/short name tables
+      to 32 entries (the 16-entry tables hung scene 16). All 32 ids reach the
+      field.
+- [ ] **Real data for teams 16–31.** Bank 8 still holds team 15's block with
+      `B1601`-style names, and the field HUD shows `FLO`/`JAPAN`. Fill the
+      rosters/ratings/lineups/colours and the on-demand `$6000`/`$7F00` cache.
 - [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
 - [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the

@@ -430,3 +430,62 @@ selector branches + `$FF` redraw · 15 pick verification · 16 playability · 17
 skip-password · 18 direct-teams · 19 directions · 20 bracket seed · 21 bracket
 cursor · 22 rebuild/regression · 23 default/direct field · 24 harness · 25
 final team-5 run.
+
+---
+
+# Session 4 — teams 16–31 (loops 26–30)
+
+## Loop 26 — the scene-16 hang is a 16-entry name table
+
+Team 16 with `--direct-teams` reached the matchup but the field was a black
+screen, stuck in scene 16. The scene-16 code at `$AF53` loads a team name:
+
+```
+AF53 ASL A / TAY
+AF55 LDA $B2D6,Y / STA $00     ; 16-entry pointer table
+AF5A LDA $B2D7,Y / STA $01
+AF63 LDA ($00),Y / STA $06B5,X ... CMP #$FF / BNE
+```
+
+For team 16, Y=32 reads past the table into the name strings themselves, gets a
+bogus pointer, and copies until it happens to see `$FF` — which never came.
+`$AF55` is also where the "TEAM 17" name came from once the table was fixed.
+
+Fix: `tools/build_names32.py` builds a 32-entry long-name table + placeholder
+names at `$BC80`/`$BCC0` in bank-1 free space and repoints `$AF55/$AF5A`.
+
+## Loop 27 — the patch wrote to the wrong bank
+
+The short-name table at `$9280` has the same 16-entry problem, and its loader
+is at **`$C958` in the fixed bank**, not bank 1. The first version of the tool
+used the bank-1 offset for `$C966`/`$C96B`, so it (a) never patched the loader
+and (b) wrote two bytes into bank 2 at `$8966`/`$896B`. The scene still hung.
+
+Fix: a `foff()` helper for `$C000-$FFFF`; the loader now reads `$BD40/$BD41`.
+
+## Loop 28 — team 31 works too
+
+With both tables extended, a page-3 cursor-7 pick (`$07C3=$1F`) reaches
+matchup `1f/00` and the field (`$047B=$03`, teams `1f/00`).
+
+## Loop 29 — `--direct-teams` without skipping the password screen
+
+The bridge patch alone (password display intact) is enough: the display runs,
+then the matchup's patched `$9BFD` call re-seeds `$0650` from `$7700`. Team 16
+reaches the field with the password screen preserved.
+
+## Loop 30 — teams 0–15 unchanged
+
+Team 0 on the 32-team build: matchup `00/01`, field `00/01`, `$047B=$03`.
+
+### 32-team build
+
+```
+build_launch_bridge.py build/bracket-launch-input.nes --direct-teams -o build/launch-direct.nes
+python3 tools/build_names32.py build/launch-direct.nes -o build/launch32.nes
+```
+
+All 32 ids are selectable and reach the field. Teams 16–31 still use the
+placeholder bank-8 blocks (Florida's roster copied with `B1601`-style names),
+and the field HUD shows `FLO`/`JAPAN` for them — the real per-team data is the
+next data milestone, not a launch blocker.

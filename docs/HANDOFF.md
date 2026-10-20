@@ -22,6 +22,9 @@ launch path; this file is the map, not the story.
 - **Selector → bracket → launch** in the production build: the selector's A
   hands the stock dispatcher scene 18, the hook runs the bracket, and the same
   bridge resumes. Reaches password → matchup → speed mode → cutscene → field.
+- **All 32 team ids launch.** `--direct-teams` + `build_names32.py` extend the
+  two 16-entry name tables and bypass the 4-bit team unpack; ids 16–31 reach
+  the field with placeholder roster/name data.
 - Stock regression green:
 
 ```sh
@@ -49,6 +52,11 @@ python3 tools/build_dispatcher.py build/select-screen.nes -o build/dispatcher.ne
 # harness build: stock team select -> END -> bracket -> launch
 .venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
   --stock-flow -o build/launch-stock.nes
+
+# 32-team build (ids 16-31 selectable and playable)
+.venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
+  --direct-teams -o build/launch-direct.nes
+python3 tools/build_names32.py build/launch-direct.nes -o build/launch32.nes
 ```
 
 `--stock-flow` restores stock `$CC06` so the stock team-select path runs and
@@ -72,6 +80,9 @@ Build outputs are gitignored.
 | `$9BFD` | matchup's `JSR $9B5F` call site (`--direct-teams` patches it) |
 | `$9C00` | matchup team setup: `$04EF/$04F0 = $0650[$8941[3*$0746]]` |
 | `$0522` | lineup-init flag: `$FF` at boot, cleared by the stock team select |
+| `$B2D6` | 16-entry long-name pointer table (loader `$AF53`) |
+| `$9280` | 16-entry short-name pointer table (loader `$C958`, fixed bank) |
+| `$BC80/$BD40` | `build_names32.py` 32-entry replacement tables |
 | `$33/$34` | team ids used by the password/game path |
 | `$047B` | scene id |
 | `$047C` | scene sub-state / sub-handler index |
@@ -135,11 +146,14 @@ stock: `S=$FF` at the main loop after the resume.
 
 ## 6. What is still open
 
-1. **Full 32-team tournament state.** The first-round matchup now matches the
-   bracket: `$FF60` copies `$7700[0..15]` into `$0650`, and `$9C00` reads
-   `$0650[$8941[3*$0746]]`. But the stock game still runs a 16-team / 15-match
-   bracket (`$8941`, `$0746`). A true 32-slot, 5-round tournament needs that
-   table and the advance/display logic ported (the `--state` work in
+1. **Real data for teams 16–31.** They launch, but bank 8 holds a copy of
+   team 15's block with `B1601`-style names, and the field HUD shows
+   `FLO`/`JAPAN`. Fill `data/roster.json` / the bank-8 blocks and the
+   ratings/lineup/colour tables.
+2. **Full 32-team tournament state.** The first-round matchup matches the
+   bracket, but the stock game still runs a 16-team / 15-match bracket
+   (`$8941`, `$0746`). A true 32-slot, 5-round tournament needs that table and
+   the advance/display logic ported (the `--state` work in
    `tools/build_32bracket.py` is the starting point).
 2. **Password format** is still the stock 16-slot table (`$994F`); the
    32-team tournament state is not encoded.
