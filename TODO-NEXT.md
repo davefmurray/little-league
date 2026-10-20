@@ -103,6 +103,10 @@ History: `docs/AUTORUN-REPORT.md`.
         (team 0/16), while the field team is `$0650[0]` (09). The pass case
         had `$0650[0]=00` and `$B2` low nibble 0. Next: derive `$B2`/`$BC`
         from `$0650[0]` or set `$B2` from `$0650` at the order start.
+        **Found:** setting `$B2=09` gives `$BC=9` -> `$06E2[9]=0x43` ->
+        team 4, because `$06E2` is the 8 groups x 2 table
+        (`$06E2[group*2+team]`), not team-indexed. Two fixes together:
+        `$B2` from `$0650[0]` and the `$06E2` group/team mapping.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

@@ -5485,3 +5485,25 @@ the bracket pair.
 
 Next: make `$B2`/`$BC` derive from the `$0650[0]`/field team A, or set
 `$B2` from `$0650` at the order start.
+
+
+## Round 204 — $B2/$0650 and $06E2[9]
+
+Order/field team sources:
+
+```
+pair version: $0650[0]=00, $B2=0x10 -> $BC=0 -> $06E2[0]=04 -> team 0  = field 00  OK
+pair2/3:      $0650[0]=09, $B2=0x10 -> $BC=0 -> $06E2[0]=04 -> team 0  != field 09
+```
+
+Setting `$B2 = $0650[0] = 09` gives `$BC=9` -> `$06E2[9]=0x43` ->
+high nibble 4 (team 4), not team 9. The `$06E2` table is the **8 groups
+x 2 team/group table**, not a team-indexed name table: `$06E2[9]` is
+group 4 / team 1, whose high nibble is 4.
+
+So two fixes are needed together:
+1. `$B2`/`$BC` from the field's `$0650[0]` (not the menu page), and
+2. the `$06E2` index semantics (`group*2 + team`) must map the field team
+   to the right group entry.
+
+Next: the `$06E2` group/team mapping and the `$B2` source.
