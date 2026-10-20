@@ -2980,3 +2980,27 @@ edit AUSTRALIA -> AUS TEST (bank9 name) + TESTER, re-extracted OK
 
 The all-FF bank1 `$BCC0` table is deliberately left untouched when it has no
 printable entry, which keeps the no-names32 build's round-trip exact.
+
+
+## Round 107 — CI runs the 32-team password model
+
+The GitHub Actions workflow now runs the pure-Python 32-team password model
+on every push/PR, in addition to the metadata and roster checks:
+
+```yaml
+- name: Verify 32-team password model
+  run: python3 tools/password32.py test
+```
+
+This locks the 100-round-trip encode/decode property into CI without
+needing a ROM or the py65 emulator.
+
+Also probed this round (negative results, no ROM committed):
+
+- an unconditional `$047D` clear in the NMI handler breaks the boot/password
+  frame pacing (the password wait times out), so the guard cannot be cleared
+  globally;
+- the saved `/tmp/match5-cut.state` cutscene advances to the scene-`$0F`
+  order screen after ~360 frames, but the deterministic B+A leave did not
+  advance that particular state, so the field-card attribute test was not
+  completed.

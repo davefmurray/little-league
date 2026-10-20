@@ -62,6 +62,9 @@ jobs:
           print("roster32.json OK: 32 x 20")
           PY
 
+      - name: Verify 32-team password model
+        run: python3 tools/password32.py test
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
