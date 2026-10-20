@@ -51,10 +51,12 @@ log is in `docs/AUTORUN-REPORT.md`.
       Cursor DOWN x16 -> AUS/CUB; the match runs (12-0 in romdev).
 - [ ] **Field render.** The bracket match auto-simulates to the box score;
       choose SPEED MODE / trace the scene-03 render to see the live field.
-- [ ] **Seed the fresh-boot continue state.** The 32-team bracket is a
-      CONTINUE/saved state; a fresh boot only offers END. Build a debug ROM
-      that seeds the 2 KB system RAM (and `$7700` if needed) at boot so the
-      bracket opens without a save/password, then test the high-team field.
+- [x] **Seed the fresh-boot continue state.** A 2 KB system-RAM seed at boot
+      lands on the 32-team bracket from a cold boot (cursor 16, `$07FC=8`,
+      32 codes). The A launch still uses the wrong stack/context.
+- [ ] **Fix the seeded-bracket match launch.** A on the seed -> scene 00
+      (`$81C5`); the scene-12 `JSR $8000`/`JMP $8300` hook jams at `$140D`.
+      Needs the original scene-0D/launch-bridge call chain.
 
 - [ ] **Capture a low-team live-field/card-handoff save state** (or a
       breakpoint trace at the scene-`0F`/field transition). Probe result:

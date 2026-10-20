@@ -4561,3 +4561,27 @@ bracket because its system RAM still held the previous session's state.
 Next: seed the 2 KB system RAM (and, if needed, the `$7700` cart-RAM heap)
 at boot in a debug ROM, so the bracket opens without a save/password. That
 is a ROM-side fix and can be verified entirely in romdev.
+
+
+## Round 169 — cold-boot seed reaches the bracket; A launch context still wrong
+
+Seeded the working bracket's 2 KB system RAM at boot (2 KB table in bank 12,
+a cart-RAM copier, cursor 16, `$07FC=8`). A cold boot now lands on the
+32-team bracket screen (`/tmp/seed16.png`), codes and header correct, no
+menu or CONTINUE.
+
+The A launch is still wrong:
+
+```
+seed17 A -> scene 00, $04EF/$04F0=20/20, PC $81C5
+```
+
+The A handler's `RTS` uses the seeded stack, which is the bracket input's
+frame, not the launch bridge; it returns into the wrong context.
+
+A scene-12 table hook (`$CC77 -> $FEA0`, `JSR $8000` / `JMP $8300`) jams at
+`$140D`; the stock scene-12 call context is not compatible with the bank-11
+bracket input.
+
+So the bracket is now reachable from a cold boot, but the match launch
+needs the original scene-0D/launch-bridge call chain. That is the next fix.
