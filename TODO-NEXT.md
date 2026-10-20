@@ -34,7 +34,12 @@ History: `docs/AUTORUN-REPORT.md`.
        $95=00, $C7=00, $BE=00, $C3=90, $04EF/$04F0=0A/09, $06B5 "...RICO";
        A/B/START/B+A do not advance. Same order-screen `$95`/`$C7` dead
        input; team 0A (Puerto Rico) is the variable. Next: the `$B8A9`/`$B90C`
-       `$95` writer and the 0A lineup state.
+       `$95` writer and the 0A lineup state. **Found:** `$04` (team-record
+       pointer) = 0, so `$ADFE` reads the zero page -> `$0511=FF`; the cache
+       slots `$7F00[9]/[10]` point to `$7800`/`$7A00` but those are FF (the
+       cache sources low teams from bank8 `$8000+t*0x170`, while the low
+       teams live in bank4 `$8420+t*0x120`). Next: fix `$04` and the cache
+       low-team source.
 6. [x] **Scene 1E/1F / match-26 (P1).**
        Resolved: table is bank-relative and stock-identical; 0x17 -> bank6
        `$B0EE`, 0x1D -> bank5 `$81A8`, 0x1E/1F `$0101`/bank `$AD` is the

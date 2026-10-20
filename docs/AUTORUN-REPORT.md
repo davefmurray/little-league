@@ -5080,3 +5080,31 @@ Buttons A / B / START / B+A / B+A x2 / A x3 do not advance. It is the same
 order-screen input issue (`$95`/`$C7` never set); the soak's `leave_lineup`
 works on matches 0-4 but not this 09/0A pair. Team 0A (Puerto Rico) is the
 new variable.
+
+
+## Round 189 — match-5: the team pointer is 0 and the cache slots are FF
+
+At the match-5 order stall:
+
+```
+$04/$05 = 00 00          (team-record pointer)
+$04ED/$04EC/$04EB = 00 01 0A
+$04EF/$04F0 = 0A 09
+$04E9 = 01
+$7F00[9] = $7800, $7F00[10] = $7A00   (roster-cache slots)
+$7800/$7A00 contents = FF
+```
+
+`$ADFE` does `LDY #6 / LDA ($04),Y / STA $0511`; with `$04=0` it
+reads the zero page, not the team roster, and `$0511` becomes FF. The
+`$B996` scene-0F handler then RTSs without setting `$95`, so the order
+screen input stays dead.
+
+The roster-cache slots for teams 09/0A are FF: the cache's `$FC80` table
+maps all 32 teams to bank8 `$8000+t*0x170`, but the low teams 0-15 live in
+bank4 `$8420+t*0x120`. The earlier matches 0-4 pass because their order
+phase does not use this `$0511` path; the 09/0A pair does.
+
+Next: fix the team-record pointer (`$04`) for the order phase and make the
+cache copy low teams from bank4 (or leave their stock bank4 `$7F00`
+pointers alone).
