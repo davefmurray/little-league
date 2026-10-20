@@ -1453,3 +1453,33 @@ is why the A branch does not commit the launch (or why execution reaches
 
 Note: the guard overwrites 3 bytes of the team-code table, so it is diagnostic
 only, not shippable.
+
+## Round 60 — JAM guard lets the A branch run into stock
+
+With `$B005` guarded as `JMP $8127`, the A branch now reaches `$8162` and runs:
+
+```
+8162 -> ... -> 8176 copyback -> 818A RTS
+-> $98BC/$FF80
+-> $98BD JSR $98D5
+-> PC $98E3 (inside password builder, bank 5)
+-> $9C67
+-> $A81F
+```
+
+This is the first run where A actually enters the stock password builder.
+
+Still:
+
+```
+$047B = $12
+```
+
+and after ~5 frames PC returns to the bracket input loop (`$81C5`), scene
+unchanged.
+
+So the branch and stock entry work; the remaining bug is the return/loop after
+`$98D5` (it appears to come back to the bracket instead of incrementing scene).
+
+The `$B005` guard is diagnostic only — it overwrites 3 bytes of the team-code
+table.
