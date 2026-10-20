@@ -72,7 +72,10 @@ History: `docs/AUTORUN-REPORT.md`.
        and the 6502 decode/encode.
        Stock alphabet `5 7 H J K M O Q S U e g h j l n`; 11-char base-32
        codec done; wire the screen or entry/continue code.
-8. [ ] **In-game bench / attribute card (P2).**
+8. [x] **In-game bench/attribute card (P2) — design done.**
+       `docs/bench-card.md`: the stock `$9A1C`/`$9A4E`/`$9A70`/`$06E2`
+       card code, the 32-team extension, the layout, the data model and
+       the acceptance checks. The in-game implementation remains.
        START-menu substitution/pitcher change + printed power/speed/skill.
 9. [x] **Hardware/sound execution (P2) — docs done.**
        `docs/hardware-sound.md`: the MMC1 map, the romdev execution, the

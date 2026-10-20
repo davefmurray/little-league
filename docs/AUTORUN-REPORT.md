@@ -5680,3 +5680,16 @@ Added `docs/hardware-sound.md`:
 
 Item 9's documentation deliverable is done; the actual hardware runs
 remain on the release checklist.
+
+
+## Round 212 — bench/attribute card notes (item 8)
+
+Added `docs/bench-card.md`:
+- the stock card code (`$9A1C`/`$9A4E`/`$9A70`/`$06E2`);
+- the 32-team extension (32-byte `$06E2`, 128-byte `$9A70`, page offset);
+- the card layout (team header, 16 roster rows, bench markers, swap);
+- the data model (`data/roster32.json`, `$FD80` 32x9 lineups);
+- acceptance checks.
+
+Item 8's design/spec deliverable is done; the in-game card implementation
+remains.
