@@ -489,3 +489,16 @@ All 32 ids are selectable and reach the field. Teams 16–31 still use the
 placeholder bank-8 blocks (Florida's roster copied with `B1601`-style names),
 and the field HUD shows `FLO`/`JAPAN` for them — the real per-team data is the
 next data milestone, not a launch blocker.
+
+## Loop 31 — the field HUD still says FLO for team 31
+
+The short-name loader has a second copy in bank 7 (`$8958`), which the field
+HUD reaches through the bank-7 mapping; `build_names32.py` now patches both
+copies (`$C965/$C96A` and `$8965/$896A`).
+
+The HUD nevertheless still shows `FLO` for team 31. A write breakpoint on the
+name buffer `$06B5` lands at `$AF65` (the LONG-name loader, bank 1), so the
+`$06B5` buffer is not the HUD source. The 3-letter scoreboard name comes from a
+different path and is almost certainly tied to the placeholder block being a
+copy of team 15's (Florida) — the roster/name data milestone, not a table
+pointer bug. Cosmetic; the game plays.

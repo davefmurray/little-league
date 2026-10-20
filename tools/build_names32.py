@@ -42,6 +42,11 @@ def foff(rom, addr):
     return HEADER + (rom[4] - 1) * PRG + (addr - 0xC000)
 
 
+def b7off(addr):
+    """File offset of the old bank-7 copy of the fixed bank."""
+    return HEADER + 7 * PRG + (addr - 0x8000)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
@@ -92,6 +97,13 @@ def main():
     rom[foff(rom, 0xC966):foff(rom, 0xC966) + 2] = bytes(
         [NEW_SHORT & 0xFF, NEW_SHORT >> 8])
     rom[foff(rom, 0xC96B):foff(rom, 0xC96B) + 2] = bytes(
+        [(NEW_SHORT + 1) & 0xFF, (NEW_SHORT + 1) >> 8])
+
+    # Bank 7 carries a copy of the same loader ($8958); the field HUD reaches
+    # it through the bank-7 mapping.  Patch its two operands too.
+    rom[b7off(0x8966):b7off(0x8966) + 2] = bytes(
+        [NEW_SHORT & 0xFF, NEW_SHORT >> 8])
+    rom[b7off(0x896B):b7off(0x896B) + 2] = bytes(
         [(NEW_SHORT + 1) & 0xFF, (NEW_SHORT + 1) >> 8])
 
     open(args.out, "wb").write(rom)
