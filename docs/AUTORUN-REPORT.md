@@ -3298,3 +3298,35 @@ base or index for the cached high team.
 This is the strongest remaining field lead: trace the `$B07C` inputs
 (`$04EF`, `$04FD`, `$06E2`) and find why the high-team pointer lands at
 `$7E34`.
+
+
+## Round 122 — `$7F00` is correct; `$04/$05` comes from another path
+
+At the high-team field the roster table is intact:
+
+```
+$7F20/$7F21 = 00 78   (team 16 -> $7800)
+$7F22/$7F23 = 00 7A   (team 17 -> $7A00)
+$04EF/$04F0 = 10 11
+$04FD/$04FE = 03 03
+```
+
+The `$B094` path should compute, for the home team (17):
+
+```
+base $7A00 + ($04FE=3 << 4) = $7A30
+```
+
+but the actual current-player pointer is:
+
+```
+$04/$05 = 34 7E   ($7E34)
+```
+
+`$7E34` is in the free gap below `$7F00`, not $7A30. The `$B07C` arithmetic
+cannot produce it from the table, so a **different routine** sets the
+current-player pointer (likely the batter-card/setup path). `$04F9` then
+reads byte 3 from that pointer's FF data.
+
+Next: put a write breakpoint on `$04/$05` during the field entry and capture
+the caller that writes `$7E34`.
