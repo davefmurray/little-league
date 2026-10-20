@@ -20,7 +20,9 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 ## P1 — visible/gameplay correctness
 
-- [ ] **Post-game CHR restore.** The post-game bracket tiles are corrupted.
+- [ ] **Post-game CHR restore.** The team-code table is now fixed
+      (`build_bracket_codes32.py`, real 32 codes); the remaining garbled rows
+      are score/round placeholders.
       `$23-$26` shadows differ from the normal entry but are **not** the
       latched MMC1 CHR banks; writing them glitches the screen. Needs a
       mapper/PPU-level probe of the latched banks.

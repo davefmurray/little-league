@@ -3679,3 +3679,27 @@ overwrite. The remaining issue looks more like a **nametable/display-list
 transition** (box score -> bracket) than a pure CHR bank restore. Next:
 diff the `$0300` display list at the good bracket entry vs the post-game
 state and find the rows that are not rewritten.
+
+
+## Round 137 — real 32-team bracket codes (P1 visual fix)
+
+The bracket's team-code table at bank11 `$B000` is 32 x 4 bytes. Teams
+0-15 already matched `data/teams32.json`, but teams 16-31 were the
+placeholders `T17`..`T32`. The bracket font has no digits, so those entries
+rendered as garbage tiles — a large part of the "corrupted bracket" look.
+
+`tools/build_bracket_codes32.py` writes the real codes (`AUS`, `CUB`, `DOM`,
+`VEN`, `PAN`, `NED`, `GER`, `RSA`, `BRA`, `COL`, `NIC`, `PHI`, `HKG`, `GUM`,
+`NZL`, `CZE`) into `$B000`, and `tools/build_32team_full.py` runs it before
+the roster-cache step.
+
+Verified in the rebuilt `build/direct31.nes`:
+
+```
+bracket codes 16-31: AUS CUB DOM VEN PAN NED GER RSA BRA COL NIC PHI HKG GUM NZL CZE
+screenshot: docs/bracket-codes32.png
+```
+
+The lower bracket rows now show readable country codes instead of
+placeholder/digit garbage. The remaining garbled rows are the score/round
+placeholders, not the team-code table.
