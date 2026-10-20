@@ -3625,3 +3625,27 @@ wrong, so clearing `$047A` alone does not restore the tiles.
 
 This narrows the CHR work to whichever routine sets `$23/$25` during the
 post-game bracket draw, not the `$047A` selector.
+
+
+## Round 135 — field `$0485`/`$047F` and CHR shadow test
+
+Field probes:
+
+- `$0485=FF` at the stall, but writing `0/9/1/2` does not start a pitch and
+  the game resets it to `0`. The `$0555` status array is `40/80...` in the
+  stock field too, so its `CMP #$04; BCS` skip is normal.
+- `$047F` stays `$7C` (set by the card setup at `$8EFD`); it is not
+  decremented at the field.
+- `$8551`/`$89A5` are player position/animation code, not the pitch.
+
+CHR shadow test at the post-game bracket:
+
+```
+before: $23-$26 = 18 1B 05 1C, $047A=00, $2D=00
+after:  $23-$26 = 1B 1B 18 1C (normal entry values)
+screenshot: unchanged (same sha256 as before)
+```
+
+So setting the normal `$23/$25` shadows does not fix the visible tiles. The
+NMI apply may be skipped, or the corruption is in the nametable/tile IDs,
+not only the CHR bank selection.
