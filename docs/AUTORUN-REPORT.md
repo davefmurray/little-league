@@ -5705,3 +5705,23 @@ Added `docs/STEP2-AUDIT.md` and `TODO-STEP2.md`:
 - New need areas: audio regression, SRAM CONTINUE, 2-player, release
   pipeline, regression/CI.
 - Fresh P0/P1/P2 list in `TODO-STEP2.md`.
+
+
+## Round 214 — list still needs the $06E2 setup
+
+Loaded `direct31-list` and cycled the title/list:
+
+```
+scene 0x0D, $C0=00
+$06E2 = FF FF ... (16 bytes, uninitialized)
+$06B5 = "CONTINUE  END"
+unique list names: 1 (only CONTINUE END)
+```
+
+So the earlier SPAIN/FLORIDA/PUERTO RICO/CANADA strings were the
+team-select highlight, not the LIST OF TEAMS list. The list's `$A1AA`/
+`$9FA9` scan needs the `$06E2` group table populated first (the
+`$98D5`/`$9B5F` setup) and the `$071A` 32-byte flags.
+
+Next: seed `$06E2` 32 bytes + `$071A` 32 bytes at the team-select/list
+entry, then re-run the list name check.
