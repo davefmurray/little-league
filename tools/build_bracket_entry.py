@@ -30,6 +30,9 @@ CODE = OAM_CLEAR + BANK_JUMP
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
+    ap.add_argument("--after-select", action="store_true",
+                    help="run the stock team-select first (JSR $B9B7), then "
+                         "jump to the bracket; preserves the stock state")
     ap.add_argument("--cursor", type=lambda s: int(s, 0), default=0,
                     help="initial bracket cursor slot (16 = AUS/CUB)")
     ap.add_argument("--match", type=lambda s: int(s, 0), default=None,
@@ -40,7 +43,10 @@ def main():
     o = HEADER + BANK2 * PRG + (SCENE0D - 0x8000)
     if bytes(rom[o:o + 3]) not in (STOCK, bytes([0x4C, 0xA0, 0xFE])):
         raise SystemExit(f"$B9C0: expected stock hook or existing jump, found {rom[o:o+3].hex(' ')}")
-    rom[o:o + 3] = bytes([0x4C, 0xA0, 0xFE])
+    if args.after_select:
+        rom[o:o + 6] = bytes([0x20, 0xB7, 0xB9, 0x4C, 0xA0, 0xFE])
+    else:
+        rom[o:o + 3] = bytes([0x4C, 0xA0, 0xFE])
 
     match = args.match if args.match is not None else (args.cursor >> 1)
     code = OAM_CLEAR + bytes([0xA9, match & 0xFF, 0x8D, 0xFC, 0x07]) + BANK_JUMP
