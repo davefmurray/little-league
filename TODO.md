@@ -82,10 +82,11 @@ M3 logic port to bank 11.
 - [x] **Roster data for teams 16–31.** `data/roster32.json` + 
       `tools/build_extra_rosters.py` write 20 generated players and three
       pitcher records per team into bank 8.
-- [ ] **On-demand roster cache for teams 16–31.** Direct builds lost the
-      `$CBE6 -> $FB90` cache hook and only initialise 16 table entries. Add a
-      two-team scratch cache at `$7800`/`$7970`, update `$7F00 + id*2`, then
-      launch real ids without `AND #$0F`.
+- [ ] **On-demand roster cache for teams 16–31.** Direct builds read the
+      original `$8400` table. A fixed `$FC00` cache routine maps bank8 and
+      copies to `$7800/$7A00`, but the copy is interrupted at the frame
+      boundary (`finalPc=$CD86`) and the table stays dummy. NMI-off at the
+      launch stub did not help; next: RAM copy with interrupts disabled.
 - [x] **Ratings for teams 16–31.** 32 x 4 table at bank3 `$BC80`
       (`tools/build_ratings32.py`), reader repointed.
 - [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`

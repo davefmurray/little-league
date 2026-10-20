@@ -2645,3 +2645,26 @@ default demo:  16 team cards, 15 player rows, "Team 01 / 16"
 Still pending on the editor: parse/export the 32-team **ROM** layout
 (bank8 `$8000 + team*$170`), and load `teams32.json` names into the ROM
 mode. The current ROM mode remains the stock 16 x 15 editor.
+
+
+## Round 95 — roster-cache diagnostic
+
+The fixed-bank cache routine does execute. Starting from the launch stub and
+single-stepping with `stepInstructions`:
+
+```
+$FC02  JSR $C14E        map bank8
+$FC05..$FC10           set dest $7800, load team id
+$FC44  copy loop
+$FC50  LDA ($00),Y / $FC52 STA ($02),Y / $FC54 INY / $FC55 BNE
+```
+
+The loop runs, but the frame boundary arrives while it is still copying;
+`stepInstructions` then reports `finalPc=$CD86` (the NMI handler). The RAM
+cache at `$7800/$7A00` and the `$7F00` table stay zero/dummy.
+
+Adding `LDA #$00 / STA $2000` at the launch stub (NMI off before the copy)
+did **not** change the result. The next probe is to move the copy into a RAM
+routine with interrupts explicitly disabled and confirm `$2000` is zero at
+`$FC00`, then copy in two 0x100/0x70 chunks with a frame-safe loop. The
+32-team roster data itself is ready; only the runtime cache is blocked.
