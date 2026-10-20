@@ -29,8 +29,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       the card loop; `$06E1` selects B=END vs back. Setting `$06E1=1` makes B
       set `$BE=7`, but A only advances the `$BA` menu; `$C3` bit 7 is the
       back/cancel flag (clearing it lets `$BA` reach 11), and the final
-      match-start condition is still missing (likely the `$9F89` lineup
-      validator). The low-team path auto-confirms past
+      match-start condition is still missing. `$9F89` validator analysis
+      rules out the lineup arrays; the remaining gate is the `$BE=7`/`$BA`
+      menu with `$C3` bit 7 as the back flag and unreliable manual timing. The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness

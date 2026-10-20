@@ -4036,3 +4036,32 @@ start condition is elsewhere — likely the `$9F89` lineup validator or the
 
 Next: inspect `$9F89`'s lineup arrays (`$071A`, `$06E2`) for the high-team
 data and find the page handler that sets `$0489`/the field start.
+
+
+## Round 150 — order-screen lineup validator analysis
+
+The `$9F89` validator scans 15 batters and calls `$9FA9` for each:
+
+```
+9FA9 LDA #$08 / STA $01
+loop: LDA $01 / ASL A / ORA $BD / TAY
+      LDA $06E2,Y / LSR x4 / CMP $00
+      BEQ found
+      DEC $01 / BPL loop
+```
+
+At the high-team scene `0F` (`$BD=01`):
+
+```
+$071A = 20 80 40 08 08 08 08 00 20 10 08 80 40 08 00 40 ...
+$06E2 = 08 16 16 08 29 29 31 31 42 42 57 57 65 65 73 73 ...
+$06E2 odd terms = 16 08 29 31 42 57 65 73 84 00 FF ...
+```
+
+The array values are populated and the validator can find matching
+batter/player entries, so `$9F89` is not the blocker.
+
+The remaining gate is the `$BE`/`$BA` order menu with `$C3` bit 7 as the
+back flag. Manual B/A timing is unreliable in the emulator: the same
+sequence sometimes sets `$BE=7`, sometimes leaves it at 4. The next step is
+a breakpoint on the `$BE=7` handler with controlled `pressDuring` timing.
