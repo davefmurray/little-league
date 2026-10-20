@@ -3056,3 +3056,26 @@ the same vblank wait, so this is not unique to the high-team path.
 This points at the PPU/vblank flag state rather than the roster pointers.
 The field and post-game CHR work are blocked on this until the PPU state can
 be observed or reset correctly.
+
+
+## Round 110 — correction: the PPU/vblank wait is normal frame pacing
+
+Round 109 called the field "stuck on the vblank flag". Polling the PPU
+register region over frames corrects that:
+
+```
+nes_ppu_regs = b0 1e 20 00   ($2000=$B0, $2001=$1E, $2002=$20)
+PC alternates $CDFE (vblank wait) and $CC0C (main loop)
+```
+
+The main loop **is** running frames; `$CDFC/$CDFE` is the normal vblank
+sync, not a dead end. `$047D` is cleared by NMI and the scene handler runs.
+The field is alive but does not advance the score/inning, so the remaining
+issue is gameplay state (pitcher/batter data or the pitch loop), not a
+halted PPU.
+
+The high-team field still shows a valid cached batter/pitcher card and a
+0-0 score, but no pitches. The next probe is the pitcher-trailer lookup
+(`$8420` stub, `$150 + pitcher_slot`) with the `$7800` cache pointer, and
+the `$04F9/$04FA` "value 4" bytes, which are `FF/0F` at the high-team field
+versus valid values in the stock field state.
