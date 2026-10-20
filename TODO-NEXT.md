@@ -89,7 +89,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       the timeout; determine whether it is the card loop or a COM/pitch stall.
 - [ ] **Match 26 crash follow-up.** `11/13` at 2-0 enters scene `$1D`,
       `PC=$00C3` (RAM jam). Static finding: `direct31` scene `1E`/`1F` table
-      entries are `$0101`/bank `$AD` (stock has `$38F0`/`$877F`/bank `$31`).
+      entries are `$0101`/bank `$AD`. The earlier stock comparison was against
+      an 8-bank layout and is not address-comparable; the fix needs the stock
+      scene table relocated for the 16-bank build.
 - [ ] **Hardware validation** on a flash cart / MMC1 donor. Checklist is
       written (`docs/hardware-checklist.md`); bench execution still pending.
 - [ ] **Sound/music checks** after the data moves. Checklist is written

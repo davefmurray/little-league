@@ -4362,3 +4362,20 @@ Static match-26 risk remains: in `direct31.nes` the scene `1E`/`1F` handler
 table entries are `$0101` with bank `$AD`, while the stock `32bracket.nes`
 has `$38F0`/`$877F` and bank `$31`. If the post-game path ever enters scene
 `1E`, the dispatcher jumps to `$00C3` (the reported RAM jam).
+
+
+## Round 161 — the scene 1E/1F comparison was against the wrong layout
+
+The earlier static comparison used `build/32bracket.nes`, but that file's
+`$CC52` region is the **stock original data** (`86 86 86 84 ...`), not the
+32-team dispatcher table. The stock original is an **8-PRG-bank** ROM (fixed
+bank 7); `direct31.nes` is 16 PRG banks (fixed bank 15). Their fixed-bank
+layouts are not address-comparable.
+
+`direct31.nes`'s `$CC52` table is the 32-team dispatcher's own handler table;
+its scene `1E`/`1F` entries are `$0101` placeholders, and the bank byte is
+`$AD`. Copying the stock `$38F0`/`$877F` entries is not valid without
+relocating the stock scene table for the 16-bank layout.
+
+So the match-26/scene-`1E` risk is real but **not fixed**; the earlier
+"stock has valid entries at the same address" comparison was misleading.
