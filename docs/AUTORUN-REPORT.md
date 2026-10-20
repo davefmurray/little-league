@@ -4436,3 +4436,29 @@ and jams at `$0013`; not viable as-is.
 
 The three user-requested items are therefore all blocked by the same
 missing live-field/overlay state, not by a lack of a probe.
+
+
+## Round 164 — live PPU password screen captured; stock alphabet confirmed
+
+Found that romdev exposes live PPU regions (`nes_nametables`, `nes_chr`,
+`nes_palette`, `nes_oam`, `video_ram`) — no save-state CHR latch needed.
+
+Added `tools/render_ppu.py` and captured the password screen at scene 13:
+
+```
+PASS WORD
+UUUUUU UUUJUU
+SSSSSU SSUU
+```
+
+`$06B5` reads `SSSSSU SSUU` at that moment. The bank5 `$908B` table is the
+ASCII alphabet `5 7 H J K M O Q S U e g h j l n`; S/U/J are visible on the
+live screen, confirming it.
+
+`password32.py` now has `encode_stock_ascii`/`decode_stock_ascii`; the test
+runs **100 hex + 100 letter + 100 stock-tile + 100 stock-ascii + 100
+11-char short** round-trips.
+
+The 11-character screen is 44 bits (4 bits/symbol). The 32-team model needs
+64 bits, so it needs a 16-character screen or a larger alphabet — the
+11-char limit is now a measured constraint, not a guess.

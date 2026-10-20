@@ -24,6 +24,8 @@ LETTERS = "ABCDEFGHIJKLMNOP"
 STOCK_TILES = bytes([0x35, 0x37, 0x48, 0x4A, 0x4B, 0x4D, 0x4F, 0x51,
                      0x53, 0x55, 0x65, 0x67, 0x68, 0x6A, 0x6C, 0x6E])
 B32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+# Stock 16-symbol password alphabet: ASCII screen codes from bank5 $908B.
+STOCK_ALPHABET = "57HJKMOQSUeghjln"
 
 
 def xorshift32(state):
@@ -142,6 +144,19 @@ def decode_short(text):
     return bits & 0xFFFF, (bits >> 16) & 0x7FFFFFFF
 
 
+def encode_stock_ascii(seed, results):
+    """16-char stock-alphabet form (one char per nibble)."""
+    return "".join(STOCK_ALPHABET[int(c, 16)] for c in encode(seed, results))
+
+
+def decode_stock_ascii(text):
+    text = text.strip()
+    if len(text) != 16 or any(c not in STOCK_ALPHABET for c in text):
+        raise ValueError("expected 16 chars from the stock alphabet")
+    hexstr = "".join(f"{STOCK_ALPHABET.index(c):X}" for c in text)
+    return decode(hexstr)
+
+
 def test(rounds=100):
     rng = random.Random(0x50415353)
     for _ in range(rounds):
@@ -176,12 +191,21 @@ def test(rounds=100):
         assert len(text) == 11
         assert decode_short(text) == (seed16, results)
 
+    for _ in range(rounds):
+        seed = rng.getrandbits(32)
+        results = rng.getrandbits(31)
+        text = encode_stock_ascii(seed, results)
+        dseed, dres, _, dslots = decode_stock_ascii(text)
+        assert dseed == seed and dres == results
+        assert dslots == advance(seed_order(seed), results)
+
     # Known edge: seed 0 with all-A wins -> champion is the first seed.
     text = encode(0, (1 << 31) - 1)
     _, _, order, slots = decode(text)
     assert slots[62] == order[0]
     print(f"password32: {rounds} hex + {rounds} letter + {rounds} stock-tile "
-          f"+ {rounds} 11-char short round-trips OK; champion all-A = {slots[62]}")
+          f"+ {rounds} stock-ascii + {rounds} 11-char short round-trips OK; "
+          f"champion all-A = {slots[62]}")
 
 
 def main():

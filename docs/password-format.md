@@ -160,3 +160,32 @@ Example: `encode_short(0x1234, 0x01234567)` -> `EBENCWOERUX`.
 This needs 32 glyphs instead of the stock 16; the existing 16-glyph font
 would need a two-screen form or a wider buffer. The full 32-team model
 remains `encode`/`decode`; the short form is only for the stock-width screen.
+
+
+## Live password screen + stock alphabet (confirmed)
+
+`tools/render_ppu.py` reads the emulator's live `nes_nametables`, `nes_chr`,
+and `nes_palette` regions through romdev and renders the screen. At the
+password scene this produced `docs/password-screen-live.png`:
+
+```
+PASS WORD
+UUUUUU UUUJUU
+SSSSSU SSUU
+```
+
+The `$06B5` buffer at that moment is `SSSSSU SSUU`. The bank5 `$908B`
+table values are ASCII screen codes, not tile IDs:
+
+```
+5 7 H J K M O Q S U e g h j l n
+```
+
+S (`$53`), U (`$55`), and J (`$4A`) are all visible on the live screen,
+confirming the alphabet. `tools/password32.py` now has
+`encode_stock_ascii`/`decode_stock_ascii` for the 16-character form, with
+100 round-trips.
+
+The screen is 11 characters = 44 bits at 4 bits/symbol. The 32-team model
+needs 64 bits, so it needs **16 characters** (a wider screen) or a larger
+alphabet; 11 characters cannot carry the full model.
