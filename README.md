@@ -81,16 +81,23 @@ stock 16-team game. The working parts are:
   <img src="docs/teams16-31-select.png" alt="32-team selector page 3: Australia, Cuba, Dominican Republic, Venezuela" width="640">
 </p>
 
+<p align="center">
+  <img src="docs/bracket-layout.png" alt="32-team bracket: real team codes, R32/R16/QF/SF headers, WIN row" width="640">
+</p>
+
 Known gaps / work in progress:
 
-- the high-team field reaches scene `$03` and runs frames, but the SPEED
-  pitch loop does not advance (0-0); the scene-3 state machine is the open
-  blocker;
-- the 32-team password model is implemented (`tools/password32.py`), but the
-  stock password screen is an 11-character letter buffer, so the screen
-  wiring is still open;
-- post-game CHR bank restore still corrupts the bracket tiles (the mapper
-  CHR latches are not exposed by the save state);
+- the high-team field reaches scene `$03` and runs frames, but the game is
+  stuck in the pre-game card/order state machine. The order screen's `$95`
+  status writer (`$B8A9`/`$B90C`) is not called, so `$C7` never sets and the
+  `$9D9F -> $9DAE -> $96E6` live-field start is never dispatched;
+- the 32-team password model is implemented (`tools/password32.py`, 100 hex +
+  100 letter + 100 stock-tile round-trips), but the stock password screen is
+  an 11-character letter buffer and the candidate alphabet's glyph bank is
+  still unconfirmed;
+- the post-game bracket is now clean (real 32-team codes, nametable clear,
+  fixed header/title); the remaining garbled rows are score/round
+  placeholders;
 - the hosted editor defaults to the stock 16-team demo; the 32-team mode is
   loaded from a 32-team ROM or the Data menu.
 

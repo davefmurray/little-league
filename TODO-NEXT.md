@@ -83,12 +83,15 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 ## P3 — docs / product
 
-- [ ] **Regenerate screenshots and refresh the README status table** with the
-      final 32-team build (the selector page-3 shot is already in).
-- [ ] **Final user-facing writeup** of the 32-team hack (what works, what is
-      still blocked, build instructions).
-- [ ] **Web editor base-table mirror** (only if it computes offsets; the
-      current editor reads the ROM tables directly).
+- [x] **Regenerate screenshots and refresh the README status table** with the
+      final 32-team build (selector page-3, bracket-layout, bracket-clear-post,
+      and bracket-codes32 shots are in; README gaps refreshed).
+- [x] **Final user-facing writeup** of the 32-team hack
+      (`docs/32-team-status.md`: what works, what is still blocked, build
+      instructions).
+- [x] **Web editor base-table mirror** — not applicable: `web/rom.js` uses
+      explicit `OFF32` offsets and reads the ROM tables directly; it does not
+      compute offsets from a base table.
 - [ ] **Serve a downloadable patched ROM from the editor?** Decide policy.
 - [ ] **DataCrystal ROM map** — optional; the page is Cloudflare-blocked and
       has no usable text capture.
@@ -97,6 +100,13 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 - 32-team bracket state, five rounds, champion slot 62.
 - Round labels, champion banner, top-row shift, cursor marker.
+- Real 32-team bracket codes (`build_bracket_codes32.py`); `T17`..`T32`
+  placeholders removed.
+- Nametable clear before the bracket draw (`build_bracket_clear.py`); no
+  leftover box-score rows.
+- Bracket header/title cleanup (`build_bracket_layout.py`).
+- Password hex/letter/stock-tile codecs with 100 round-trips each.
+- `docs/32-team-status.md` and the refreshed README gaps/screenshots.
 - Teams 16-31 names/codes/regions, 20-player rosters, ratings, lineups.
 - On-demand roster cache (`build/direct31.nes`, MMC1 reset fix).
 - Web editor 32x20 JSON + ROM modes, team codes/regions.
