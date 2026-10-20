@@ -3408,3 +3408,19 @@ the `extract/apply` round-trip.
 ```
 test_roster32: fixture round-trip + edit + show32 OK
 ```
+
+
+## Round 127 — `rominfo.py` reports the 16/32-team layout
+
+`tools/rominfo.py` now prints a `layout` line:
+
+```
+layout    : 32-team bank8 (team 16 at $9700, 20 players)
+layout    : stock 16-team
+```
+
+Detection is the same as `roster.py show`: 16+ PRG banks and a printable
+team-16 name at bank8 `$8000 + 16*$170`.
+
+Verified on `build/32x20-extra.nes` (32-team) and the stock ROM
+(stock 16-team).

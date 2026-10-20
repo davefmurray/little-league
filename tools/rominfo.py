@@ -54,6 +54,15 @@ def bank_table(data, size, label):
     return rows
 
 
+def team_layout(rom, h):
+    """Detect the bank-8 32-team roster layout (team 16 at $9700)."""
+    if h["prg"] >= 16:
+        o = 16 + 8 * 16384 + 16 * 0x170
+        if len(rom) >= o + 6 and all(0x20 <= b < 0x7F for b in rom[o:o + 6]):
+            return f"32-team bank8 (team 16 at ${0x8000 + 16 * 0x170:04X}, 20 players)"
+    return "stock 16-team"
+
+
 def main():
     path = sys.argv[1]
     rom = open(path, "rb").read()
@@ -71,6 +80,7 @@ def main():
           f"trainer: {h['trainer']}   four-screen: {h['four_screen']}")
     print(f"PRG       : {prg_len // 1024} KiB = {h['prg']} x 16 KiB")
     print(f"CHR       : {chr_len // 1024} KiB = {h['chr']} x 8 KiB")
+    print(f"layout    : {team_layout(rom, h)}")
     print()
 
     print("PRG banks (16 KiB, CPU $8000/$C000 windows)")
