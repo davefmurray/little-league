@@ -5608,3 +5608,40 @@ Added `docs/password-screen.html`: a self-contained mock of the 16-char
 
 This is the visual/spec target for the bank5 screen wiring: `$06B5`
 16 chars -> `$074D` 8 bytes -> the new 32-team decode -> `$7700`/`$7720`.
+
+
+## Round 209 — LIST OF TEAMS path: $A1AA/$A1C6/$071A/$06E2
+
+Disassembled the list screen:
+
+```
+A1AA: LDA $C0 / ASL / ORA $BD / TAY
+      LDA $071A,Y / AND #$03 / CMP #$02 / BCS $A1C2
+      LDA $C0 / STA $00 / JSR $9FA9
+      BNE $A1CD
+A1C2: DEC $C0 / BPL $A1AA
+A1C6: LDA #$0E / STA $C0 / BNE $A1AA
+A1CC: RTS
+A1CD: ... name draw ($06B3/$06B4 = $2352, $CB17)
+```
+
+And the validator:
+
+```
+9FA9: LDA #$08 / STA $01
+      LDA $01 / ASL / ORA $BD / TAY
+      LDA $06E2,Y / LSR x4 / CMP $00 / BEQ found
+      DEC $01 / BPL ...
+```
+
+So the list walks `$C0 = 0x0E..0`, checks the `$071A[$C0*2+$BD]` flag
+(`AND #3 >= 2` skip) then `$9FA9` matches `$06E2[$01*2+$BD]>>4 == $C0`.
+The 32-team list needs:
+- `$A1C6` start `0x0E` -> `0x0F` (16 vs 32 teams),
+- `$071A` 32 bytes (16*2) instead of 16,
+- `$06E2` 32 bytes (16 groups x 2).
+
+Title state at `$047B=0x0F`: `$071A = 00...20 00 08 00 00 20`,
+`$06E2 = 07 04 16 17 ... 79 79`.
+
+Next: the `$A1C6`/`$071A`/`$06E2` sizes and the list names.

@@ -13,6 +13,11 @@ History: `docs/AUTORUN-REPORT.md`.
        WATCH/SPEED run the match; no `$6006` jam; box 0-13. Scene 0x17 is
        the **SPEED MODE / WATCH THE GAME** menu; SPEED -> 0x0A result.
 4. [ ] **LIST OF TEAMS names (P1).**
+       **Path:** `$A1AA` walks `$C0=0x0E..0`, checks
+       `$071A[$C0*2+$BD] & 3 < 2`, then `$9FA9` matches
+       `$06E2[$01*2+$BD]>>4 == $C0`; `$A1CD` draws the name.
+       **32-team:** `$A1C6` `0x0E` -> `0x0F`, `$071A` 32 bytes,
+       `$06E2` 32 bytes. Next: the sizes + the list names.
        Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
        only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not
