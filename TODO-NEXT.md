@@ -24,7 +24,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       blocker is the `$0545=3` card-cutscene step whose `$05D3` timer never
       reaches `$903C[$0545]`. The script pointer `$0543` starts at 0 and
       forcing 4 runs the interpreter then clears it; the missing piece is the
-      match-start/order-screen exit that sets the live-field phase.
+      match-start/order-screen exit that sets the live-field phase. The
+      high-team order screen's B acts as back/cancel (`$BE=02`), returning to
+      the card loop; the stock `B+A` END path is not reached.
 
 ## P1 — visible/gameplay correctness
 

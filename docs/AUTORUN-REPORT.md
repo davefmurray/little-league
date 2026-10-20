@@ -3857,3 +3857,24 @@ So the missing piece is the **match-start/order-screen exit**: the routine
 that sets the live-field phase/script for the high-team matchup. Next: compare
 the scene-`0F` B+A exit between the stock and high-team paths and find the
 writer of `$0489`/the start script.
+
+
+## Round 143 — high-team order screen: B is back/cancel, not END
+
+Natural high-team scene `0F` (after START from the card loop):
+
+```
+$047E=09  $0489=00  $0545=00  $05D3=0B
+```
+
+Pressing **B alone** changes the scene `0F` -> `03` (card loop) immediately;
+`$BE` reads `02`, not the stock `07` (END). The scene write happens on the B
+press, before the breakpoint could be armed for B+A.
+
+So the high-team order screen's B is **back/cancel**, not the stock END
+selection. The stock `B + A` END path is not reached, and the game returns to
+the card loop instead of starting the live field.
+
+Next: arm the `$047B` write breakpoint **before** the B press at scene `0F`
+and capture the exact write PC/value, then compare the stock order-screen END
+path (`$BE=07`, A confirms) with this back path.
