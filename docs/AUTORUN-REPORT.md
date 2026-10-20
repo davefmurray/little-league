@@ -2021,3 +2021,65 @@ selection end-to-end.
 P1 is not green yet: the match-index core works, but the five-round soak and
 champion slot 62 still need the high-team launch path and the score-based
 winner.
+
+
+## Round 81 — real score winner (P1 core GREEN)
+
+Replaced the forced first-team write at bank 11 `$83A0` with the real score
+comparison:
+
+```
+A = $7700[2*$07FC]
+B = $7700[2*$07FC+1]
+winner = A if $048B >= $048C else B
+$7720[$07FC] = winner
+INC $07FC
+JMP $8000
+```
+
+`$773F` is the scratch byte (the unused gap between the 63 slots at
+`$7700-$773E` and the win counts at `$7740+`), so no zero-page state is
+touched. Build:
+
+```sh
+python3 tools/build_score_winner.py build/direct17.nes -o build/direct18.nes
+```
+
+### In-context proof
+
+Two complete first-round games, then a round-2 probe:
+
+| match | pair | score `$048B/$048C` | slot | value | index after |
+|---|---|---|---|---|---|
+| 0 | `0F` vs `00` | `0-2` | `$7720` | `00` | `01` |
+| 1 | `01` vs `02` | `1-2` | `$7721` | `02` | `02` |
+| 16 (round 2) | `00` vs `02` | `0-2` | `$7730` | `02` | `11` |
+
+Both first-round games were won by the second team, so the old forced stub
+would have written `0F` and `01`; the score-based hook wrote `00` and `02`.
+The round-2 probe read the two winners from `$7720/$7721` (`00/02`), played
+the game, and wrote slot 48 (`$7730`) with `02`, advancing the index 16 -> 17.
+That closes the pairing, score, winner, destination, and index loop for
+rounds 1 and 2 in-context.
+
+Harness now supports both modes:
+
+```sh
+python3 tools/soak_bracket.py --rom build/direct18.nes --matches 2 --winner score
+```
+
+### Remaining P1 blockers
+
+1. **Teams 16-31 crash the stock game.** The 31-match soak stops on match 8
+   (`10` vs `11`, the first ids >= `$10`) with a black scene `$10` screen.
+   The P1-only workaround is to map `id & $0F` for the stock launch while
+   keeping the real id in `$7700`; the bracket winner logic then maps the
+   winning side back to the real id.
+2. **Redraw.** The bracket screen is still the static 32-team grid; it does
+   not render the winner slots yet. State advancement is verified, visuals
+   are not.
+3. **Champion soak.** Once (1) is in, run all 31 matches and check slot 62
+   (`$773E`).
+
+P1 remains open, but the tournament state machine is now correct through
+round 2 with real scores.

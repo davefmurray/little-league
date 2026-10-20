@@ -243,7 +243,9 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 - [x] Prove $0515/$0516 are not scores (poke has no effect).
 - [x] Find real score bytes: `$048B`/`$048C` (scoring `INC $048B,X` at
       bank7 `$A418`; HUD reads at bank4 `$B133/$B141`). `$04ED` selects the side.
-- [ ] Use `$048B/$048C` to choose the winner instead of the forced first team.
+- [x] Use `$048B/$048C` to choose the winner instead of the forced first team.
+      Verified: match 0 (`0F/00`, 0-2 -> `00`), match 1 (`01/02`, 1-2 -> `02`),
+      round-2 probe (`00/02`, 0-2 -> slot 48 `$7730=02`).
 - [x] Match index `$07FC`: pair `$7700[2m]`/`$7700[2m+1]`; forced winner to
       `$7720[m]`; increment. Heap destination is `32+m`, not `32+(m>>1)`.
 - [x] Post-game return to bracket (functional; CHR/tile corruption is P4).

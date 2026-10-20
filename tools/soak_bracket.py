@@ -99,6 +99,8 @@ def main():
                          "omit to navigate from boot")
     ap.add_argument("--matches", type=int, default=31)
     ap.add_argument("--shot-every", type=int, default=0)
+    ap.add_argument("--winner", choices=("forced", "score"), default="forced",
+                    help="forced: first team always wins; score: use $048B/$048C")
     args = ap.parse_args()
 
     romdev.call("loadMedia", {"platform": "nes",
@@ -139,9 +141,16 @@ def main():
                                    if rd_sys(0x047B)[0] == 0x0F else None))
 
         slot = rd_cart(0x7720 + m)[0]
-        ok = slot == pair[0]
+        scores = rd_sys(0x048B, 2)
+        if args.winner == "score":
+            expected = pair[0] if scores[0] >= scores[1] else pair[1]
+            note = f"score {scores[0]}-{scores[1]}"
+        else:
+            expected = pair[0]
+            note = f"forced {pair[0]:02X}"
+        ok = slot == expected
         print(f"match {m:02d}: {pair[0]:02X} v {pair[1]:02X} -> "
-              f"$77{0x20 + m:02X}={slot:02X} (forced {pair[0]:02X}) "
+              f"$77{0x20 + m:02X}={slot:02X} ({note}) "
               f"{'OK' if ok else 'MISMATCH'}  index={rd_sys(0x07FC)[0]:02X}")
         if not ok:
             raise SystemExit(f"match {m}: winner mismatch")
