@@ -1432,3 +1432,24 @@ one strong path is: input loop exits/returns with a bad frame, runs off into
 
 Next: set a breakpoint at `$B000` and capture `S` + previous block; or watch
 execution at `$81C8` to see if the RTS is taken with the wrong frame.
+
+## Round 59 — JAM guard works; launch still doesn't fire
+
+Replaced the JAM byte at `$B005` with `JMP $8127` as a hard guard.
+
+Result:
+
+```
+PC    = $815B / $81C5  (input loop)
+$047B = $12
+```
+
+The CPU no longer freezes. The bracket stays alive and accepts input, but A
+still doesn't advance the scene.
+
+This confirms `$B005` was a terminal JAM, not a return path. The remaining bug
+is why the A branch does not commit the launch (or why execution reaches
+`$B000` at all before the branch).
+
+Note: the guard overwrites 3 bytes of the team-code table, so it is diagnostic
+only, not shippable.
