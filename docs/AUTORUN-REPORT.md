@@ -3649,3 +3649,33 @@ screenshot: unchanged (same sha256 as before)
 So setting the normal `$23/$25` shadows does not fix the visible tiles. The
 NMI apply may be skipped, or the corruption is in the nametable/tile IDs,
 not only the CHR bank selection.
+
+
+## Round 136 — post-game bracket: CHR apply path is not hit
+
+At the post-game bracket state (`$047A=00`, `$2D=00`, `$23-$26=1B 1B 18 1C`
+after the shadow test):
+
+- a PC breakpoint at `$CE45` (the fixed-bank CHR apply) **misses** for 10
+  frames;
+- a PC breakpoint at `$C11C` (the CHR0 helper) also misses.
+
+The bracket draw at `$8000` does set the CHR explicitly:
+
+```
+8005  LDA #$00 / STA $2000 / STA $2001
+800D  LDA #$1E / JSR $C102
+8012  LDA #$00 / JSR $C11C
+801F  LDA #$01 / JSR $C134
+8024  ... palette + display list copy from $B200
+```
+
+So the bracket's own CHR0=0/CHR1=1 is applied at draw time; the fixed
+main-loop CHR apply is not running in the bracket input loop.
+
+The post-game screenshot also contains **box-score rows** under the bracket
+header (`FLA/ARI/PEN`, scores), which the bracket's display list does not
+overwrite. The remaining issue looks more like a **nametable/display-list
+transition** (box score -> bracket) than a pure CHR bank restore. Next:
+diff the `$0300` display list at the good bracket entry vs the post-game
+state and find the rows that are not rewritten.
