@@ -212,3 +212,50 @@ python3 -m http.server 8097 --bind 127.0.0.1
 - `docs/rom-layout.md` — cartridge, MMC1 helpers, vectors.
 - `docs/roster-format.md` — roster records and fields.
 - `.claude/skills/mmc1/SKILL.md` — MMC1 operational playbook.
+
+---
+
+## Launch bridge / post-launch (authoritative as of `bc05155`)
+
+**Scope for the current run: P0 then P1. Stop after P1.**
+Do not start P2–P4 until P0/P1 are green or explicitly re-prioritized.
+
+### P0 — Launch bridge (in progress, blocked)
+
+Bracket runs; A crashes at `$B005` before the `$8162` A branch. Saved frame is
+intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
+
+- [ ] Break `$810B` / `$8126` with A held; capture `S` at entry/return.
+- [ ] Capture interrupt state at `$B005`: `$2C`, `$AD`, `$047D`, `$2000`, `$2001`.
+- [ ] Branch-bypass discriminator: patch `$8160 BEQ` to `EA EA`.
+- [ ] Minimal ROM: `JSR $810B; JMP $B005`.
+- [ ] Acceptance: bracket A → stock password/matchup → playable field; stock
+      regression stays green.
+
+### P1 — Tournament loop
+
+- [ ] Post-game return to bracket.
+- [ ] Advance winner into `$7700` / wins `$7740`.
+- [ ] Redraw bracket after each game.
+- [ ] Five-round soak with forced winners; champion at slot 62.
+- [ ] Acceptance: 31 wins, five rounds, regression green.
+
+### P2 — Password (deferred)
+
+- [ ] 32-team / 5-round password encode + decode.
+- [ ] 100 random round-trips.
+- [ ] Wire into stock password screen.
+- [ ] Keep stock 16-team password path working.
+
+### P3 — Content correctness (deferred)
+
+- [ ] Real names/regions/colours/ratings/lineups for teams 16–31.
+- [ ] On-demand roster cache for teams 16–31.
+- [ ] 20-player bench + all three pitcher slots.
+- [ ] Prove power/speed/skill byte semantics in-game.
+
+### P4 — Polish (deferred)
+
+- [ ] Bracket top-row clipping, cursor marker, round labels, champion screen.
+- [ ] Web editor 32×20.
+- [ ] Final user-facing writeup.
