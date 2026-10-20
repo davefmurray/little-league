@@ -563,3 +563,32 @@ the next match. This also explains the earlier "garbled title" after a game.
 
 Note: `--stock-flow` bypasses the dispatcher, so the harness build does not run
 the cache and still crashes after a game; the production/32-team builds do.
+
+## Loop 41 — full factory loop, end to end
+
+`launch-prod` (selector + bridge + cache), default pick:
+
+```
+selector -> bracket -> A -> password -> matchup -> speed mode -> cutscene
+-> field -> 70 000 frames -> box score (scene 11)
+-> A -> $047B=$13, $0746=1
+-> A -> next matchup: PENNSYLVANIA vs CHINESE TAIPEI (stock match 1)
+```
+
+A complete playable loop: pick → play → box score → next tournament match.
+
+## Loop 42 — 32-team state build through a full game
+
+`launch32state` (`--state --keep-seed` + cache + names32):
+
+```
+field teams 01/00 -> box score -> A -> $0746=1
+$7700[32] = 00, $7740 = 0
+```
+
+The match index advances. Slot 32 is the 32-team table's destination for match
+0, but it is also zero from the initial seed, and the win/loss counters stayed
+zero — this single game cannot distinguish "advanced" from "untouched". The
+first-round pairing is identical to stock for matches 0–7, so a real proof
+needs 16 first-round results (or the isolated 5-round CPU test the `--state`
+work already passed). Marked experimental.
