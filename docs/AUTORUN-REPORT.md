@@ -2949,3 +2949,34 @@ python3 tools/roster.py show build/select-screen.nes
 python3 tools/roster.py show "Little League ... (USA).nes"
 # unchanged 16-team output
 ```
+
+
+## Round 106 — 32-team roster CLI (extract/apply)
+
+`tools/roster32.py` adds the machine-readable counterpart to the 32-team
+`roster.py show`:
+
+```
+python3 tools/roster32.py extract build/32x20-extra.nes -o /tmp/r32.json
+python3 tools/roster32.py apply   build/32x20-extra.nes /tmp/r32.json -o /tmp/r32.nes
+```
+
+It reads/writes:
+
+- 20 player records per team at bank8 `$8000 + t*$170`;
+- names: bank1 `$9180` (0-15), bank9 `$8080` (16-31), bank1 `$BCC0`
+  fallback;
+- ratings: bank3 `$B224` (0-15), `$BC80` (16-31) when the table exists;
+- lineups: fixed `$FD80` (read-only in the JSON).
+
+Verified:
+
+```
+32x20-extra.nes  extract -> apply  byte-identical
+select-screen    extract -> apply  byte-identical
+edit team 16 player 0 -> TESTER / skill 4, re-extracted OK
+edit AUSTRALIA -> AUS TEST (bank9 name) + TESTER, re-extracted OK
+```
+
+The all-FF bank1 `$BCC0` table is deliberately left untouched when it has no
+printable entry, which keeps the no-names32 build's round-trip exact.
