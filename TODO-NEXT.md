@@ -20,9 +20,12 @@ and a report/TODO update. History: `docs/AUTORUN-REPORT.md`.
        The field cutscene advances 03 (field) -> 05 (cards) -> 02
        (live-field handler `$ACAA`, bank6), but the CPU jams at `$6006`
        cart RAM and the field stays static (0-0). The launch-prod/selector
-       base lacks the stock `$6000` RAM field code. Next: port the launch
-       bridge to the stock `direct31` boot (relocate `$FF20` to
-       `$FEA0`/`$FF00`/`$FF60`) or restore the `$6000` copy.
+       base lacks the stock `$6000` RAM field code. The `$6000` jam is the
+       stock **player-name buffer** (UMEDA/NAKATU) executed as code: the
+       high-team `$7F00` roster pointer is still the stock/dummy one because
+       `build_roster_cache` was never applied. Next: port the cache (`$FD00`
+       init, `$FC00` copy, call `$8470` from `$FF60`, `$FF90` bank-5 resume)
+       or repoint `$7F00` to cart-RAM copies of the high-team rosters.
 4. [ ] **LIST OF TEAMS names (P1).**
        The stock list screen repeats JAPAN; wire the bank-9 32-team names.
 5. [ ] **Match-5 soak stall (P1).**

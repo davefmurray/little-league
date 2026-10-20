@@ -4746,3 +4746,28 @@ boot has it; the bridge/selector base rewired the boot.
 Next: port the launch bridge to the stock `direct31` boot (relocate the
 `$FF20` trampoline to the free `$FEA0`/`$FF00`/`$FF60` areas) or restore
 the stock `$6000` copy in the launch-prod base.
+
+
+## Round 176 — the $6006 jam is the stock roster name buffer, not code
+
+Read the cart RAM at the scene-02 jam:
+
+```
+$6000: 55 4d 45 44 41 20 02 ff 00 d4 c9 04 00 00 02 00   "UMEDA " ...
+$6010: 4e 41 4b 41 54 55 ...                             "NAKATU" ...
+$7F00: 00 60 70 61 e0 62 50 64 c0 65 30 67 a0 68 10 6a
+```
+
+`$6000` is the stock **player-name buffer** (UMEDA/NAKATU), not code. The
+scene-02 handler jumps into it at `$6006`, so a **roster pointer** is being
+used as a code address.
+
+Cause: `launch32-high` never applied `build_roster_cache.py`. The
+`$7F00` table still has the stock bank-4 pointers for teams 0-15 and the
+dummy entries for 16-31, so the high team's field read follows the stock
+`$6000` name buffer instead of its own cached roster.
+
+The cache tool's `$8360`/`$8319` hooks target the direct20 bracket A and do
+not exist on the launch-prod base. Next: port the cache (`$FD00` init,
+`$FC00` copy, call `$8470` from `$FF60`, `$FF90` bank-5 resume) or repoint
+`$7F00` to cart-RAM copies of the high-team rosters.
