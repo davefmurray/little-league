@@ -4519,3 +4519,26 @@ The build hash is back to
 The match reached the box score without a rendered field because the
 mode/A-press path selected the auto-sim; to see the field, choose
 **SPEED MODE** at the mode select (or trace the scene-03 render).
+
+
+## Round 167 — the CONTINUE/END prompt is direction+A, and LEFT is CONTINUE
+
+At the stock scene-0D prompt:
+
+```
+A alone      -> back to the team select ("NEW YORK"), i.e. END
+B+A          -> same back path
+RIGHT (alone)-> prompt unchanged
+RIGHT+A      -> scene 12 (bracket)
+LEFT+A       -> scene 12 (bracket)
+```
+
+So the prompt is a left/right selector: **LEFT selects CONTINUE**, RIGHT
+selects END, and A confirms. The user's RIGHT+A was choosing END; the
+working input is **hold LEFT and press A** (or LEFT, then A).
+
+The bracket then appears at scene 12; DOWN x16 puts the cursor on AUS/CUB.
+
+Separate bug: **LIST OF TEAMS** shows the stock 16-team list with the team
+name repeated (JAPAN); the bank-9 32-team name table is not wired into that
+list screen. It does not block the Start New Series -> bracket path.

@@ -67,6 +67,11 @@ log is in `docs/AUTORUN-REPORT.md`.
 
 ## P1 — visible/gameplay correctness
 
+- [ ] **LIST OF TEAMS names.** The stock list screen shows the same team
+      name (JAPAN) for every row; the bank-9 32-team names are not wired
+      into that list. The bracket path itself is fine.
+
+
 - [x] **Post-game bracket cleanup.** Real 32-team codes
       (`build_bracket_codes32.py`) + nametable clear before the draw
       (`build_bracket_clear.py`); verified with a full match and
