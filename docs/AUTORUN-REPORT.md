@@ -4892,3 +4892,33 @@ table** issue (P1 item 6), now a prerequisite for the player field/pitch.
 
 The WATCH path remains the working match result (0B), with the roster cache
 no longer jamming at `$6006`.
+
+
+## Round 182 — scene entries are bank-relative; 0x1E/1F $AD is stock, not a regression
+
+Dumped and compared the full scene table in the stock ROM, `direct31`, and
+`launch32-cache13`:
+
+```
+stock / direct31 / cache13 are identical for 0x17..0x1F:
+  0x17: 30EE   0x1D: 01A8   0x1E: 0101   0x1F: 0101
+bank table index 14 = 5, index 15 = AD
+```
+
+The entries are **bank-relative offsets** added to the bank base
+(`$8000`/`$C000`), not absolute addresses:
+
+```
+0x17 -> bank6 $B0EE (valid code)
+0x1D -> bank5 $81A8 (valid code)
+0x1E/0x1F -> $8101 in bank $AD (invalid bank, stock dummy)
+```
+
+So the 0x1E/1F `$AD` is **stock-identical**, not a 32-team regression, and
+the 0x17/0x1D handlers are real. A `$047B` write breakpoint on the player
+A found the actual loop source: `$9EC2` (bank1 order screen) sets
+`$047B=0x16`; the 0x16 -> 0x17 -> 0x1D cycle is the **order-screen/field
+loop**, not a bad table.
+
+Next for item 6: debug the 0x16 order/lineup state for the 32-team player
+game instead of relocating the scene table.

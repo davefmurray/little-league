@@ -39,8 +39,12 @@ History: `docs/AUTORUN-REPORT.md`.
 5. [ ] **Match-5 soak stall (P1).**
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
 6. [ ] **Scene 1E/1F / match-26 (P1).**
-       `direct31` scene 1E/1F entries are `$0101`/bank `$AD`; relocate or
-       add a safe handler.
+       **Re-scoped:** the table entries are bank-relative and are identical
+       to the stock ROM. `0x17` -> bank6 `$B0EE`, `0x1D` -> bank5 `$81A8`
+       (valid); `0x1E/1F` -> `$0101` in bank `$AD` is the stock dummy, not a
+       32-team regression. The player path loops because `$9EC2` (bank1
+       order screen) keeps setting `$047B=0x16`; debug the 0x16 order/lineup
+       state, not the table.
 7. [ ] **32-team password screen wiring (P2).**
        Stock alphabet `5 7 H J K M O Q S U e g h j l n`; 11-char base-32
        codec done; wire the screen or entry/continue code.
