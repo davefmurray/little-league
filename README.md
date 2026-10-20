@@ -94,7 +94,9 @@ Known gaps / work in progress:
 - the hosted editor defaults to the stock 16-team demo; the 32-team mode is
   loaded from a 32-team ROM or the Data menu.
 
-See `docs/AUTORUN-REPORT.md` and `TODO.md` for the current state.
+See [`docs/32-team-status.md`](docs/32-team-status.md) for the working/
+blocked breakdown and the build commands, `docs/AUTORUN-REPORT.md` for the
+full probe log, and `TODO-NEXT.md` for the live open list.
 
 ---
 
