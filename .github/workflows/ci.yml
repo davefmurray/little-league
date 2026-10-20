@@ -44,6 +44,9 @@ jobs:
           assert all(t["code"] and t["name"] and t["region"] for t in teams)
           assert not any(t.get("placeholder") for t in teams), "placeholder team remains"
           print("teams32.json OK:", len(teams), "teams")
+          web = json.load(open("web/teams32.json"))["teams"]
+          assert web == teams, "web/teams32.json is out of sync"
+          print("web/teams32.json matches data/teams32.json")
           PY
 
       - name: Generate 32-team roster and validate

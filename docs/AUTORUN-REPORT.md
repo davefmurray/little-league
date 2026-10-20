@@ -3486,3 +3486,20 @@ demo merge:    team 0 JPN/ASIA, 16 AUS/ASIA, 31 CZE/EUROPE
 ```
 
 The stock 16-team path is unchanged (no bank9 table -> no tag).
+
+
+## Round 131 — CI keeps the web team metadata in sync
+
+The "Validate team metadata" CI step now also checks that
+`web/teams32.json` is identical to `data/teams32.json`:
+
+```python
+web = json.load(open("web/teams32.json"))["teams"]
+assert web == teams, "web/teams32.json is out of sync"
+```
+
+This catches a stale browser copy after a team name/code/region edit.
+
+```
+web/teams32.json matches data/teams32.json
+```
