@@ -5212,3 +5212,29 @@ So the match-8 field is the right scene with the wrong teams: `$0650` is
 not seeded from the bracket pair. Next: integrate the `$FF60` pair (and
 direct-teams/skip-password) into `direct31`, or use the launch-bridge base
 for the high-team field.
+
+
+## Round 193 — pair2 sets the field teams but the order flag $0527=FF
+
+Built `direct31-pair2`: `$FEA0` team setup (copies `$7700[0..15]` into
+`$0650`, then overrides `$0650[0]/[1]` from `$7700[2*$07FC]`), `$9BFD
+JSR $FEA0`, `$98C8=02`. The field teams are now correct, but the match-5
+order stalls:
+
+```
+scene 0F, $07FC=05, $04EF/$04F0=0A/09, $0746=00
+$0650 = 09 0A 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E
+$0527=FF, $0547=00, $0630=FF, $0485=09, $047C=08
+$04ED=00, $04 = $1CE9 (the $04E9 RAM mirror)
+$7F00[9]=$8E40, $7F00[10]=$8F60 (bank4 T9/T10, stock data)
+```
+
+The bank4 T9/T10 records are stock-identical (byte 6 = `80`/`82`). The
+`$B8A9` path `$B8FC` sees `$0527 != 0` and jumps to `$B90F`, so `$95` is
+never set and the order input stays dead. The earlier pair version
+(`$04EF/$04F0`, stock `$0650[0]/[1]` = 00/01) passed the low matches, but
+the field teams were the stock 00/01; pair2 has the right teams and the
+`$0527` order flag problem.
+
+Next: the `$0527`/`$0547` writer (stock team setup `$98D5`/`$FF60`) and the
+order flag for the field's teams.

@@ -64,6 +64,11 @@ History: `docs/AUTORUN-REPORT.md`.
         table. `$96E6` is only a stub; the field handler is `$96ED`.
         Next: seed `$0650[0]/[1]` from `$04EF/$04F0` (the `$FF60` pair) and
         the direct-teams/skip-password pieces in `direct31`.
+        **Progress:** a `$FEA0` setup + `$9BFD JSR $FEA0` + `$98C8=02`
+        (pair2) sets `$0650[0]/[1]` from `$7700[2*$07FC]` (correct field
+        teams) but the match-5 order stalls at `$0527=FF`/`$0547=00`
+        (`$B8A9` -> `$B90F`; `$95` never set). Next: the `$0527`/`$0547`
+        writer/order flag.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
