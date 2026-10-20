@@ -4404,3 +4404,35 @@ straight `JMP` from the card routine is not a clean start.
 So the targeted "skip card -> `$96E6`" approach is **not viable as-is**.
 The remaining options are the stock transition (card handoff) or a larger
 patch that recreates the field-loop entry.
+
+
+## Round 163 — the low-team "field" is simulated; the password buffer never shows the code
+
+**Low-team field capture (item 1).** Speed-mode soak matches complete in
+~0.8 s. A scene-`03` poll at step 10 never sees the field; the path goes
+`0F`/`11` -> `0B` and the result appears immediately. The speed path sets
+the COM flags and the game **simulates** the result; there is no rendered
+low-team live field to capture. Watch mode times out at match 0 (20k
+frames), consistent with the same card/order stall.
+
+**Password overlay (item 2).** Polling `$06B5` through boot and series
+start:
+
+```
+boot   scene 01  FF...
+start  scene 07  "POWER ANALYSIS"
+champ  scene 07  "START NEW SERIES"
+new    scene 0D  "NEW YORK"
+prompt scene 0D  "CONTINUE  END"
+```
+
+No password text appears in `$06B5` on this path; scene 13's `$06B5` is the
+team name (`JAPAN`). The earlier "SSSSSU" state is not reproduced by the
+boot/series-start flow.
+
+**Targeted patch (item 3).** `$9011 = LDA #7 / JSR $C14E / JMP $96E6`
+moves the score to 1-0 and sets `$047C=07`, but the CPU runs into `$B005`
+and jams at `$0013`; not viable as-is.
+
+The three user-requested items are therefore all blocked by the same
+missing live-field/overlay state, not by a lack of a probe.

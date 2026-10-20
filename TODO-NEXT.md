@@ -46,9 +46,14 @@ log is in `docs/AUTORUN-REPORT.md`.
 ## P0 continuation (user-requested, started)
 
 - [ ] **Capture a low-team live-field/card-handoff save state** (or a
-      breakpoint trace at the scene-`0F`/field transition).
+      breakpoint trace at the scene-`0F`/field transition). Probe result:
+      speed-mode matches are simulated (~0.8 s, no scene `03` seen); watch
+      mode stalls at match 0. No rendered low-team field to capture.
 - [ ] **Capture the live password overlay state** (`$06B5` password text,
-      `$23-$26`/CHR bank) so the 16 glyphs can be confirmed.
+      `$23-$26`/CHR bank) so the 16 glyphs can be confirmed. Probe result:
+      boot/series-start `$06B5` goes FF -> POWER ANALYSIS -> START NEW
+      SERIES -> NEW YORK -> CONTINUE END; no password text, scene 13 shows
+      the team name.
 - [x] **Targeted skip-card -> live-field patch**: tested `$9011 =
       LDA #7/JSR $C14E/JMP $96E6`. The score moves to 1-0 and `$047C=07`,
       but the CPU runs into `$B005` and jams at `$0013`; not viable as-is.
