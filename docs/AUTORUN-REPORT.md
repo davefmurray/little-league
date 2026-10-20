@@ -1568,3 +1568,21 @@ opponent ID and then advance winners.
 The `$B005` JAM guard is still present in the diagnostic build and corrupts
 three bytes of the team-code table; remove it once the branch jumps directly to
 the launch stub.
+
+## Round 64 — P0 clean: launch works without the JAM guard
+
+Rebuilt `direct6` with the diagnostic `$B005` bytes restored to `52 49 20`
+("RI "). Launch still proceeds through:
+
+```
+matchup -> SPEED/WATCH -> field/cutscene -> box score
+```
+
+Proof: `docs/p0-boxscore-clean.png` (FLO vs FLO, 1-5).
+
+So the `$B005` guard was never required for the launch path; it only masked the
+old branch. P0 is shippable without corrupting the team-code table.
+
+Remaining P1 defect visible in the proof: **both sides are FLO**. The A branch
+writes `$04EF/$04F0`, but stock ends up using the same team for both. This is
+the first P1 task.
