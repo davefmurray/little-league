@@ -1641,3 +1641,23 @@ Proof: `docs/p1-japan-arizona.png`.
 
 The team IDs are now distinct and stick through matchup. Next P1 task: carry the
 actual bracket pairing (not just cursor/±1) and start the winner-advance loop.
+
+## Round 67 — real bracket pairing lands
+
+Instead of cursor±1, bracket A now reads the actual pairing:
+
+```
+LDA $7700 ; STA $07FA
+LDA $7701 ; STA $07FB
+```
+
+Matchup: **FLORIDA vs JAPAN** (human seed + first opponent).
+
+Proof: `docs/p1-florida-japan.png`.
+
+P1 structural finding: `$7700` currently holds only the 32 first-round team
+IDs. A five-round bracket needs 63 slots (32+16+8+4+2+1) plus a round map, so
+the current seed routine cannot advance a winner yet.
+
+Next P1 task: expand the bracket state to 63 slots (or a 32×5 round array),
+add winner advance, then redraw.

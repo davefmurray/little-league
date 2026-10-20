@@ -237,6 +237,8 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 ### P1 — Tournament loop
 
+- [x] Carry real bracket pairing into matchup ($7700/$7701).
+- [ ] Expand bracket state from 32 first-round IDs to 63 slots / round map.
 - [ ] Post-game return to bracket.
 - [ ] Advance winner into `$7700` / wins `$7740`.
 - [ ] Redraw bracket after each game.
