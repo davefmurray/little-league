@@ -3179,3 +3179,29 @@ now reflects this:
 
 `node --check web/app.js` passes. This avoids an edit that would silently
 not be written by the ROM export.
+
+
+## Round 115 — stock password text is letter-coded, not hex
+
+At the live password screen (before a series is initialised):
+
+```
+$06B5 = 53 53 53 53 53 55 20 53 53 55 55 FF   "SSSSSU SSUU"
+$0650 = FF 53 53 53 53 53 55 20 53 53 55 55 FF ...
+$074D = FF FF FF FF FF FF FF FF
+```
+
+`$C835` copies from `$0651` to the display buffer `$06B5` until `$FF`; the
+bytes are **ASCII letters** (`S`/`U`) plus a space, not hex digits. The text
+is 11 characters, and the packed `$074D` bytes are still `FF` until the
+series encoder runs.
+
+This means the 32-team model's 16-hex-character format does **not** match the
+stock screen. Wiring it in needs either:
+
+1. an alphabet mapping (4 bits -> one of 16 letters) so the 8-byte password
+   still renders as 16 letters, plus a wider display buffer; or
+2. a new password layout/screen that can show 16 characters.
+
+The stock `$06B5` buffer is the concrete constraint: 11 letters plus the
+`$FF` terminator before the next text field.
