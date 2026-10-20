@@ -68,7 +68,11 @@ History: `docs/AUTORUN-REPORT.md`.
         (pair2) sets `$0650[0]/[1]` from `$7700[2*$07FC]` (correct field
         teams) but the match-5 order stalls at `$0527=FF`/`$0547=00`
         (`$B8A9` -> `$B90F`; `$95` never set). Next: the `$0527`/`$0547`
-        writer/order flag.
+        writer/order flag. **Found:** `$047C=08` routes `$B8A9` through
+        `$B8C6` to `$95=0x80`; the order input needs bit 6 (`$40`) from the
+        `$B8FC` path (`$0547=3`/`$0527=0`). Stock orders use `$047C=02`;
+        pair2's skip-password patch did not yield the order substate. Next:
+        the `$047C`/`$98C8` substate and the `$0527` match init.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

@@ -5238,3 +5238,34 @@ the field teams were the stock 00/01; pair2 has the right teams and the
 
 Next: the `$0527`/`$0547` writer (stock team setup `$98D5`/`$FF60`) and the
 order flag for the field's teams.
+
+
+## Round 194 — pair2 order: $047C=08 routes B8A9 to $95=0x80
+
+Order-stall state: `$047C=08`, `$0547=00`, `$0527=FF`, `$0485=09`,
+`$0630=FF`, `$0489=00`.
+
+`$B8A9` path:
+
+```
+LDA $047C / CMP #2 / BCS $B8C6
+...
+$B8C6: LDA $0485 / BEQ $B8FC
+        LDA $0630 / BEQ $B8FB
+        JSR $B9D2
+        LDA $0547 / BEQ $B8EC
+$B8EC: LDA $0485 / CMP #$FF / BEQ $B8FB
+        LDA #$80 / ORA $93 / STA $93 / STA $95
+```
+
+So `$047C=08` takes the `$B8C6` branch and produces `$95 = 0x80` (bit 7),
+not the order input bit 6 (`$40`) that the `$B8FC` path sets when
+`$0547=3` and `$0527=0`. A stock order uses `$047C=02`; pair2's substate
+is 08, so the `$98C8=02` skip-password patch did not produce the order
+substate here.
+
+`$0527`/`$0547` writers found: bank1 `$ACB7`, bank6 `$9E24`, bank7
+`$A819`/`$A920`/`$A92B`; `$0547` at `$BB49` (banks 0/1/3/5) and `$9ED1`.
+All set 0/1 in the stock; pair2's `$0527=FF` is the uninitialized value.
+
+Next: the `$047C`/`$98C8` substate and the `$0527` match init.
