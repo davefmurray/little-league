@@ -54,6 +54,36 @@ is in **[docs/game-writeup.md](docs/game-writeup.md)**.
 
 ---
 
+## 32-team tournament branch
+
+The repository now carries an in-progress 32-team tournament on top of the
+stock 16-team game. The working parts are:
+
+- **Bracket scene** in bank 11: 63-slot heap (`$7700-$773E`), live match
+  index `$07FC`, real-score winner (`$048B/$048C`), post-game redraw.
+- **Five rounds**: source `2m`, destination `32+m`; champion lands in slot 62
+  (`$773E`). A state-only 31-match soak through the real ROM routine is green
+  (`champion = 0F`).
+- **Selector**: four pages, with real teams on pages 3-4 (`AUSTRALIA`, `CUBA`,
+  `DOMINICAN REP`, ... `CZECH REPUBLIC`).
+- **Roster data**: 20 generated players and three pitcher records for teams
+  16-31 (`data/roster32.json`, `tools/build_extra_rosters.py`).
+- **Bracket UI**: live `ROUND 1..5` / `CHAMPION` title, `WIN<code>` line,
+  cursor marker.
+
+Known gaps before it replaces the stock flow:
+
+- on-demand roster cache for teams 16-31 (the direct builds still use the
+  original 16-team pointer table);
+- team colours/ratings/lineups are still the 16-team tables;
+- the 32-team password is not implemented;
+- the browser editor is still 16 teams x 15 players;
+- post-game CHR banks still corrupt the bracket tiles (P4).
+
+See `docs/AUTORUN-REPORT.md` and `TODO.md` for the current state.
+
+---
+
 ## Browser editor
 
 **Hosted:** <https://little-league-production.up.railway.app> — load your own ROM in

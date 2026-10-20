@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tools:
+    name: Tooling and data checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install py65
+        run: python -m pip install --quiet py65
+
+      - name: Byte-compile tools
+        run: |
+          python - <<'PY'
+          import compileall
+          ok = compileall.compile_dir("tools", quiet=1)
+          raise SystemExit(0 if ok else 1)
+          PY
+
+      - name: Validate team metadata
+        run: |
+          python - <<'PY'
+          import json
+          teams = json.load(open("data/teams32.json"))["teams"]
+          assert len(teams) == 32, len(teams)
+          assert [t["id"] for t in teams] == list(range(32))
+          assert all(t["code"] and t["name"] and t["region"] for t in teams)
+          assert not any(t.get("placeholder") for t in teams), "placeholder team remains"
+          print("teams32.json OK:", len(teams), "teams")
+          PY
+
+      - name: Generate 32-team roster and validate
+        run: |
+          python tools/gen_roster32.py data/roster.json data/teams32.json \
+            -o /tmp/roster32.json
+          python - <<'PY'
+          import json
+          doc = json.load(open("/tmp/roster32.json"))
+          assert len(doc["teams"]) == 32
+          for t in doc["teams"]:
+              assert len(t["players"]) == 20, (t["name"], len(t["players"]))
+              for p in t["players"]:
+                  assert len(p["attrs"]) == 10
+                  assert len(p["name"]) <= 6
+          print("roster32.json OK: 32 x 20")
+          PY
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax-check the browser editor
+        run: |
+          node --check web/app.js
+          node --check web/rom.js
