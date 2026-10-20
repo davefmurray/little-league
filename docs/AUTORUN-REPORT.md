@@ -1867,3 +1867,22 @@ a reset.
 
 Next: capture the CHR bank in effect on the normal bracket path (from team
 select), or try the known team-select CHR value instead of 0.
+
+## Round 79 — CHR restore is P4, not P1
+
+CHR bank 0 is wrong; the corrupted-but-functional bracket from `direct14` is the
+P1-valid state. Bracket tile/CHR correctness is visual polish and belongs in P4.
+
+P1 now stands at:
+
+- [x] distinct teams
+- [x] real pairing
+- [x] 63-slot state
+- [x] scene-0B winner write
+- [x] post-game return to bracket (visually corrupted, deferred)
+- [ ] dynamic match index / next pairing
+- [ ] five-round soak, champion slot 62
+
+Next concrete P1 step: add a match counter (`$07FC`), index pairing by
+`2*$07FC`, write the winner to `$7720 + ($07FC>>1)`, and increment after the
+game. Then run two matches to prove advancement.

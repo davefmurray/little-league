@@ -267,5 +267,6 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 ### P4 — Polish (deferred)
 
 - [ ] Bracket top-row clipping, cursor marker, round labels, champion screen.
+- [ ] Post-game bracket CHR bank restore (currently corrupted tiles).
 - [ ] Web editor 32×20.
 - [ ] Final user-facing writeup.
