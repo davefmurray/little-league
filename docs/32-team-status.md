@@ -3,6 +3,20 @@
 This is the user-facing snapshot of the 32-team Little League hack: what
 works, what is still blocked, how to build it, and where the evidence lives.
 
+| Area | Status |
+| --- | --- |
+| 32-team bracket state / champion 62 | working |
+| Bracket visuals (codes, clear, header) | working |
+| Selector / teams 16-31 data | working |
+| Roster cache / web editor / CLI | working |
+| Password model (hex/letter/tile/11-char) | working |
+| Stock regression | green |
+| High-team live field | blocked (card/order state machine) |
+| Password screen font/wiring | blocked (11-char buffer, glyph bank) |
+| In-game bench/attribute card | blocked (depends on live field) |
+| Match-26 crash | open (invalid scene 1E/1F table entries) |
+| Hardware / sound validation | not run (checklists written) |
+
 ## Working
 
 - **32-team bracket state** in bank 11: 63-slot heap (`$7700-$773E`), live

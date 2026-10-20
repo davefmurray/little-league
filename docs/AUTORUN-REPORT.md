@@ -4317,3 +4317,24 @@ saved state soak-final and /tmp/soak-final.png
 ```
 
 Report: `build/soak32.json` (gitignored build artifact).
+
+
+## Final summary (current)
+
+- 32-team build: `tools/build_32team_full.py` ->
+  `direct20-names -> ratings32 -> lineups32 -> round labels -> top row
+  -> bracket codes32 -> bracket clear -> bracket layout -> roster cache
+  -> build/direct31.nes`.
+- Pinned build: 393232 bytes, mapper 1, 16 PRG / 16 CHR,
+  SHA-256 `28825536aba847871256ca054db2b2bf4c60c88eb920d994aa2c59596bbf1f41`
+  (`docs/build-manifest.json`, `tools/check_build.py`).
+- Tests: password 100 hex + 100 letter + 100 stock-tile + 100 11-char
+  round-trips; `test_roster32` (roster/attribute/bench); `test_bracket32`
+  (31 records/champion 62); 4-match `soak32` with real scores; stock
+  regression `screenshots MATCH`, 0 RAM diff.
+- Working: bracket state/visuals, selector, teams 16-31 data, cache, web
+  editor, CLI, password model, docs.
+- Blocked: high-team live field (card/order state machine; `$95` status
+  writer absent), in-game bench/attribute card, password-screen font/wiring.
+- Open: match-26 (scene 1E/1F table entries are `$0101`/bank `$AD` in the
+  32-team build), hardware/sound execution.

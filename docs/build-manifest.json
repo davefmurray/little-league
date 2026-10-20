@@ -1,0 +1,8 @@
+{
+ "file": "direct31.nes",
+ "bytes": 393232,
+ "prg_banks": 16,
+ "chr_banks": 16,
+ "mapper": 1,
+ "sha256": "28825536aba847871256ca054db2b2bf4c60c88eb920d994aa2c59596bbf1f41"
+}
