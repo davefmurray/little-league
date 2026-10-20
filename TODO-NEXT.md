@@ -82,7 +82,10 @@ History: `docs/AUTORUN-REPORT.md`.
         order is advancing (BE=4, BA=9, B2=10) but `$9E79` does
         `$B2 & 0x0F` -> `$BC=0` -> `$06E2[0]`; the high team 16 resolves
         to the team-0 group. Next: the `$06E2` 32-team group table/the
-        `$9A1C` high-team mapping.
+        `$9A1C` high-team mapping. **Found:** `$B2=0x10` is page 1/team 16;
+        `$BC=0` makes `$9A1C` read the page-0 `$06E2[0]`, so the table is
+        not page-specific. Next: the `$06E2`/`$B2` page mapping (32-team
+        groups for page 1).
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

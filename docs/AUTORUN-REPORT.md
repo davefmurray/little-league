@@ -5355,3 +5355,24 @@ high team 16 resolves to the team-0 group, so the order/team is wrong.
 
 The next mapping gap is the `$06E2` group table / `$9A1C` path for teams
 16-31, not the timer or the input.
+
+
+## Round 198 — $B2=0x10 is page 1; $06E2 is still the page-0 table
+
+The `$9E79` path:
+
+```
+9E79: LDA $B2 / AND #$0F / STA $BC
+9E7F: JSR $9A1C
+```
+
+`$9A4E` uses `$06E2[$BC*2 + $BD]` (the 8 groups x 2); `$9A1C` uses
+`$06E2[$BC]`.
+
+`$B2=0x10` is **page 1, team 16**; `$BC = $B2 & 0x0F = 0`; so `$9A1C`
+reads the **page-0** `$06E2[0]`, the stock team-0 group. The `$06E2`
+table is not page-specific: the 32-team build still has only the 16
+low-team groups.
+
+Next: make the `$06E2`/`$B2` page mapping (or the 32-team group table)
+cover page 1 / teams 16-31.
