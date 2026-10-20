@@ -3025,3 +3025,34 @@ parseRom(stock).meta        -> stock-16 16 15
 
 The T3 preview host was not available for a browser screenshot this round;
 the metadata path is proven directly.
+
+
+## Round 109 — NMI runs; the main thread stalls on the PPU vblank flag
+
+Breakpoint at the NMI vector `$CD85` during the high-team field:
+
+```
+hit at frame 1258, A=01 X=03 Y=39 S=F8
+after one frame: $047D=00, $2C=01, $AD=1E
+```
+
+So the NMI **does** run and clears the `$047D` guard. The main thread then
+sits in the vblank wait:
+
+```
+CDF5  LDA $2D
+CDF7  BNE $CE5D
+CDF9  BIT $2002
+CDFC  BVS $CDF9     ; waits for the vblank flag to clear
+CDFE  BIT $2002
+CE01  BMI $CE05     ; waits for the vblank flag to set
+```
+
+The CPU stays at `$CDFC`; `BIT $2002` keeps returning V=1. Replacing the
+wait with `JMP $CE05` did not unblock the field. Forcing the saved
+`/tmp/match5-cut.state` (a stock pre-match state) to scene `$03` lands in
+the same vblank wait, so this is not unique to the high-team path.
+
+This points at the PPU/vblank flag state rather than the roster pointers.
+The field and post-game CHR work are blocked on this until the PPU state can
+be observed or reset correctly.
