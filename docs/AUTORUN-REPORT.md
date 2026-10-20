@@ -5526,3 +5526,32 @@ team id yields 4.
 So the remaining item-10 work is the `$06E2` group/team semantics in
 `$9A1C`/`$9A4E`/`$9FA9`: the field team index must map to the right
 group/team slot, not just `$B2 & 0x0F`.
+
+
+## Round 206 — password codec green; $9B5F/$98D5 disassembled
+
+`tools/password32.py test --rounds 100`:
+
+```
+100 hex + 100 letter + 100 stock-tile + 100 stock-ascii + 100 11-char short round-trips OK
+champion all-A = 19
+```
+
+Stock password code in bank5:
+
+```
+9B5F (decode): $074D 8 bytes -> $0650 16 nibbles
+               $0670 counters; $0755/$0756 result bits; $0746 matches
+               $8941 (15x3) table walked to place winners
+98D5 (encode): $0650 -> $074D 8 bytes (nibbles) via the $994F permutation
+```
+
+So the stock screen state is:
+- `$074D` 8 bytes = 16 team nibbles
+- `$0755`/`$0756` = the 15 result bits
+- `$0746` = matches played
+- `$98D5` encodes, `$9B5F` decodes.
+
+The 32-team screen needs a 16-char encoding of the full state (the seed/teams + the results), using the same `$98D5`/`$9B5F` pair or a new encode/decode.
+
+Next: the 16-char screen wiring (item 7) and the 32-team seed mapping into `$074D`/`$0755`/`$0756`.

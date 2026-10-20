@@ -47,6 +47,12 @@ History: `docs/AUTORUN-REPORT.md`.
        `$B0EE`, 0x1D -> bank5 `$81A8`, 0x1E/1F `$0101`/bank `$AD` is the
        stock dummy. The 0x16 order loop is the mode menu/box, not a table bug.
 7. [ ] **32-team password screen wiring (P2).**
+       **Progress:** the codec `tools/password32.py test --rounds 100` is
+       green (hex/letter/stock-tile/stock-ascii/11-char). Disassembled the
+       stock pair: `$9B5F` decodes `$074D` 8 bytes -> `$0650` 16 nibbles,
+       uses `$0755/$0756` result bits and the `$8941` 15x3 table; `$98D5`
+       encodes `$0650` -> `$074D` via the `$994F` permutation. Next: the
+       16-char screen; the 32-team seed -> `$074D`/`$0755`/`$0756`.
        Stock alphabet `5 7 H J K M O Q S U e g h j l n`; 11-char base-32
        codec done; wire the screen or entry/continue code.
 8. [ ] **In-game bench / attribute card (P2).**
