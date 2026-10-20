@@ -2530,3 +2530,63 @@ there and `$FB90` is `FF`), and the existing `$7F00` table only initialises
 
 Until that is wired, the P1 high-team mapping (`id & $0F`) remains the
 working path for the soak.
+
+
+## Round 92 — live round labels, champion banner, top-row shift
+
+The bracket title is now dynamic instead of the static "32 TEAM BRACKET".
+
+### Round labels / champion
+
+`tools/build_round_labels.py` replaces the draw tail with:
+
+```
+$8077  JSR $8440   ; round label
+       JSR $83D0   ; WIN line
+       NOP
+```
+
+`$8440` indexes `$8500 + $07FC` for one of six 14-char strings at `$84A0`:
+
+```
+0-15  ROUND 1  R32
+16-23 ROUND 2  R16
+24-27 ROUND 3  QF
+28-29 ROUND 4  SF
+30    ROUND 5  FINAL
+31    CHAMPION
+```
+
+and copies it to the title run's buffer at `$0325` before the flush.
+
+Verified by calling `$8440` at each index and reading `$0325`:
+
+```
+00 ROUND 1  R32
+16 ROUND 2  R16
+24 ROUND 3  QF
+28 ROUND 4  SF
+30 ROUND 5  FINAL
+31 CHAMPION
+```
+
+At index 31 the WIN line still shows the champion code (`WINFLA` in the
+test), so the final screen is `CHAMPION` + `WINFLA`.
+
+### Top-row clipping
+
+`tools/build_top_row.py` moves the display-list header/title down one row:
+
+```
+header  $2048 -> $2068   (row 2 -> 3)
+title   $2068 -> $2088   (row 3 -> 4)
+```
+
+The team grid starts at row 5, so nothing overlaps. Screenshot proof:
+the labels are no longer cut by the 8-pixel top crop.
+
+### Cursor marker
+
+The existing bracket input handler already writes the cursor sprite at
+`$0200` (tile `$41`) every frame; the P4 cursor marker is present, just
+hard to see under the known post-game CHR corruption.

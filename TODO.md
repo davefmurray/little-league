@@ -299,7 +299,12 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 ### P4 — Polish (deferred)
 
-- [ ] Bracket top-row clipping, cursor marker, round labels, champion screen.
+- [x] Bracket round labels: live `ROUND 1..5` / `CHAMPION` title from
+      `$07FC` (`tools/build_round_labels.py`).
+- [x] Champion screen: index 31 shows `CHAMPION` + the WIN line code.
+- [x] Bracket top-row clipping: header/title moved down one row
+      (`tools/build_top_row.py`).
+- [x] Cursor marker: already drawn by the bracket input handler at `$0200`.
 - [ ] Post-game bracket CHR bank restore (currently corrupted tiles).
 - [ ] Web editor 32×20.
 - [ ] Final user-facing writeup.
