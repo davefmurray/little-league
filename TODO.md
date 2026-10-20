@@ -233,7 +233,7 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       Proof: `docs/p0-field.png`.
 - [x] Cleanup: remove diagnostic `$B005` JAM guard, rebuild without corrupting
       the team-code table, re-verify launch and stock regression.
-- [ ] Fix duplicate team: both sides show FLO; make `$04EF/$04F0` stick.
+- [x] Fix duplicate team: matches now show JAPAN vs ARIZONA; IDs read from `$07FA/$07FB`.
 
 ### P1 — Tournament loop
 

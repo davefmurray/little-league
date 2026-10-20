@@ -1614,3 +1614,30 @@ Readback is still `0F 0F`; some later routine regenerates the buffer.
 Next: write-watch `$0650` after launch and patch the routine that overwrites it,
 or patch the two `LDA $0650,Y`/`LDA $0651,Y` operands to read two distinct
 mailbox bytes.
+
+## Round 66 — distinct teams fixed (JAPAN vs ARIZONA)
+
+Found the real source of the duplicate: `$9B5F` rebuilds `$0650/$0651` from the
+packed password bytes at `$074D`, and `$9C0B/$9C11` then copy those into
+`$04EF/$04F0`.
+
+Fix (diagnostic build `direct9`):
+
+```
+9C0B  LDA $0650,Y  ->  LDA $07FA
+9C11  LDA $0651,Y  ->  LDA $07FB
+```
+
+Bracket A writes:
+
+```
+$07FA = $07C7
+$07FB = $07C7 EOR 1
+```
+
+Launch now shows **JAPAN vs ARIZONA** on the matchup screen.
+
+Proof: `docs/p1-japan-arizona.png`.
+
+The team IDs are now distinct and stick through matchup. Next P1 task: carry the
+actual bracket pairing (not just cursor/±1) and start the winner-advance loop.
