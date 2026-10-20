@@ -1770,3 +1770,24 @@ was not exercised.
 The blocker is input sequencing through matchup/SPEED/WATCH, not the hook.
 Next: drive that menu with the same explicit press/release edges used for the
 field, then let SPEED MODE run to scene 0B.
+
+## Round 74 — scene 0B reached; forced winner writes; bracket return fails
+
+Proper input edges + SPEED MODE got a full auto-sim:
+
+- matchup → SPEED/WATCH → SPEED → **scene 0B box score**
+- JAPAN 1, FLO 0 (10 innings)
+- proof: `docs/p1-boxscore-speed.png`
+
+The scene-0B hook (`CC68 -> $FFC0`) executed:
+
+```
+$7720 = $0F   (forced winner = bracket slot 0 / FLORIDA)
+```
+
+So winner-forcing works. But the screen remains the **box score**, not the
+bracket; `JMP $8000` from `$FFC0` did not produce a visible bracket redraw.
+
+Next: check whether the bracket code actually runs after `JMP $8000` (break at
+$8000 from scene 0B), and whether it needs the PPU/NMI state reset that the
+normal entry path performs.
