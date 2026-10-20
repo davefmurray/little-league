@@ -1483,3 +1483,28 @@ So the branch and stock entry work; the remaining bug is the return/loop after
 
 The `$B005` guard is diagnostic only — it overwrites 3 bytes of the team-code
 table.
+
+## Round 61 — direct scene13 launch sets $047B=13, then runs off
+
+Bypassed `$98D5` entirely at bracket A:
+
+```
+$047B=13, $047D=0, $0746=0, $BE=0
+$047C=7, $07ED=1
+NMI off, MMC1 reset, map bank5, $27=5
+NMI on, SP=$FF, JMP $CC0E
+```
+
+Result:
+
+```
+$047B = $13     (scene set!)
+PC    = $8352   (data, just past the launch stub)
+```
+
+Changing the final jump to `$CC09` gives the same result. So the scene state is
+now correct, but control does not stay in the stock main loop; it ends in data.
+
+Next: replace the final `JMP` with a write to `$047D=1` and a tight
+`JMP $CC09`, and place an explicit `JMP $CC09` guard at `$8347` so any
+fallthrough re-enters the main loop instead of data.
