@@ -5179,3 +5179,36 @@ So the **high teams 16/17 reach the live field** in the main `direct31`
 build, at `$0489=0`; the match never pitches. This is the remaining
 pitch/live-field gameplay gap (item 10), not the cache or the launch. The
 original match-5 stall is fixed.
+
+
+## Round 192 — match-8 high teams reach the field but $0650 is all 0F
+
+Read the match-8 timeout state:
+
+```
+$04EB/$04EC = 80 80   (both COM)
+$04E9 = 00
+$0545 = 00   $05D3 = 00   $047F = 7C   $0489 = 00
+$0650 = 0F 0F 0F 0F
+$047E = 00 7C
+$04EF/$04F0 = 10 11
+```
+
+`$96E6` is only a stub:
+
+```
+96E6: LDA #$00 / STA $C7 / STA $BB / RTS
+```
+
+The real field handler is `$96ED` (`$0522`/`$9904`/`$9776`/`$BA` dispatch).
+
+The field's teams come from **`$0650`**, which the stock `$98D5` fills from
+the stock 16-team table — here all `0F`. The high pair `10/11` exists only
+in `$04EF/$04F0`/`$7700`. `direct31` lacks the launch-bridge `$FF60`
+pair setup (`$0650[0]/[1] = $04EF/$04F0`) and the `--direct-teams` /
+`--skip-password` pieces that the `launch32`/cached build uses.
+
+So the match-8 field is the right scene with the wrong teams: `$0650` is
+not seeded from the bracket pair. Next: integrate the `$FF60` pair (and
+direct-teams/skip-password) into `direct31`, or use the launch-bridge base
+for the high-team field.

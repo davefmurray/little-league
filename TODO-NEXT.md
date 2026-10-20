@@ -58,6 +58,12 @@ History: `docs/AUTORUN-REPORT.md`.
         (match 8: teams 16/17) but the game never pitches (0-0). The
         bracket offers SPEED (sim) / WATCH (auto) only; trace the pitch
         loop (`$96E6`/`$0545`/COM flags) and restore/add the PLAY field.
+        **Found:** match 8 reaches scene 03/$0489=0 with the right pair in
+        `$04EF/$04F0` (10/11) but `$0650 = 0F 0F 0F 0F`; the field teams
+        come from `$0650`, which the stock `$98D5` fills from the stock
+        table. `$96E6` is only a stub; the field handler is `$96ED`.
+        Next: seed `$0650[0]/[1]` from `$04EF/$04F0` (the `$FF60` pair) and
+        the direct-teams/skip-password pieces in `direct31`.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
