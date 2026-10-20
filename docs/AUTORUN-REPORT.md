@@ -4810,3 +4810,28 @@ test_roster32: fixture round-trip + edit + attribute/bench + show32 + rominfo OK
 TODO state: items 1-2 done, item 3 in progress (roster-cache port stalls the
 bridge at scene 12/PC `$84CE`; the uncached build reaches the field but jams
 at `$6006`), items 4-10 pending. Stock build hash and data tests are green.
+
+
+## Round 179 — cache stall isolated to the $8470/$FF58 launch path
+
+Built three variants on `launch32-high`:
+
+```
+cache6: bank7 reads $84 -> $7F only
+cache7: $FC00 CACHE + $FF90 resume only
+cache3: cache6 + cache7 + $8470 LAUNCH + $FF58 JMP $8470
+```
+
+Flow (menu -> Start New Series -> team A -> three A presses):
+
+```
+cache6: scene 13, PC $CC0C   (works)
+cache7: scene 13, PC $CC0C   (works)
+cache3: scene 12, $07C7=$12, PC $84CE (stalls)
+```
+
+So the bank7 reads, `$FC00` cache and `$FF90` resume are harmless on their
+own. The stall comes from the **`$FF58 JMP $8470` + `$8470` LAUNCH** path:
+after the bracket A the cache runs and the return lands back at the
+bracket (`$84CE`) instead of the scene-18 resume. The `$FC00` bank-8 copy,
+the `$FF90` resume and the `$98C0` return/stack are the next isolation.
