@@ -89,6 +89,10 @@ History: `docs/AUTORUN-REPORT.md`.
         16 bytes (`04 07 17 16 ...`); `$9A4E` uses `$06E2[$BC*2+$BD]`,
         `$9A1C` `$06E2[$BC]`. The 32-team needs a 32-byte table (16 groups
         x 2) and the page offset (`$B2` bit 4) in those readers.
+        **Found:** the `$06E2` writer `$AD51` copies from the `$FD80`
+        lineups (`LDA $FD80,X / STA $06E2,X / CPX #$12`), so it only
+        covers the 16-byte group table; the 32-team `$FD80` has 32
+        lineups but `$06E2` gets only the low 16.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

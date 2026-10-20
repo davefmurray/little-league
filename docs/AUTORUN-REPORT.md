@@ -5402,3 +5402,22 @@ Writers: bank4 `$AC31-$AD51` (the team setup); readers also bank1
 The 32-team build needs a 32-byte group table (16 groups x 2) plus the
 page offset (`$B2` bit 4 / 16) in `$9A1C`/`$9A4E`/`$9F89`. Next: the
 bank4 `$AC` writer and the page offset.
+
+
+## Round 200 — $06E2 writer $AD51 reads $FD80 (lineups); 16-byte group table
+
+The group-table writer at bank4 `$AD51`:
+
+```
+AD51: ... LDA $FD80,X / STA $06E2,X / INX / INX / INY / CPX #$12 / BCC ...
+```
+
+So `$06E2` is filled from the **`$FD80` lineups** (the same table
+`build_lineups32.py` writes). The loop covers `$06E2[0..0x11]`, the 16-byte
+group table (8 groups x 2).
+
+The 32-team `$FD80` has 32 lineups (32 x 9), but `$06E2` still only
+receives the first 16 group bytes. The high teams 16-31 have no group
+entries and the page-1 `$9A1C`/`$9A4E`/`$9F89` reads still use page 0.
+
+Next: the 32-byte `$06E2`/page offset (`$B2` bit 4) in the three readers.
