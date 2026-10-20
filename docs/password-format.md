@@ -61,3 +61,38 @@ Two viable encodings:
 The 32-team encode/decode should live in the same bank5 area as `$98D5`/
 `$9B5F` but use a new buffer (e.g., `$0760-$077F`) and leave the stock
 `$074D` path untouched for the 16-team game.
+
+
+## Implemented model: `tools/password32.py`
+
+The 32-team proposal is implemented and tested as a pure model:
+
+```
+8 bytes = 16 hex chars
+  bytes 0-3  seed, little-endian 32-bit
+  bytes 4-7  result bits 0-30 (1 = team A wins)
+             bit 31 = version (1 = 32-team format)
+
+seed order = Fisher-Yates 0..31 with an xorshift32 stream:
+  x ^= x << 13; x ^= x >> 17; x ^= x << 5
+  state = seed or 0x9E3779B9
+  for i = 31..1: state = next(state); j = state % (i+1); swap(i, j)
+
+match m: slots[2m] vs slots[2m+1]; winner -> slots[32+m]
+champion = slots[62]
+```
+
+Commands:
+
+```sh
+python3 tools/password32.py test                   # 100 random round-trips
+python3 tools/password32.py encode --seed 0x12345678 --results 0x01234567
+python3 tools/password32.py decode 7856341267452381
+```
+
+Verified: 100/100 encode-decode round-trips match the Python heap model;
+seed 0 with all-A wins gives a valid champion; the example above decodes to
+seed `0x12345678`, results `0x01234567`, champion `05`.
+
+This is the format/model layer. Wiring it into the stock password screen
+and leaving the 16-team `$074D` path untouched is the next P2 step.

@@ -297,9 +297,9 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       decode/advance bank5 `$9B5F`; decode verified with
       `$074D=0123456789abcdef -> $0650=00..0F`. Format documented in
       `docs/password-format.md`.
-- [ ] 32-team / 5-round password encode + decode (proposal: 32-bit seed +
-      31 result bits + version/checksum = 16 hex chars).
-- [ ] 100 random round-trips.
+- [x] 32-team / 5-round password encode + decode model
+      (`tools/password32.py`: 4-byte seed + 31 result bits + version bit).
+- [x] 100 random round-trips: `python3 tools/password32.py test` (100/100).
 - [ ] Wire into stock password screen.
 - [ ] Keep stock 16-team password path working.
 

@@ -2692,3 +2692,28 @@ The decode is a pure 4-bit unpack plus result application. The 32-team
 format proposal is in `docs/password-format.md`: a 32-bit seed + 31 result
 bits + version/checksum (16 hex chars), rather than 40 hex chars of 5-bit
 ids.
+
+
+## Round 97 — 32-team password model: 100 round-trips green
+
+Implemented `tools/password32.py` with the proposed 8-byte format:
+
+```
+seed (4 bytes LE) + results bits 0-30 + version bit 31
+xorshift32 -> Fisher-Yates order; match m -> slots[32+m]; champion slot 62
+```
+
+Verified:
+
+```
+python3 tools/password32.py test
+password32: 100 round-trips OK; champion all-A = 19
+```
+
+The example `--seed 0x12345678 --results 0x01234567` encodes to
+`7856341267452381` and decodes back to the same seed/results, champion `05`.
+`decode` rejects a password whose version bit is clear.
+
+This completes the 32-team password encode/decode **model** and the
+100-round-trip check. Still pending: wire it into the stock password screen
+and keep the 16-team `$074D` path working.
