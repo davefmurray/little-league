@@ -4871,3 +4871,24 @@ So the **roster cache is wired and the match engine runs** with the selected
 pair. The remaining item-3 step is the **SPEED/player field selection**
 (WATCH vs SPEED; `$04EB/$04EC`/`$BE` at the mode screen), so the rendered
 field/pitch is the player game rather than the auto-sim.
+
+
+## Round 181 — COM flags pick SPEED vs WATCH; player path hits the 0x17/0x1D table
+
+At the scene-13 mode screen (cache13), the `$04EB/$04EC` COM flags are the
+real selector:
+
+```
+$04EB/$04EC = 80 80 -> scene 0B box score, 0-13 (WATCH/auto-sim)
+$04EB/$04EC = 00 00 -> scene 17 (0x17) -> 0x1D -> 0x17, scores 0-0
+```
+
+`$BE` (0 or 0x80) did not change the outcome; the COM pair did.
+
+So the **player/SPEED path** is reached with both COM flags 0, but it enters
+the 32-team scene `$17`/`$1D` handlers and cycles there (PC `$A172`/`$C4..`)
+without reaching the stock 0F order/03 field. That is the **scene 1E/1F
+table** issue (P1 item 6), now a prerequisite for the player field/pitch.
+
+The WATCH path remains the working match result (0B), with the roster cache
+no longer jamming at `$6006`.

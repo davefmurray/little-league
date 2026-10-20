@@ -30,7 +30,10 @@ History: `docs/AUTORUN-REPORT.md`.
            the launch to fixed `$FFC0` works. cache13 = `$FF58 JMP $FFC0` ->
            `$FFC0` pair -> `$FC00` cache -> `$FF90`. The match engine now runs
            (scene 0B, score 0-13, no `$6006` jam). Remaining: the SPEED/player
-           field selection (WATCH vs SPEED; `$04EB/$04EC`/`$BE`).
+           field selection (WATCH vs SPEED; `$04EB/$04EC`/`$BE`). Found:
+           `$04EB/$04EC=80/80` = WATCH (0B result); `00/00` = player/SPEED,
+           which enters the 32-team `$17`/`$1D` scenes and cycles. The player
+           field is blocked by the scene `$1E/$1F` table (item 6).
 4. [ ] **LIST OF TEAMS names (P1).**
        The stock list repeats JAPAN; wire the bank-9 32-team names.
 5. [ ] **Match-5 soak stall (P1).**
