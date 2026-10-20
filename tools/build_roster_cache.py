@@ -101,14 +101,14 @@ def main():
     if bytes(rom[o:o + len(CACHE)]).count(0xFF) != len(CACHE):
         raise SystemExit(f"$FC00 is not free: {rom[o:o+16].hex(' ')}")
     rom[o:o + len(CACHE)] = CACHE
-    o = bank_off(FIXED, 0xFF00)
-    if bytes(rom[o:o + len(RESTORE)]).count(0xFF) != len(RESTORE):
-        raise SystemExit(f"$FF00 is not free: {rom[o:o+16].hex()}")
-    rom[o:o + len(RESTORE)] = RESTORE
     lo = bytes((0x8000 + t * 0x170) & 0xFF for t in range(32))
     hi = bytes((0x8000 + t * 0x170) >> 8 for t in range(32))
     rom[o + 0x80:o + 0xA0] = lo
     rom[o + 0xA0:o + 0xC0] = hi
+    o = bank_off(FIXED, 0xFF00)
+    if bytes(rom[o:o + len(RESTORE)]).count(0xFF) != len(RESTORE):
+        raise SystemExit(f"$FF00 is not free: {rom[o:o+16].hex()}")
+    rom[o:o + len(RESTORE)] = RESTORE
 
     o = bank_off(FIXED, 0xCBE6)
     if bytes(rom[o:o + 5]) != bytes([0xA9, 0x00, 0x8D, 0x01, 0x20]):

@@ -5146,3 +5146,12 @@ match 05: 09 v 0A -> OK ($7725=09, 1-0)
 ```
 
 26-match soak is running.
+
+Tool-order bug found while rebuilding: inserting the `$FF00` RESTORE before
+the `lo/hi` table writes changed `o`, so the `$FC80/$FCA0` table landed at
+`$FF80/$FFA0` and the `$FF90` resume was overwritten. Effect: match 0 stuck
+at scene 13 "CONTINUE END". Fixed by writing the table first, then the
+`$FF00` restore. The rebuilt ROM is now **byte-identical** to the verified
+cachefix (diff 0), hash
+`d043ecdfc46c4d50c509db30f757425759a556dec3258be462fa9b3d81091ec1`.
+6-match soak green; 26-match soak running.
