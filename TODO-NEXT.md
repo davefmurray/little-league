@@ -31,7 +31,10 @@ log is in `docs/AUTORUN-REPORT.md`.
       back/cancel flag (clearing it lets `$BA` reach 11), and the final
       match-start condition is still missing. `$9F89` validator analysis
       rules out the lineup arrays; the remaining gate is the `$BE=7`/`$BA`
-      menu with `$C3` bit 7 as the back flag and unreliable manual timing. The low-team path auto-confirms past
+      menu with `$C3` bit 7 as the back flag and unreliable manual timing.
+      The start path is identified: `$BE=1/4` -> `$9D9F` -> `$9DAE JMP $96E6`
+      (live field init); forcing `$C7` does not dispatch, so the real button
+      edge timing is the remaining probe. The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness

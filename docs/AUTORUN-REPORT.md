@@ -4065,3 +4065,39 @@ The remaining gate is the `$BE`/`$BA` order menu with `$C3` bit 7 as the
 back flag. Manual B/A timing is unreliable in the emulator: the same
 sequence sometimes sets `$BE=7`, sometimes leaves it at 4. The next step is
 a breakpoint on the `$BE=7` handler with controlled `pressDuring` timing.
+
+
+## Round 151 — `$BE` dispatch table and the field-start path
+
+The order-screen page routine dispatches `$BE` through the inline table at
+`$9D72`. The entries resolve to:
+
+```
+BE=0 -> $9D95
+BE=1 -> $9D9F
+BE=2 -> $9DAE
+BE=3 -> $9DAE
+BE=4 -> $9D9F
+BE=5 -> $9DAE
+```
+
+`$9D9F` is the important one:
+
+```
+9D9F JSR $9F89
+9DA2 BEQ $9DAE     ; validator found -> live field setup
+9DA4 LDA #3 / STA $BE
+9DA8 JSR $A1F4
+9DAB JSR $9D5C
+9DAE JMP $96E6     ; bank7 $96E6 = live field init
+```
+
+So `$BE=4` (or 1) **is** the field-start path: it jumps to `$96E6`
+(`LDA #2 / JSR $C14E; LDA #3 / STA $CC; ... $B1EE`).
+
+Forcing `$BE=4`, `$C7=1`, `$C3=0x10` at scene `0F` does not dispatch: `$C7`
+stays 1, `$BE` stays 4, scene stays `0F`, score 0-0. The handler needs the
+real `$C7`/`$95` button edge, not a forced flag.
+
+Next: trace the input routine that sets `$C7` from `$95`/`$C2` and reproduce
+the exact edge/timing that reaches `$9D9F`.
