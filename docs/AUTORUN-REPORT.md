@@ -1808,3 +1808,22 @@ not catch the jump.
 Next: arm `$8000` while still on the field, then let SPEED MODE finish and catch
 the bracket entry in-context. That distinguishes "bracket code runs but doesn't
 render" from "JMP never happens".
+
+## Round 76 — fast SPEED path; forced winner matches actual
+
+SPEED sim reaches scene 0B in **under 3000 frames** (much faster than the 20k
+guess). At the box score:
+
+```
+JAPAN 2, FLO 3 (12 innings)
+$7720 = $0F   (forced winner = FLORIDA)
+```
+
+The forced winner matches the actual winner in this sample.
+
+Still no visible bracket return: the screen remains the box score.
+
+Next: arm `$8000` **before** pressing A on the SPEED/WATCH screen, then run
+3000 frames. That catches the only uncaptured transition.
+
+Proof: `docs/p1-boxscore-fast.png`.
