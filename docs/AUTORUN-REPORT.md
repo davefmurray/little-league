@@ -1851,3 +1851,19 @@ Proof: `docs/p1-return-corrupt.png`.
 
 Next: reset MMC1 CHR0/CHR1 to the bracket's banks before `JMP $8000` (write 0 to
 $A000 and $C000 with the 5-write serial sequence).
+
+## Round 78 — CHR reset to 0 breaks bracket
+
+Added MMC1 CHR0/CHR1 resets (five 0-writes to `$A000` and `$C000`) before the
+scene-0B `JMP $8000`.
+
+Result: scene `$12`, green screen with only the baseball icon.
+
+Proof: `docs/p1-chrbroken.png`.
+
+So CHR bank 0 is **not** the bracket's bank. The corrupted-but-recognizable
+bracket from `direct14` is closer; the bracket needs its original CHR bank, not
+a reset.
+
+Next: capture the CHR bank in effect on the normal bracket path (from team
+select), or try the known team-select CHR value instead of 0.
