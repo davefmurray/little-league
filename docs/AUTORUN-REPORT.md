@@ -4982,3 +4982,32 @@ initializes its slots.
 
 Next: initialize the stock 4-team slots (`$04EF/$04F0/$0650`) for the
 LIST OF TEAMS path, or replace the screen with the 32-team selector/table.
+
+
+## Round 185 — LIST OF TEAMS action located at bank1 $A1C6 -> $A1AA
+
+Found the title-menu text table in bank 1:
+
+```
+$95F8 CHAMPIONSHIP SERIES  fe 46 a1
+$9620 POWER ANALYSIS       ...
+$9664 CONTINUE PLAY        fe 46 a1
+$967A LIST OF TEAMS        fe c6 a1
+$9690 START NEW SERIES     ...
+```
+
+The LIST OF TEAMS entry's action pointer is `$A1C6`:
+
+```
+A1C6: LDA #$0E
+A1C8: STA $C0
+A1CA: BNE $A1AA
+A1CC: RTS
+```
+
+`$A1AA` is the list routine; it reads `$C0`, `$BD`, and the `$071A` table
+(`LDA $071A,Y`) to draw the rows. So the "JAPAN every team" is in this
+routine's team data (`$071A`/`$BD`/`$C0`), not the name table.
+
+Next: trace `$A1AA`/the `$071A` rows and initialize the team data for the
+32-team list.
