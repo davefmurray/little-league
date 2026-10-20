@@ -18,6 +18,10 @@ History: `docs/AUTORUN-REPORT.md`.
        `$06E2[$01*2+$BD]>>4 == $C0`; `$A1CD` draws the name.
        **32-team:** `$A1C6` `0x0E` -> `0x0F`, `$071A` 32 bytes,
        `$06E2` 32 bytes. Next: the sizes + the list names.
+       **Tested:** `direct31-list` (`$A1C6` 0x0F, `$9FA9` 0x0F) shows real
+       names (SPAIN/FLORIDA/PUERTO RICO/CANADA) instead of JAPAN;
+       screenshot `docs/list32.png`. Next: the `$071A`/`$06E2` 32-byte
+       tables for the full scan.
        Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
        only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not

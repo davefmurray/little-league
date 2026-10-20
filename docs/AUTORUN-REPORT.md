@@ -5645,3 +5645,22 @@ Title state at `$047B=0x0F`: `$071A = 00...20 00 08 00 00 20`,
 `$06E2 = 07 04 16 17 ... 79 79`.
 
 Next: the `$A1C6`/`$071A`/`$06E2` sizes and the list names.
+
+
+## Round 210 — LIST OF TEAMS 32-team names (A1C6/A1AA/9FA9)
+
+Patched `direct31-list`:
+
+```
+A1C7: 0x0E -> 0x0F   ($A1C6 LDA #$0F: 16 -> 32 team scan start)
+9FAA: 0x08 -> 0x0F   ($9FA9 group scan 8 -> 16)
+```
+
+Boot + team-select/list screen: `$047B=0x0D`, `$06B5` shows real
+32-team names (SPAIN, FLORIDA, PUERTO RICO, CANADA, ...), not JAPAN.
+The names come through `$A1AA`/`$A1CD`/`$CB17`.
+
+Screenshot: `docs/list32.png`.
+
+The 32-team list still needs the `$071A` 32-byte flag table and the
+`$06E2` 32-byte group table so the full 32-team scan is valid.
