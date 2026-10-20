@@ -4835,3 +4835,39 @@ own. The stall comes from the **`$FF58 JMP $8470` + `$8470` LAUNCH** path:
 after the bracket A the cache runs and the return lands back at the
 bracket (`$84CE`) instead of the scene-18 resume. The `$FC00` bank-8 copy,
 the `$FF90` resume and the `$98C0` return/stack are the next isolation.
+
+
+## Round 180 — fixed-bank launch fixes the bracket stall; cache13 runs the match
+
+Isolation of the cache stall:
+
+```
+cache9  FF58 -> FF90 directly            scene 13  OK
+cache8  FF58 -> 8470 (bank11) -> FF90    scene 12  stall
+cache10 FF58 -> 8470, no MMC1 reset       scene 12  stall
+cache11 + FC00, no reset                  scene 12  stall
+cache12 FF58 -> FFC0 (fixed) -> FF90      scene 13  OK
+cache13 FF58 -> FFC0 -> FC00 -> FF90      scene 13  OK
+```
+
+The culprit is the **bank11 `$8470` write**: the launch code overwrites
+bracket data, and the bracket returns to `$84CE`. Moving the launch to the
+fixed bank `$FFC0` fixes it:
+
+```
+$FFC0: LDA $04EF -> $07FD, LDA $04F0 -> $07FE, JMP $FC00
+$FC00: bank-8 roster cache (both teams, $7F00 repoint)
+$FF90: guards, bank5, PPU, $047B=$12, JMP $98C0
+```
+
+cache13 result on the stock flow:
+
+```
+scene 13 "WATCH THE GAME" -> A -> scene 0B box score, score 0-13
+$07C7=0x28, no $6006 jam; password/team-name screens follow
+```
+
+So the **roster cache is wired and the match engine runs** with the selected
+pair. The remaining item-3 step is the **SPEED/player field selection**
+(WATCH vs SPEED; `$04EB/$04EC`/`$BE` at the mode screen), so the rendered
+field/pitch is the player game rather than the auto-sim.

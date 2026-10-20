@@ -26,7 +26,11 @@ History: `docs/AUTORUN-REPORT.md`.
            pass to scene 13; the stall is the **`$FF58 JMP $8470` +
            `$8470` LAUNCH** path (returns to the bracket `$84CE`). Next:
            isolate the `$FC00` bank-8 copy / `$FF90` / `$98C0` return-stack.
-           Add a safer `$7F00` init later only if a low-team read needs it.
+           **Fixed:** the `$8470` bank11 write corrupted the bracket; moving
+           the launch to fixed `$FFC0` works. cache13 = `$FF58 JMP $FFC0` ->
+           `$FFC0` pair -> `$FC00` cache -> `$FF90`. The match engine now runs
+           (scene 0B, score 0-13, no `$6006` jam). Remaining: the SPEED/player
+           field selection (WATCH vs SPEED; `$04EB/$04EC`/`$BE`).
 4. [ ] **LIST OF TEAMS names (P1).**
        The stock list repeats JAPAN; wire the bank-9 32-team names.
 5. [ ] **Match-5 soak stall (P1).**
