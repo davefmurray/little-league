@@ -40,7 +40,7 @@ BASE="Little League Baseball - Championship Series (USA).nes"
 .venv/bin/python tools/expand_rom.py "$BASE" -o build/32x20.nes
 .venv/bin/python tools/build_32x20.py build/32x20.nes data/roster.json -o build/32x20-ui.nes
 .venv/bin/python tools/build_select_screen.py build/32x20-ui.nes data/teams32.json -o build/select-screen.nes
-python3 tools/build_dispatcher.py build/select-screen.nes -o build/dispatcher.nes
+python3 tools/build_dispatcher.py build/select-screen.nes --roster-cache -o build/dispatcher.nes
 .venv/bin/python tools/build_bracket_screen.py build/dispatcher.nes --loop-to 0x8100 -o build/bracket-screen.nes
 
 # launch bridge (production: selector -> bracket -> launch)
@@ -57,12 +57,23 @@ python3 tools/build_dispatcher.py build/select-screen.nes -o build/dispatcher.ne
 .venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
   --direct-teams -o build/launch-direct.nes
 python3 tools/build_names32.py build/launch-direct.nes -o build/launch32.nes
+
+# 32-team tournament state (experimental)
+python3 tools/build_32bracket.py build/launch-direct.nes --state --keep-seed \
+  -o build/state.nes
+python3 tools/build_names32.py build/state.nes -o build/launch32state.nes
 ```
+
+`--roster-cache` prepends `JSR $FB90` to the `$FF00` dispatcher (and reloads
+`A=$80` before its `STA $2000`). `build_32x20.py` repoints roster reads to
+`$7F00`, so if the cache never runs those reads return zeros and the
+end-of-game/box-score path jumps into RAM (`PC=$7703`, jammed) — it must be in
+the chain.
 
 `--stock-flow` restores stock `$CC06` so the stock team-select path runs and
 END reaches `$98B9`; it is **test scaffolding** and the path that verifiably
-reaches the field. Without it the bank-10 selector boots and its A hands off to
-the hooked scene 18.
+reaches the field. It bypasses the dispatcher, so it does **not** run the
+roster cache and will still crash after a game.
 
 Build outputs are gitignored.
 

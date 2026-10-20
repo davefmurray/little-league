@@ -38,19 +38,29 @@ def main():
     ap.add_argument("--selected", type=lambda s: int(s, 0))
     ap.add_argument("--force", type=lambda s: int(s, 0),
                     help="test only: use this team id instead of reading $07C3")
+    ap.add_argument("--roster-cache", action="store_true",
+                    help="call the $FB90 32-team roster cache at reset before "
+                         "dispatching; build_32x20.py repointed reads to "
+                         "$7F00, so it must run or those reads return zeros")
     ap.add_argument("-o", "--out", default="build/dispatcher.nes")
     args = ap.parse_args()
 
     rom = bytearray(open(args.rom, "rb").read())
     nb = rom[4]
     fixed = bank_off(nb - 1) + (0xFF00 - 0xC000)
-    rom[fixed:fixed + len(DISPATCH)] = DISPATCH
+    dispatch = DISPATCH
+    if args.roster_cache:
+        dispatch = bytes([0x20, 0x90, 0xFB,   # JSR $FB90
+                       0xA9, 0x80]) + DISPATCH   # A=$80 for STA $2000
+    rom[fixed:fixed + len(dispatch)] = dispatch
     # Restore stock at $CBE6 (LDA #$00) and hook after reset init at $CC06
     base = bank_off(nb - 1)
     rom[base + (0xCBE6 - 0xC000):base + (0xCBE6 - 0xC000) + 5] = bytes([0xA9, 0x00, 0x8D, 0x01, 0x20])
     rom[base + (0xCC06 - 0xC000):base + (0xCC06 - 0xC000) + 3] = bytes([0x20, 0x00, 0xFF])
     if args.force is not None:
-        rom[fixed + 3:fixed + 6] = bytes([0xA9, args.force, 0xEA])
+        rom[fixed + len(dispatch) - len(DISPATCH) + 3:
+            fixed + len(dispatch) - len(DISPATCH) + 6] = bytes(
+                [0xA9, args.force, 0xEA])
 
     stub = bank_off(11) + (BANK11 - 0x8000)
     rom[stub:stub + len(STUB)] = STUB
