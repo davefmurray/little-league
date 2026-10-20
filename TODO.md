@@ -32,10 +32,10 @@ M3 logic port to bank 11.
 | PRG-RAM cache | 16 active teams at `$6000`; table `$7F00` |
 | Data tables | bank 9: codes `$8000`, names `$8080`, regions `$8280` |
 | Team select | bank 10, **4 pages × 8**, cursor, edge paging, detail, A/OK, B/clear |
-| Selector integration | **not wired** into the game flow |
-| Tournament | still 16-team; **32-slot bracket not started** |
-| Password | still 16-team format; **not redesigned** |
-| Flags | region flags only; 3×3 = 9 sprites; no 32 team flags |
+| Selector integration | **wired** → bracket → launch → full game |
+| Tournament | 63-slot heap, five rounds, live match index; high-team field input still open |
+| Password | stock codec located/round-trips; 32-team model built, screen wiring open |
+| Flags | 32 flag tiles packed; selector CHR copy still blank |
 | CHR | 128 KiB full; 71 empty tiles in bank 0 |
 | Web editor | 16 × 15 hardcoded; **not 32 × 20 yet** |
 | Hosting | editor/docs only; ROM not served |
@@ -134,8 +134,9 @@ M3 logic port to bank 11.
       via `--state` so the default build keeps the stock seed path.
 - [x] **Bracket entry root cause.** jsnes 1.2.1 MMC1 counter needs a bit-7
       reset; use `STX $9FFF`, control `$1E`, `$C14E` shadow. Probe verified.
-- [ ] **Wire bracket entry.** Feed 32 teams from the selector/password and enter
-      the bracket screen; today the stock flow still seeds 16.
+- [x] **Wire bracket entry.** Selector A sets `$07C3`, hands the dispatcher
+      scene 18, and the bridge runs the bank-11 bracket seeded from `$7700`.
+      The `--stock-flow` harness deliberately keeps the stock 16-team seed.
 - [ ] **Passwords.** Locate encode/decode; extend to 32 teams.
 
 ## Next (P1)
@@ -155,8 +156,11 @@ M3 logic port to bank 11.
 
 - [x] Real data for teams 16–31: names, regions, ratings, lineups (done);
       colours have no consumer in this revision.
-- [ ] Extend team name/lineup/flag/rating/colour arrays to 32 teams.
-- [ ] Bracket screen layout for 32 teams.
+- [x] Extend team name/lineup/rating arrays to 32 teams (`build_names32.py`,
+      `build_lineups32.py` $FD80, `build_ratings32.py` $BC80); flag data is
+      packed by `build_flags32.py`; colours have no runtime consumer.
+- [x] Bracket screen layout for 32 teams: four columns x eight rows, real
+      codes, clean header/title and nametable clear.
 - [ ] CHR plan for flags: copy 8 flags' tiles or 3×2 sprite art; respect the
       71-empty-tile budget.
 - [ ] Selector: page-memory polish, B-to-back behaviour, selected-team marker.
@@ -165,7 +169,9 @@ M3 logic port to bank 11.
 - [x] Web editor ROM mode: parse/export the bank8 `t*$170` 32-team layout,
       20 players, bank9 names, bank3 ratings; stock 16 x 15 round-trip
       remains byte-identical.
-- [ ] Serve a downloadable patched ROM from the editor? Decide policy.
+- [x] Serve a downloadable patched ROM? Policy: **no**. `tools/serve.py`
+      exposes `/rom` only on loopback (or `--allow-rom`); the container image
+      copies `web/` + `serve.py` only, so hosting never ships the ROM.
 
 ## Later / nice to have
 
