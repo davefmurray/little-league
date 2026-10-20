@@ -2232,4 +2232,22 @@ the field starts. That distinguishes WATCH from SPEED and names the missing
 control flag. Once the field auto-sims, run the 31-match soak and check
 champion slot 62 (`$773E`).
 
+### Probe result: `$04EA` is never written on the match-5 path
+
+From the match-5 matchup screen, a write breakpoint on `$04EA` ran 1200
+frames with scheduled A presses and found **no write**. So the bank5 `$9EA4`
+SPEED/WATCH transition is not on the match-5 path at all. `$047E` was 1
+(WATCH) at the cutscene, and the field waits for input.
+
+Poking `$047E=0` **before** the matchup A does carry through (`$047E=0` at
+the cutscene), but `$04EA` still stays 0 and the field still waits. Forcing
+`$047E=0` at the later menu also changed nothing. The field-control switch
+is elsewhere, not `$04EA`.
+
+Unless that switch is found quickly, the fallback for champion math is a
+documented **state-only soak**: keep the real in-context proofs for matches
+0/1/8/16, but drive the remaining matches by calling the ROM winner routine
+at `$83A0` 31 times with controlled `$048B/$048C` values and checking
+`$773E`.
+
 P1 remains open.
