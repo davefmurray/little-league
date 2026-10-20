@@ -5108,3 +5108,41 @@ phase does not use this `$0511` path; the 09/0A pair does.
 Next: fix the team-record pointer (`$04`) for the order phase and make the
 cache copy low teams from bank4 (or leave their stock bank4 `$7F00`
 pointers alone).
+
+
+## Round 190 — match-5 fixed: low-team roster cache source
+
+Root cause: the `$FC00` cache maps bank8 and copies **all 32** teams from
+`$8000 + t*0x170`, but the low teams 0-15 live in bank4
+`$8420 + t*0x120`. The low-team cache slots were therefore FF, and the
+09/0A order screen read `$0511 = FF` from the empty slot.
+
+Fix: after each team copy, `$FC00` calls a new fixed-bank `$FF00` restore:
+
+```
+FF00: CPX #$10 / BCS rts
+      TXA / ASL / TAX
+      LDA $FD40,X -> $7F00,X
+      LDA $FD41,X -> $7F01,X
+      RTS
+```
+
+So low teams keep the stock bank4 `$FD40` pointers; high teams keep the
+cached `$7800`/`$7A00` slots.
+
+`tools/build_roster_cache.py` now emits the new CACHE + RESTORE; the full
+chain rebuilds `direct31` with hash
+`9f638d53ee4b152e8ce249df184e5bad729212487fa59da82dd978afe3260ef6`.
+
+6-match soak on the rebuilt ROM:
+
+```
+match 00: 0F v 00 -> OK (2-0)
+match 01: 01 v 02 -> OK (0-2)
+match 02: 03 v 04 -> OK (0-1)
+match 03: 05 v 06 -> OK (0-1)
+match 04: 07 v 08 -> OK (2-0)
+match 05: 09 v 0A -> OK ($7725=09, 1-0)
+```
+
+26-match soak is running.
