@@ -2737,3 +2737,36 @@ audit OK: 16 x (20 players + 3 pitcher records)
 This verifies the bench and all three pitcher records at the data level.
 The in-game substitution/pitcher test is still pending (it needs a live
 game with a 20-player team and a START-menu substitution).
+
+
+## Round 99 — web editor 32-team ROM mode
+
+`web/rom.js` now detects and patches both layouts:
+
+- **stock-16:** 16 teams x 15 players, bank4 `$8420`, stride `$120`
+  (unchanged, byte-identical round-trip);
+- **bank8-32:** 32 teams x 20 players, bank8 `$8000 + team*$170`.
+
+Detection: 16+ PRG banks and a printable team-0 name at bank8 `$8000`.
+Names come from bank1 `$9180` (0-15) and bank9 `$8080` (16-31) when
+present; otherwise the bank1 `$BCC0` 8-byte table or a `TEAM nn` fallback.
+Ratings use bank3 `$B224` (0-15) and the 32-entry `$BC80` table when it is
+valid (16-31).
+
+`applyRom` writes player records back to the bank8 blocks, team names to
+bank9 (or the bank1 names32 table), and ratings to `$B224`/`$BC80`.
+`app.js` sets `state.playerCount` from the parsed metadata, so 20 rows
+render for a 32-team ROM.
+
+Node verification:
+
+```
+stock ROM:        stock-16 16/15, applyRom byte-identical
+32x20-extra.nes:  bank8-32 32/20, team 16 = TEAM 17 / HARRIS
+select-screen:    bank8-32 32/20, team 16 = AUSTRALIA / HARRIS
+edit team 16:     AUSTRALIA/HARRIS -> AUS TEST/TESTER skill 4 (re-parsed)
+```
+
+The browser UI still needs a visual smoke test (the preview host dropped
+its tab during this run), but the parser/patcher and stock round-trip are
+verified.

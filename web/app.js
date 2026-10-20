@@ -234,6 +234,7 @@ function loadRomBytes(bytes, name) {
   state.romName = name;
   state.meta = parsed.meta;
   state.source = 'rom';
+  state.playerCount = parsed.meta.players || CONST.PLAYERS;
   state.dirty = false;
   commitTeams(parsed.teams, { baseline: true, selected: 0 });
 

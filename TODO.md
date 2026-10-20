@@ -151,8 +151,9 @@ M3 logic port to bank 11.
 - [ ] Selector: page-memory polish, B-to-back behaviour, selected-team marker.
 - [x] Web editor: 32 x 20 JSON mode (`web/roster32.json`, Data -> Load
       32-team demo). Verified 32 team cards / 20 player rows.
-- [ ] Web editor ROM mode: parse/export the bank8 `t*$170` 32-team layout and
-      load `teams32.json` names; the ROM path is still stock 16 x 15.
+- [x] Web editor ROM mode: parse/export the bank8 `t*$170` 32-team layout,
+      20 players, bank9 names, bank3 ratings; stock 16 x 15 round-trip
+      remains byte-identical.
 - [ ] Serve a downloadable patched ROM from the editor? Decide policy.
 
 ## Later / nice to have
