@@ -4379,3 +4379,28 @@ relocating the stock scene table for the 16-bank layout.
 
 So the match-26/scene-`1E` risk is real but **not fixed**; the earlier
 "stock has valid entries at the same address" comparison was misleading.
+
+
+## Round 162 — the `$96E6` jump is not a standalone field start
+
+Built `direct31-forcefield.nes` with:
+
+```
+$9011: LDA #$07 / JSR $C14E / JMP $96E6
+```
+
+Loading the high-field state and calling the sequence (map bank7, then
+`$96E6`) produced:
+
+```
+score = 01 00   $047C=07   $CC=01   finalPC=$B005   framesRun=41
+after 60 frames: PC=$0013 (jam)
+```
+
+The field init does move the score to 1-0, but the CPU runs into `$B005`
+and then jams at `$0013`. `$96E6` needs the live field-loop context; a
+straight `JMP` from the card routine is not a clean start.
+
+So the targeted "skip card -> `$96E6`" approach is **not viable as-is**.
+The remaining options are the stock transition (card handoff) or a larger
+patch that recreates the field-loop entry.

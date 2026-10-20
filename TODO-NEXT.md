@@ -43,6 +43,16 @@ log is in `docs/AUTORUN-REPORT.md`.
       `$0547`/`$0527`), and that writer is absent from the scene-`0F` loop. The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
+## P0 continuation (user-requested, started)
+
+- [ ] **Capture a low-team live-field/card-handoff save state** (or a
+      breakpoint trace at the scene-`0F`/field transition).
+- [ ] **Capture the live password overlay state** (`$06B5` password text,
+      `$23-$26`/CHR bank) so the 16 glyphs can be confirmed.
+- [x] **Targeted skip-card -> live-field patch**: tested `$9011 =
+      LDA #7/JSR $C14E/JMP $96E6`. The score moves to 1-0 and `$047C=07`,
+      but the CPU runs into `$B005` and jams at `$0013`; not viable as-is.
+
 ## P1 — visible/gameplay correctness
 
 - [x] **Post-game bracket cleanup.** Real 32-team codes
