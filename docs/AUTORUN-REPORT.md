@@ -3442,3 +3442,26 @@ ROM.
 ```
 test_roster32: fixture round-trip + edit + show32 + rominfo OK
 ```
+
+
+## Round 129 — full test sweep green
+
+Ran the complete local suite:
+
+```
+python3 tools/password32.py test
+password32: 100 round-trips OK; champion all-A = 19
+
+python3 tools/test_roster32.py
+test_roster32: fixture round-trip + edit + show32 + rominfo OK
+
+node --check web/app.js && node --check web/rom.js
+js ok
+
+.venv/bin/python tools/verify_regression.py   "Little League Baseball - Championship Series (USA).nes" build/32bracket.nes
+screenshots MATCH
+system_ram differs in 0 bytes
+```
+
+The working tree is clean; the stock regression, password model, 32-team
+roster CLI/editor code, and browser-editor syntax all pass together.
