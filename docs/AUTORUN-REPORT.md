@@ -2251,3 +2251,63 @@ at `$83A0` 31 times with controlled `$048B/$048C` values and checking
 `$773E`.
 
 P1 remains open.
+
+
+## Round 86 — state-only 31-match soak GREEN (champion slot 62)
+
+The real-game flow still stalls at match 5's field, so champion math was
+proved with the documented state-only fallback. This calls the **real ROM
+winner routine** 31 times, not a Python model.
+
+### Build
+
+`tools/build_winner_rts.py` turns the winner routine's final `JMP $8000`
+into `RTS` so the debugger can call it and return:
+
+```
+bank11 $83C5  4C 00 80  ->  60 EA EA
+```
+
+`build/direct19-rts.nes` is the soak-only build; the game build still jumps
+to the bracket redraw.
+
+### Procedure (`tools/state_soak.py`)
+
+1. Boot to the team-select CONTINUE/END prompt.
+2. `RIGHT`, then a **1-frame A**: the stock END hook enters the bracket
+   (scene $12, `PC=$81C5`, bank 11) but the A is released before the input
+   loop, so match 0 does not launch.
+3. For m = 0..30:
+   - read the real pair `$7700[2m]`, `$7700[2m+1]`;
+   - write `$048B/$048C = 01/00` (team A wins);
+   - `cpu call $83A0` (the real score-winner routine);
+   - verify `$7720[m] == pair[0]` and `$07FC == m+1`.
+
+### Result
+
+All 31 matches OK. Final state:
+
+```
+slots $7700..$773E =
+0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e
+10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
+0f 01 03 05 07 09 0b 0d 10 12 14 16 18 1a 1c 1e
+0f 03 07 0b 10 14 18 1c
+0f 07 10 18
+0f 10
+0f
+
+champion slot 62 ($773E) = 0F
+$07FC = 1F (31)
+```
+
+This is the full five-round heap: 31 wins, rounds 1-5, champion at slot 62.
+It exercises the real pairing read, score compare, winner write, destination
+math, and index increment.
+
+### P1 status
+
+- Champion math: **GREEN** (31/31, slot 62 = `0F`).
+- In-context real-game evidence: matches 0, 1, 8, and the round-2 probe.
+- Still open: the real-game field control for match 5+ (the flow reaches the
+  field but waits for a human pitch), and visible bracket redraw of winners.
