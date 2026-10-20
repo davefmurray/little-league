@@ -65,6 +65,9 @@ jobs:
       - name: Verify 32-team password model
         run: python3 tools/password32.py test
 
+      - name: Test 32-team roster CLI
+        run: python3 tools/test_roster32.py
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:

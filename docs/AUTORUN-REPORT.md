@@ -3205,3 +3205,28 @@ stock screen. Wiring it in needs either:
 
 The stock `$06B5` buffer is the concrete constraint: 11 letters plus the
 `$FF` terminator before the next text field.
+
+
+## Round 116 — self-contained roster32 round-trip test in CI
+
+`tools/test_roster32.py` builds a synthetic 32-team ROM in a temp dir (no
+base ROM, no py65):
+
+- bank1 low-team names, bank3 `$B224` ratings;
+- bank1 `$BCC0` names32 and bank3 `$BC80` ratings for 16-31;
+- all 32 bank8 `$8000 + t*$170` blocks with 20 player records and trailers.
+
+It then runs `extract` -> `apply` and asserts the output is **byte-identical**,
+edits team 16 player 0 to `TESTER`/skill 4, applies, re-extracts, and checks
+the edit. CI now runs it:
+
+```yaml
+- name: Test 32-team roster CLI
+  run: python3 tools/test_roster32.py
+```
+
+Verified locally:
+
+```
+test_roster32: fixture round-trip + edit OK
+```
