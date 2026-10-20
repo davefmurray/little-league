@@ -1661,3 +1661,31 @@ the current seed routine cannot advance a winner yet.
 
 Next P1 task: expand the bracket state to 63 slots (or a 32×5 round array),
 add winner advance, then redraw.
+
+## Round 68 — 63-slot bracket state initialized
+
+Seed routine now ends with a jump to a new 63-slot initializer:
+
+```
+8200..821B : fill $7700..$771F with 32 shuffled team IDs
+821C       : JMP $8290
+8290       : LDA #$FF
+             LDX #$20
+             STA $7700,X
+             INX
+             CPX #$3F
+             BNE ...
+             RTS
+```
+
+Cart-RAM readback:
+
+```
+0f 00 01 02 ... 1e 1f  ff ff ff ... (31 x FF)
+```
+
+So the bracket now has all 63 slots: 32 first-round teams + 31 empty winner
+slots.
+
+Next P1: identify the game-result scores in RAM and write the winner into
+`$7720 + (match/2)`, then return to the bracket and redraw.
