@@ -3252,3 +3252,24 @@ MMC1 shift buffer/count, not a recoverable bank byte.
 
 The next CHR probe needs a mapper/PPU-level view of the latched banks, not
 the `$23-$26` shadows or the save-state tail.
+
+
+## Round 118 — `$0511/$0512` are player attribute bytes, not pointers
+
+The `$0511` writer in bank4 is:
+
+```
+ADF7  LDX $04ED
+ADFA  LDY #$06
+ADFC  LDA ($04),Y
+ADFE  STA $0511
+```
+
+It stores the **current player record's byte 6** at `$0511`; `$0512` is the
+next attribute byte. So the stock `$0511/$0512 = 80/81` and the high-team
+`00/57` are data differences, not a bad roster pointer. The bank7 `$8D6F`
+writer is just an init (`STA $0511` = 0).
+
+This rules out the last handoff-pointer lead for the silent field. The
+remaining field work needs a different angle (the scene-3 sub-state machine
+or the pitcher/batter role selection), not the `$0511` byte pair.
