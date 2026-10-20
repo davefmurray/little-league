@@ -22,9 +22,11 @@ launch path; this file is the map, not the story.
 - **Selector → bracket → launch** in the production build: the selector's A
   hands the stock dispatcher scene 18, the hook runs the bracket, and the same
   bridge resumes. Reaches password → matchup → speed mode → cutscene → field.
-- **All 32 team ids launch.** `--direct-teams` + `build_names32.py` extend the
-  two 16-entry name tables and bypass the 4-bit team unpack; ids 16–31 reach
-  the field with placeholder roster/name data.
+- **All 32 team ids launch and play.** `--direct-teams` + `build_names32.py`
+  extend the two 16-entry name tables and bypass the 4-bit team unpack.
+- **A full game completes.** With `--roster-cache` on the dispatcher, a COM
+  game reaches the box score and `A` advances the tournament (`$0746` 0→1,
+  next matchup). Without the cache the post-game path jumps into RAM.
 - Stock regression green:
 
 ```sh
@@ -161,11 +163,12 @@ stock: `S=$FF` at the main loop after the resume.
    team 15's block with `B1601`-style names, and the field HUD shows
    `FLO`/`JAPAN`. Fill `data/roster.json` / the bank-8 blocks and the
    ratings/lineup/colour tables.
-2. **Full 32-team tournament state.** The first-round matchup matches the
-   bracket, but the stock game still runs a 16-team / 15-match bracket
-   (`$8941`, `$0746`). A true 32-slot, 5-round tournament needs that table and
-   the advance/display logic ported (the `--state` work in
-   `tools/build_32bracket.py` is the starting point).
+2. **Full 32-team tournament state.** `build_32bracket.py --state --keep-seed`
+   installs the 31-match table/`$7700`/`$7740` state and the first game runs;
+   the match index advances in-game. A real proof needs 16 first-round results
+   (or the isolated 5-round CPU test). Experimental.
+3. **On-demand cache for teams 16–31.** The reset cache still copies teams
+   0–15 only; ids 16–31 play from the placeholder bank-8 blocks.
 2. **Password format** is still the stock 16-slot table (`$994F`); the
    32-team tournament state is not encoded.
 3. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
