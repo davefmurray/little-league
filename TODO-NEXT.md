@@ -27,8 +27,10 @@ log is in `docs/AUTORUN-REPORT.md`.
       match-start/order-screen exit that sets the live-field phase. The
       high-team order screen's B acts as back/cancel (`$BE=02`), returning to
       the card loop; `$06E1` selects B=END vs back. Setting `$06E1=1` makes B
-      set `$BE=7`, but A only advances the `$BA` menu; the final match-start
-      selection is still missing. The low-team path auto-confirms past
+      set `$BE=7`, but A only advances the `$BA` menu; `$C3` bit 7 is the
+      back/cancel flag (clearing it lets `$BA` reach 11), and the final
+      match-start condition is still missing (likely the `$9F89` lineup
+      validator). The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness

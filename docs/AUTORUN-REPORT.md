@@ -4004,3 +4004,35 @@ CHR bank, or the screen-code-to-tile base is different.
 
 The `$908B` table remains the strongest candidate for the stock password
 alphabet, but glyph confirmation is still pending.
+
+
+## Round 149 — `$C3` bit 7 is the order-screen back flag
+
+The order-screen handler's page routine at bank1 `$9D63` ends with:
+
+```
+9D80 JSR $9F89        ; lineup validator
+9D83 BEQ $9D90
+9D85 LDA #$02 / STA $047B   ; back to scene 2 (cards)
+...
+9D90 LDA $C3
+9D92 BMI $9D85        ; bit 7 -> back
+9D94 RTS
+```
+
+At the high-team scene `0F`: `$C3=0x90` (bit 7 set), `$BE=04`, `$BA=09`.
+Clearing bit 7 (`$C3=0x10`) and pressing A:
+
+```
+$BA: 09 -> 0B -> 11 -> 09 -> 0B
+scene stays 0F, $0489=00, score 0-0
+```
+
+So `$C3` bit 7 is the **back/cancel** flag; clearing it stops the B/A
+return-to-cards path and lets the `$BA` menu advance. The menu reaches
+`$BA=11` (the furthest page seen) but still does not start the match. The
+start condition is elsewhere — likely the `$9F89` lineup validator or the
+`$BE` page handler.
+
+Next: inspect `$9F89`'s lineup arrays (`$071A`, `$06E2`) for the high-team
+data and find the page handler that sets `$0489`/the field start.
