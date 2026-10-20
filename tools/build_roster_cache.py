@@ -1,0 +1,139 @@
+#!/usr/bin/env python3
+"""P3: on-demand two-team roster cache for teams 16-31 (working build).
+
+    python3 tools/build_roster_cache.py build/direct28.nes \
+        -o build/direct29.nes
+
+Root cause of the earlier failures: mapping bank8 with `$C14E` without first
+resetting the MMC1 shift register left a partial write in the mapper, which
+corrupted CHR0 (PRG-RAM enable) and dropped the $7800 copies.  The launch stub
+now does `LDX #$FF / STX $9FFF` before the bank switch.
+
+  - unmask the A-handler pair (real ids to $07FA/$07FB);
+  - boot: initialise $7F00 with the 16 original bank4 pointers + 16 dummy
+    $7B80 entries, and repoint the roster reads from $84xx to $7Fxx;
+  - launch: reset MMC1, read the real pair into $07FD/$07FE, JMP $FC00;
+  - $FC00: map bank8, copy team A -> $7800 and team B -> $7A00 (0x170 each),
+    write $7F00[id*2] = scratch, JMP $FF90.
+"""
+import argparse
+
+HEADER = 16
+PRG = 0x4000
+BANK1 = 1
+BANK11 = 11
+FIXED = 15
+
+MASKED_PAIR = bytes([
+    0xAD, 0xFC, 0x07, 0x0A, 0xAA,
+    0xBD, 0x00, 0x77, 0x29, 0x0F, 0x8D, 0xFA, 0x07,
+    0xBD, 0x01, 0x77, 0x29, 0x0F, 0x8D, 0xFB, 0x07,
+    0x4C, 0x00, 0x83,
+])
+REAL_PAIR = bytes([
+    0xAD, 0xFC, 0x07, 0x0A, 0xAA,
+    0xBD, 0x00, 0x77, 0x8D, 0xFA, 0x07,
+    0xBD, 0x01, 0x77, 0x8D, 0xFB, 0x07,
+    0x4C, 0x00, 0x83,
+])
+LAUNCH = bytes([
+    0xA2, 0xFF, 0x8E, 0xFF, 0x9F,       # MMC1 reset
+    0xAD, 0xFC, 0x07, 0x0A, 0xA8,
+    0xB9, 0x00, 0x77, 0x8D, 0xFD, 0x07,
+    0xB9, 0x01, 0x77, 0x8D, 0xFE, 0x07,
+    0x4C, 0x00, 0xFC,
+])
+CACHE = bytes([
+    0xA9, 0x08, 0x20, 0x4E, 0xC1,
+    0xA9, 0x00, 0x85, 0x02, 0xA9, 0x78, 0x85, 0x03,
+    0xAE, 0xFD, 0x07, 0x20, 0x44, 0xFC,
+    0xAE, 0xFD, 0x07, 0x8A, 0x0A, 0xA8,
+    0xA9, 0x00, 0x99, 0x00, 0x7F, 0xA9, 0x78, 0x99, 0x01, 0x7F,
+    0xA9, 0x00, 0x85, 0x02, 0xA9, 0x7A, 0x85, 0x03,
+    0xAE, 0xFE, 0x07, 0x20, 0x44, 0xFC,
+    0xAE, 0xFE, 0x07, 0x8A, 0x0A, 0xA8,
+    0xA9, 0x00, 0x99, 0x00, 0x7F, 0xA9, 0x7A, 0x99, 0x01, 0x7F,
+    0x4C, 0x90, 0xFF,
+    0xBD, 0x80, 0xFC, 0x85, 0x00, 0xBD, 0xA0, 0xFC, 0x85, 0x01,
+    0xA0, 0x00, 0xB1, 0x00, 0x91, 0x02, 0xC8, 0xD0, 0xF9,
+    0xE6, 0x01, 0xE6, 0x03, 0xA0, 0x00, 0xB1, 0x00, 0x91, 0x02,
+    0xC8, 0xC0, 0x70, 0xD0, 0xF7, 0x60,
+])
+INIT = bytes([
+    0xA2, 0x00,
+    0xBD, 0x40, 0xFD,
+    0x9D, 0x00, 0x7F,
+    0xE8, 0xE0, 0x40, 0xD0, 0xF5,
+    0xA9, 0x00, 0x8D, 0x01, 0x20,
+    0x60,
+])
+
+
+def bank_off(bank, addr):
+    base = 0xC000 if bank == FIXED else 0x8000
+    return HEADER + bank * PRG + (addr - base)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("rom", help="build/direct28.nes")
+    ap.add_argument("-o", "--out", default="build/direct31.nes")
+    args = ap.parse_args()
+
+    rom = bytearray(open(args.rom, "rb").read())
+
+    o = bank_off(BANK11, 0x8360)
+    if bytes(rom[o:o + len(MASKED_PAIR)]) != MASKED_PAIR:
+        raise SystemExit(f"$8360: expected masked pair, found {rom[o:o+24].hex(' ')}")
+    rom[o:o + len(REAL_PAIR) + 4] = REAL_PAIR + b"\xea" * 4
+
+    o = bank_off(BANK11, 0x8319)
+    if bytes(rom[o:o + 3]) != bytes([0x4C, 0x90, 0xFF]):
+        raise SystemExit(f"$8319: expected JMP $FF90, found {rom[o:o+3].hex(' ')}")
+    rom[o:o + 3] = bytes([0x4C, 0x70, 0x84])
+
+    o = bank_off(BANK11, 0x8470)
+    if bytes(rom[o:o + len(LAUNCH)]).count(0xFF) != len(LAUNCH):
+        raise SystemExit(f"$8470 is not free: {rom[o:o+16].hex(' ')}")
+    rom[o:o + len(LAUNCH)] = LAUNCH
+
+    o = bank_off(FIXED, 0xFC00)
+    if bytes(rom[o:o + len(CACHE)]).count(0xFF) != len(CACHE):
+        raise SystemExit(f"$FC00 is not free: {rom[o:o+16].hex(' ')}")
+    rom[o:o + len(CACHE)] = CACHE
+    lo = bytes((0x8000 + t * 0x170) & 0xFF for t in range(32))
+    hi = bytes((0x8000 + t * 0x170) >> 8 for t in range(32))
+    rom[o + 0x80:o + 0xA0] = lo
+    rom[o + 0xA0:o + 0xC0] = hi
+
+    o = bank_off(FIXED, 0xCBE6)
+    if bytes(rom[o:o + 5]) != bytes([0xA9, 0x00, 0x8D, 0x01, 0x20]):
+        raise SystemExit(f"$CBE6: expected stock PPU-off, found {rom[o:o+5].hex(' ')}")
+    rom[o:o + 5] = bytes([0x20, 0x00, 0xFD, 0xEA, 0xEA])
+    o = bank_off(FIXED, 0xFD00)
+    if bytes(rom[o:o + len(INIT)]).count(0xFF) != len(INIT):
+        raise SystemExit(f"$FD00 is not free")
+    rom[o:o + len(INIT)] = INIT
+    table = bytearray()
+    for t in range(16):
+        table += (0x8420 + t * 0x120).to_bytes(2, "little")
+    table += (0x7B80).to_bytes(2, "little") * 16
+    rom[o + 0x40:o + 0x80] = table
+
+    reads = {
+        4: [0xB085, 0xB08C, 0xB0A6, 0xB0AB, 0xAB2C, 0xAB33],
+        15: [0xCB2C, 0xCB36],
+    }
+    for bank, addrs in reads.items():
+        for addr in addrs:
+            o = bank_off(bank, addr)
+            if rom[o:o + 3][2] != 0x84:
+                raise SystemExit(f"bank{bank} ${addr:04X}: expected $84 operand")
+            rom[o + 2] = 0x7F
+
+    open(args.out, "wb").write(rom)
+    print(f"wrote {args.out}: real ids + MMC1-reset roster cache")
+
+
+if __name__ == "__main__":
+    main()

@@ -2770,3 +2770,47 @@ edit team 16:     AUSTRALIA/HARRIS -> AUS TEST/TESTER skill 4 (re-parsed)
 The browser UI still needs a visual smoke test (the preview host dropped
 its tab during this run), but the parser/patcher and stock round-trip are
 verified.
+
+
+## Round 100 — roster cache works: MMC1 reset was the missing step
+
+The cache failure was not the copy loop or NMI. `$C14E` maps bank 8 by
+writing the MMC1 PRG register five times, but it assumes the shift register
+is clear.  In the launch stub the register was left mid-write by the previous
+bank operation, so the bank-8 switch also corrupted CHR0 (the PRG-RAM enable
+bit).  The `$7800` copies were silently dropped.
+
+Adding the standard MMC1 reset **before** the bank switch fixes it:
+
+```
+A2 FF        LDX #$FF
+8E FF 9F     STX $9FFF      ; reset MMC1 shift register
+AD FC 07     LDA $07FC
+0A A8        ASL A / TAY
+B9 00 77     LDA $7700,Y
+8D FD 07     STA $07FD
+...
+4C 00 FC     JMP $FC00      ; cache routine
+```
+
+Live match 8 (`$7710 = 10 11`, real teams 16/17):
+
+```
+$7F20 = 00 78   $7F22 = 00 7A
+$7800 = "HARRIS"   $7A00 = "GARCIA"
+```
+
+The game accepts the real team ids (no `AND #$0F`) and reaches the field
+(scene `$03`) with the new rosters. The field then stalls 0-0 rather than
+crashing; that is a separate lineup/pitcher/gameplay issue.
+
+Reproducible build:
+
+```
+python3 tools/build_32team_full.py
+# direct20-names -> ratings32 -> lineups32 -> round labels -> top row
+# -> roster cache -> build/direct31.nes
+```
+
+The cache script is `tools/build_roster_cache.py`; the driver is
+`tools/build_32team_full.py`.

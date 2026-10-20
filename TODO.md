@@ -82,11 +82,12 @@ M3 logic port to bank 11.
 - [x] **Roster data for teams 16–31.** `data/roster32.json` + 
       `tools/build_extra_rosters.py` write 20 generated players and three
       pitcher records per team into bank 8.
-- [ ] **On-demand roster cache for teams 16–31.** Direct builds read the
-      original `$8400` table. A fixed `$FC00` cache routine maps bank8 and
-      copies to `$7800/$7A00`, but the copy is interrupted at the frame
-      boundary (`finalPc=$CD86`) and the table stays dummy. NMI-off at the
-      launch stub did not help; next: RAM copy with interrupts disabled.
+- [x] **On-demand roster cache for teams 16–31.** Working build
+      `build/direct31.nes`: MMC1 reset before the bank-8 switch, real ids,
+      `$7800/$7A00` copies, `$7F00` repoints. Match 8 shows HARRIS/GARCIA
+      and reaches the field (scene 03).
+- [ ] High-team field auto-play: real teams 16/17 reach scene 03 but stall
+      0-0; likely lineup/pitcher selection for the generated rosters.
 - [x] **Ratings for teams 16–31.** 32 x 4 table at bank3 `$BC80`
       (`tools/build_ratings32.py`), reader repointed.
 - [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`
