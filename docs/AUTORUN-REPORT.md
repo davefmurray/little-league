@@ -5438,3 +5438,30 @@ Next: the 32-byte `$06E2`/page offset (`$B2` bit 4) in the three readers.
 
 Next: pair3 = the 34-byte `$AD51` writer + `$B2 & 0x10` page offsets in
 `$9A4E`/`$9A1C`/`$9F89`; test the match 5/8.
+
+
+## Round 202 — pair3 32-byte $06E2/page offset: matches 0-4 pass, match 5 stalls
+
+pair3 changes:
+
+```
+$AD57: CPX #$12 -> CPX #$22   (34-byte $FD80 -> $06E2 copy)
+$BEC0: LDA $B2 / AND #$10 / STY $00 / CLC / ADC $00 / TAY / LDA $06E2,Y / RTS
+$9A31/$9A66/$9FB3: LDA $06E2,Y -> JSR $BEC0
+```
+
+So the 32-byte `$06E2` and the page offset are in place.
+
+Soak:
+
+```
+match 00..04: all OK
+match 05: timeout
+```
+
+The match-5 pair is **09/0A (low teams)**, but the order is at `$B2=0x10`
+(team 16 / page 1), while `$0650[0]/[1] = 09/0A`. The `$BEC0` page
+subroutine reads `$06E2[16+...]` (the page-1/high group) for a low pair.
+
+So the next mismatch is `$B2` (the order's current team/page) vs
+`$0650` (the bracket pair), not the table size.

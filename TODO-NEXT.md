@@ -95,6 +95,10 @@ History: `docs/AUTORUN-REPORT.md`.
         lineups but `$06E2` gets only the low 16. **Plan:** `$AD51` loop
         `CPX #$12` -> `#$22` (34) for the 32-byte `$06E2`; add the page
         offset `$B2 & 0x10` (+16) in `$9A4E`/`$9A1C`/`$9F89`; test pair3.
+        **pair3:** the 32-byte `$06E2` + `$BEC0` page subroutine works for
+        matches 0-4, but match 5 (09/0A, low) stalls because `$B2=0x10`
+        (team 16/page 1) while `$0650[0]/[1]=09/0A`; the page subroutine
+        reads the page-1/high group. Next: `$B2` vs `$0650` team/page.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
