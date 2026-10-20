@@ -5664,3 +5664,19 @@ Screenshot: `docs/list32.png`.
 
 The 32-team list still needs the `$071A` 32-byte flag table and the
 `$06E2` 32-byte group table so the full 32-team scan is valid.
+
+
+## Round 211 — hardware/sound execution doc (item 9)
+
+Added `docs/hardware-sound.md`:
+- MMC1 cartridge map (16 PRG banks, 128 KiB CHR, battery).
+- The direct31 bank map.
+- The romdev execution harness (deterministic frames, screenshots,
+  soak_bracket, fceumm).
+- The hardware test matrix (Mesen2, FCEUX, EverDrive/N8, real NES,
+  SRAM power-cycle).
+- The APU/audio validation, input/2-player, the known gaps and the
+  release checklist.
+
+Item 9's documentation deliverable is done; the actual hardware runs
+remain on the release checklist.

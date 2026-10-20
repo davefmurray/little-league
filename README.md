@@ -363,3 +363,7 @@ The write-up cites the [TecmoBowl.org hacking thread](https://tecmobowl.org/foru
 [LaunchBox](https://gamesdb.launchbox-app.com/games/details/8177) and the
 [archived NES Archives review](https://web.archive.org/web/20080503192431/http://www.nesarchives.com/Littleleague.html).
 The table addresses and team statistics were derived directly from the US ROM.
+
+## Hardware & sound
+
+See [docs/hardware-sound.md](docs/hardware-sound.md) for the MMC1/bank map, emulator/hardware test matrix, APU audio path and release checklist.

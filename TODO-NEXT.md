@@ -74,7 +74,10 @@ History: `docs/AUTORUN-REPORT.md`.
        codec done; wire the screen or entry/continue code.
 8. [ ] **In-game bench / attribute card (P2).**
        START-menu substitution/pitcher change + printed power/speed/skill.
-9. [ ] **Hardware / sound execution (P2).**
+9. [x] **Hardware/sound execution (P2) — docs done.**
+       `docs/hardware-sound.md`: the MMC1 map, the romdev execution, the
+       test matrix, the APU/audio, the input, the gaps, the release
+       checklist. The actual hardware run remains on the checklist.
        Run `docs/hardware-checklist.md` and `docs/sound-checklist.md`.
 10. [ ] **Pitch / live-field gameplay (P1, active).**
         The high teams now reach scene 03 `$0489=0` in `direct31`
