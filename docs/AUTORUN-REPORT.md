@@ -4951,3 +4951,34 @@ Conclusion for item 3: the live-field/match engine works; the playable
 pitch is a **separate feature gap** (the 32-team bracket has no PLAY
 option). Item 6 is resolved: the scene table matches stock and needs no
 relocation.
+
+
+## Round 184 — LIST OF TEAMS name data is intact; the ids are zero
+
+Compared the stock and `direct31` name tables:
+
+```
+$B2D6 / $BC80 pointers identical:
+  0 JAPAN, 1 ARIZONA, 2 PENNSYLVANIA, 3 CHINESE TAIPEI, 4 KOREA,
+  5 NEW YORK, 6 CALIFORNIA, ... 15 FLORIDA
+$AF53 loader -> $BC80 (correct)
+$C965 short loader -> $BC40 (correct)
+```
+
+The only `JSR $AF53` in the ROM is at `$AF43`, the **matchup name draw**:
+
+```
+AF36: LDA #$A0 / STA $06B3
+AF3B: LDA #$41 / STA $06B4
+AF40: LDA $04EF
+AF43: JSR $AF53
+AF50: LDA $04F0
+```
+
+So "JAPAN as every team" is not a corrupted name table: the **team ids**
+(`$04EF/$04F0`, and the stock 4-team slots) are 0, which is JAPAN. The
+LIST OF TEAMS path is the stock 4-team screen and the 32-team build never
+initializes its slots.
+
+Next: initialize the stock 4-team slots (`$04EF/$04F0/$0650`) for the
+LIST OF TEAMS path, or replace the screen with the 32-team selector/table.

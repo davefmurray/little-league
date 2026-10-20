@@ -13,7 +13,12 @@ History: `docs/AUTORUN-REPORT.md`.
        WATCH/SPEED run the match; no `$6006` jam; box 0-13. Scene 0x17 is
        the **SPEED MODE / WATCH THE GAME** menu; SPEED -> 0x0A result.
 4. [ ] **LIST OF TEAMS names (P1).**
-       The stock list repeats JAPAN; wire the bank-9 32-team names.
+       Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
+       only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
+       list repeats JAPAN because the team ids/slots are 0 (JAPAN), not
+       because the table is corrupt. Next: initialize the stock 4-team
+       slots for the list path, or replace the screen with the 32-team
+       selector/table.
 5. [ ] **Match-5 soak stall (P1).**
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
 6. [x] **Scene 1E/1F / match-26 (P1).**
