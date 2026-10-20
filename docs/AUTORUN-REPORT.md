@@ -3597,3 +3597,31 @@ State checks:
 
 Next probe: trace writes to `$047A` and the `$CE30-$CE42` branch, and find
 which routine is supposed to clear bit 2 / advance the field.
+
+
+## Round 134 — `$047A` selects the immediate CHR path
+
+The NMI CHR apply path is:
+
+```
+CE2D  LDA $047a
+CE30  AND #$04
+CE32  BEQ $ce39
+CE34  LDA $24 / JSR $C11C    ; CHR0 = $24
+CE39  LDA $047a
+CE3C  AND #$02
+CE3E  BEQ $ce5d
+CE40  LDA $26 / JMP $C134    ; CHR1 = $26
+CE45  ...                    ; else CHR0=$23, CHR1=$25
+```
+
+At the high-team field: `$047A=04`, `$23-$26 = 04 08 00 1A`, so the NMI
+applies CHR0=`$24=08` every frame and skips the normal `$23/$25` path.
+
+At the post-game bracket (`/tmp/bracket-post2.state`): `$047A=00`, so the
+immediate path is already off, but `$23-$26 = 18 1B 05 1C` versus the normal
+bracket entry `1B 1B 18 1C`. The bracket's `$23/$25` values themselves are
+wrong, so clearing `$047A` alone does not restore the tiles.
+
+This narrows the CHR work to whichever routine sets `$23/$25` during the
+post-game bracket draw, not the `$047A` selector.
