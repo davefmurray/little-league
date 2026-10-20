@@ -3754,3 +3754,36 @@ WIN
 ```
 
 No stray `F`/`T`, all 32 codes readable, cursor marker present.
+
+
+## Round 140 — the field is a card/order loop, not a dead CPU
+
+Write-breakpoint and state probes at the high-team field:
+
+- `$047F` is written **every frame** at bank6 `$9018` with `$7C` by the card
+  routine `$9011`:
+
+  ```
+  9011 LDA #$00 / STA $047E
+  9016 LDA #$7C / STA $047F
+  901B JSR $E2B2          ; card draw/animation
+  901E LDX $0545
+  9021 LDA $05D3
+  9024 CMP $903C,X
+  9027 BCC $9036          ; wait until $05D3 >= table[$0545]
+  9029 JSR $8EF8          ; card/team setup
+  ```
+
+- `$05D3` is stuck at `3`/`5`; the table `$903C` needs `8`/`11` for the
+  current `$0545=3`. The bank7 routine at `$93CF` increments `$0546` when
+  `$05D3 == 5`, but it is not called.
+- **START** moves scene `03` -> `0F` (order screen). `B+A` (`leave_lineup`)
+  returns `0F` -> `03` and the card loop restarts. `A` alone at `0F` did not
+  start the game in this state.
+- Skipping the `$9011` card routine (`RTS` at `$9011`) leaves `$05D3=3`,
+  `$0545=3`, `$047F=7C` and the score at 0-0.
+
+So the high-team field is stuck in the **pre-game card/order state machine**,
+not a dead CPU or a missing pitch routine. Next: find the caller of the
+bank6 `$9011`/bank7 `$93CF` card routines and the transition that should
+clear the card state and enter the live field.

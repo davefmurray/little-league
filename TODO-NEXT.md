@@ -16,7 +16,10 @@ log is in `docs/AUTORUN-REPORT.md`.
       trace shows the card/CHR routines (`$E2B2-$E3FB`, `$C11C/$C14C`) and
       `$047A` stays `04` (the immediate CHR path at `$CE30-$CE42`). COM
       flags/`$04E9` reassertion did not start a pitch; player statuses
-      (`$0555`) match the stock pattern.
+      (`$0555`) match the stock pattern. The field is stuck in the
+      card/order state machine: `$047F` is rewritten to `$7C` every frame at
+      bank6 `$9018`, `$05D3` is stuck below the `$903C[$0545]` threshold,
+      and START can reach scene `0F` but B+A returns to the card loop.
 
 ## P1 — visible/gameplay correctness
 
