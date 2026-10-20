@@ -256,9 +256,11 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 - [x] High-team launch mapping: `id & $0F` for the stock launch only, real ids
       kept in `$7700`. Match 8 (`10/11` -> `00/01`, score 5-0) wrote slot 40
       `$7728=10` and advanced the index.
-- [ ] Five-round soak; champion at slot 62. Matches 0-4 pass in WATCH mode;
-      match 5 stalls on the scene-`$0F` pre-game order screen. Next: reproduce
-      the stock COM-vs-COM skip or auto-select END in the scene-0F handler.
+- [x] Pre-game order screen: B selects END (`$BE=7`, handler bank1 `$9BAB`
+      at `$9C3D`) and A confirms. Harness now uses B+A per team.
+- [ ] Five-round soak; champion at slot 62. Matches 0-4 pass with real scores;
+      match 5 reaches the field but waits for a human pitch (not COM auto
+      mode). Next: find the SPEED/WATCH mode byte and force auto-sim.
 - [ ] Acceptance: 31 wins, five rounds, regression green.
 
 ### P2 — Password (deferred)

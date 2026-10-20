@@ -2119,26 +2119,68 @@ index      $07FC    = 09
 So the high-team pairing now launches, plays to scene 0B, and advances the
 real bracket id. No scene-`$10` black screen.
 
-### Full soak: matches 0-4 pass, match 5 hits the order screen
+### Order screen solved: B selects END
 
-Added `--mode watch` to the harness.  WATCH skips the per-pitch input: select
-WATCH at the speed menu, press A once for the cutscene, then the game runs to
-scene 0B.  Matches 0-4 advanced correctly (scores were mostly 0-0, so the
-score winner fell back to team A on the tie).
+The scene-0F top-level handler is bank1 `$9BAB`. Its controller logic
+explains the earlier menu failures:
 
-Match 5 (`09` vs `0A`) then stopped at scene `$0F`, the pre-game batting-order
-screen (`CHANGE ORDERS`).  This is not the high-team problem and not the
-bracket logic: the stock COM-vs-COM harness flow skips this screen, while the
-direct build's state shows it for some pairs.  The harness cannot reliably
-walk the menu because the selected option is not exposed in a documented RAM
-byte; blind RIGHT/A sequences sometimes enter the CHANGE FIELDER submenu.
+```
+9BDB  JSR $9F89
+9BDE  BEQ $9BF0
+...
+9C35  LDX $C2
+9C37  LDA $95,X
+9C39  AND #$40         ; B button
+9C3B  BEQ $9C51
+9C3D  LDA #$35
+9C3F  JSR $C249
+9C42  LDA $06E1
+9C45  BEQ $9C4C
+9C47  LDA #$07
+9C49  STA $BE          ; $BE=7 == END option
+9C4B  RTS
+...
+9C23  AND #$80         ; A button confirms
+9C25  BEQ $9C35
+9C27  LDA #$35
+9C29  JSR $C249
+9C2C  LDA #$01
+9C2E  STA $CC
+9C30  JSR $A1F4
+9C33  INC $BA
+```
 
-Next concrete P1 step: make the order screen deterministic, either
+**B sets `$BE=7` (END), A confirms.** No RIGHT-walk is needed. The harness
+`leave_lineup()` is now just `B`, `A` per team, which is deterministic:
 
-1. find the condition that makes the stock COM-vs-COM path skip scene 0F and
-   reproduce it at launch (likely the `$04EB/$04EC`/player-control state), or
-2. patch the scene-0F handler to auto-select END (the END branch is bank1
-   `$993B-$9945`: `LDA #$03 / STA $047B / JMP $CBA2`).
+```
+press B  -> $BE=7
+press A  -> END branch ($993B): scene 03, JMP $CBA2
+```
+
+Confirmed live: `$BE` read `04` before B, `07` after B, and scene went
+`$0F -> $03` after A. This also explains why the old `B + RIGHT x3 + A`
+walk ended in CHANGE FIELDER: B had already selected END, and the RIGHTs
+moved the selection away.
+
+### New blocker: match 5 reaches the field but waits for input
+
+With B+A, a SPEED-mode run passed matches 0-4 with real scores
+(`1-0`, `0-2`, `0-1`, `0-2`, `0-1`). Match 5 (`09` vs `0A`) now clears the
+order screen, reaches scene 03, but the field sits at `TOP 1ST 0-0` and
+never advances to scene 0B. The CPU is alive (`PC=$CC0C`, bank 6), the score
+bytes stay `00 00`, and `$07FC` stays `05`.
+
+Field state at the stall:
+
+```
+$04E8-$04EF = 00 01 00 80 00 00 01 09
+$04F0       = 0A
+$BA=$01  $BE=$07  $06E1=$01  $07C3=$58
+```
+
+The game is waiting for a human pitch/swing, i.e. it is not in COM-vs-COM
+auto mode. This is now the only thing between the soak and 31 matches.
 
 ### Failed shortcuts (do not repeat)
 
@@ -2148,10 +2190,13 @@ Next concrete P1 step: make the order screen deterministic, either
 - `cpu call $993B` from the live order screen also sets scene 03, but the
   field sits at 0-0 forever; the END branch alone does not reproduce the
   menu's state.
-- Poking `$04E9` at that field only garbles the screen.
+- Poking `$04E9` to 0 or `$FF` at the field does not start auto-play (the
+  first try only garbled the screen because the state was already broken).
 
-So the fix must reproduce the COM-vs-COM skip **before** scene 0F, not jump
-over the menu after it. Then the 31-match WATCH soak can run to champion slot
-62 (`$773E`).
+Next concrete probe: a controlled RAM diff at the SPEED/WATCH menu (before
+and after `DOWN`) to find the mode byte, then force it to the auto/COM path
+at launch. Candidates: the menu's own selection byte, `$04E8-$04F0`, or
+`$06E1/$BE/$BF`. Once the field auto-sims, run the 31-match soak and check
+champion slot 62 (`$773E`).
 
 P1 remains open.

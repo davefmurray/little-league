@@ -59,38 +59,21 @@ def wait_for(pred, max_frames, chunk=250, label="", on_scene=None):
 def leave_lineup():
     """Confirm the pre-game order screens (both teams).
 
-    B backs out of the player editor, three RIGHTs walk CHANGE ORDERS ->
-    PLAYER CHANGE -> CHANGE FIELDER -> END, and A accepts.  The second
-    team's screen already has END selected, so a second A starts the game.
+    The top-level handler (bank1 $9BAB) treats B as "select END": it sets
+    $BE=7, and A confirms.  This is deterministic; the old RIGHT x3 walk
+    depended on the hidden $BE selection and often entered a submenu.
     """
-    press("b", 2)
-    step(5)
-    for _ in range(3):
-        press("right", 2)
-        step(5)
-    press("a", 2)
-    step(30)
-    if rd_sys(0x047B)[0] == 0x0F:
+    for _ in range(2):
+        if rd_sys(0x047B)[0] != 0x0F:
+            return
+        press("b", 2)
+        step(10)
         press("a", 2)
         step(30)
 
 
 def leave_lineup_top():
-    """Pre-game order screen: it opens on the top-level menu.
-
-    Three RIGHTs walk CHANGE ORDERS -> PLAYER CHANGE -> CHANGE FIELDER ->
-    END; A accepts the first team's END and the second team's END starts the
-    game.  Do not press B here: on the top-level menu it steps the selection
-    backwards and the fixed RIGHT count then lands on CHANGE FIELDER.
-    """
-    for _ in range(3):
-        press("right", 2)
-        step(5)
-    press("a", 2)
-    step(30)
-    if rd_sys(0x047B)[0] == 0x0F:
-        press("a", 2)
-        step(30)
+    leave_lineup()
 
 
 def navigate_to_prompt():
