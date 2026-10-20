@@ -34,7 +34,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       menu with `$C3` bit 7 as the back flag and unreliable manual timing.
       The start path is identified: `$BE=1/4` -> `$9D9F` -> `$9DAE JMP $96E6`
       (live field init); forcing `$C7` does not dispatch, so the real button
-      edge timing is the remaining probe. The low-team path auto-confirms past
+      edge timing is the remaining probe. `$C7` (the edge) is never written
+      at the high-team scene `0F`; the input loop that should set it is not
+      running, so the `$9D9F` start path is never dispatched. The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness

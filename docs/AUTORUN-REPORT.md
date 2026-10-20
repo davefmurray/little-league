@@ -4101,3 +4101,31 @@ real `$C7`/`$95` button edge, not a forced flag.
 
 Next: trace the input routine that sets `$C7` from `$95`/`$C2` and reproduce
 the exact edge/timing that reaches `$9D9F`.
+
+
+## Round 152 — `$C7` edge is never written at scene `0F`
+
+`$C7` is the order-screen button edge. It is:
+
+- cleared at bank1 `$96E8` (`LDA #0 / STA $C7`) in the live-field init;
+- set by the input handlers at bank1 `$9EF0`, `$9FCE`, `$A142`
+  (`LDA #1 / STA $C7`);
+- also set from `$BF` in bank6 `$ADDF`.
+
+At the high-team scene `0F`:
+
+```
+$95=00  $C2=01  $C7=00  $BE=04
+```
+
+A 20-frame write breakpoint on `$C7` with an A press finds **no writes**.
+The order handler at `$9D63` reads `$C7` at the top (`BEQ $9D60`), so with
+`$C7=0` it just increments `$BA` and returns; the `$BE` handlers (including
+the `$9D9F -> $9DAE -> $96E6` field-start path) are never dispatched.
+
+So the scene-`0F` input loop is not running in this state; the game is still
+in the card/field script. The start path is known, but it cannot be entered
+because `$C7` never becomes 1.
+
+Next: find where `$95`/`$C2` are refreshed and why the scene-`0F` input loop
+is not being called for the high-team card state.
