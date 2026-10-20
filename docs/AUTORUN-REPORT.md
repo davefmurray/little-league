@@ -2899,3 +2899,28 @@ MATCH
 
 The stock encode -> decode pair is exact. The 16-team `$074D` path is
 intact; the 32-team screen wiring is still the remaining P2 step.
+
+
+## Round 104 — full-game soak evidence, colour-table audit
+
+### Full-game soak
+
+The real-game soak's 26 matches are complete games, not simulations:
+
+- matches 0-15: all 16 first-round games;
+- matches 16-23: all 8 second-round games;
+- matches 24-25: two third-round games.
+
+Each was played to the box score under the COM/cutscene handler and the
+winner slot was checked. The game is **6 innings**, not 9; the "9 innings"
+wording in the TODO was inaccurate. Substitution and save/password runs are
+still open.
+
+### Team colours
+
+Searched all banks for absolute (`$BAC0`, `$BAD0`), indexed (`$BAC0,X`,
+`$BAD0,X`), and pointer (`C0 BA`, `D0 BA`, `BA C0`, `BA D0`) consumers.
+The only `BA D0` hit was `DEC $BA / BNE`, not a table pointer. There is no
+colour-table consumer in this revision, so the 32-team colour table is a
+no-op; the task is closed as "audited, no reader" rather than adding dead
+data.

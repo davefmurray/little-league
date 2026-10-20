@@ -96,8 +96,9 @@ M3 logic port to bank 11.
       (`tools/build_ratings32.py`), reader repointed.
 - [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`
       (`tools/build_lineups32.py`), reader repointed.
-- [ ] **Colours for teams 16–31.** The `$BAC0`/`$BAD0` tables have no direct
-      reader in this ROM; data-only gap until a consumer is found.
+- [x] **Colours for teams 16–31.** Audited: the `$BAC0`/`$BAD0` tables have
+      no absolute, indexed, or pointer consumer in this revision, so there is
+      nothing to repoint; the 32-team colour table is a no-op for this ROM.
 - [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
 - [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the
@@ -148,7 +149,8 @@ M3 logic port to bank 11.
 - [x] **ROM debugger.** `tools/debugger.html`: registers, named watches, OAM,
       display list, write-to-address log with PC.
 
-- [ ] Real data for teams 16–31: names, regions, colours, ratings, lineups.
+- [x] Real data for teams 16–31: names, regions, ratings, lineups (done);
+      colours have no consumer in this revision.
 - [ ] Extend team name/lineup/flag/rating/colour arrays to 32 teams.
 - [ ] Bracket screen layout for 32 teams.
 - [ ] CHR plan for flags: copy 8 flags' tiles or 3×2 sprite art; respect the
@@ -163,7 +165,9 @@ M3 logic port to bank 11.
 
 ## Later / nice to have
 
-- [ ] Full-game soak test (9 innings, subs, save/password).
+- [ ] Full-game soak: 26 complete real games (matches 0-25, all 16 R1, all
+      8 R2, 2 R3) under the COM/cutscene handler. This game is 6 innings, not
+      9. Substitution/save-password runs remain open.
 - [ ] Hardware validation on a flash cart / MMC1 donor.
 - [ ] Sound/music checks after data moves.
 - [ ] Docs: regenerate screenshots, update README status table.
@@ -315,7 +319,7 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 - [x] Real names/codes/regions for teams 16–31.
 - [x] Ratings table (bank3 `$BC80`) and lineups table (fixed `$FD80`).
-- [ ] Colours for teams 16–31 (the `$BAC0`/`$BAD0` tables have no reader).
+- [x] Colours for teams 16–31 — audited, no reader/consumer in this ROM.
 - [x] On-demand roster cache for teams 16–31 (`build/direct31.nes`,
       MMC1 reset + `$7800/$7A00` + `$7F00` repoints).
 - [x] 20-player bench + three pitcher slots at the data level
