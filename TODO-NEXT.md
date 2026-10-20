@@ -87,8 +87,10 @@ log is in `docs/AUTORUN-REPORT.md`.
 - [ ] **Match 26 crash follow-up.** `11/13` at 2-0 enters scene `$1D`,
       `PC=$00C3` (RAM jam). Trace the stock post-game path beyond its 16-team
       design.
-- [ ] **Hardware validation** on a flash cart / MMC1 donor.
-- [ ] **Sound/music checks** after the data moves.
+- [ ] **Hardware validation** on a flash cart / MMC1 donor. Checklist is
+      written (`docs/hardware-checklist.md`); bench execution still pending.
+- [ ] **Sound/music checks** after the data moves. Checklist is written
+      (`docs/sound-checklist.md`); execution still pending.
 
 ## P3 — docs / product
 
@@ -101,9 +103,12 @@ log is in `docs/AUTORUN-REPORT.md`.
 - [x] **Web editor base-table mirror** — not applicable: `web/rom.js` uses
       explicit `OFF32` offsets and reads the ROM tables directly; it does not
       compute offsets from a base table.
-- [ ] **Serve a downloadable patched ROM from the editor?** Decide policy.
-- [ ] **DataCrystal ROM map** — optional; the page is Cloudflare-blocked and
-      has no usable text capture.
+- [x] **Serve a downloadable patched ROM from the editor?** No: the policy
+      is patch/build instructions only, no hosted ROM
+      (`docs/rom-distribution.md`); the editor keeps the user's ROM local.
+- [x] **DataCrystal ROM map** — closed as optional/external: the page is
+      Cloudflare-blocked and has no usable text capture; `tools/llbcs_map.py`
+      and the local docs remain the map of record.
 
 ## Done / do not re-open
 
