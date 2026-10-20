@@ -3358,3 +3358,20 @@ stat. The "wrong player pointer" lead is invalid.
 
 The field stall is still in the card/lineup setup or the pitch loop, not
 the cached roster pointer.
+
+
+## Round 124 — the field setup resets `$047E` in many places
+
+Patching the one `STX $047E` at bank6 `$8EFA` does not preserve WATCH mode:
+the field setup resets the byte to 0 at several sites:
+
+```
+bank6 $8F60/$8FA3/$8FD3/$9006/$9013/$95DB/$A1C7/$ABBD/$AD19/$B45F
+bank7 $93D1
+```
+
+The mode toggle is bank5 `$9ED5` (`LDA $047E / EOR #$01 / STA $047E`).
+WATCH is the scene-10 path; the scene-03 field is SPEED and expects a
+pitch/COM handoff. Patching `$047E` alone is not the field-stall fix.
+
+No ROM change was kept; the `direct39` probe still stalls at 0-0.
