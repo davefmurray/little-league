@@ -26,6 +26,9 @@ and a report/TODO update. History: `docs/AUTORUN-REPORT.md`.
        `build_roster_cache` was never applied. Next: port the cache (`$FD00`
        init, `$FC00` copy, call `$8470` from `$FF60`, `$FF90` bank-5 resume)
        or repoint `$7F00` to cart-RAM copies of the high-team rosters.
+       Cache port attempt (`$CBE6`->`$FD00`, `$FC00`, `$8470`, `$FF90`,
+       `$FF58 JMP $8470`) stalls the bridge at scene 12/PC `$84CE`; the
+       `$FD00`/bracket PPU/PRG-RAM interaction needs debugging.
 4. [ ] **LIST OF TEAMS names (P1).**
        The stock list screen repeats JAPAN; wire the bank-9 32-team names.
 5. [ ] **Match-5 soak stall (P1).**

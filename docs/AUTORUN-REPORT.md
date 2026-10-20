@@ -4771,3 +4771,29 @@ The cache tool's `$8360`/`$8319` hooks target the direct20 bracket A and do
 not exist on the launch-prod base. Next: port the cache (`$FD00` init,
 `$FC00` copy, call `$8470` from `$FF60`, `$FF90` bank-5 resume) or repoint
 `$7F00` to cart-RAM copies of the high-team rosters.
+
+
+## Round 177 — roster-cache port attempt; bracket stalls at $84CE
+
+Built a cache port on top of `launch32-high.nes`:
+
+```
+$CBE6 -> JSR $FD00 (INIT: $7F00 table + PPU off)
+$FC00 -> CACHE + bank-8 roster table
+$8470 -> LAUNCH from $04EF/$04F0 -> $07FD/$07FE
+$FF90 -> resume (guards, bank5, PPU, $047B=$12, JMP $98C0)
+$FF58 -> JMP $8470 (was JMP $98C0)
+bank7 $8B2C/$8B36: $84 -> $7F
+```
+
+Result: after the stock flow the game sits at scene 12, `$07C7=0x12`,
+PC `$84CE` (bank11); A does nothing. The cache/INIT port interacts with
+the bridge bracket/PPU boot and stalls before the bracket A is consumed.
+The `JMP $8470` stack fix did not change it.
+
+`launch32-high.nes` (no cache) still reaches the field render and then
+jams at `$6006` (stock player-name buffer) as before.
+
+Next: debug the `$FD00`/bracket interaction (PRG-RAM enable / `$2001`
+timing / `$2C-$2D` guards) or call the cache from `$FF60` without the
+`$CBE6` boot hook.
