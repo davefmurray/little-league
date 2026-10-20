@@ -2497,3 +2497,36 @@ metadata.
 Still placeholder for teams 16-31: bank-8 player rosters (names are
 `B1601`-style, attributes cloned from team 15), team colours, ratings, and
 lineups. Those are the next content tasks.
+
+
+## Round 91 — generated rosters for teams 16-31
+
+Added a full 20-player data set for the 16 new teams.
+
+```sh
+python3 tools/gen_roster32.py data/roster.json data/teams32.json   -o data/roster32.json
+.venv/bin/python tools/build_32x20.py "Little League Baseball - Championship Series (USA).nes"   data/roster.json -o build/32x20.nes
+python3 tools/build_extra_rosters.py build/32x20.nes data/roster32.json   -o build/32x20-extra.nes
+```
+
+- `data/roster32.json`: 32 teams. Teams 0-15 are copied byte-for-byte;
+  teams 16-31 have 20 generated players (country-flavoured 6-char surnames,
+  power/speed/skill, three pitcher slots `08/10/18`, 48-byte trailer with
+  three pitcher records).
+- `tools/build_extra_rosters.py`: overwrites the bank-8 blocks for teams
+  16-31 in `build/32x20-extra.nes` (blocks at `$8000 + team*0x170`).
+
+The selector still builds and page 3 shows the new teams. **However, the
+game cannot read these blocks yet.** The direct build's fixed bank lost the
+`$CBE6 -> $FB90` roster-cache hook (direct20 has the stock `A9 00 8D 01 20`
+there and `$FB90` is `FF`), and the existing `$7F00` table only initialises
+16 entries. Teams 16-31 still need the on-demand cache:
+
+1. restore the `$CBE6` hook / `$FB90` cache routine (or a new routine);
+2. copy the two current teams' bank-8 blocks into scratch RAM at
+   `$7800`/`$7970` when their ids are >= 16;
+3. update `$7F00 + id*2` to those scratch pointers;
+4. then launch the real ids (no `AND #$0F` mapping).
+
+Until that is wired, the P1 high-team mapping (`id & $0F`) remains the
+working path for the soak.

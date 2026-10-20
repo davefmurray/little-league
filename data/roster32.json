@@ -1,0 +1,9445 @@
+{
+  "rom": "Little League Baseball - Championship Series (USA).nes",
+  "teams": [
+    {
+      "id": 0,
+      "name": "JAPAN",
+      "short_name": "JAPAN",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        1,
+        3,
+        2,
+        3
+      ],
+      "players": [
+        {
+          "name": "UMEDA",
+          "padded": "UMEDA ",
+          "attrs": [
+            2,
+            255,
+            0,
+            212,
+            201,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "NAKATU",
+          "padded": "NAKATU",
+          "attrs": [
+            2,
+            255,
+            0,
+            163,
+            138,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MIKUNI",
+          "padded": "MIKUNI",
+          "attrs": [
+            2,
+            255,
+            0,
+            133,
+            135,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ESAKA",
+          "padded": "ESAKA ",
+          "attrs": [
+            128,
+            255,
+            132,
+            198,
+            198,
+            0,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "YODOYA",
+          "padded": "YODOYA",
+          "attrs": [
+            1,
+            255,
+            8,
+            119,
+            74,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "NANBA",
+          "padded": "NANBA ",
+          "attrs": [
+            2,
+            255,
+            0,
+            131,
+            136,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TENOJI",
+          "padded": "TENOJI",
+          "attrs": [
+            2,
+            255,
+            36,
+            115,
+            122,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NODA",
+          "padded": "NODA  ",
+          "attrs": [
+            2,
+            255,
+            128,
+            115,
+            120,
+            4,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TENMA",
+          "padded": "TENMA ",
+          "attrs": [
+            130,
+            255,
+            0,
+            98,
+            174,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HIRANO",
+          "padded": "HIRANO",
+          "attrs": [
+            2,
+            255,
+            128,
+            51,
+            102,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NISHI",
+          "padded": "NISHI ",
+          "attrs": [
+            2,
+            255,
+            64,
+            85,
+            87,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NAKA",
+          "padded": "NAKA  ",
+          "attrs": [
+            2,
+            255,
+            64,
+            145,
+            132,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SHIMA",
+          "padded": "SHIMA ",
+          "attrs": [
+            2,
+            255,
+            16,
+            97,
+            238,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MINAMI",
+          "padded": "MINAMI",
+          "attrs": [
+            2,
+            255,
+            0,
+            51,
+            138,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KATA",
+          "padded": "KATA  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            66,
+            136,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "ARIZONA",
+      "short_name": "ARIZONA",
+      "short_width": 11,
+      "short_attr": 3,
+      "ratings": [
+        2,
+        2,
+        3,
+        4
+      ],
+      "players": [
+        {
+          "name": "BERT",
+          "padded": "BERT  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            196,
+            142,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ELVIS",
+          "padded": "ELVIS ",
+          "attrs": [
+            2,
+            255,
+            0,
+            134,
+            122,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DUKE",
+          "padded": "DUKE  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            165,
+            104,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "FELIX",
+          "padded": "FELIX ",
+          "attrs": [
+            128,
+            255,
+            0,
+            198,
+            124,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MARC",
+          "padded": "MARC  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            134,
+            108,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RALPH",
+          "padded": "RALPH ",
+          "attrs": [
+            2,
+            255,
+            2,
+            132,
+            138,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RON",
+          "padded": "RON   ",
+          "attrs": [
+            130,
+            255,
+            0,
+            99,
+            88,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JOEL",
+          "padded": "JOEL  ",
+          "attrs": [
+            0,
+            255,
+            128,
+            81,
+            104,
+            4,
+            8,
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "name": "AL",
+          "padded": "AL    ",
+          "attrs": [
+            1,
+            255,
+            40,
+            37,
+            62,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BUD",
+          "padded": "BUD   ",
+          "attrs": [
+            128,
+            255,
+            128,
+            48,
+            104,
+            0,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DAVID",
+          "padded": "DAVID ",
+          "attrs": [
+            0,
+            255,
+            128,
+            34,
+            72,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PAUL",
+          "padded": "PAUL  ",
+          "attrs": [
+            0,
+            255,
+            64,
+            197,
+            64,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MONTY",
+          "padded": "MONTY ",
+          "attrs": [
+            128,
+            255,
+            64,
+            55,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HAROLD",
+          "padded": "HAROLD",
+          "attrs": [
+            130,
+            255,
+            16,
+            51,
+            204,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ERIC",
+          "padded": "ERIC  ",
+          "attrs": [
+            1,
+            255,
+            0,
+            50,
+            136,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "PENNSYLVANIA",
+      "short_name": "PENNSYLVANIA",
+      "short_width": 13,
+      "short_attr": 1,
+      "ratings": [
+        2,
+        3,
+        2,
+        2
+      ],
+      "players": [
+        {
+          "name": "LEE",
+          "padded": "LEE   ",
+          "attrs": [
+            0,
+            255,
+            0,
+            133,
+            218,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "STEVE",
+          "padded": "STEVE ",
+          "attrs": [
+            130,
+            255,
+            0,
+            114,
+            231,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LUIS",
+          "padded": "LUIS  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            134,
+            168,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JOHN",
+          "padded": "JOHN  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            166,
+            170,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PHIL",
+          "padded": "PHIL  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            118,
+            105,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SHANE",
+          "padded": "SHANE ",
+          "attrs": [
+            2,
+            255,
+            132,
+            132,
+            196,
+            4,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WALLY",
+          "padded": "WALLY ",
+          "attrs": [
+            0,
+            255,
+            0,
+            56,
+            135,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WADE",
+          "padded": "WADE  ",
+          "attrs": [
+            0,
+            255,
+            36,
+            83,
+            139,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ANDRE",
+          "padded": "ANDRE ",
+          "attrs": [
+            128,
+            255,
+            36,
+            97,
+            202,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LEON",
+          "padded": "LEON  ",
+          "attrs": [
+            2,
+            255,
+            64,
+            55,
+            51,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DREW",
+          "padded": "DREW  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            131,
+            131,
+            3,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "GREG",
+          "padded": "GREG  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            82,
+            170,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JERRY",
+          "padded": "JERRY ",
+          "attrs": [
+            0,
+            255,
+            0,
+            97,
+            153,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JODY",
+          "padded": "JODY  ",
+          "attrs": [
+            1,
+            255,
+            128,
+            0,
+            68,
+            0,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SCOTT",
+          "padded": "SCOTT ",
+          "attrs": [
+            2,
+            255,
+            128,
+            34,
+            104,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "CHINESE TAIPEI",
+      "short_name": "CHINESE TAIPEI",
+      "short_width": 14,
+      "short_attr": 0,
+      "ratings": [
+        3,
+        2,
+        4,
+        3
+      ],
+      "players": [
+        {
+          "name": "LU",
+          "padded": "LU    ",
+          "attrs": [
+            1,
+            255,
+            0,
+            134,
+            132,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SONG",
+          "padded": "SONG  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            116,
+            117,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LI",
+          "padded": "LI    ",
+          "attrs": [
+            2,
+            255,
+            0,
+            136,
+            122,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WANG",
+          "padded": "WANG  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            204,
+            136,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "DONG",
+          "padded": "DONG  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            90,
+            166,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JIANG",
+          "padded": "JIANG ",
+          "attrs": [
+            130,
+            255,
+            0,
+            100,
+            202,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHEN",
+          "padded": "CHEN  ",
+          "attrs": [
+            2,
+            255,
+            32,
+            83,
+            140,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LIU",
+          "padded": "LIU   ",
+          "attrs": [
+            1,
+            255,
+            8,
+            40,
+            10,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "GUO",
+          "padded": "GUO   ",
+          "attrs": [
+            2,
+            255,
+            128,
+            23,
+            72,
+            0,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HONG",
+          "padded": "HONG  ",
+          "attrs": [
+            2,
+            255,
+            192,
+            165,
+            0,
+            4,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DING",
+          "padded": "DING  ",
+          "attrs": [
+            2,
+            255,
+            128,
+            0,
+            68,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ZHOU",
+          "padded": "ZHOU  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            38,
+            33,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "YANG",
+          "padded": "YANG  ",
+          "attrs": [
+            130,
+            255,
+            16,
+            129,
+            218,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SUN",
+          "padded": "SUN   ",
+          "attrs": [
+            2,
+            255,
+            0,
+            52,
+            102,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ZHUANG",
+          "padded": "ZHUANG",
+          "attrs": [
+            2,
+            255,
+            0,
+            67,
+            117,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "KOREA",
+      "short_name": "KOREA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        2,
+        3,
+        3,
+        3
+      ],
+      "players": [
+        {
+          "name": "LEE",
+          "padded": "LEE   ",
+          "attrs": [
+            130,
+            255,
+            0,
+            117,
+            203,
+            0,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KIM",
+          "padded": "KIM   ",
+          "attrs": [
+            2,
+            255,
+            0,
+            164,
+            134,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PARK",
+          "padded": "PARK  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            118,
+            122,
+            7,
+            0,
+            0,
+            3,
+            0
+          ]
+        },
+        {
+          "name": "JIN",
+          "padded": "JIN   ",
+          "attrs": [
+            128,
+            255,
+            0,
+            136,
+            67,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CHA",
+          "padded": "CHA   ",
+          "attrs": [
+            2,
+            255,
+            0,
+            71,
+            167,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HAN",
+          "padded": "HAN   ",
+          "attrs": [
+            130,
+            255,
+            132,
+            55,
+            136,
+            4,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BYUN",
+          "padded": "BYUN  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            83,
+            140,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HO",
+          "padded": "HO    ",
+          "attrs": [
+            2,
+            255,
+            36,
+            67,
+            170,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHUN",
+          "padded": "CHUN  ",
+          "attrs": [
+            1,
+            255,
+            40,
+            52,
+            42,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "YANG",
+          "padded": "YANG  ",
+          "attrs": [
+            2,
+            255,
+            128,
+            34,
+            102,
+            0,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KO",
+          "padded": "KO    ",
+          "attrs": [
+            128,
+            255,
+            64,
+            134,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NAM",
+          "padded": "NAM   ",
+          "attrs": [
+            2,
+            255,
+            64,
+            100,
+            130,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RHEE",
+          "padded": "RHEE  ",
+          "attrs": [
+            2,
+            255,
+            16,
+            52,
+            220,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHOI",
+          "padded": "CHOI  ",
+          "attrs": [
+            2,
+            255,
+            16,
+            34,
+            236,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "EUN",
+          "padded": "EUN   ",
+          "attrs": [
+            2,
+            255,
+            128,
+            0,
+            0,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "NEW YORK",
+      "short_name": "NEW YORK",
+      "short_width": 11,
+      "short_attr": 3,
+      "ratings": [
+        3,
+        4,
+        4,
+        4
+      ],
+      "players": [
+        {
+          "name": "TOMMY",
+          "padded": "TOMMY ",
+          "attrs": [
+            128,
+            255,
+            0,
+            136,
+            206,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "AMOS",
+          "padded": "AMOS  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            166,
+            172,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WARD",
+          "padded": "WARD  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            188,
+            186,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SAUL",
+          "padded": "SAUL  ",
+          "attrs": [
+            0,
+            255,
+            128,
+            173,
+            154,
+            3,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MIKE",
+          "padded": "MIKE  ",
+          "attrs": [
+            1,
+            255,
+            8,
+            91,
+            139,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CECIL",
+          "padded": "CECIL ",
+          "attrs": [
+            130,
+            255,
+            0,
+            117,
+            236,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "OLIVER",
+          "padded": "OLIVER",
+          "attrs": [
+            130,
+            255,
+            32,
+            102,
+            223,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CLARK",
+          "padded": "CLARK ",
+          "attrs": [
+            0,
+            255,
+            32,
+            72,
+            168,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "EZRA",
+          "padded": "EZRA  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            53,
+            169,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ANDY",
+          "padded": "ANDY  ",
+          "attrs": [
+            128,
+            255,
+            128,
+            70,
+            138,
+            1,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "REED",
+          "padded": "REED  ",
+          "attrs": [
+            1,
+            255,
+            128,
+            53,
+            154,
+            2,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "REGGIE",
+          "padded": "REGGIE",
+          "attrs": [
+            1,
+            255,
+            64,
+            45,
+            101,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROCKY",
+          "padded": "ROCKY ",
+          "attrs": [
+            2,
+            255,
+            16,
+            114,
+            138,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BOB",
+          "padded": "BOB   ",
+          "attrs": [
+            129,
+            255,
+            0,
+            56,
+            121,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WILBUR",
+          "padded": "WILBUR",
+          "attrs": [
+            128,
+            255,
+            16,
+            36,
+            255,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "CALIFORNIA",
+      "short_name": "CALIFORNIA",
+      "short_width": 12,
+      "short_attr": 2,
+      "ratings": [
+        2,
+        3,
+        4,
+        3
+      ],
+      "players": [
+        {
+          "name": "BIFF",
+          "padded": "BIFF  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            103,
+            168,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BUZZ",
+          "padded": "BUZZ  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            86,
+            104,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BRUCE",
+          "padded": "BRUCE ",
+          "attrs": [
+            1,
+            255,
+            0,
+            150,
+            238,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SID",
+          "padded": "SID   ",
+          "attrs": [
+            128,
+            255,
+            128,
+            142,
+            121,
+            4,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "TOM",
+          "padded": "TOM   ",
+          "attrs": [
+            129,
+            255,
+            8,
+            72,
+            75,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BILL",
+          "padded": "BILL  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            86,
+            137,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LEE",
+          "padded": "LEE   ",
+          "attrs": [
+            128,
+            255,
+            32,
+            84,
+            118,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TRAVIS",
+          "padded": "TRAVIS",
+          "attrs": [
+            1,
+            255,
+            0,
+            55,
+            167,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TYRONE",
+          "padded": "TYRONE",
+          "attrs": [
+            129,
+            255,
+            32,
+            35,
+            86,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LAMONT",
+          "padded": "LAMONT",
+          "attrs": [
+            130,
+            255,
+            128,
+            35,
+            86,
+            2,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LANCE",
+          "padded": "LANCE ",
+          "attrs": [
+            0,
+            255,
+            128,
+            64,
+            68,
+            1,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ERIC",
+          "padded": "ERIC  ",
+          "attrs": [
+            130,
+            255,
+            64,
+            133,
+            103,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MAX",
+          "padded": "MAX   ",
+          "attrs": [
+            2,
+            255,
+            0,
+            86,
+            87,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DEXTER",
+          "padded": "DEXTER",
+          "attrs": [
+            130,
+            255,
+            16,
+            68,
+            198,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LLOYD",
+          "padded": "LLOYD ",
+          "attrs": [
+            1,
+            255,
+            64,
+            58,
+            53,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "TEXAS",
+      "short_name": "TEXAS",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "players": [
+        {
+          "name": "AUSTIN",
+          "padded": "AUSTIN",
+          "attrs": [
+            128,
+            255,
+            0,
+            168,
+            204,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "STAN",
+          "padded": "STAN  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            134,
+            174,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DANIEL",
+          "padded": "DANIEL",
+          "attrs": [
+            128,
+            255,
+            0,
+            140,
+            136,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WILL",
+          "padded": "WILL  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            190,
+            101,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            1,
+            255,
+            8,
+            93,
+            86,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BUCK",
+          "padded": "BUCK  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            121,
+            156,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BO",
+          "padded": "BO    ",
+          "attrs": [
+            0,
+            255,
+            32,
+            101,
+            187,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RICH",
+          "padded": "RICH  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            116,
+            202,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JOSEPH",
+          "padded": "JOSEPH",
+          "attrs": [
+            128,
+            255,
+            160,
+            194,
+            122,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "COLT",
+          "padded": "COLT  ",
+          "attrs": [
+            128,
+            255,
+            192,
+            130,
+            137,
+            1,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DILTON",
+          "padded": "DILTON",
+          "attrs": [
+            2,
+            255,
+            128,
+            68,
+            35,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NORMAN",
+          "padded": "NORMAN",
+          "attrs": [
+            0,
+            255,
+            64,
+            134,
+            153,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHRIS",
+          "padded": "CHRIS ",
+          "attrs": [
+            0,
+            255,
+            0,
+            87,
+            119,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "OSCAR",
+          "padded": "OSCAR ",
+          "attrs": [
+            2,
+            255,
+            64,
+            60,
+            86,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SHAUN",
+          "padded": "SHAUN ",
+          "attrs": [
+            129,
+            255,
+            16,
+            66,
+            236,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "HAWAII",
+      "short_name": "HAWAII",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "players": [
+        {
+          "name": "THOMAS",
+          "padded": "THOMAS",
+          "attrs": [
+            1,
+            255,
+            0,
+            200,
+            137,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "STEVEN",
+          "padded": "STEVEN",
+          "attrs": [
+            129,
+            255,
+            0,
+            150,
+            117,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "AARON",
+          "padded": "AARON ",
+          "attrs": [
+            129,
+            255,
+            0,
+            215,
+            86,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ADAM",
+          "padded": "ADAM  ",
+          "attrs": [
+            1,
+            255,
+            0,
+            174,
+            52,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ALAN",
+          "padded": "ALAN  ",
+          "attrs": [
+            1,
+            255,
+            0,
+            142,
+            66,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GLEN",
+          "padded": "GLEN  ",
+          "attrs": [
+            1,
+            255,
+            0,
+            89,
+            51,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HORACE",
+          "padded": "HORACE",
+          "attrs": [
+            0,
+            255,
+            0,
+            56,
+            36,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TIMMY",
+          "padded": "TIMMY ",
+          "attrs": [
+            128,
+            255,
+            32,
+            114,
+            88,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JERRY",
+          "padded": "JERRY ",
+          "attrs": [
+            0,
+            255,
+            160,
+            49,
+            69,
+            0,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CLIFF",
+          "padded": "CLIFF ",
+          "attrs": [
+            128,
+            255,
+            160,
+            35,
+            84,
+            2,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BYRON",
+          "padded": "BYRON ",
+          "attrs": [
+            0,
+            255,
+            128,
+            65,
+            100,
+            3,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RICK",
+          "padded": "RICK  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            120,
+            35,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LARRY",
+          "padded": "LARRY ",
+          "attrs": [
+            129,
+            255,
+            0,
+            90,
+            50,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DOUG",
+          "padded": "DOUG  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            60,
+            16,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ARCHIE",
+          "padded": "ARCHIE",
+          "attrs": [
+            129,
+            255,
+            64,
+            15,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "SPAIN",
+      "short_name": "SPAIN",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        4,
+        2,
+        2
+      ],
+      "players": [
+        {
+          "name": "ENRICO",
+          "padded": "ENRICO",
+          "attrs": [
+            128,
+            255,
+            0,
+            168,
+            248,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "NIETO",
+          "padded": "NIETO ",
+          "attrs": [
+            2,
+            255,
+            0,
+            149,
+            198,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JAIME",
+          "padded": "JAIME ",
+          "attrs": [
+            129,
+            255,
+            0,
+            140,
+            165,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VICTOR",
+          "padded": "VICTOR",
+          "attrs": [
+            1,
+            255,
+            0,
+            125,
+            146,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HECTOR",
+          "padded": "HECTOR",
+          "attrs": [
+            128,
+            255,
+            0,
+            90,
+            212,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SANCHE",
+          "padded": "SANCHE",
+          "attrs": [
+            2,
+            255,
+            32,
+            99,
+            231,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SAMBO",
+          "padded": "SAMBO ",
+          "attrs": [
+            129,
+            255,
+            8,
+            102,
+            135,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHUS",
+          "padded": "CHUS  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            117,
+            136,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RUDY",
+          "padded": "RUDY  ",
+          "attrs": [
+            0,
+            255,
+            160,
+            66,
+            135,
+            3,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ESTAN",
+          "padded": "ESTAN ",
+          "attrs": [
+            128,
+            255,
+            160,
+            33,
+            131,
+            2,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MIGUEL",
+          "padded": "MIGUEL",
+          "attrs": [
+            2,
+            255,
+            128,
+            49,
+            133,
+            1,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "GUY",
+          "padded": "GUY   ",
+          "attrs": [
+            1,
+            255,
+            64,
+            132,
+            153,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LUIZ",
+          "padded": "LUIZ  ",
+          "attrs": [
+            0,
+            255,
+            64,
+            71,
+            168,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "AUGUST",
+          "padded": "AUGUST",
+          "attrs": [
+            130,
+            255,
+            16,
+            82,
+            242,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DARI",
+          "padded": "DARI  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            66,
+            198,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "PUERTORICO",
+      "short_name": "PUERTORICO",
+      "short_width": 12,
+      "short_attr": 2,
+      "ratings": [
+        1,
+        2,
+        2,
+        3
+      ],
+      "players": [
+        {
+          "name": "EMILLO",
+          "padded": "EMILLO",
+          "attrs": [
+            130,
+            255,
+            0,
+            82,
+            138,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RICO",
+          "padded": "RICO  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            67,
+            104,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LUCIO",
+          "padded": "LUCIO ",
+          "attrs": [
+            0,
+            255,
+            0,
+            120,
+            92,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PEPE",
+          "padded": "PEPE  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            135,
+            73,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JORGE",
+          "padded": "JORGE ",
+          "attrs": [
+            129,
+            255,
+            0,
+            101,
+            92,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ANDRES",
+          "padded": "ANDRES",
+          "attrs": [
+            2,
+            255,
+            0,
+            67,
+            42,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MANNY",
+          "padded": "MANNY ",
+          "attrs": [
+            0,
+            255,
+            0,
+            52,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LANDO",
+          "padded": "LANDO ",
+          "attrs": [
+            128,
+            255,
+            32,
+            34,
+            41,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BRIMO",
+          "padded": "BRIMO ",
+          "attrs": [
+            0,
+            255,
+            160,
+            16,
+            24,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MERLO",
+          "padded": "MERLO ",
+          "attrs": [
+            0,
+            255,
+            128,
+            33,
+            73,
+            3,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RENE",
+          "padded": "RENE  ",
+          "attrs": [
+            130,
+            255,
+            128,
+            49,
+            58,
+            1,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PONSO",
+          "padded": "PONSO ",
+          "attrs": [
+            130,
+            255,
+            0,
+            35,
+            88,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TARUGO",
+          "padded": "TARUGO",
+          "attrs": [
+            2,
+            255,
+            0,
+            64,
+            76,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KIKI",
+          "padded": "KIKI  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            9,
+            106,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RUBEN",
+          "padded": "RUBEN ",
+          "attrs": [
+            0,
+            255,
+            64,
+            85,
+            40,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "MEXICO",
+      "short_name": "MEXICO",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        4,
+        1,
+        1
+      ],
+      "players": [
+        {
+          "name": "JUAN",
+          "padded": "JUAN  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            136,
+            244,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PEDRO",
+          "padded": "PEDRO ",
+          "attrs": [
+            2,
+            255,
+            0,
+            121,
+            162,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PACO",
+          "padded": "PACO  ",
+          "attrs": [
+            1,
+            255,
+            0,
+            206,
+            130,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BENITO",
+          "padded": "BENITO",
+          "attrs": [
+            129,
+            255,
+            0,
+            174,
+            145,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RAUL",
+          "padded": "RAUL  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            190,
+            130,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ERNIE",
+          "padded": "ERNIE ",
+          "attrs": [
+            0,
+            255,
+            0,
+            105,
+            181,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHICO",
+          "padded": "CHICO ",
+          "attrs": [
+            128,
+            255,
+            0,
+            120,
+            199,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PANCHO",
+          "padded": "PANCHO",
+          "attrs": [
+            2,
+            255,
+            32,
+            90,
+            118,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RAMON",
+          "padded": "RAMON ",
+          "attrs": [
+            0,
+            255,
+            160,
+            68,
+            113,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MANUEL",
+          "padded": "MANUEL",
+          "attrs": [
+            130,
+            255,
+            128,
+            135,
+            145,
+            1,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JULIO",
+          "padded": "JULIO ",
+          "attrs": [
+            2,
+            255,
+            128,
+            106,
+            128,
+            2,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CARLOS",
+          "padded": "CARLOS",
+          "attrs": [
+            128,
+            255,
+            0,
+            41,
+            116,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JOSE",
+          "padded": "JOSE  ",
+          "attrs": [
+            2,
+            255,
+            64,
+            120,
+            161,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ESSE",
+          "padded": "ESSE  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            103,
+            128,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HOSE",
+          "padded": "HOSE  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            76,
+            145,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "CANADA",
+      "short_name": "CANADA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        3,
+        3,
+        4
+      ],
+      "players": [
+        {
+          "name": "CHUCK",
+          "padded": "CHUCK ",
+          "attrs": [
+            128,
+            255,
+            0,
+            169,
+            207,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "DONALD",
+          "padded": "DONALD",
+          "attrs": [
+            0,
+            255,
+            0,
+            150,
+            142,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PETER",
+          "padded": "PETER ",
+          "attrs": [
+            129,
+            255,
+            0,
+            205,
+            137,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ALBERT",
+          "padded": "ALBERT",
+          "attrs": [
+            1,
+            255,
+            0,
+            223,
+            120,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "FRED",
+          "padded": "FRED  ",
+          "attrs": [
+            0,
+            255,
+            8,
+            190,
+            105,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GEORGE",
+          "padded": "GEORGE",
+          "attrs": [
+            2,
+            255,
+            0,
+            137,
+            172,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROBERT",
+          "padded": "ROBERT",
+          "attrs": [
+            128,
+            255,
+            0,
+            134,
+            158,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "EARL",
+          "padded": "EARL  ",
+          "attrs": [
+            130,
+            255,
+            32,
+            117,
+            174,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JACK",
+          "padded": "JACK  ",
+          "attrs": [
+            128,
+            255,
+            160,
+            97,
+            141,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ANDREW",
+          "padded": "ANDREW",
+          "attrs": [
+            128,
+            255,
+            128,
+            82,
+            104,
+            3,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RONALD",
+          "padded": "RONALD",
+          "attrs": [
+            2,
+            255,
+            128,
+            68,
+            73,
+            1,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JAY",
+          "padded": "JAY   ",
+          "attrs": [
+            128,
+            255,
+            0,
+            105,
+            56,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MICKEY",
+          "padded": "MICKEY",
+          "attrs": [
+            129,
+            255,
+            64,
+            122,
+            151,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LOUIE",
+          "padded": "LOUIE ",
+          "attrs": [
+            2,
+            255,
+            0,
+            86,
+            140,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "FLOYD",
+          "padded": "FLOYD ",
+          "attrs": [
+            129,
+            255,
+            64,
+            44,
+            42,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "ITALY",
+      "short_name": "ITALY",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "players": [
+        {
+          "name": "LOGI",
+          "padded": "LOGI  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            146,
+            165,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ALDO",
+          "padded": "ALDO  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            115,
+            117,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PHIL",
+          "padded": "PHIL  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            132,
+            135,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ANGELO",
+          "padded": "ANGELO",
+          "attrs": [
+            1,
+            255,
+            0,
+            58,
+            51,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "TONY",
+          "padded": "TONY  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            99,
+            99,
+            0,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VINCE",
+          "padded": "VINCE ",
+          "attrs": [
+            2,
+            255,
+            0,
+            83,
+            132,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "FRANK",
+          "padded": "FRANK ",
+          "attrs": [
+            128,
+            255,
+            36,
+            82,
+            82,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NICK",
+          "padded": "NICK  ",
+          "attrs": [
+            2,
+            255,
+            36,
+            66,
+            85,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MARIO",
+          "padded": "MARIO ",
+          "attrs": [
+            128,
+            255,
+            128,
+            50,
+            49,
+            0,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "EMILE",
+          "padded": "EMILE ",
+          "attrs": [
+            0,
+            255,
+            196,
+            134,
+            112,
+            3,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JAMES",
+          "padded": "JAMES ",
+          "attrs": [
+            0,
+            255,
+            128,
+            0,
+            51,
+            0,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LUKE",
+          "padded": "LUKE  ",
+          "attrs": [
+            2,
+            255,
+            64,
+            26,
+            17,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NATHAN",
+          "padded": "NATHAN",
+          "attrs": [
+            0,
+            255,
+            64,
+            114,
+            98,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MATT",
+          "padded": "MATT  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            0,
+            184,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PAOLO",
+          "padded": "PAOLO ",
+          "attrs": [
+            128,
+            255,
+            0,
+            51,
+            100,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "ILLINOIS",
+      "short_name": "ILLINOIS",
+      "short_width": 11,
+      "short_attr": 3,
+      "ratings": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "players": [
+        {
+          "name": "CONRAD",
+          "padded": "CONRAD",
+          "attrs": [
+            130,
+            255,
+            0,
+            134,
+            120,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ANDRE",
+          "padded": "ANDRE ",
+          "attrs": [
+            2,
+            255,
+            0,
+            101,
+            101,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROGER",
+          "padded": "ROGER ",
+          "attrs": [
+            0,
+            255,
+            0,
+            119,
+            135,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GREG",
+          "padded": "GREG  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            174,
+            35,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "EDGER",
+          "padded": "EDGER ",
+          "attrs": [
+            0,
+            255,
+            0,
+            149,
+            121,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HUEY",
+          "padded": "HUEY  ",
+          "attrs": [
+            1,
+            255,
+            32,
+            100,
+            136,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HARRY",
+          "padded": "HARRY ",
+          "attrs": [
+            0,
+            255,
+            160,
+            82,
+            135,
+            4,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HAL",
+          "padded": "HAL   ",
+          "attrs": [
+            1,
+            255,
+            0,
+            83,
+            102,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LUTHER",
+          "padded": "LUTHER",
+          "attrs": [
+            2,
+            255,
+            32,
+            65,
+            87,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KEN",
+          "padded": "KEN   ",
+          "attrs": [
+            128,
+            255,
+            128,
+            51,
+            103,
+            2,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BORIS",
+          "padded": "BORIS ",
+          "attrs": [
+            128,
+            255,
+            128,
+            35,
+            85,
+            3,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "STAURT",
+          "padded": "STAURT",
+          "attrs": [
+            2,
+            255,
+            0,
+            84,
+            72,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TERRY",
+          "padded": "TERRY ",
+          "attrs": [
+            129,
+            255,
+            16,
+            114,
+            88,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WAYNE",
+          "padded": "WAYNE ",
+          "attrs": [
+            128,
+            255,
+            64,
+            71,
+            129,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SCOTT",
+          "padded": "SCOTT ",
+          "attrs": [
+            2,
+            255,
+            64,
+            42,
+            36,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "FLORIDA",
+      "short_name": "FLORIDA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        2,
+        3,
+        3
+      ],
+      "players": [
+        {
+          "name": "DON",
+          "padded": "DON   ",
+          "attrs": [
+            0,
+            255,
+            0,
+            194,
+            137,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ALEX",
+          "padded": "ALEX  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            118,
+            119,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ARNOLD",
+          "padded": "ARNOLD",
+          "attrs": [
+            129,
+            255,
+            0,
+            138,
+            88,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "IRVING",
+          "padded": "IRVING",
+          "attrs": [
+            0,
+            255,
+            0,
+            189,
+            106,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CALVIN",
+          "padded": "CALVIN",
+          "attrs": [
+            129,
+            255,
+            128,
+            104,
+            152,
+            2,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KENT",
+          "padded": "KENT  ",
+          "attrs": [
+            0,
+            255,
+            32,
+            114,
+            202,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BARRY",
+          "padded": "BARRY ",
+          "attrs": [
+            2,
+            255,
+            0,
+            84,
+            72,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WALLY",
+          "padded": "WALLY ",
+          "attrs": [
+            128,
+            255,
+            0,
+            73,
+            119,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "GERALD",
+          "padded": "GERALD",
+          "attrs": [
+            128,
+            255,
+            32,
+            51,
+            51,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WARREN",
+          "padded": "WARREN",
+          "attrs": [
+            0,
+            255,
+            128,
+            32,
+            69,
+            2,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CARL",
+          "padded": "CARL  ",
+          "attrs": [
+            1,
+            255,
+            128,
+            49,
+            103,
+            1,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ISAAC",
+          "padded": "ISAAC ",
+          "attrs": [
+            128,
+            255,
+            0,
+            115,
+            88,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RUPERT",
+          "padded": "RUPERT",
+          "attrs": [
+            129,
+            255,
+            64,
+            42,
+            34,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KEVIN",
+          "padded": "KEVIN ",
+          "attrs": [
+            128,
+            255,
+            64,
+            83,
+            102,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LOWELL",
+          "padded": "LOWELL",
+          "attrs": [
+            130,
+            255,
+            0,
+            49,
+            126,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "AUSTRALIA",
+      "short_name": "AUSTRALIA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        2,
+        1,
+        3,
+        1
+      ],
+      "players": [
+        {
+          "name": "HARRIS",
+          "padded": "HARRIS",
+          "attrs": [
+            0,
+            255,
+            32,
+            132,
+            157,
+            4,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WILSON",
+          "padded": "WILSON",
+          "attrs": [
+            1,
+            255,
+            64,
+            53,
+            89,
+            3,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TAYLOR",
+          "padded": "TAYLOR",
+          "attrs": [
+            2,
+            255,
+            8,
+            206,
+            150,
+            1,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BROWN ",
+          "padded": "BROWN ",
+          "attrs": [
+            130,
+            255,
+            8,
+            121,
+            56,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CAMPBE",
+          "padded": "CAMPBE",
+          "attrs": [
+            128,
+            255,
+            32,
+            180,
+            68,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MURPHY",
+          "padded": "MURPHY",
+          "attrs": [
+            1,
+            255,
+            8,
+            130,
+            196,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KELLY ",
+          "padded": "KELLY ",
+          "attrs": [
+            130,
+            255,
+            64,
+            218,
+            123,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RYAN  ",
+          "padded": "RYAN  ",
+          "attrs": [
+            1,
+            255,
+            0,
+            161,
+            192,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WALKER",
+          "padded": "WALKER",
+          "attrs": [
+            1,
+            255,
+            16,
+            62,
+            213,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HUGHES",
+          "padded": "HUGHES",
+          "attrs": [
+            128,
+            255,
+            16,
+            62,
+            61,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HOWARD",
+          "padded": "HOWARD",
+          "attrs": [
+            2,
+            255,
+            16,
+            103,
+            140,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KNIGHT",
+          "padded": "KNIGHT",
+          "attrs": [
+            130,
+            255,
+            32,
+            177,
+            170,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MOORE ",
+          "padded": "MOORE ",
+          "attrs": [
+            128,
+            255,
+            16,
+            42,
+            105,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PERRY ",
+          "padded": "PERRY ",
+          "attrs": [
+            128,
+            255,
+            0,
+            208,
+            50,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROBERT",
+          "padded": "ROBERT",
+          "attrs": [
+            1,
+            255,
+            32,
+            91,
+            118,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SMITH ",
+          "padded": "SMITH ",
+          "attrs": [
+            0,
+            255,
+            16,
+            52,
+            43,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BENNET",
+          "padded": "BENNET",
+          "attrs": [
+            130,
+            255,
+            0,
+            194,
+            103,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GARCIA",
+          "padded": "GARCIA",
+          "attrs": [
+            1,
+            255,
+            32,
+            137,
+            64,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HARRIS",
+          "padded": "HARRIS",
+          "attrs": [
+            128,
+            255,
+            128,
+            135,
+            185,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HAYES ",
+          "padded": "HAYES ",
+          "attrs": [
+            2,
+            255,
+            8,
+            120,
+            147,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "CUBA",
+      "short_name": "CUBA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        2,
+        1,
+        3,
+        3
+      ],
+      "players": [
+        {
+          "name": "GARCIA",
+          "padded": "GARCIA",
+          "attrs": [
+            0,
+            255,
+            128,
+            150,
+            168,
+            3,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RODRIG",
+          "padded": "RODRIG",
+          "attrs": [
+            128,
+            255,
+            8,
+            209,
+            138,
+            1,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            2,
+            255,
+            8,
+            124,
+            54,
+            3,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LOPEZ ",
+          "padded": "LOPEZ ",
+          "attrs": [
+            129,
+            255,
+            0,
+            186,
+            161,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "GONZAL",
+          "padded": "GONZAL",
+          "attrs": [
+            0,
+            255,
+            16,
+            166,
+            161,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PEREZ ",
+          "padded": "PEREZ ",
+          "attrs": [
+            128,
+            255,
+            128,
+            44,
+            90,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SANCHE",
+          "padded": "SANCHE",
+          "attrs": [
+            129,
+            255,
+            8,
+            211,
+            110,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RAMOS ",
+          "padded": "RAMOS ",
+          "attrs": [
+            128,
+            255,
+            64,
+            60,
+            115,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TORRES",
+          "padded": "TORRES",
+          "attrs": [
+            0,
+            255,
+            16,
+            185,
+            150,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DIAZ  ",
+          "padded": "DIAZ  ",
+          "attrs": [
+            1,
+            255,
+            32,
+            151,
+            212,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KENNED",
+          "padded": "KENNED",
+          "attrs": [
+            130,
+            255,
+            16,
+            172,
+            147,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MILLER",
+          "padded": "MILLER",
+          "attrs": [
+            1,
+            255,
+            0,
+            43,
+            154,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PATTER",
+          "padded": "PATTER",
+          "attrs": [
+            2,
+            255,
+            128,
+            95,
+            203,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "REYNOL",
+          "padded": "REYNOL",
+          "attrs": [
+            0,
+            255,
+            64,
+            61,
+            145,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SHAW  ",
+          "padded": "SHAW  ",
+          "attrs": [
+            129,
+            255,
+            64,
+            85,
+            94,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "THOMPS",
+          "padded": "THOMPS",
+          "attrs": [
+            0,
+            255,
+            16,
+            158,
+            69,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WHITE ",
+          "padded": "WHITE ",
+          "attrs": [
+            129,
+            255,
+            16,
+            166,
+            125,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ANDERS",
+          "padded": "ANDERS",
+          "attrs": [
+            129,
+            255,
+            32,
+            43,
+            188,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ELLIS ",
+          "padded": "ELLIS ",
+          "attrs": [
+            130,
+            255,
+            32,
+            138,
+            145,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HENDRI",
+          "padded": "HENDRI",
+          "attrs": [
+            2,
+            255,
+            0,
+            220,
+            154,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "DOMINICAN REP",
+      "short_name": "DOMINICAN REP",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        3,
+        1,
+        2
+      ],
+      "players": [
+        {
+          "name": "SANTOS",
+          "padded": "SANTOS",
+          "attrs": [
+            0,
+            255,
+            0,
+            115,
+            167,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "REYES ",
+          "padded": "REYES ",
+          "attrs": [
+            128,
+            255,
+            16,
+            113,
+            153,
+            4,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CRUZ  ",
+          "padded": "CRUZ  ",
+          "attrs": [
+            128,
+            255,
+            32,
+            155,
+            44,
+            2,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JIMENE",
+          "padded": "JIMENE",
+          "attrs": [
+            2,
+            255,
+            16,
+            54,
+            185,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MENDEZ",
+          "padded": "MENDEZ",
+          "attrs": [
+            2,
+            255,
+            128,
+            143,
+            104,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VARGAS",
+          "padded": "VARGAS",
+          "attrs": [
+            128,
+            255,
+            128,
+            135,
+            65,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CASTIL",
+          "padded": "CASTIL",
+          "attrs": [
+            1,
+            255,
+            64,
+            169,
+            91,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ORTIZ ",
+          "padded": "ORTIZ ",
+          "attrs": [
+            130,
+            255,
+            16,
+            104,
+            66,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROSARI",
+          "padded": "ROSARI",
+          "attrs": [
+            130,
+            255,
+            64,
+            107,
+            175,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PENA  ",
+          "padded": "PENA  ",
+          "attrs": [
+            130,
+            255,
+            128,
+            194,
+            180,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            129,
+            255,
+            0,
+            162,
+            189,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "OLIVER",
+          "padded": "OLIVER",
+          "attrs": [
+            130,
+            255,
+            8,
+            86,
+            201,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "QUINN ",
+          "padded": "QUINN ",
+          "attrs": [
+            1,
+            255,
+            0,
+            57,
+            207,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SANDER",
+          "padded": "SANDER",
+          "attrs": [
+            0,
+            255,
+            8,
+            143,
+            55,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TAYLOR",
+          "padded": "TAYLOR",
+          "attrs": [
+            0,
+            255,
+            0,
+            159,
+            144,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WELLS ",
+          "padded": "WELLS ",
+          "attrs": [
+            2,
+            255,
+            0,
+            96,
+            97,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ADAMS ",
+          "padded": "ADAMS ",
+          "attrs": [
+            2,
+            255,
+            0,
+            85,
+            166,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "DIXON ",
+          "padded": "DIXON ",
+          "attrs": [
+            2,
+            255,
+            16,
+            219,
+            162,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HARRIS",
+          "padded": "HARRIS",
+          "attrs": [
+            0,
+            255,
+            32,
+            208,
+            48,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JOHNSO",
+          "padded": "JOHNSO",
+          "attrs": [
+            2,
+            255,
+            128,
+            49,
+            56,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "VENEZUELA",
+      "short_name": "VENEZUELA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        1,
+        4,
+        2
+      ],
+      "players": [
+        {
+          "name": "HERNAN",
+          "padded": "HERNAN",
+          "attrs": [
+            128,
+            255,
+            0,
+            150,
+            97,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SUAREZ",
+          "padded": "SUAREZ",
+          "attrs": [
+            130,
+            255,
+            8,
+            212,
+            41,
+            3,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BLANCO",
+          "padded": "BLANCO",
+          "attrs": [
+            128,
+            255,
+            64,
+            196,
+            74,
+            1,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RIVAS ",
+          "padded": "RIVAS ",
+          "attrs": [
+            1,
+            255,
+            64,
+            63,
+            63,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MORA  ",
+          "padded": "MORA  ",
+          "attrs": [
+            1,
+            255,
+            16,
+            210,
+            176,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SILVA ",
+          "padded": "SILVA ",
+          "attrs": [
+            130,
+            255,
+            128,
+            217,
+            125,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ACOSTA",
+          "padded": "ACOSTA",
+          "attrs": [
+            130,
+            255,
+            0,
+            143,
+            121,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LEON  ",
+          "padded": "LEON  ",
+          "attrs": [
+            129,
+            255,
+            32,
+            87,
+            148,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PARRA ",
+          "padded": "PARRA ",
+          "attrs": [
+            128,
+            255,
+            16,
+            169,
+            141,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VEGA  ",
+          "padded": "VEGA  ",
+          "attrs": [
+            129,
+            255,
+            8,
+            128,
+            49,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MURPHY",
+          "padded": "MURPHY",
+          "attrs": [
+            1,
+            255,
+            32,
+            166,
+            41,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PORTER",
+          "padded": "PORTER",
+          "attrs": [
+            0,
+            255,
+            32,
+            45,
+            143,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROSS  ",
+          "padded": "ROSS  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            79,
+            181,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "STONE ",
+          "padded": "STONE ",
+          "attrs": [
+            128,
+            255,
+            32,
+            170,
+            170,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WATSON",
+          "padded": "WATSON",
+          "attrs": [
+            128,
+            255,
+            64,
+            148,
+            201,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "YOUNG ",
+          "padded": "YOUNG ",
+          "attrs": [
+            130,
+            255,
+            16,
+            157,
+            147,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "COLEMA",
+          "padded": "COLEMA",
+          "attrs": [
+            128,
+            255,
+            8,
+            199,
+            84,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HALL  ",
+          "padded": "HALL  ",
+          "attrs": [
+            1,
+            255,
+            32,
+            161,
+            151,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JAMES ",
+          "padded": "JAMES ",
+          "attrs": [
+            128,
+            255,
+            64,
+            170,
+            59,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LEWIS ",
+          "padded": "LEWIS ",
+          "attrs": [
+            0,
+            255,
+            128,
+            43,
+            135,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "PANAMA",
+      "short_name": "PANAMA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        2,
+        1,
+        3
+      ],
+      "players": [
+        {
+          "name": "CHAVEZ",
+          "padded": "CHAVEZ",
+          "attrs": [
+            0,
+            255,
+            0,
+            73,
+            141,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "AROSEM",
+          "padded": "AROSEM",
+          "attrs": [
+            1,
+            255,
+            16,
+            201,
+            44,
+            2,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BETHAN",
+          "padded": "BETHAN",
+          "attrs": [
+            0,
+            255,
+            0,
+            95,
+            126,
+            1,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "QUINTE",
+          "padded": "QUINTE",
+          "attrs": [
+            2,
+            255,
+            128,
+            137,
+            162,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GOMEZ ",
+          "padded": "GOMEZ ",
+          "attrs": [
+            130,
+            255,
+            128,
+            48,
+            61,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MURGAS",
+          "padded": "MURGAS",
+          "attrs": [
+            129,
+            255,
+            0,
+            131,
+            147,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CEDENO",
+          "padded": "CEDENO",
+          "attrs": [
+            0,
+            255,
+            64,
+            93,
+            84,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ESPINO",
+          "padded": "ESPINO",
+          "attrs": [
+            1,
+            255,
+            0,
+            126,
+            186,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BARRIO",
+          "padded": "BARRIO",
+          "attrs": [
+            1,
+            255,
+            8,
+            51,
+            60,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SAAVED",
+          "padded": "SAAVED",
+          "attrs": [
+            130,
+            255,
+            128,
+            66,
+            77,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PETERS",
+          "padded": "PETERS",
+          "attrs": [
+            0,
+            255,
+            128,
+            152,
+            181,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ROBINS",
+          "padded": "ROBINS",
+          "attrs": [
+            1,
+            255,
+            128,
+            202,
+            146,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SNYDER",
+          "padded": "SNYDER",
+          "attrs": [
+            1,
+            255,
+            32,
+            209,
+            155,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WALLAC",
+          "padded": "WALLAC",
+          "attrs": [
+            130,
+            255,
+            8,
+            177,
+            66,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WOODS ",
+          "padded": "WOODS ",
+          "attrs": [
+            130,
+            255,
+            64,
+            217,
+            50,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BROOKS",
+          "padded": "BROOKS",
+          "attrs": [
+            2,
+            255,
+            0,
+            117,
+            165,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GRAY  ",
+          "padded": "GRAY  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            190,
+            68,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HUDSON",
+          "padded": "HUDSON",
+          "attrs": [
+            2,
+            255,
+            16,
+            187,
+            166,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LARSON",
+          "padded": "LARSON",
+          "attrs": [
+            0,
+            255,
+            8,
+            47,
+            61,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MORGAN",
+          "padded": "MORGAN",
+          "attrs": [
+            129,
+            255,
+            0,
+            81,
+            174,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "NETHERLANDS",
+      "short_name": "NETHERLANDS",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "players": [
+        {
+          "name": "DEJONG",
+          "padded": "DEJONG",
+          "attrs": [
+            0,
+            255,
+            32,
+            130,
+            70,
+            3,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VANDYK",
+          "padded": "VANDYK",
+          "attrs": [
+            129,
+            255,
+            32,
+            106,
+            193,
+            1,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BAKKER",
+          "padded": "BAKKER",
+          "attrs": [
+            128,
+            255,
+            128,
+            152,
+            73,
+            4,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "VISSER",
+          "padded": "VISSER",
+          "attrs": [
+            128,
+            255,
+            128,
+            215,
+            93,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SMIT  ",
+          "padded": "SMIT  ",
+          "attrs": [
+            130,
+            255,
+            8,
+            126,
+            41,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MEIJER",
+          "padded": "MEIJER",
+          "attrs": [
+            2,
+            255,
+            32,
+            129,
+            114,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "DEBOER",
+          "padded": "DEBOER",
+          "attrs": [
+            128,
+            255,
+            128,
+            96,
+            136,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MULDER",
+          "padded": "MULDER",
+          "attrs": [
+            130,
+            255,
+            8,
+            51,
+            121,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GROOT ",
+          "padded": "GROOT ",
+          "attrs": [
+            2,
+            255,
+            8,
+            51,
+            165,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JANSEN",
+          "padded": "JANSEN",
+          "attrs": [
+            0,
+            255,
+            0,
+            177,
+            114,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RICE  ",
+          "padded": "RICE  ",
+          "attrs": [
+            128,
+            255,
+            0,
+            136,
+            56,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SIMMON",
+          "padded": "SIMMON",
+          "attrs": [
+            1,
+            255,
+            0,
+            131,
+            100,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TURNER",
+          "padded": "TURNER",
+          "attrs": [
+            0,
+            255,
+            0,
+            180,
+            107,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WILLIA",
+          "padded": "WILLIA",
+          "attrs": [
+            129,
+            255,
+            128,
+            76,
+            169,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BAKER ",
+          "padded": "BAKER ",
+          "attrs": [
+            0,
+            255,
+            8,
+            195,
+            77,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "FOSTER",
+          "padded": "FOSTER",
+          "attrs": [
+            128,
+            255,
+            64,
+            192,
+            123,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HILL  ",
+          "padded": "HILL  ",
+          "attrs": [
+            130,
+            255,
+            8,
+            214,
+            71,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KING  ",
+          "padded": "KING  ",
+          "attrs": [
+            129,
+            255,
+            16,
+            208,
+            132,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MITCHE",
+          "padded": "MITCHE",
+          "attrs": [
+            128,
+            255,
+            8,
+            136,
+            113,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PEARSO",
+          "padded": "PEARSO",
+          "attrs": [
+            2,
+            255,
+            0,
+            110,
+            130,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "GERMANY",
+      "short_name": "GERMANY",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        1,
+        4,
+        4,
+        1
+      ],
+      "players": [
+        {
+          "name": "MULLER",
+          "padded": "MULLER",
+          "attrs": [
+            129,
+            255,
+            16,
+            56,
+            141,
+            3,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SCHMID",
+          "padded": "SCHMID",
+          "attrs": [
+            1,
+            255,
+            8,
+            132,
+            183,
+            4,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SCHNEI",
+          "padded": "SCHNEI",
+          "attrs": [
+            129,
+            255,
+            64,
+            49,
+            98,
+            2,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "FISCHE",
+          "padded": "FISCHE",
+          "attrs": [
+            129,
+            255,
+            0,
+            188,
+            52,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WEBER ",
+          "padded": "WEBER ",
+          "attrs": [
+            1,
+            255,
+            8,
+            104,
+            55,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MEYER ",
+          "padded": "MEYER ",
+          "attrs": [
+            1,
+            255,
+            64,
+            107,
+            144,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WAGNER",
+          "padded": "WAGNER",
+          "attrs": [
+            2,
+            255,
+            8,
+            158,
+            191,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BECKER",
+          "padded": "BECKER",
+          "attrs": [
+            129,
+            255,
+            128,
+            184,
+            101,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HOFFMA",
+          "padded": "HOFFMA",
+          "attrs": [
+            129,
+            255,
+            0,
+            91,
+            110,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KOCH  ",
+          "padded": "KOCH  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            79,
+            105,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SCOTT ",
+          "padded": "SCOTT ",
+          "attrs": [
+            2,
+            255,
+            128,
+            203,
+            117,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "THOMAS",
+          "padded": "THOMAS",
+          "attrs": [
+            130,
+            255,
+            8,
+            124,
+            105,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WEST  ",
+          "padded": "WEST  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            114,
+            212,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ALVARE",
+          "padded": "ALVARE",
+          "attrs": [
+            2,
+            255,
+            16,
+            216,
+            184,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "EDWARD",
+          "padded": "EDWARD",
+          "attrs": [
+            130,
+            255,
+            128,
+            127,
+            75,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HAYES ",
+          "padded": "HAYES ",
+          "attrs": [
+            129,
+            255,
+            32,
+            136,
+            66,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KELLY ",
+          "padded": "KELLY ",
+          "attrs": [
+            129,
+            255,
+            32,
+            186,
+            132,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MASON ",
+          "padded": "MASON ",
+          "attrs": [
+            1,
+            255,
+            0,
+            200,
+            40,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PARKER",
+          "padded": "PARKER",
+          "attrs": [
+            128,
+            255,
+            8,
+            44,
+            161,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "REED  ",
+          "padded": "REED  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            138,
+            132,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "SOUTH AFRICA",
+      "short_name": "SOUTH AFRICA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        2,
+        4,
+        3
+      ],
+      "players": [
+        {
+          "name": "NEL   ",
+          "padded": "NEL   ",
+          "attrs": [
+            130,
+            255,
+            16,
+            126,
+            151,
+            2,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VANWYK",
+          "padded": "VANWYK",
+          "attrs": [
+            0,
+            255,
+            0,
+            55,
+            117,
+            4,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BOTHA ",
+          "padded": "BOTHA ",
+          "attrs": [
+            2,
+            255,
+            64,
+            51,
+            45,
+            2,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SMIT  ",
+          "padded": "SMIT  ",
+          "attrs": [
+            128,
+            255,
+            16,
+            47,
+            184,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PRETOR",
+          "padded": "PRETOR",
+          "attrs": [
+            2,
+            255,
+            16,
+            102,
+            165,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JANSEN",
+          "padded": "JANSEN",
+          "attrs": [
+            1,
+            255,
+            8,
+            149,
+            141,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KRUGER",
+          "padded": "KRUGER",
+          "attrs": [
+            129,
+            255,
+            0,
+            124,
+            165,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "FOURIE",
+          "padded": "FOURIE",
+          "attrs": [
+            2,
+            255,
+            32,
+            208,
+            49,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MOLEFE",
+          "padded": "MOLEFE",
+          "attrs": [
+            2,
+            255,
+            8,
+            145,
+            71,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "DLAMIN",
+          "padded": "DLAMIN",
+          "attrs": [
+            2,
+            255,
+            32,
+            67,
+            141,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SULLIV",
+          "padded": "SULLIV",
+          "attrs": [
+            129,
+            255,
+            64,
+            53,
+            181,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WEAVER",
+          "padded": "WEAVER",
+          "attrs": [
+            0,
+            255,
+            64,
+            137,
+            64,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ZIMMER",
+          "padded": "ZIMMER",
+          "attrs": [
+            0,
+            255,
+            128,
+            40,
+            177,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DAVIS ",
+          "padded": "DAVIS ",
+          "attrs": [
+            0,
+            255,
+            8,
+            177,
+            198,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HAMILT",
+          "padded": "HAMILT",
+          "attrs": [
+            128,
+            255,
+            8,
+            185,
+            141,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "JENKIN",
+          "padded": "JENKIN",
+          "attrs": [
+            2,
+            255,
+            16,
+            189,
+            133,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LONG  ",
+          "padded": "LONG  ",
+          "attrs": [
+            130,
+            255,
+            16,
+            87,
+            165,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NELSON",
+          "padded": "NELSON",
+          "attrs": [
+            2,
+            255,
+            8,
+            69,
+            54,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PRICE ",
+          "padded": "PRICE ",
+          "attrs": [
+            129,
+            255,
+            16,
+            210,
+            182,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RUSSEL",
+          "padded": "RUSSEL",
+          "attrs": [
+            2,
+            255,
+            16,
+            129,
+            123,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "BRAZIL",
+      "short_name": "BRAZIL",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        4,
+        2,
+        2
+      ],
+      "players": [
+        {
+          "name": "SILVA ",
+          "padded": "SILVA ",
+          "attrs": [
+            2,
+            255,
+            128,
+            92,
+            92,
+            4,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SANTOS",
+          "padded": "SANTOS",
+          "attrs": [
+            0,
+            255,
+            8,
+            113,
+            196,
+            3,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "OLIVEI",
+          "padded": "OLIVEI",
+          "attrs": [
+            129,
+            255,
+            32,
+            155,
+            61,
+            4,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SOUZA ",
+          "padded": "SOUZA ",
+          "attrs": [
+            130,
+            255,
+            16,
+            74,
+            201,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LIMA  ",
+          "padded": "LIMA  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            158,
+            200,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PEREIR",
+          "padded": "PEREIR",
+          "attrs": [
+            130,
+            255,
+            64,
+            80,
+            85,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "COSTA ",
+          "padded": "COSTA ",
+          "attrs": [
+            129,
+            255,
+            32,
+            47,
+            141,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ALMEID",
+          "padded": "ALMEID",
+          "attrs": [
+            0,
+            255,
+            8,
+            110,
+            195,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RIBEIR",
+          "padded": "RIBEIR",
+          "attrs": [
+            2,
+            255,
+            8,
+            168,
+            93,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CARVAL",
+          "padded": "CARVAL",
+          "attrs": [
+            1,
+            255,
+            16,
+            97,
+            142,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WARREN",
+          "padded": "WARREN",
+          "attrs": [
+            128,
+            255,
+            64,
+            175,
+            117,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WRIGHT",
+          "padded": "WRIGHT",
+          "attrs": [
+            129,
+            255,
+            128,
+            181,
+            44,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CARTER",
+          "padded": "CARTER",
+          "attrs": [
+            2,
+            255,
+            64,
+            129,
+            183,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "GREEN ",
+          "padded": "GREEN ",
+          "attrs": [
+            129,
+            255,
+            8,
+            189,
+            220,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JACKSO",
+          "padded": "JACKSO",
+          "attrs": [
+            2,
+            255,
+            16,
+            154,
+            103,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LAWREN",
+          "padded": "LAWREN",
+          "attrs": [
+            0,
+            255,
+            0,
+            41,
+            155,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MORRIS",
+          "padded": "MORRIS",
+          "attrs": [
+            128,
+            255,
+            128,
+            213,
+            199,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PHILLI",
+          "padded": "PHILLI",
+          "attrs": [
+            129,
+            255,
+            16,
+            143,
+            214,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROGERS",
+          "padded": "ROGERS",
+          "attrs": [
+            0,
+            255,
+            32,
+            64,
+            147,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "STEVEN",
+          "padded": "STEVEN",
+          "attrs": [
+            130,
+            255,
+            16,
+            62,
+            159,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "COLOMBIA",
+      "short_name": "COLOMBIA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        2,
+        4,
+        2,
+        2
+      ],
+      "players": [
+        {
+          "name": "GOMEZ ",
+          "padded": "GOMEZ ",
+          "attrs": [
+            0,
+            255,
+            0,
+            204,
+            83,
+            1,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "RODRIG",
+          "padded": "RODRIG",
+          "attrs": [
+            130,
+            255,
+            0,
+            78,
+            111,
+            2,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GUTIER",
+          "padded": "GUTIER",
+          "attrs": [
+            129,
+            255,
+            128,
+            156,
+            204,
+            1,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            2,
+            255,
+            8,
+            51,
+            203,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GARCIA",
+          "padded": "GARCIA",
+          "attrs": [
+            0,
+            255,
+            8,
+            119,
+            211,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LOPEZ ",
+          "padded": "LOPEZ ",
+          "attrs": [
+            128,
+            255,
+            64,
+            172,
+            133,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HERRER",
+          "padded": "HERRER",
+          "attrs": [
+            0,
+            255,
+            0,
+            68,
+            163,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MEDINA",
+          "padded": "MEDINA",
+          "attrs": [
+            128,
+            255,
+            32,
+            68,
+            183,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CASTRO",
+          "padded": "CASTRO",
+          "attrs": [
+            1,
+            255,
+            16,
+            144,
+            57,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROJAS ",
+          "padded": "ROJAS ",
+          "attrs": [
+            130,
+            255,
+            16,
+            168,
+            213,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WILSON",
+          "padded": "WILSON",
+          "attrs": [
+            128,
+            255,
+            8,
+            151,
+            147,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BENNET",
+          "padded": "BENNET",
+          "attrs": [
+            130,
+            255,
+            8,
+            122,
+            161,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HOWARD",
+          "padded": "HOWARD",
+          "attrs": [
+            128,
+            255,
+            32,
+            167,
+            121,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KNIGHT",
+          "padded": "KNIGHT",
+          "attrs": [
+            0,
+            255,
+            32,
+            91,
+            207,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MOORE ",
+          "padded": "MOORE ",
+          "attrs": [
+            2,
+            255,
+            64,
+            47,
+            164,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PERRY ",
+          "padded": "PERRY ",
+          "attrs": [
+            129,
+            255,
+            32,
+            103,
+            167,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ROBERT",
+          "padded": "ROBERT",
+          "attrs": [
+            128,
+            255,
+            32,
+            165,
+            100,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SMITH ",
+          "padded": "SMITH ",
+          "attrs": [
+            128,
+            255,
+            0,
+            182,
+            145,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WALKER",
+          "padded": "WALKER",
+          "attrs": [
+            128,
+            255,
+            16,
+            69,
+            95,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HAYES ",
+          "padded": "HAYES ",
+          "attrs": [
+            129,
+            255,
+            0,
+            74,
+            54,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "NICARAGUA",
+      "short_name": "NICARAGUA",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        2,
+        2,
+        1,
+        4
+      ],
+      "players": [
+        {
+          "name": "LOPEZ ",
+          "padded": "LOPEZ ",
+          "attrs": [
+            2,
+            255,
+            8,
+            160,
+            78,
+            4,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            2,
+            255,
+            128,
+            199,
+            205,
+            1,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GARCIA",
+          "padded": "GARCIA",
+          "attrs": [
+            128,
+            255,
+            16,
+            110,
+            146,
+            4,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HERNAN",
+          "padded": "HERNAN",
+          "attrs": [
+            129,
+            255,
+            0,
+            141,
+            171,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MENDOZ",
+          "padded": "MENDOZ",
+          "attrs": [
+            1,
+            255,
+            0,
+            82,
+            142,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "URBINA",
+          "padded": "URBINA",
+          "attrs": [
+            2,
+            255,
+            16,
+            81,
+            123,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LACAYO",
+          "padded": "LACAYO",
+          "attrs": [
+            1,
+            255,
+            128,
+            198,
+            139,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CENTEN",
+          "padded": "CENTEN",
+          "attrs": [
+            128,
+            255,
+            64,
+            216,
+            199,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SEQUEI",
+          "padded": "SEQUEI",
+          "attrs": [
+            129,
+            255,
+            8,
+            159,
+            110,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BLANDO",
+          "padded": "BLANDO",
+          "attrs": [
+            128,
+            255,
+            128,
+            102,
+            162,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ANDERS",
+          "padded": "ANDERS",
+          "attrs": [
+            130,
+            255,
+            64,
+            206,
+            147,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ELLIS ",
+          "padded": "ELLIS ",
+          "attrs": [
+            129,
+            255,
+            128,
+            49,
+            185,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HENDRI",
+          "padded": "HENDRI",
+          "attrs": [
+            2,
+            255,
+            0,
+            64,
+            192,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KENNED",
+          "padded": "KENNED",
+          "attrs": [
+            0,
+            255,
+            16,
+            133,
+            113,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MILLER",
+          "padded": "MILLER",
+          "attrs": [
+            1,
+            255,
+            0,
+            147,
+            135,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PATTER",
+          "padded": "PATTER",
+          "attrs": [
+            1,
+            255,
+            16,
+            213,
+            202,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "REYNOL",
+          "padded": "REYNOL",
+          "attrs": [
+            130,
+            255,
+            32,
+            181,
+            65,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SHAW  ",
+          "padded": "SHAW  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            81,
+            146,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "THOMPS",
+          "padded": "THOMPS",
+          "attrs": [
+            0,
+            255,
+            0,
+            199,
+            176,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WHITE ",
+          "padded": "WHITE ",
+          "attrs": [
+            128,
+            255,
+            16,
+            123,
+            109,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "name": "PHILIPPINES",
+      "short_name": "PHILIPPINES",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        2,
+        4,
+        4
+      ],
+      "players": [
+        {
+          "name": "SANTOS",
+          "padded": "SANTOS",
+          "attrs": [
+            130,
+            255,
+            128,
+            79,
+            143,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "REYES ",
+          "padded": "REYES ",
+          "attrs": [
+            128,
+            255,
+            64,
+            42,
+            179,
+            3,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CRUZ  ",
+          "padded": "CRUZ  ",
+          "attrs": [
+            0,
+            255,
+            0,
+            111,
+            75,
+            4,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GARCIA",
+          "padded": "GARCIA",
+          "attrs": [
+            129,
+            255,
+            128,
+            103,
+            204,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MENDOZ",
+          "padded": "MENDOZ",
+          "attrs": [
+            128,
+            255,
+            0,
+            219,
+            96,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TORRES",
+          "padded": "TORRES",
+          "attrs": [
+            0,
+            255,
+            128,
+            89,
+            70,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "FLORES",
+          "padded": "FLORES",
+          "attrs": [
+            130,
+            255,
+            0,
+            205,
+            207,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RAMOS ",
+          "padded": "RAMOS ",
+          "attrs": [
+            129,
+            255,
+            128,
+            54,
+            43,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BAUTIS",
+          "padded": "BAUTIS",
+          "attrs": [
+            129,
+            255,
+            16,
+            144,
+            104,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "VILLAN",
+          "padded": "VILLAN",
+          "attrs": [
+            128,
+            255,
+            64,
+            108,
+            64,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DIXON ",
+          "padded": "DIXON ",
+          "attrs": [
+            129,
+            255,
+            32,
+            119,
+            68,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HARRIS",
+          "padded": "HARRIS",
+          "attrs": [
+            129,
+            255,
+            8,
+            72,
+            126,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JOHNSO",
+          "padded": "JOHNSO",
+          "attrs": [
+            129,
+            255,
+            128,
+            174,
+            175,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            0,
+            255,
+            8,
+            204,
+            114,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "OLIVER",
+          "padded": "OLIVER",
+          "attrs": [
+            128,
+            255,
+            128,
+            44,
+            194,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "QUINN ",
+          "padded": "QUINN ",
+          "attrs": [
+            1,
+            255,
+            32,
+            140,
+            82,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SANDER",
+          "padded": "SANDER",
+          "attrs": [
+            130,
+            255,
+            16,
+            118,
+            195,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TAYLOR",
+          "padded": "TAYLOR",
+          "attrs": [
+            129,
+            255,
+            128,
+            90,
+            161,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WELLS ",
+          "padded": "WELLS ",
+          "attrs": [
+            130,
+            255,
+            16,
+            164,
+            85,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ADAMS ",
+          "padded": "ADAMS ",
+          "attrs": [
+            1,
+            255,
+            16,
+            134,
+            78,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "HONG KONG",
+      "short_name": "HONG KONG",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        2,
+        1,
+        4,
+        2
+      ],
+      "players": [
+        {
+          "name": "CHAN  ",
+          "padded": "CHAN  ",
+          "attrs": [
+            1,
+            255,
+            64,
+            170,
+            41,
+            2,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WONG  ",
+          "padded": "WONG  ",
+          "attrs": [
+            2,
+            255,
+            0,
+            108,
+            170,
+            2,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LEE   ",
+          "padded": "LEE   ",
+          "attrs": [
+            2,
+            255,
+            64,
+            110,
+            207,
+            2,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "CHEUNG",
+          "padded": "CHEUNG",
+          "attrs": [
+            130,
+            255,
+            64,
+            184,
+            207,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LAM   ",
+          "padded": "LAM   ",
+          "attrs": [
+            0,
+            255,
+            64,
+            198,
+            215,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "NG    ",
+          "padded": "NG    ",
+          "attrs": [
+            0,
+            255,
+            64,
+            95,
+            154,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HO    ",
+          "padded": "HO    ",
+          "attrs": [
+            130,
+            255,
+            8,
+            189,
+            133,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "YIP   ",
+          "padded": "YIP   ",
+          "attrs": [
+            130,
+            255,
+            0,
+            175,
+            152,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "TSE   ",
+          "padded": "TSE   ",
+          "attrs": [
+            129,
+            255,
+            16,
+            79,
+            160,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LO    ",
+          "padded": "LO    ",
+          "attrs": [
+            1,
+            255,
+            0,
+            58,
+            214,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HALL  ",
+          "padded": "HALL  ",
+          "attrs": [
+            0,
+            255,
+            32,
+            92,
+            98,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JAMES ",
+          "padded": "JAMES ",
+          "attrs": [
+            0,
+            255,
+            128,
+            163,
+            65,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LEWIS ",
+          "padded": "LEWIS ",
+          "attrs": [
+            1,
+            255,
+            8,
+            85,
+            209,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MURPHY",
+          "padded": "MURPHY",
+          "attrs": [
+            2,
+            255,
+            8,
+            165,
+            108,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PORTER",
+          "padded": "PORTER",
+          "attrs": [
+            0,
+            255,
+            64,
+            110,
+            63,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ROSS  ",
+          "padded": "ROSS  ",
+          "attrs": [
+            129,
+            255,
+            8,
+            115,
+            167,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "STONE ",
+          "padded": "STONE ",
+          "attrs": [
+            0,
+            255,
+            32,
+            193,
+            161,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WATSON",
+          "padded": "WATSON",
+          "attrs": [
+            128,
+            255,
+            8,
+            138,
+            98,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "YOUNG ",
+          "padded": "YOUNG ",
+          "attrs": [
+            2,
+            255,
+            128,
+            87,
+            73,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "COLEMA",
+          "padded": "COLEMA",
+          "attrs": [
+            128,
+            255,
+            64,
+            65,
+            148,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "name": "GUAM",
+      "short_name": "GUAM",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        4,
+        1,
+        3
+      ],
+      "players": [
+        {
+          "name": "CRUZ  ",
+          "padded": "CRUZ  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            51,
+            204,
+            3,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SANTOS",
+          "padded": "SANTOS",
+          "attrs": [
+            0,
+            255,
+            16,
+            186,
+            46,
+            1,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PEREZ ",
+          "padded": "PEREZ ",
+          "attrs": [
+            129,
+            255,
+            8,
+            166,
+            220,
+            2,
+            24,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "QUINAT",
+          "padded": "QUINAT",
+          "attrs": [
+            129,
+            255,
+            128,
+            78,
+            219,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TAITAN",
+          "padded": "TAITAN",
+          "attrs": [
+            2,
+            255,
+            32,
+            135,
+            134,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "FLORES",
+          "padded": "FLORES",
+          "attrs": [
+            1,
+            255,
+            128,
+            144,
+            203,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BLAS  ",
+          "padded": "BLAS  ",
+          "attrs": [
+            130,
+            255,
+            0,
+            132,
+            198,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CAMACH",
+          "padded": "CAMACH",
+          "attrs": [
+            1,
+            255,
+            16,
+            208,
+            71,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MENDIO",
+          "padded": "MENDIO",
+          "attrs": [
+            129,
+            255,
+            128,
+            57,
+            120,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "LEE   ",
+          "padded": "LEE   ",
+          "attrs": [
+            2,
+            255,
+            64,
+            161,
+            166,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HUDSON",
+          "padded": "HUDSON",
+          "attrs": [
+            128,
+            255,
+            64,
+            117,
+            71,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "LARSON",
+          "padded": "LARSON",
+          "attrs": [
+            0,
+            255,
+            32,
+            153,
+            89,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MORGAN",
+          "padded": "MORGAN",
+          "attrs": [
+            0,
+            255,
+            8,
+            195,
+            176,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PETERS",
+          "padded": "PETERS",
+          "attrs": [
+            0,
+            255,
+            32,
+            60,
+            62,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "ROBINS",
+          "padded": "ROBINS",
+          "attrs": [
+            129,
+            255,
+            16,
+            42,
+            182,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SNYDER",
+          "padded": "SNYDER",
+          "attrs": [
+            128,
+            255,
+            0,
+            218,
+            87,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WALLAC",
+          "padded": "WALLAC",
+          "attrs": [
+            128,
+            255,
+            8,
+            170,
+            171,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WOODS ",
+          "padded": "WOODS ",
+          "attrs": [
+            128,
+            255,
+            64,
+            185,
+            102,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BROOKS",
+          "padded": "BROOKS",
+          "attrs": [
+            1,
+            255,
+            16,
+            51,
+            144,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "GRAY  ",
+          "padded": "GRAY  ",
+          "attrs": [
+            129,
+            255,
+            0,
+            40,
+            207,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "name": "NEW ZEALAND",
+      "short_name": "NEW ZEALAND",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        4,
+        1,
+        3,
+        2
+      ],
+      "players": [
+        {
+          "name": "SMITH ",
+          "padded": "SMITH ",
+          "attrs": [
+            0,
+            255,
+            16,
+            143,
+            73,
+            3,
+            8,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "JONES ",
+          "padded": "JONES ",
+          "attrs": [
+            130,
+            255,
+            64,
+            171,
+            155,
+            4,
+            16,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "WILLIA",
+          "padded": "WILLIA",
+          "attrs": [
+            1,
+            255,
+            128,
+            43,
+            115,
+            4,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "BROWN ",
+          "padded": "BROWN ",
+          "attrs": [
+            2,
+            255,
+            128,
+            141,
+            84,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "TAYLOR",
+          "padded": "TAYLOR",
+          "attrs": [
+            1,
+            255,
+            64,
+            212,
+            40,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WILSON",
+          "padded": "WILSON",
+          "attrs": [
+            130,
+            255,
+            128,
+            98,
+            67,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "THOMPS",
+          "padded": "THOMPS",
+          "attrs": [
+            130,
+            255,
+            128,
+            195,
+            220,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CLARK ",
+          "padded": "CLARK ",
+          "attrs": [
+            128,
+            255,
+            0,
+            107,
+            41,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HARRIS",
+          "padded": "HARRIS",
+          "attrs": [
+            1,
+            255,
+            32,
+            143,
+            205,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "MARTIN",
+          "padded": "MARTIN",
+          "attrs": [
+            128,
+            255,
+            32,
+            121,
+            206,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KING  ",
+          "padded": "KING  ",
+          "attrs": [
+            130,
+            255,
+            64,
+            129,
+            218,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MITCHE",
+          "padded": "MITCHE",
+          "attrs": [
+            128,
+            255,
+            128,
+            52,
+            174,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PEARSO",
+          "padded": "PEARSO",
+          "attrs": [
+            128,
+            255,
+            0,
+            57,
+            210,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "RICE  ",
+          "padded": "RICE  ",
+          "attrs": [
+            128,
+            255,
+            8,
+            42,
+            98,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "SIMMON",
+          "padded": "SIMMON",
+          "attrs": [
+            1,
+            255,
+            128,
+            179,
+            94,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "TURNER",
+          "padded": "TURNER",
+          "attrs": [
+            129,
+            255,
+            128,
+            196,
+            109,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "BAKER ",
+          "padded": "BAKER ",
+          "attrs": [
+            130,
+            255,
+            8,
+            87,
+            169,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "FOSTER",
+          "padded": "FOSTER",
+          "attrs": [
+            130,
+            255,
+            128,
+            84,
+            117,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HILL  ",
+          "padded": "HILL  ",
+          "attrs": [
+            129,
+            255,
+            8,
+            59,
+            66,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "HAYES ",
+          "padded": "HAYES ",
+          "attrs": [
+            1,
+            255,
+            16,
+            137,
+            47,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "name": "CZECH REPUBLIC",
+      "short_name": "CZECH REPUBLIC",
+      "short_width": 10,
+      "short_attr": 4,
+      "ratings": [
+        3,
+        3,
+        4,
+        2
+      ],
+      "players": [
+        {
+          "name": "NOVAK ",
+          "padded": "NOVAK ",
+          "attrs": [
+            130,
+            255,
+            32,
+            117,
+            54,
+            2,
+            8,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SVOBOD",
+          "padded": "SVOBOD",
+          "attrs": [
+            130,
+            255,
+            8,
+            104,
+            172,
+            2,
+            16,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "DVORAK",
+          "padded": "DVORAK",
+          "attrs": [
+            128,
+            255,
+            16,
+            125,
+            46,
+            1,
+            24,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "CERNY ",
+          "padded": "CERNY ",
+          "attrs": [
+            128,
+            255,
+            0,
+            147,
+            88,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "PROCHA",
+          "padded": "PROCHA",
+          "attrs": [
+            128,
+            255,
+            0,
+            139,
+            170,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "KUCHAR",
+          "padded": "KUCHAR",
+          "attrs": [
+            1,
+            255,
+            32,
+            59,
+            41,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "VESELY",
+          "padded": "VESELY",
+          "attrs": [
+            128,
+            255,
+            128,
+            205,
+            214,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HORAK ",
+          "padded": "HORAK ",
+          "attrs": [
+            2,
+            255,
+            8,
+            78,
+            103,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "NEMEC ",
+          "padded": "NEMEC ",
+          "attrs": [
+            0,
+            255,
+            8,
+            50,
+            180,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "POKORN",
+          "padded": "POKORN",
+          "attrs": [
+            0,
+            255,
+            16,
+            141,
+            120,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "MASON ",
+          "padded": "MASON ",
+          "attrs": [
+            1,
+            255,
+            128,
+            173,
+            56,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "PARKER",
+          "padded": "PARKER",
+          "attrs": [
+            2,
+            255,
+            128,
+            175,
+            181,
+            3,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "REED  ",
+          "padded": "REED  ",
+          "attrs": [
+            2,
+            255,
+            32,
+            58,
+            108,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "SCOTT ",
+          "padded": "SCOTT ",
+          "attrs": [
+            1,
+            255,
+            8,
+            133,
+            122,
+            4,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "THOMAS",
+          "padded": "THOMAS",
+          "attrs": [
+            1,
+            255,
+            8,
+            177,
+            145,
+            4,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "WEST  ",
+          "padded": "WEST  ",
+          "attrs": [
+            1,
+            255,
+            16,
+            49,
+            130,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ALVARE",
+          "padded": "ALVARE",
+          "attrs": [
+            2,
+            255,
+            128,
+            66,
+            82,
+            3,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "EDWARD",
+          "padded": "EDWARD",
+          "attrs": [
+            1,
+            255,
+            64,
+            206,
+            167,
+            2,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "HAYES ",
+          "padded": "HAYES ",
+          "attrs": [
+            128,
+            255,
+            128,
+            164,
+            86,
+            1,
+            0,
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "name": "KELLY ",
+          "padded": "KELLY ",
+          "attrs": [
+            1,
+            255,
+            8,
+            205,
+            40,
+            2,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

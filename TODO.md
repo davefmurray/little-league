@@ -79,9 +79,14 @@ M3 logic port to bank 11.
       AUSTRALIA, CUBA, DOMINICAN REP, VENEZUELA, PANAMA, NETHERLANDS, GERMANY,
       SOUTH AFRICA, BRAZIL, COLOMBIA, NICARAGUA, PHILIPPINES, HONG KONG, GUAM,
       NEW ZEALAND, CZECH REPUBLIC. Selector page 3 verified.
-- [ ] **Rosters/ratings/lineups/colours for teams 16–31.** Bank 8 still holds
-      team 15's block with `B1601`-style names; team colours/ratings/lineups
-      are still the 16-team tables.
+- [x] **Roster data for teams 16–31.** `data/roster32.json` + 
+      `tools/build_extra_rosters.py` write 20 generated players and three
+      pitcher records per team into bank 8.
+- [ ] **On-demand roster cache for teams 16–31.** Direct builds lost the
+      `$CBE6 -> $FB90` cache hook and only initialise 16 table entries. Add a
+      two-team scratch cache at `$7800`/`$7970`, update `$7F00 + id*2`, then
+      launch real ids without `AND #$0F`.
+- [ ] **Colours/ratings/lineups for teams 16–31.** Still the 16-team tables.
 - [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
 - [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the
