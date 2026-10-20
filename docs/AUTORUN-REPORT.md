@@ -2455,3 +2455,45 @@ bracket state machine is unaffected (the state-only 31-match soak is green).
 
 This is now a P3 stock-path follow-up: either intercept scene `$1D` too, or
 cap/reset the stock tournament bookkeeping before it overflows.
+
+
+## Round 90 — teams 16-31 metadata (names/codes/regions)
+
+`data/teams32.json` now has real LLWS teams for ids 16-31 instead of
+`TEAM 17`..`TEAM 32` placeholders:
+
+```
+16 AUSTRALIA      AUS  ASIA
+17 CUBA           CUB  AMERICA
+18 DOMINICAN REP  DOM  AMERICA
+19 VENEZUELA      VEN  AMERICA
+20 PANAMA         PAN  AMERICA
+21 NETHERLANDS    NED  EUROPE
+22 GERMANY        GER  EUROPE
+23 SOUTH AFRICA   RSA  EUROPE
+24 BRAZIL         BRA  AMERICA
+25 COLOMBIA       COL  AMERICA
+26 NICARAGUA      NIC  AMERICA
+27 PHILIPPINES    PHI  ASIA
+28 HONG KONG      HKG  ASIA
+29 GUAM           GUM  ASIA
+30 NEW ZEALAND    NZL  ASIA
+31 CZECH REPUBLIC CZE  EUROPE
+```
+
+Rebuilt the full UI chain:
+
+```sh
+.venv/bin/python tools/build_32x20.py "Little League Baseball - Championship Series (USA).nes" data/roster.json -o build/32x20.nes
+.venv/bin/python tools/pack_team_table.py build/32x20.nes data/teams32.json -o build/32x20-ui.nes
+.venv/bin/python tools/build_select_screen.py build/32x20-ui.nes data/teams32.json -o build/select-screen.nes
+```
+
+Selector page 3 of 4 now shows `AUS CUB DOM VEN / PAN NED GER RSA` and the
+detail bar reads `AUSTRALIA` (`docs/teams16-31-select.png`). The bank-9
+codes/names/regions table and the bank-10 page lists both carry the new
+metadata.
+
+Still placeholder for teams 16-31: bank-8 player rosters (names are
+`B1601`-style, attributes cloned from team 15), team colours, ratings, and
+lineups. Those are the next content tasks.

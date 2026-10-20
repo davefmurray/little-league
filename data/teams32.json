@@ -114,115 +114,115 @@
     },
     {
       "id": 16,
-      "name": "TEAM 17",
-      "code": "T17",
-      "region": "NEW",
-      "placeholder": true
+      "name": "AUSTRALIA",
+      "code": "AUS",
+      "region": "ASIA",
+      "placeholder": false
     },
     {
       "id": 17,
-      "name": "TEAM 18",
-      "code": "T18",
-      "region": "NEW",
-      "placeholder": true
+      "name": "CUBA",
+      "code": "CUB",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 18,
-      "name": "TEAM 19",
-      "code": "T19",
-      "region": "NEW",
-      "placeholder": true
+      "name": "DOMINICAN REP",
+      "code": "DOM",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 19,
-      "name": "TEAM 20",
-      "code": "T20",
-      "region": "NEW",
-      "placeholder": true
+      "name": "VENEZUELA",
+      "code": "VEN",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 20,
-      "name": "TEAM 21",
-      "code": "T21",
-      "region": "NEW",
-      "placeholder": true
+      "name": "PANAMA",
+      "code": "PAN",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 21,
-      "name": "TEAM 22",
-      "code": "T22",
-      "region": "NEW",
-      "placeholder": true
+      "name": "NETHERLANDS",
+      "code": "NED",
+      "region": "EUROPE",
+      "placeholder": false
     },
     {
       "id": 22,
-      "name": "TEAM 23",
-      "code": "T23",
-      "region": "NEW",
-      "placeholder": true
+      "name": "GERMANY",
+      "code": "GER",
+      "region": "EUROPE",
+      "placeholder": false
     },
     {
       "id": 23,
-      "name": "TEAM 24",
-      "code": "T24",
-      "region": "NEW",
-      "placeholder": true
+      "name": "SOUTH AFRICA",
+      "code": "RSA",
+      "region": "EUROPE",
+      "placeholder": false
     },
     {
       "id": 24,
-      "name": "TEAM 25",
-      "code": "T25",
-      "region": "NEW",
-      "placeholder": true
+      "name": "BRAZIL",
+      "code": "BRA",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 25,
-      "name": "TEAM 26",
-      "code": "T26",
-      "region": "NEW",
-      "placeholder": true
+      "name": "COLOMBIA",
+      "code": "COL",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 26,
-      "name": "TEAM 27",
-      "code": "T27",
-      "region": "NEW",
-      "placeholder": true
+      "name": "NICARAGUA",
+      "code": "NIC",
+      "region": "AMERICA",
+      "placeholder": false
     },
     {
       "id": 27,
-      "name": "TEAM 28",
-      "code": "T28",
-      "region": "NEW",
-      "placeholder": true
+      "name": "PHILIPPINES",
+      "code": "PHI",
+      "region": "ASIA",
+      "placeholder": false
     },
     {
       "id": 28,
-      "name": "TEAM 29",
-      "code": "T29",
-      "region": "NEW",
-      "placeholder": true
+      "name": "HONG KONG",
+      "code": "HKG",
+      "region": "ASIA",
+      "placeholder": false
     },
     {
       "id": 29,
-      "name": "TEAM 30",
-      "code": "T30",
-      "region": "NEW",
-      "placeholder": true
+      "name": "GUAM",
+      "code": "GUM",
+      "region": "ASIA",
+      "placeholder": false
     },
     {
       "id": 30,
-      "name": "TEAM 31",
-      "code": "T31",
-      "region": "NEW",
-      "placeholder": true
+      "name": "NEW ZEALAND",
+      "code": "NZL",
+      "region": "ASIA",
+      "placeholder": false
     },
     {
       "id": 31,
-      "name": "TEAM 32",
-      "code": "T32",
-      "region": "NEW",
-      "placeholder": true
+      "name": "CZECH REPUBLIC",
+      "code": "CZE",
+      "region": "EUROPE",
+      "placeholder": false
     }
   ],
   "pages": [
