@@ -4797,3 +4797,16 @@ jams at `$6006` (stock player-name buffer) as before.
 Next: debug the `$FD00`/bracket interaction (PRG-RAM enable / `$2001`
 timing / `$2C-$2D` guards) or call the cache from `$FF60` without the
 `$CBE6` boot hook.
+
+
+## Round 178 — round-cap verification
+
+```
+check_build OK: 28825536aba847871256ca054db2b2bf4c60c88eb920d994aa2c59596bbf1f41
+test_bracket32: 31 records, rounds 16/8/4/2/1, champion 62, round-trip OK
+test_roster32: fixture round-trip + edit + attribute/bench + show32 + rominfo OK
+```
+
+TODO state: items 1-2 done, item 3 in progress (roster-cache port stalls the
+bridge at scene 12/PC `$84CE`; the uncached build reaches the field but jams
+at `$6006`), items 4-10 pending. Stock build hash and data tests are green.
