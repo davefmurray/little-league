@@ -293,7 +293,12 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 ### P2 — Password (deferred)
 
-- [ ] 32-team / 5-round password encode + decode.
+- [x] Locate password encode/decode: encode/series init bank5 `$98D5`,
+      decode/advance bank5 `$9B5F`; decode verified with
+      `$074D=0123456789abcdef -> $0650=00..0F`. Format documented in
+      `docs/password-format.md`.
+- [ ] 32-team / 5-round password encode + decode (proposal: 32-bit seed +
+      31 result bits + version/checksum = 16 hex chars).
 - [ ] 100 random round-trips.
 - [ ] Wire into stock password screen.
 - [ ] Keep stock 16-team password path working.

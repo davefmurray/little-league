@@ -2668,3 +2668,27 @@ did **not** change the result. The next probe is to move the copy into a RAM
 routine with interrupts explicitly disabled and confirm `$2000` is zero at
 `$FC00`, then copy in two 0x100/0x70 chunks with a frame-safe loop. The
 32-team roster data itself is ready; only the runtime cache is blocked.
+
+
+## Round 96 — password format located and decode verified
+
+The stock password routines are:
+
+- **encode / series init:** bank5 `$98D5` (fills `$0650` from table `$994F`,
+  packs to `$074D`; called by `$98B7`);
+- **decode / advance:** bank5 `$9B5F` (unpacks `$074D` to `$0650`, clears
+  `$0670`, applies `$0746` results from `$0755/$0756` via `$8941`).
+
+Verified in romdev from the live password screen (bank5 mapped):
+
+```
+$074D = 01 23 45 67 89 AB CD EF
+$0746 = 00
+call $9B5F
+$0650 = 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+```
+
+The decode is a pure 4-bit unpack plus result application. The 32-team
+format proposal is in `docs/password-format.md`: a 32-bit seed + 31 result
+bits + version/checksum (16 hex chars), rather than 40 hex chars of 5-bit
+ids.
