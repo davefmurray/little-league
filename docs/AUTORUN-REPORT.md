@@ -1726,3 +1726,16 @@ logic must not use them.
 
 Next P1: find the scoreboard's source bytes by breaking on the scene-3 draw of
 the `FLO 0 / JAPAN 0` fields, or by diffing RAM before/after a run scores.
+
+## Round 71 — score block search narrowed
+
+At live gameplay (scene 3, TOP 1ST, 0–0):
+
+- poked `$0515=3`, `$0516=7`, forced redraw: scoreboard stayed 0–0
+- wrote `$09` across `$04E0–$04FF`: scoreboard stayed 0–0
+
+So neither the `$0515/$0516` pair nor the `$04E0–$04FF` block holds the live
+score.
+
+Next: identify the scoreboard digits by breaking on the scene-3 draw routine
+that writes the `FLO`/`JAPAN` score tiles, rather than guessing RAM ranges.
