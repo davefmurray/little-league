@@ -4205,3 +4205,27 @@ This is the concrete P0 dead end: the high-team order screen's status/input
 writer (`$B8A9`/`$B90C`) is not called from the scene-`0F` path, while the
 reader (`$9FC3`) is. The stock path has the writer in its loop; the
 high-team card/order state does not.
+
+
+## Round 155 — scene `0F` handler is not running; the CPU stays in the bank6 loop
+
+At the high-team scene `0F`, the CPU PC is `$8404` (bank6), not the bank1
+order handler. Calling the missing status writer `$B8A9` directly with
+`$047C>=2`, `$0485=0`, `$0547=3`, `$0527=0` correctly sets:
+
+```
+$95=40  $93=40  $0485=00
+```
+
+but `$C7` still stays 0, because the reader `$9FC3` is not executing: the
+CPU is still in the bank6 card/field loop (`$8404`/`$9011`), and the scene
+`0F` dispatch never runs.
+
+Also noted: `$9FC3` reads `$95,X` with `$C2=1` (so `$96`), while `$B8A9`
+writes the absolute `$95`. Setting `$C2=0`/`$95=0x40` does not help because
+the handler is not running at all.
+
+So the top-level P0 blocker is the **bank6 card loop holding the CPU**; the
+order-screen input/status issues are downstream of it. The high-team field
+cannot reach the `$9D9F -> $9DAE -> $96E6` live-field path until the card
+loop exits.
