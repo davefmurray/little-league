@@ -2842,3 +2842,29 @@ pointer table. The field renders the correct cached batter ("HARRIS",
 skill 5) and a pitcher ("PATTER"), but the scoreboard still shows the
 pre-match team names (`JAPAN`/`ARI`) because that text is built before the
 launch bridge sets the real ids.
+
+
+## Round 102 — field stall is the `$047D` NMI guard
+
+The high-team field is not running its scene logic. The fixed-bank main
+loop is:
+
+```
+CC09  LDA $047D
+CC0C  BNE $CC09      ; wait for NMI to clear the guard
+CC0E  INC $047D
+CC11  JSR $CC30
+```
+
+At the stall: `$047D=01`, `$2C=00`, `$AD=1E`, `$20=90`. The NMI vector is
+`$CD85`; its tail clears the guard at `$CDEA-$CDEC` when `$AD & $1E != 0`,
+which is true. But the handler never runs (`$2C` stays 0), so the guard is
+never cleared.
+
+Forcing `$2000=0x80` at `$CC06` (JMP `$FEB0`) did **not** start NMI. The
+next probe is the PPU rendering state: if the field handler left `$2001`
+off, no vblank NMI is generated. Candidate fixes: re-assert `$2001` from
+`$AD` at the field, or make `$CC09` clear the guard instead of waiting.
+
+The bank7 read fix from Round 101 is committed; the field data is populated,
+but the engine still does not tick.

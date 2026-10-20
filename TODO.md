@@ -86,10 +86,11 @@ M3 logic port to bank 11.
       `build/direct31.nes`: MMC1 reset before the bank-8 switch, real ids,
       `$7800/$7A00` copies, `$7F00` repoints. Match 8 shows HARRIS/GARCIA
       and reaches the field (scene 03).
-- [ ] High-team field auto-play: real teams 16/17 reach scene 03 but stall
-      0-0 even after repointing the bank7 field roster reads (`$04F1-$04FE`
-      now populated instead of FF). Field renders HARRIS (skill 5) and
-      PATTER; scoreboard still shows the pre-match JAPAN/ARI text.
+- [ ] High-team field auto-play: real teams 16/17 reach scene 03 but the
+      main loop stalls on the `$047D` NMI guard (`$047D=01`, `$2C=00`).
+      Bank7 roster reads are fixed (`$04F1-$04FE` populated); forcing
+      `$2000=80` did not start NMI. Next: check `$2001`/PPU rendering at
+      the field, or clear the guard directly.
 - [x] **Ratings for teams 16–31.** 32 x 4 table at bank3 `$BC80`
       (`tools/build_ratings32.py`), reader repointed.
 - [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`
