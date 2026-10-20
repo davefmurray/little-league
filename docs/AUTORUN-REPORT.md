@@ -5011,3 +5011,25 @@ routine's team data (`$071A`/`$BD`/`$C0`), not the name table.
 
 Next: trace `$A1AA`/the `$071A` rows and initialize the team data for the
 32-team list.
+
+
+## Round 186 — LIST OF TEAMS code is stock; it scans $071A + $9FA9
+
+Disassembled `$A1AA` in the stock and `direct31`: **identical**.
+
+```
+A1AA: LDA $C0 / ASL A / ORA $BD / TAY
+A1B0: LDA $071A,Y
+A1B3: AND #$03 / CMP #$02 / BCS $A1C2
+A1B9: LDA $C0 / STA $00 / JSR $9FA9 / BNE $A1CD
+A1C2: DEC $C0 / BPL $A1AA
+A1C6: LDA #$0E / STA $C0 / BNE $A1AA
+```
+
+So the LIST OF TEAMS screen scans the team flags at `$071A` and calls the
+`$9FA9` validator. If nothing validates, it falls back to team 0 — JAPAN.
+The stock code is unchanged; the 32-team build simply never initializes
+the stock 4-team `$071A`/validator state.
+
+Next: trace `$071A`/`$9FA9` in the 32-team flow and initialize the stock
+team data (or bypass the validator for the 32-team list).

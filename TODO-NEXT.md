@@ -20,7 +20,10 @@ History: `docs/AUTORUN-REPORT.md`.
        slots for the list path, or replace the screen with the 32-team
        selector/table. **Located:** the LIST OF TEAMS menu action is bank1
        `$A1C6` (`$C0=0x0E`) -> `$A1AA`; the list reads `$C0`/`$BD`/`$071A`.
-       Trace those rows and initialize the 32-team data.
+       `$A1AA` is identical stock: it scans `$071A` flags and calls the
+       `$9FA9` validator; if none validates it falls back to team 0 (JAPAN).
+       Next: trace `$071A`/`$9FA9` in the 32-team flow and initialize the
+       stock team data (or bypass the validator for the 32-team list).
 5. [ ] **Match-5 soak stall (P1).**
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
 6. [x] **Scene 1E/1F / match-26 (P1).**
