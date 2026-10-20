@@ -2814,3 +2814,31 @@ python3 tools/build_32team_full.py
 
 The cache script is `tools/build_roster_cache.py`; the driver is
 `tools/build_32team_full.py`.
+
+
+## Round 101 — bank-7 field roster reads repointed
+
+The field HUD reads roster pointers through a second copy of the loader in
+bank 7:
+
+```
+$8B2C  BD 00 84   LDA $8400,X
+$8B36  7D 01 84   ADC $8401,X
+```
+
+These still used the original 16-entry table after the cache work, so the
+high-team field variables `$04F1-$04FE` came back as `FF`. Repointing both
+to `$7F00/$7F01` (like the bank4/bank15 reads) changes the high-team field
+state from all-`FF` to populated values:
+
+```
+before: 04F1..04FE = FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+after:  04F1..04FE = FF C6 FF 02 FF 0F FF 0F FF 0F 88 98 03 0C
+```
+
+The game still stalls 0-0 at scene `$03` in both SPEED and WATCH; the
+remaining difference is gameplay/player-state related, not the roster
+pointer table. The field renders the correct cached batter ("HARRIS",
+skill 5) and a pitcher ("PATTER"), but the scoreboard still shows the
+pre-match team names (`JAPAN`/`ARI`) because that text is built before the
+launch bridge sets the real ids.

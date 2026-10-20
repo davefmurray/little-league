@@ -122,6 +122,7 @@ def main():
 
     reads = {
         4: [0xB085, 0xB08C, 0xB0A6, 0xB0AB, 0xAB2C, 0xAB33],
+        7: [0x8B2C, 0x8B36],
         15: [0xCB2C, 0xCB36],
     }
     for bank, addrs in reads.items():

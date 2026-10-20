@@ -87,7 +87,9 @@ M3 logic port to bank 11.
       `$7800/$7A00` copies, `$7F00` repoints. Match 8 shows HARRIS/GARCIA
       and reaches the field (scene 03).
 - [ ] High-team field auto-play: real teams 16/17 reach scene 03 but stall
-      0-0; likely lineup/pitcher selection for the generated rosters.
+      0-0 even after repointing the bank7 field roster reads (`$04F1-$04FE`
+      now populated instead of FF). Field renders HARRIS (skill 5) and
+      PATTER; scoreboard still shows the pre-match JAPAN/ARI text.
 - [x] **Ratings for teams 16–31.** 32 x 4 table at bank3 `$BC80`
       (`tools/build_ratings32.py`), reader repointed.
 - [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`
