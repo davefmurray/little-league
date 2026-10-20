@@ -37,7 +37,8 @@ def build_fixture(path):
         for p in range(PLAYERS):
             rec = base + p * RECORD
             data[rec:rec + NAME_LEN] = f"P{t:02d}{p:02d}".ljust(6).encode("ascii")
-            data[rec + NAME_LEN:rec + 16] = bytes([p % 5] + [0] * 9)
+            slot = {0: 8, 1: 16, 2: 24}.get(p, 0)
+            data[rec + NAME_LEN:rec + 16] = bytes([p % 5] * 6 + [slot] + [0] * 3)
         data[base + PLAYERS * RECORD:base + PLAYERS * RECORD + 16] = b"\xff" * 16
         data[base + PLAYERS * RECORD + 16:base + PLAYERS * RECORD + 24] = b"\x00" * 8
     open(path, "wb").write(data)
@@ -58,11 +59,22 @@ def main():
         assert open(out, "rb").read() == original, "round-trip is not byte-identical"
 
         doc["teams"][16]["players"][0]["name"] = "TESTER"
-        doc["teams"][16]["players"][0]["attrs"][5] = 4
+        doc["teams"][16]["players"][0]["attrs"][3] = 7   # byte 9  -> power
+        doc["teams"][16]["players"][0]["attrs"][4] = 6   # byte 10 -> speed
+        doc["teams"][16]["players"][0]["attrs"][5] = 4   # byte 11 -> skill index (shown +1)
         apply_rom(src, doc, out)
         back = extract(out)
-        assert back["teams"][16]["players"][0]["name"] == "TESTER"
-        assert back["teams"][16]["players"][0]["attrs"][5] == 4
+        p0 = back["teams"][16]["players"][0]
+        assert p0["name"] == "TESTER"
+        assert (p0["attrs"][3], p0["attrs"][4], p0["attrs"][5]) == (7, 6, 4)
+        assert p0["attrs"][5] + 1 == 5
+
+        # Every team has 20 players and exactly the three pitcher slots.
+        for team in back["teams"]:
+            assert len(team["players"]) == 20
+            slots = [pl["attrs"][6] for pl in team["players"]
+                     if pl["attrs"][6] in (8, 16, 24)]
+            assert sorted(slots) == [8, 16, 24], (team["id"], slots)
 
         # roster.py show32 must also recognize the fixture.
         buf = io.StringIO()
@@ -76,7 +88,8 @@ def main():
         # rominfo.py must detect the same layout.
         raw = open(src, "rb").read()
         assert "32-team bank8" in team_layout(raw, rom_header(raw))
-        print("test_roster32: fixture round-trip + edit + show32 + rominfo OK")
+        print("test_roster32: fixture round-trip + edit + attribute/bench + "
+              "show32 + rominfo OK")
 
 
 if __name__ == "__main__":

@@ -4270,3 +4270,25 @@ The password test now runs **100 hex + 100 letter + 100 stock-tile + 100
 
 This still needs 32 glyphs instead of the stock 16; the current 16-glyph
 font would need a two-screen form or a wider buffer.
+
+
+## Round 158 — attribute/bench fixture test
+
+`tools/test_roster32.py` now builds a realistic 32-team fixture:
+
+- the first three players carry the pitcher records `08/10/18` (bytes
+  `8/16/24`), matching the real bank8 blocks;
+- the test edits `attrs[3]` (record byte 9, power), `attrs[4]` (byte 10,
+  speed), and `attrs[5]` (byte 11, skill index shown +1), applies the ROM,
+  and asserts the extracted values;
+- every one of the 32 teams is checked for 20 players and exactly the three
+  pitcher records.
+
+```
+test_roster32: fixture round-trip + edit + attribute/bench + show32 + rominfo OK
+```
+
+This is a **data-level** test. The in-game player card read that would prove
+the printed power/speed/skill mapping is still blocked by the high-team field
+(P0), so the semantics remain a strong data inference rather than a live
+card reading.

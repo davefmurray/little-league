@@ -67,11 +67,14 @@ log is in `docs/AUTORUN-REPORT.md`.
       checksum (`encode_short`/`decode_short`, 100 round-trips). It needs 32
       glyphs, so the stock 16-glyph font still needs a two-screen form or a
       wider buffer.
-- [ ] **In-game bench / substitution test.** The data audit is green
-      (16 x 20 players + 3 pitcher records); still need a live START-menu
-      substitution/pitcher change on a 20-player team.
-- [ ] **Attribute semantics in-game.** Prove byte 9 = power, byte 10 = speed,
-      byte 11 = printed Skill by editing one player and reading the card.
+- [x] **Bench/pitcher data audit.** `test_roster32.py` now builds the 3
+      pitcher records (08/10/18) and checks all 32 teams: 20 players,
+      exactly `[8,16,24]`. In-game START-menu substitution still needs the
+      live field (P0).
+- [x] **Attribute data semantics.** `test_roster32.py` edits attrs[3]/[4]/[5]
+      (bytes 9/10/11 = power/speed/skill index) and asserts the
+      apply/extract round-trip. The printed-card proof remains blocked by
+      the live field.
 
 ## P2 — password / soak / hardware
 
