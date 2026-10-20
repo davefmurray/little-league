@@ -66,6 +66,11 @@ Build outputs are gitignored.
 | `$04EF/$04F0` | matchup team IDs, set at `$9C00` from `$0650[$8941[...]]` |
 | `$0650-$065F` | 16-team tournament buffer (seeded by `$FF60` from `$7700`) |
 | `$074D-$0754` | packed password bytes, rebuilt by `$FF60` |
+| `$0670-$067F` | per-team win counts (cleared by `$FF60`) |
+| `$7700-$771F` | 32-team seed order (bracket), source for the handoff |
+| `$9B5F` | 4-bit unpacker: rebuilds `$0650` from `$074D` |
+| `$9BFD` | matchup's `JSR $9B5F` call site (`--direct-teams` patches it) |
+| `$9C00` | matchup team setup: `$04EF/$04F0 = $0650[$8941[3*$0746]]` |
 | `$0522` | lineup-init flag: `$FF` at boot, cleared by the stock team select |
 | `$33/$34` | team ids used by the password/game path |
 | `$047B` | scene id |
@@ -99,8 +104,14 @@ Build outputs are gitignored.
   off, bank 11, `JSR $8000` (bracket), bank 5, `$AD=$1E`, NMI on, `$047B=$12`,
   `$0522=0`, `JSR $FF60`, release guards, `JMP $98C0`.
 - Fixed bank `$FF60` (`TEAMSETUP`): `$064F=$FF`, `$7700[0..15] -> $0650`,
-  repack `$074D..$0754`. This is what makes the field teams match the
-  bracket's first-round pair.
+  clear `$0670[0..15]`, repack `$074D..$0754`. This is what makes the field
+  teams match the bracket's first-round pair.
+- Optional experiments: `--skip-password` enters scene 19 at the matchup
+  substate (`$98C8: 07 -> 02`); `--direct-teams` patches `$9BFD: JSR $9B5F`
+  to `JSR $FF60`, so the matchup reads `$7700` directly instead of the 4-bit
+  packed password. Needed for team ids 16-31, which the stock password
+  truncates to 0-15. Teams 16-31 still need real roster/name data and the
+  on-demand cache before their field will render.
 - The bracket is built with `--return-on-a`, so its A handler ends in `RTS`.
 
 Production entry: the selector's A handler waits for release, drops the

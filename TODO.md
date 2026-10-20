@@ -74,6 +74,9 @@ M3 logic port to bank 11.
 - [ ] **On-demand roster cache for teams 16–31.** Boot caches only 0–15.
       Add copy hooks at team-select confirm, player card and game load; copy
       `0x170` from bank 8 to `$6000 + slot*0x170`, update `$7F00` table.
+      Team ids 16–31 now reach the matchup (`--direct-teams`, see
+      `docs/LAUNCH-DEBUG-LOG.md`), but the field is blank without this cache
+      and real 16–31 data.
 - [x] **Flag data.** 32 × 24×16 flags generated and packed into bank 10
       (`$A000`), 48 CHR slots reserved, four palettes at `$AC40`.
 - [x] **Flag primitive.** Isolated test (`tools/build_flag_test.py`) proves the
