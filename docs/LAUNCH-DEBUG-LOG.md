@@ -365,3 +365,42 @@ So the bridge hands off correctly for teams 0–15 (the stock tournament size);
 a real 32-team field needs the password/`$0650` generator replaced (the
 "32-team password format" + 32-slot tournament milestone). This is a data
 format change, not a launch-path bug.
+
+## Loop 16 — the launched game really plays
+
+From the field, 1800 frames of free-running (no input) show the camera following
+play: the ball leaves the mound, fielders move, the batter animation changes.
+`$047B` stays `$03`, `$27=$06`, not jammed. So the launch reaches a *running*
+game, not a parked field.
+
+## Loop 17 — skipping the password display is not enough
+
+Patching the scene-18 body's `LDA #$07` at `$98C8` to `$02` enters scene 19 at
+the matchup substate and skips the password display. Team 16 still collapsed to
+0, because the matchup calls the 4-bit unpacker directly:
+
+```
+$9BFD JSR $9B5F
+$9B5F LDA $074D,Y / LSR x4 / STA $0650,X / ... / AND #$0F / STA $0650,X
+```
+
+`$0650` is rebuilt from the packed `$074D` (4 bits per team) before `$9C00`
+reads it.
+
+## Loop 18 — direct team handoff at the matchup
+
+`--direct-teams` patches `$9BFD: JSR $9B5F` to `JSR $FF60` (the team setup,
+extended to zero `$0670` as well). The matchup then reads `$7700[0..15]`
+directly:
+
+```
+team 16: $0650 = 10 00 01 ..., $04EF/$04F0 = 10 00
+matchup: "JAP vs JAPAN"  (team 16's placeholder name/code)
+```
+
+But the **field is blank** for team 16 (`$047B=$10`, black screen). Teams 16–31
+have placeholder roster/name data and no on-demand cache, so the game cannot
+build their lineup. That is the "on-demand roster cache for teams 16–31"
+milestone, not a launch bug.
+
+Both new switches are opt-in: `--skip-password`, `--direct-teams`.

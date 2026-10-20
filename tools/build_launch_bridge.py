@@ -120,8 +120,10 @@ TEAMSETUP = bytes([
     0xA2, 0x0F,             # LDX #$0F
     0xBD, 0x00, 0x77,       # LDA $7700,X        copy: $7700[0..15] -> $0650
     0x9D, 0x50, 0x06,       # STA $0650,X
+    0xA9, 0x00,             # LDA #$00
+    0x9D, 0x70, 0x06,       # STA $0670,X        clear the win counts
     0xCA,                   # DEX
-    0x10, 0xF7,             # BPL copy
+    0x10, 0xF2,             # BPL copy
     0xA2, 0x00,             # LDX #$00
     0xA0, 0x00,             # LDY #$00
     0xBD, 0x50, 0x06,       # LDA $0650,X        pack: 8 bytes -> $074D
@@ -153,6 +155,15 @@ def main():
                     help="restore stock $CC06 (STA $2000) so the stock team "
                          "select runs and END reaches $98B9; without this the "
                          "bank-10 selector boots and the END hook is never hit")
+    ap.add_argument("--direct-teams", action="store_true",
+                    help="patch the matchup's 4-bit unpacker call "
+                         "($9BFD: JSR $9B5F) to JSR $FF60, so $0650 comes "
+                         "straight from $7700 instead of the packed password")
+    ap.add_argument("--skip-password", action="store_true",
+                    help="patch the scene-18 body to set $047C=2 (matchup) "
+                         "instead of 7 (password display); the matchup then "
+                         "reads $0650 directly, avoiding the 4-bit password "
+                         "pack that collapses team ids 16-31")
     args = ap.parse_args()
 
     rom = bytearray(open(args.rom, "rb").read())
@@ -167,6 +178,21 @@ def main():
         off = bank_off(FIXED, 0xCC06, 0xC000)
         rom[off:off + 3] = bytes([0x8D, 0x00, 0x20])
         print("fixed $CC06: JSR $FF00 -> STA $2000 (stock flow)")
+
+    if args.direct_teams:
+        off = bank_off(BANK5, 0x9BFD, 0x8000)
+        old = bytes(rom[off:off + 3])
+        rom[off:off + 3] = bytes([0x20, 0x60, 0xFF])
+        print(f"bank5 $9BFD: {old.hex(' ')} -> 20 60 ff (direct teams)")
+
+    if args.skip_password:
+        # $98C7: LDA #$07 / STA $047C -- the substate the scene-18 body hands
+        # to scene 19.  2 = matchup (reads $0650 as-is); 7 = password display
+        # (rebuilds $0650 from 4-bit packed teams).
+        off = bank_off(BANK5, 0x98C8, 0x8000)
+        old = rom[off]
+        rom[off] = 0x02
+        print(f"bank5 $98C8: substate {old:02X} -> 02 (skip password)")
 
     off = bank_off(BANK5, HOOK_ADDR, 0x8000)
     old = bytes(rom[off:off + len(HOOK)])
