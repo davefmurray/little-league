@@ -107,6 +107,10 @@ History: `docs/AUTORUN-REPORT.md`.
         team 4, because `$06E2` is the 8 groups x 2 table
         (`$06E2[group*2+team]`), not team-indexed. Two fixes together:
         `$B2` from `$0650[0]` and the `$06E2` group/team mapping.
+        **pair4:** `$B2` from `$0650[0]` still stalls match 5; `$B2=09` ->
+        `$BC=9` -> `$06E2[9]=0x43` -> team 4 (group 4/team 1), field 09.
+        Next: the `$06E2` group/team semantics in
+        `$9A1C`/`$9A4E`/`$9FA9`.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open

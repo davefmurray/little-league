@@ -5507,3 +5507,22 @@ So two fixes are needed together:
    to the right group entry.
 
 Next: the `$06E2` group/team mapping and the `$B2` source.
+
+
+## Round 205 — pair4 ($B2 from $0650) still stalls match 5
+
+pair4 appends `LDA $0650 / STA $B2` to the `$FEA0` setup. Soak:
+
+```
+matches 00..04: OK
+match 05: timeout
+```
+
+At match 5, `$B2=09` -> `$BC=9` -> `$06E2[9]=0x43` -> high nibble 4
+(team 4), while the field team is 09. `$06E2[9]` is the group 4/team 1
+slot (`$06E2[group*2+team]`), not the team-9 record. Reading it as a
+team id yields 4.
+
+So the remaining item-10 work is the `$06E2` group/team semantics in
+`$9A1C`/`$9A4E`/`$9FA9`: the field team index must map to the right
+group/team slot, not just `$B2 & 0x0F`.
