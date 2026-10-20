@@ -11,6 +11,7 @@ from roster32 import (BANK8, BANK9_NAMES, BANK, STRIDE, PLAYERS, RECORD,
                       NAME_LEN, RATINGS32, NAMES32, apply_rom, extract)
 from roster32 import off
 from roster import Rom, show32
+from rominfo import header as rom_header, team_layout
 
 
 def build_fixture(path):
@@ -71,7 +72,11 @@ def main():
         assert len(lines) == 33, f"expected header + 32 teams, got {len(lines)}"
         assert "TEAM 16" in buf.getvalue()
         assert "P1600" in buf.getvalue()
-        print("test_roster32: fixture round-trip + edit + show32 OK")
+
+        # rominfo.py must detect the same layout.
+        raw = open(src, "rb").read()
+        assert "32-team bank8" in team_layout(raw, rom_header(raw))
+        print("test_roster32: fixture round-trip + edit + show32 + rominfo OK")
 
 
 if __name__ == "__main__":

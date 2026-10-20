@@ -3424,3 +3424,21 @@ team-16 name at bank8 `$8000 + 16*$170`.
 
 Verified on `build/32x20-extra.nes` (32-team) and the stock ROM
 (stock 16-team).
+
+
+## Round 128 — CI covers `rominfo.py` layout detection
+
+The self-contained fixture test now also checks:
+
+```python
+raw = open(src, "rb").read()
+assert "32-team bank8" in team_layout(raw, rom_header(raw))
+```
+
+CI runs `tools/test_roster32.py`, so both `roster.py show32` and
+`rominfo.py`'s new layout line are covered by the same synthetic 32-team
+ROM.
+
+```
+test_roster32: fixture round-trip + edit + show32 + rominfo OK
+```
