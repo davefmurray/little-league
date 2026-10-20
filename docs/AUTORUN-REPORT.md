@@ -2868,3 +2868,13 @@ off, no vblank NMI is generated. Candidate fixes: re-assert `$2001` from
 
 The bank7 read fix from Round 101 is committed; the field data is populated,
 but the engine still does not tick.
+
+
+### Follow-up: `$2001` re-assert clears the guard, then crashes
+
+Writing `$2001 = $AD` (`$1E`) at the stalled field clears `$047D` and the
+main loop advances, but the CPU then jumps to **PC `$0013`** (zero-page
+RAM). So the guard is a symptom: with the PPU rendering re-enabled the
+field logic runs, but the high-team field data sends it into a bad pointer.
+The next probe is a `$0013` crash trace / read-breakpoint to find which
+high-team pointer is invalid, rather than patching the NMI guard.

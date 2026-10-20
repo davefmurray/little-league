@@ -89,8 +89,9 @@ M3 logic port to bank 11.
 - [ ] High-team field auto-play: real teams 16/17 reach scene 03 but the
       main loop stalls on the `$047D` NMI guard (`$047D=01`, `$2C=00`).
       Bank7 roster reads are fixed (`$04F1-$04FE` populated); forcing
-      `$2000=80` did not start NMI. Next: check `$2001`/PPU rendering at
-      the field, or clear the guard directly.
+      `$2000=80` did not start NMI. Re-asserting `$2001=$AD` clears the
+      guard but the field then jumps to PC `$0013`; next: crash-trace that
+      jump to find the invalid high-team field pointer.
 - [x] **Ratings for teams 16–31.** 32 x 4 table at bank3 `$BC80`
       (`tools/build_ratings32.py`), reader repointed.
 - [x] **Lineups for teams 16–31.** 32 x 9 table in the fixed bank at `$FD80`
