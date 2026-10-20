@@ -106,8 +106,9 @@ M3 logic port to bank 11.
       CHR copy and one 9-byte run render correctly.
 - [x] **Draw flags in the grid.** Eight 24×16 flags above the codes, page-time
       CHR copy into safe slots, `append_flag` helper. Verified in-harness.
-- [ ] **Bench / pinch-hitter bound + pitching test.** On the 16×20 build,
-      confirm the 20-player bench is reachable and all three pitcher slots work.
+- [ ] **Bench / pinch-hitter bound + pitching test.** Blocked behind the
+      scene-`0F` flush regression: the `T18` player-change screen renders and
+      opens `PLAYER CHANGE > DIAZ`, but input is dead.
 - [x] **32-slot bracket.** Five rounds, 32 first-round slots, new bracket table
       and screen. Koushien reference captured in `docs/koushien-bracket.md`.
 - [x] **Password format** for 32 teams / 5 rounds (model:

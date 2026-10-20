@@ -32,13 +32,15 @@ works, what is still blocked, how to build it, and where the evidence lives.
 
 ## Blocked / not finished
 
-- **High-team field**: teams 16/17 reach scene `03` and run frames, but the
-  game is stuck in the **pre-game card/order state machine**. `$0489=0` is
-  the live-field phase, `$0489=3` is the box score; the blocker is the
-  `$0545` card step and its `$05D3` timer. The order screen's B is back/
-  cancel unless `$06E1` is set; setting it makes B=END but the `$BA` menu
-  still doesn't start the match. The low-team path auto-confirms past scene
-  `0F`, so the live-field comparison needs a per-frame capture.
+- **Order screen (scene `0F`) display-list flush**: on the current
+  `build/direct31.nes` both the low- and high-team order screens stall in the
+  flush's RLE loop (`PC=$C57E`) with a tiny `$32` (e.g. 6) and a garbage list
+  at `$0300` (`ce cf ce cf ...`). That is a *shared* scene-`0F` regression,
+  not a high-team-only card loop; the earlier "low team auto-confirms" was an
+  older build. Needs a bisect over the bracket-clear/layout/data steps.
+- **High-team input**: the player-change screen is reachable and renders
+  (`T18` lineup, `PLAYER CHANGE > DIAZ`), but A/B/right do not change it —
+  consistent with `$95`/`$C7` never being written.
 - **Post-game bracket**: the team codes and box-score rows are fixed; the
   remaining garbled rows are score/round placeholders.
 - **32-team password screen**: the model and a candidate stock tile
