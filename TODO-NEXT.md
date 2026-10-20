@@ -36,7 +36,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       (live field init); forcing `$C7` does not dispatch, so the real button
       edge timing is the remaining probe. `$C7` (the edge) is never written
       at the high-team scene `0F`; the input loop that should set it is not
-      running, so the `$9D9F` start path is never dispatched. The low-team path auto-confirms past
+      running, so the `$9D9F` start path is never dispatched. `$C040` is ROM
+      `$40`, and `$C7` requires `$95,X` bit 6 (B); the `$B8xx`/`$9EF0` input
+      decoders are not in the scene-`0F` trace, so `$95` stays 0. The low-team path auto-confirms past
       scene `0F`, so the comparison needs a per-frame live-field capture.
 
 ## P1 — visible/gameplay correctness

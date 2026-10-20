@@ -4129,3 +4129,38 @@ because `$C7` never becomes 1.
 
 Next: find where `$95`/`$C2` are refreshed and why the scene-`0F` input loop
 is not being called for the high-team card state.
+
+
+## Round 153 — `$C040` is a ROM constant; the order screen's `$95` decode is missing
+
+`$9FC3` is:
+
+```
+9FC3 LDX $C2
+9FC5 LDA $95,X
+9FC7 BIT $C040
+9FCA BEQ $9FD7
+9FCC LDA #1
+9FCE STA $C7
+```
+
+`$C040` is **not** a RAM variable: it is fixed-bank ROM byte `$C040 = $40`
+(bit 6 set). `BIT` sets Z from `A & $C040`, so `$C7` is set only when the
+button byte `$95,X` has **bit 6 (B)**.
+
+At scene `0F`:
+
+```
+$C2=1  $95-$98 = 00 00 00 00  $C7=00
+```
+
+Writing `$95=0x40` or `$96=0x40` is cleared to 0 every frame; the write
+breakpoint on `$C7` still finds no writes. The instruction trace at scene
+`0F` shows `$9FC3`/`$9DB1`/`$A25C` but **not** the `$B8xx`/`$9EF0` input
+routines that set `$95` from the controller. So the order screen's
+controller decode is **not running**: `$95` stays 0, `$C7` never becomes 1,
+and the `$9D9F -> $9DAE -> $96E6` live-field start path is never dispatched.
+
+The scene-`0F` menu is input-dead for the high-team state. The next step is
+to find the menu input routine (`$B8xx`/`$9EF0`) and why it is not called
+here, or to call it explicitly before the handler.
