@@ -3815,3 +3815,45 @@ So the high-team blocker is the **`$0545=3` card cutscene step**, not
 rewrites `$047F=$7C` every frame; the timer never reaches the threshold.
 Next: find the input/animation path that advances `$05D3` during the
 low-team card sequence.
+
+
+## Round 142 — field script pointer `$0543`
+
+The field script engine at bank7 `$9695` is:
+
+```
+9695 LDA $0545
+9698 BEQ $969d
+969a JSR $9011          ; card wait/draw
+969d LDA $0543
+96a0 BEQ $96a5
+96a2 JSR $eaa4          ; script interpreter
+96a5 LDA $0543
+96a8 ORA $0545
+96ab BNE $96bc
+96ad LDA $0489
+96b0 CMP #$03
+96b2 BCC $96b7
+96b4 JMP $d53e          ; box score
+96b7 LDA #$00
+96b9 STA $047c
+96bc RTS
+```
+
+`$0543` is the script step. Bank7 `$9539` sets `$0543=4` (start), and
+`$AAF0` clears it to 0 (end).
+
+At the high-team field, `$0543=00`, `$0545=03`. Forcing `$0543=4`:
+
+```
+after 1 frame: $0543=00, $0545=00, scene 03, $047E=0, $047F=7C, score 0-0
+```
+
+The interpreter runs and immediately ends the script. The field then sits in
+the idle loop at `$96AD` (`$0489<3` -> `$047C=0`), never entering the live
+field.
+
+So the missing piece is the **match-start/order-screen exit**: the routine
+that sets the live-field phase/script for the high-team matchup. Next: compare
+the scene-`0F` B+A exit between the stock and high-team paths and find the
+writer of `$0489`/the start script.

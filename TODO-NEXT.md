@@ -22,7 +22,9 @@ log is in `docs/AUTORUN-REPORT.md`.
       and START can reach scene `0F` but B+A returns to the card loop.
       `$0489=0` is the live field phase, `$0489=3` is the box score; the
       blocker is the `$0545=3` card-cutscene step whose `$05D3` timer never
-      reaches `$903C[$0545]`.
+      reaches `$903C[$0545]`. The script pointer `$0543` starts at 0 and
+      forcing 4 runs the interpreter then clears it; the missing piece is the
+      match-start/order-screen exit that sets the live-field phase.
 
 ## P1 — visible/gameplay correctness
 
