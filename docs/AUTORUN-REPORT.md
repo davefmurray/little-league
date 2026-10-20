@@ -4632,3 +4632,29 @@ sets the NMI guards, `JSR $8000` bracket, `$FF60` team seed, resumes
 
 Next: rebuild from the selector/dispatcher base + bridge, then apply the
 32-team data and verify the AUS/CUB launch/field.
+
+
+## Round 172 — launch bridge validated on launch-prod
+
+`build/launch-prod.nes` (16-team base) has the real bridge:
+
+```
+$98B9: JMP $FF20
+$FF20: guards + JSR $8000 bracket + $FF60 team setup + resume $98C0
+```
+
+Stock flow on it reaches scene 13 (password/matchup) and the bracket A
+completes a match (`scene 0B`, `$04EF/$04F0=00/01`). So the bridge itself
+works for the stock 16-team case.
+
+Two gaps remain for the 32-team high team:
+
+- `build_32team_full.py` never applies the bridge; `direct31` has the boot
+  table at `$FF20`.
+- `$FF60` copies `$7700[0..15]` into `$0650` (the first-round slots), not
+  the **selected match pair**; AUS/CUB (slots 16/17) would not become the
+  matchup teams.
+
+Next: apply `build_extra_rosters.py` + `build_names32.py` + the data chain
+to `launch-prod`, then patch `$FF60` to use `$04EF/$04F0` (or
+`$7700+2*$07FC`) for the selected pair.

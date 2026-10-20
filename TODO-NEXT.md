@@ -15,8 +15,11 @@ change, a commit, and a report/TODO update. Historical detail is in
        (NMI guards, `JSR $8000`, `$FF60` team seed, resume `$98C0`,
        `--direct-teams`/`--skip-password`), but it is **not in
        build_32team_full** and `$FF20` is occupied by the stock boot table.
-       Rebuild from the selector/dispatcher base + bridge, then the 32-team
-       data; then drive AUS/CUB through scene 13/11/0F and the field.
+       `build/launch-prod.nes` validates the bridge on the 16-team base.
+       Rebuild `launch-prod` + `build_extra_rosters`/`build_names32` + the
+       data chain, then patch `$FF60` (currently `$7700[0..15]`) to the
+       selected bracket pair; then drive AUS/CUB through scene 13/11/0F and
+       the field.
 2. [ ] **High-team order-screen / field start (P0).**
        If the match still stalls at scene 0F, fix `$0489`/`$95`/`$C7` or
        force the field entry from the order screen.
