@@ -3986,3 +3986,21 @@ Example: `--seed 0x12345678 --results 0x01234567` gives
 
 Still open: confirm the 16 glyphs against the password CHR bank, and solve
 the 11-character `$06B5` display limit.
+
+
+## Round 148 — CHR tile renderer; password glyphs are inconclusive
+
+Added `tools/render_chr_tiles.py` (pure Python, no PIL): it renders any list
+of 8x8 tiles from a 4 KiB CHR bank into a PNG grid.
+
+```
+python3 tools/render_chr_tiles.py build/direct31.nes --bank 0x1B   --tiles 35,37,48,4a,4b,4d,4f,51,53,55,65,67,68,6a,6c,6e -o /tmp/a.png
+```
+
+Rendered the candidate password alphabet (`$908B`) at bank `$1B` (CHR0) and
+`$18` (CHR1), plus the `-0x20` tile-index variants. The glyphs are blank or
+fragments, not readable letters. So either the password font is in another
+CHR bank, or the screen-code-to-tile base is different.
+
+The `$908B` table remains the strongest candidate for the stock password
+alphabet, but glyph confirmation is still pending.

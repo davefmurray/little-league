@@ -47,8 +47,10 @@ log is in `docs/AUTORUN-REPORT.md`.
       16 hex digits. The A-P letter codec is implemented
       (`encode_letters`/`decode_letters`, 100 letter round-trips) and a
       candidate stock tile alphabet (`STOCK_TILES` from bank5 `$908B`,
-      `encode_stock`/`decode_stock`); still need glyph confirmation plus a
-      wider buffer or 11-char compression.
+      `encode_stock`/`decode_stock`); `tools/render_chr_tiles.py` is available
+      for glyph confirmation, but the initial bank `$1B`/`$18` renders were
+      blank/fragments. Still need the right CHR bank/tile base plus a wider
+      buffer or 11-char compression.
 - [ ] **In-game bench / substitution test.** The data audit is green
       (16 x 20 players + 3 pitcher records); still need a live START-menu
       substitution/pitcher change on a 20-player team.
