@@ -10,6 +10,7 @@ const state = {
   teams: [],
   baseline: '[]',
   selected: 0,
+  playerCount: CONST.PLAYERS,
   dirty: false,
   source: 'demo',
 };
@@ -46,7 +47,7 @@ function normalizeTeam(raw, i) {
     shortWidth,
     shortAttr: Number.isInteger(raw.shortAttr) ? raw.shortAttr : (raw.short_attr ?? 0),
     ratings: Array.from({ length: 4 }, (_, k) => clampInt(raw.ratings?.[k] ?? 2, 1, 4)),
-    players: Array.from({ length: CONST.PLAYERS }, (_, p) => {
+    players: Array.from({ length: state.playerCount || CONST.PLAYERS }, (_, p) => {
       const pl = players[p] ?? {};
       return {
         name: String(pl.name ?? '').slice(0, CONST.NAME_LEN),
@@ -143,7 +144,7 @@ function renderEditor() {
   $('emptyState').hidden = true;
   $('teamPanel').hidden = false;
 
-  $('teamEyebrow').textContent = `Team ${String(state.selected + 1).padStart(2, '0')} / ${TEAM_COUNT}`;
+  $('teamEyebrow').textContent = `Team ${String(state.selected + 1).padStart(2, '0')} / ${state.teams.length}`;
   $('teamTitle').textContent = team.name || '—';
   $('shortPreview').textContent = team.shortName || '—';
   $('teamName').value = team.name;
@@ -262,6 +263,7 @@ async function loadDemo() {
   if (!Array.isArray(doc.teams) || doc.teams.length !== TEAM_COUNT) {
     throw new Error('roster.json has the wrong shape');
   }
+  state.playerCount = CONST.PLAYERS;
   commitTeams(doc.teams, { baseline: true, selected: 0 });
   state.source = 'demo';
   showBanner(
@@ -269,13 +271,32 @@ async function loadDemo() {
     'info');
 }
 
+async function loadDemo32() {
+  const res = await fetch('./roster32.json', { cache: 'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status} for roster32.json`);
+  const doc = await res.json();
+  if (!Array.isArray(doc.teams) || doc.teams.length !== 32) {
+    throw new Error('roster32.json must have 32 teams');
+  }
+  state.playerCount = 20;
+  state.rom = null;
+  state.romName = null;
+  state.source = 'demo32';
+  commitTeams(doc.teams, { baseline: true, selected: 0 });
+  showBanner(
+    '32-team roster preview: 32 x 20 players. JSON export works; load a ROM to enable Export ROM.',
+    'info');
+}
+
 async function importJsonFile(file) {
   if (!file) return;
   try {
     const doc = JSON.parse(await file.text());
-    if (!Array.isArray(doc.teams) || doc.teams.length !== TEAM_COUNT) {
-      throw new Error(`Expected a JSON file with ${TEAM_COUNT} teams.`);
+    if (!Array.isArray(doc.teams) || ![16, 32].includes(doc.teams.length)) {
+      throw new Error('Expected a JSON file with 16 or 32 teams.');
     }
+    state.playerCount = doc.teams.reduce(
+      (n, t) => Math.max(n, Array.isArray(t.players) ? t.players.length : 0), 0) || 15;
     state.teams = doc.teams.map(normalizeTeam);
     state.selected = 0;
     renderAll();
@@ -336,6 +357,10 @@ function exportJson() {
 
 function bindEvents() {
   $('loadBtn').addEventListener('click', () => $('romInput').click());
+  $('load32Btn').addEventListener('click', () => {
+    $('moreMenu').hidden = true;
+    loadDemo32().catch((err) => toast(`32-team demo failed: ${err.message}`, 'error'));
+  });
   $('importJsonBtn').addEventListener('click', () => {
     $('moreMenu').hidden = true;
     $('jsonInput').click();

@@ -2621,3 +2621,27 @@ The two 16-byte colour tables at bank7 `$BAC0`/`$BAD0` have **no direct
 reader** in the ROM (searched for absolute and indexed references). They may
 be unused in this revision. No code change yet; the 32-team colour data is a
 documentation-only gap.
+
+
+## Round 94 — web editor 32 x 20 JSON mode
+
+The browser editor can now load and edit the 32-team, 20-player roster set
+without a ROM:
+
+- new `web/roster32.json` (copy of `data/roster32.json`);
+- `Data -> Load 32-team demo` button;
+- `state.playerCount` controls the player grid padding, so 20 rows render;
+- the team eyebrow uses `state.teams.length`, not the hard-coded 16;
+- JSON import accepts 16 or 32 teams and chooses the player count from the
+  file.
+
+Verified in the T3 preview browser:
+
+```
+default demo:  16 team cards, 15 player rows, "Team 01 / 16"
+32-team demo:  32 team cards, 20 player rows, "Team 01 / 32"
+```
+
+Still pending on the editor: parse/export the 32-team **ROM** layout
+(bank8 `$8000 + team*$170`), and load `teams32.json` names into the ROM
+mode. The current ROM mode remains the stock 16 x 15 editor.

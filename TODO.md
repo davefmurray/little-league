@@ -148,8 +148,10 @@ M3 logic port to bank 11.
 - [ ] CHR plan for flags: copy 8 flags' tiles or 3×2 sprite art; respect the
       71-empty-tile budget.
 - [ ] Selector: page-memory polish, B-to-back behaviour, selected-team marker.
-- [ ] Web editor: layout-driven 16/20/32-team support; load `data/teams32.json`;
-      export the 32×20 build variant.
+- [x] Web editor: 32 x 20 JSON mode (`web/roster32.json`, Data -> Load
+      32-team demo). Verified 32 team cards / 20 player rows.
+- [ ] Web editor ROM mode: parse/export the bank8 `t*$170` 32-team layout and
+      load `teams32.json` names; the ROM path is still stock 16 x 15.
 - [ ] Serve a downloadable patched ROM from the editor? Decide policy.
 
 ## Later / nice to have
