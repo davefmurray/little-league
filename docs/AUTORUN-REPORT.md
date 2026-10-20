@@ -4685,3 +4685,40 @@ match. The bridge's `$FF60` copies `$7700[0..15]` (first-round slots), and
 the cursor/selected pair is not propagated; that is the next patch, together
 with adapting or skipping the round-label/codes steps for the launch-prod
 draw.
+
+
+## Round 174 — HIGH-TEAM FIELD RENDERS
+
+The launch-bridge path now reaches the live field:
+
+```
+launch-prod (16-bank, $98B9 -> $FF20)
+  + build_extra_rosters / build_names32 / build_ratings32 / build_lineups32
+  + $9BFD JSR $9B5F -> JSR $FF60   (direct teams)
+  + $98C8 07 -> 02                 (skip password, matchup)
+  + $8100 cursor 0 -> 16           (AUS/CUB start)
+  + $FF60 pair insert              ($04EF/$04F0 -> $0650/$0651)
+```
+
+Reproduced by `tools/build_launch32.py` -> `build/launch32-high.nes`.
+
+romdev flow:
+
+```
+Start New Series -> team select A -> mode A -> scene 11 (cutscene)
+  -> B -> scene 07 -> scene 0F ($0489=0, "CHANGE ORD")
+  -> A/START -> scene 03
+```
+
+The field renders (`docs/high-team-field.png`): Top 1st, 0-0, batter,
+pitcher, bases, skill meters.
+
+The pitch is still stalled:
+
+```
+$0545=0  $05D3=06  $0547=0  $95=0  $C7=0  $047F=7C
+$0489=0  $047A=04  $04E9=01  $04E4=0
+```
+
+So the remaining P0 is the `$96E6` live-field init/card step, not field
+entry.

@@ -76,6 +76,10 @@ stock 16-team game. The working parts are:
 - **32-team data**: ratings at bank3 `$BC80`, lineups at fixed `$FD80`,
   browser editor 32x20 ROM/JSON modes, CLI `roster.py show` and
   `roster32.py extract/apply`.
+- **High-team field entry**: `tools/build_launch32.py` applies the 32-team
+  data to the real launch-bridge base (`scene-18 $98B9 -> $FF20`), selects
+  the bracket pair (`$FF60` + `$04EF/$04F0`) and reaches the live field at
+  scene `$03` with `$0489=0` (`docs/high-team-field.png`).
 
 <p align="center">
   <img src="docs/teams16-31-select.png" alt="32-team selector page 3: Australia, Cuba, Dominican Republic, Venezuela" width="640">
@@ -85,12 +89,17 @@ stock 16-team game. The working parts are:
   <img src="docs/bracket-layout.png" alt="32-team bracket: real team codes, R32/R16/QF/SF headers, WIN row" width="640">
 </p>
 
+<p align="center">
+  <img src="docs/high-team-field.png" alt="High-team field entry: launch bridge, scene 03, Top 1st, 0-0, live players/bases" width="640">
+</p>
+
 Known gaps / work in progress:
 
-- the high-team field reaches scene `$03` and runs frames, but the game is
-  stuck in the pre-game card/order state machine. The order screen's `$95`
-  status writer (`$B8A9`/`$B90C`) is not called, so `$C7` never sets and the
-  `$9D9F -> $9DAE -> $96E6` live-field start is never dispatched;
+- the high-team **field entry is solved** (launch bridge -> order screen
+  `$0489=0` -> scene `$03`, field rendered, `docs/high-team-field.png`);
+  the remaining field gap is the **pitch/card loop**: `$0545=0`,
+  `$05D3=06`, `$047F=$7C` and the `$96E6` live-field init is never
+  dispatched, so the field sits at Top 1st, 0-0 without a pitch;
 - the 32-team password model is implemented (`tools/password32.py`, 100 hex +
   100 letter + 100 stock-tile round-trips), but the stock password screen is
   an 11-character letter buffer and the candidate alphabet's glyph bank is

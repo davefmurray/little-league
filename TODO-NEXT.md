@@ -1,64 +1,49 @@
 # TODO — FINISH LIST (Step 1), then STEP 2 audit
 
-This is the ordered finish queue. Each item gets a romdev probe or a ROM
-change, a commit, and a report/TODO update. Historical detail is in
-`docs/AUTORUN-REPORT.md`.
+Ordered finish queue. Each item gets a romdev probe or ROM change, a commit,
+and a report/TODO update. History: `docs/AUTORUN-REPORT.md`.
 
 ## Step 1 — finish the list
 
-1. [ ] **Seeded bracket A launch / high-team field (P0).**
-       The seeded ROM boots straight to the 32-team bracket (cursor 16,
-       `$07FC=8`). A still does not launch: the bracket input's A edge is
-       not producing the `$04EF/$04F0` write, and the `--launch-on-a`
-       `JMP $8300` branch never runs. The real launch path exists:
-       `tools/build_launch_bridge.py` hooks scene-18 `$98B9` -> `$FF20`
-       (NMI guards, `JSR $8000`, `$FF60` team seed, resume `$98C0`,
-       `--direct-teams`/`--skip-password`), but it is **not in
-       build_32team_full** and `$FF20` is occupied by the stock boot table.
-       `build/launch-prod.nes` validates the bridge on the 16-team base.
-       Rebuild `launch-prod` + `build_extra_rosters`/`build_names32` + the
-       data chain, then patch `$FF60` (currently `$7700[0..15]`) to the
-       selected bracket pair; then drive AUS/CUB through scene 13/11/0F and
-       the field. The data chain (extra rosters/names/ratings/lineups) applies
-       to launch-prod, but `build_round_labels` fails at `$8077` (WIN tail
-       layout differs); adapt/skip those cosmetic steps.
-2. [ ] **High-team order-screen / field start (P0).**
-       If the match still stalls at scene 0F, fix `$0489`/`$95`/`$C7` or
-       force the field entry from the order screen.
-3. [ ] **LIST OF TEAMS names (P1).**
-       The stock list screen repeats JAPAN; wire the bank-9 32-team names
-       into that list.
-4. [ ] **Field render / SPEED MODE (P1).**
-       The bracket match auto-simulates to the box score; trace the scene-03
-       render and confirm SPEED MODE shows the live field.
+1. [x] **Launch bridge + high-team field entry (P0).**
+       `tools/build_launch32.py` applies the 32-team data to the real
+       launch-bridge base (`launch-prod`, scene-18 `$98B9` -> `$FF20`),
+       patches `$9BFD JSR $FF60`, `$98C8=02` (skip password), `$8100`
+       cursor 16, and `$FF60` pair (`$04EF/$04F0` -> `$0650/$0651`).
+       Flow: Start New Series -> team A -> mode A -> scene 11 -> B ->
+       scene 07 -> scene 0F (`$0489=0`, `CHANGE ORD`) -> A/START ->
+       **scene 03 field rendered** (`docs/high-team-field.png`).
+2. [x] **Order-screen / field start (P0).**
+       The proper 0F `$0489=0` A/START enters scene 03; the earlier
+       `$0489=FF` stall was the wrong (END) path.
+3. [ ] **Pitch / card loop (P0).**
+       The field renders but does not pitch: `$0545=0`, `$05D3=06`,
+       `$047F=7C`, `$95=0`, `$C7=0`; the `$96E6` live-field init is never
+       dispatched. Next: dispatch `$96E6` / drive `$0545` through the
+       `$9011`/`$903C` card steps.
+4. [ ] **LIST OF TEAMS names (P1).**
+       The stock list screen repeats JAPAN; wire the bank-9 32-team names.
 5. [ ] **Match-5 soak stall (P1).**
-       26-match speed soak: matches 0-4 pass, match 5 (09 v 0A) times out at
-       40k frames. Capture the timeout state; fix or document.
+       26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
 6. [ ] **Scene 1E/1F / match-26 (P1).**
        `direct31` scene 1E/1F entries are `$0101`/bank `$AD`; relocate the
-       stock scene table for the 16-bank layout or add a safe handler.
+       stock table or add a safe handler.
 7. [ ] **32-team password screen wiring (P2).**
-       Stock alphabet confirmed: `5 7 H J K M O Q S U e g h j l n`; 11-char
-       base-32 codec done. Decide/implement the screen (wider buffer or
-       entry/continue code) and keep the stock `$074D` path.
+       Stock alphabet `5 7 H J K M O Q S U e g h j l n`; 11-char base-32
+       codec done; wire the screen or the entry/continue code.
 8. [ ] **In-game bench / attribute card (P2).**
-       Once the field is live: START-menu substitution/pitcher change and a
-       printed power/speed/skill card read.
+       START-menu substitution/pitcher change + printed power/speed/skill.
 9. [ ] **Hardware / sound execution (P2).**
-       Run `docs/hardware-checklist.md` and `docs/sound-checklist.md` on a
-       flash cart/MMC1 donor and capture results.
-
-## Step 2 — needs audit
-
-10. [ ] **Audit remaining gaps and write a new TODO list.**
-        After 1-9, inspect the build/tools/docs for new need areas and
-        produce the next prioritized list.
+       Run `docs/hardware-checklist.md` and `docs/sound-checklist.md`.
+10. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
 
-- 32-team bracket state, five rounds, champion slot 62.
-- Real bracket codes, nametable clear, header/title layout.
-- Cold-boot 2 KB RAM seed reaches the 32-team bracket.
-- Password hex/letter/stock-tile/stock-ascii/11-char codecs + live screen.
-- Teams 16-31 data, roster cache, web editor, CLI, build manifest.
-- Stock regression green; docs/hardware/sound/distribution writeups.
+- 32-team bracket state, real codes, nametable clear, layout, cold-boot
+  2 KB RAM seed reaching the bracket.
+- Launch bridge validated on the stock 16-team base; 32-team data applied
+  to `launch-prod` (extra rosters/names/ratings/lineups; the cosmetic
+  round-label step fails at `$8077` because the launch-prod draw differs).
+- High-team matchup and live field entry (scene 03, `$0489=0`).
+- Password codecs/screen capture; teams 16-31 data; roster cache; web
+  editor; CLI; build manifest; stock regression green.
