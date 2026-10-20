@@ -5155,3 +5155,27 @@ at scene 13 "CONTINUE END". Fixed by writing the table first, then the
 cachefix (diff 0), hash
 `d043ecdfc46c4d50c509db30f757425759a556dec3258be462fa9b3d81091ec1`.
 6-match soak green; 26-match soak running.
+
+
+## Round 191 — match 5 fixed; 26-match advances to match 8 (high-team field pitch)
+
+26-match soak on the rebuilt `direct31`:
+
+```
+match 00..07: all OK
+match 08: timeout after 40000 frames
+```
+
+Captured match-8 state:
+
+```
+scene 03, $07FC=08, $04EF/$04F0=10/11 (teams 16/17), $0489=00
+$95=00, $C7=00, scores 0-0, PC $CC0C
+$06B5 "ARI ... AYER CHA" (field HUD)
+$7700[16]/[17] = 10 11
+```
+
+So the **high teams 16/17 reach the live field** in the main `direct31`
+build, at `$0489=0`; the match never pitches. This is the remaining
+pitch/live-field gameplay gap (item 10), not the cache or the launch. The
+original match-5 stall is fixed.

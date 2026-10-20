@@ -28,7 +28,10 @@ History: `docs/AUTORUN-REPORT.md`.
        the LIST OF TEAMS screen must fill them itself; the 32-team build's
        list is still the stock screen missing that setup. Next: find/port
        the stock list setup or replace the screen with the 32-team selector.
-5. [ ] **Match-5 soak stall (P1).**
+5. [x] **Match-5 soak stall (P1) — fixed.**
+       The low-team cache source was the bug; 6-match soak green. The
+       26-match now advances to match 8, which is the high-team (16/17)
+       field pitch (item 10), not the cache.
        26-match speed soak: match 5 (09 v 0A) times out at 40k frames.
        Captured: scene 0F, $07FC=05, $0489=01, $0545=03, $05D3=FF,
        $95=00, $C7=00, $BE=00, $C3=90, $04EF/$04F0=0A/09, $06B5 "...RICO";
@@ -50,9 +53,11 @@ History: `docs/AUTORUN-REPORT.md`.
        START-menu substitution/pitcher change + printed power/speed/skill.
 9. [ ] **Hardware / sound execution (P2).**
        Run `docs/hardware-checklist.md` and `docs/sound-checklist.md`.
-10. [ ] **32-team PLAY mode / player pitch (P1, new).**
-        The bracket only offers SPEED (sim) / WATCH (auto); restore or add
-        the stock PLAY field so the player pitches/hits.
+10. [ ] **Pitch / live-field gameplay (P1, active).**
+        The high teams now reach scene 03 `$0489=0` in `direct31`
+        (match 8: teams 16/17) but the game never pitches (0-0). The
+        bracket offers SPEED (sim) / WATCH (auto) only; trace the pitch
+        loop (`$96E6`/`$0545`/COM flags) and restore/add the PLAY field.
 11. [ ] **STEP 2 audit: find new need areas and write the next TODO.**
 
 ## Done / do not re-open
