@@ -1739,3 +1739,24 @@ score.
 
 Next: identify the scoreboard digits by breaking on the scene-3 draw routine
 that writes the `FLO`/`JAPAN` score tiles, rather than guessing RAM ranges.
+
+## Round 72 — forced-winner return stub designed
+
+Since P1 acceptance allows **forced winners**, added a diagnostic scene-0B hook:
+
+```
+CC68 (scene 0B handler) = $FFC0
+FFC0: LDA $7700     ; forced winner = bracket slot 0
+      STA $7720
+      JMP $8000     ; redraw bracket
+```
+
+Cold-testing by poking `$047B=$0B` at the menu crashes (PC=2) because the
+bracket is entered without the dispatcher/stack context. That is not a valid
+test.
+
+Valid test: play/force a game to the real box-score scene 0B, then confirm the
+hook writes `$7720` and lands on the bracket instead of the box score.
+
+Next: use the existing live-game session, force the game score/end, or let the
+WATCH sim finish, then verify the scene-0B hook in-context.
