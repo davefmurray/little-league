@@ -5745,3 +5745,14 @@ At scene `0x0D` the `$06E2` is still FF and `$06B5` is only
 So the next step is to identify the actual LIST OF TEAMS scene/menu
 handler that calls `$A1AA`/`$A1C6` (the `$047B` value and the caller),
 then seed `$06E2` there.
+
+
+## Round 216 — $A1AA/$A1C6 have no direct callers
+
+Scanned the whole PRG for `JSR/JMP $A1AA` and `JSR/JMP $A1C6`:
+none. The list code is reached indirectly (a scene/pointer table or a
+computed dispatch), so the caller/scene cannot be found by a direct
+reference scan.
+
+Next: search the 2-byte pointer tables for `$A1AA`/`$A1C6` (low/high
+bytes) and trace the title/menu dispatch that reaches the list.

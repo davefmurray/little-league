@@ -28,6 +28,9 @@ History: `docs/AUTORUN-REPORT.md`.
        **Round 215:** the `$A1C6`/`$BF00` seed patch did not run at scene
        0x0D ($06E2 still FF); the list caller/scene must be identified
        first (the `$047B` value and the `$A1AA`/`$A1C6` caller).
+       **Round 216:** no direct `JSR/JMP $A1AA`/`$A1C6` anywhere; the list
+       is reached indirectly. Next: scan 2-byte pointer tables for
+       `$A1AA`/`$A1C6` and trace the title/menu dispatch.
        Name tables (`$B2D6`/`$BC80`/`$BC40`) and loaders are intact; the
        only `$AF53` caller is the matchup draw with `$04EF/$04F0`. The
        list repeats JAPAN because the team ids/slots are 0 (JAPAN), not
