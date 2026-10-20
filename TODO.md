@@ -239,7 +239,8 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
 
 - [x] Carry real bracket pairing into matchup ($7700/$7701).
 - [x] Expand bracket state to 63 slots (32 seeds + 31 FF winner slots).
-- [ ] Find game-result scores in RAM and compute winner.
+- [ ] Reach scene 0B deterministically; find real game score bytes (not $0515/16).
+- [ ] Compute winner and write $7720 + (match/2).
 - [ ] Write winner into $7720 + (match/2); add round map.
 - [ ] Post-game return to bracket.
 - [ ] Advance winner into `$7700` / wins `$7740`.

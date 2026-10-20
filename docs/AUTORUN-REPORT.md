@@ -1689,3 +1689,21 @@ slots.
 
 Next P1: identify the game-result scores in RAM and write the winner into
 `$7720 + (match/2)`, then return to the bracket and redraw.
+
+## Round 69 — score candidates were password bytes
+
+The candidate `01 05` at `$0515/$0516` was **password text**, not the game
+score. The run ended on the PASS WORD screen (`$047B=$13`), not the box score,
+so the scene-0B winner hook never executed.
+
+The `$7720=01` readback came from unrelated password data, not a computed
+winner.
+
+Correction: P1 needs a deterministic path to the box score before winner logic
+can be tested. Next P1 step:
+
+1. start a game and force/observe the actual box-score scene (0B) with a
+   breakpoint, not repeated A presses;
+2. at scene 0B, dump the score display RAM and diff against the password
+   screen to find the real score bytes;
+3. only then add the winner write.
