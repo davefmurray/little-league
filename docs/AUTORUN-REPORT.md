@@ -3960,3 +3960,29 @@ This is the model layer for the stock letter-coded screen. The screen's
 `$06B5` buffer is 11 characters, so a 16-letter password still needs a wider
 buffer or an 11-letter compression; the actual S/U alphabet table also needs
 to be mapped before ROM wiring.
+
+
+## Round 147 — stock password tile alphabet codec
+
+Found a 16-byte tile-code table at bank5 `$908B`:
+
+```
+35 37 48 4A 4B 4D 4F 51 53 55 65 67 68 6A 6C 6E
+```
+
+The live password screen's `$06B5` text used `$53`/`$55`, which are entries
+8/9 of this table, so it is the strongest candidate for the stock password
+alphabet.
+
+`tools/password32.py` now has `encode_stock`/`decode_stock` and the test
+runs:
+
+```
+100 hex + 100 letter + 100 stock-tile round-trips OK
+```
+
+Example: `--seed 0x12345678 --results 0x01234567` gives
+`51 53 4D 4F 4A 4B 37 48 4F 51 4B 4D 48 4A 53 37`.
+
+Still open: confirm the 16 glyphs against the password CHR bank, and solve
+the 11-character `$06B5` display limit.

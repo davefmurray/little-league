@@ -20,6 +20,9 @@ import random
 
 VERSION_BIT = 31
 LETTERS = "ABCDEFGHIJKLMNOP"
+# Candidate stock password alphabet (bank5 $908B, 16 tile codes).
+STOCK_TILES = bytes([0x35, 0x37, 0x48, 0x4A, 0x4B, 0x4D, 0x4F, 0x51,
+                     0x53, 0x55, 0x65, 0x67, 0x68, 0x6A, 0x6C, 0x6E])
 
 
 def xorshift32(state):
@@ -87,6 +90,19 @@ def decode_letters(text):
     return decode(hexstr)
 
 
+def encode_stock(seed, results):
+    """Same 8-byte password as the 16 stock tile codes."""
+    return bytes(STOCK_TILES[int(c, 16)] for c in encode(seed, results))
+
+
+def decode_stock(raw):
+    raw = bytes(raw)
+    if len(raw) != 16 or any(b not in STOCK_TILES for b in raw):
+        raise ValueError("expected 16 stock tile codes")
+    hexstr = "".join(f"{STOCK_TILES.index(b):X}" for b in raw)
+    return decode(hexstr)
+
+
 def test(rounds=100):
     rng = random.Random(0x50415353)
     for _ in range(rounds):
@@ -106,12 +122,20 @@ def test(rounds=100):
         assert dseed == seed and dres == results
         assert dslots == advance(seed_order(seed), results)
 
+    for _ in range(rounds):
+        seed = rng.getrandbits(32)
+        results = rng.getrandbits(31)
+        raw = encode_stock(seed, results)
+        dseed, dres, _, dslots = decode_stock(raw)
+        assert dseed == seed and dres == results
+        assert dslots == advance(seed_order(seed), results)
+
     # Known edge: seed 0 with all-A wins -> champion is the first seed.
     text = encode(0, (1 << 31) - 1)
     _, _, order, slots = decode(text)
     assert slots[62] == order[0]
-    print(f"password32: {rounds} hex + {rounds} letter round-trips OK; "
-          f"champion all-A = {slots[62]}")
+    print(f"password32: {rounds} hex + {rounds} letter + {rounds} stock-tile "
+          f"round-trips OK; champion all-A = {slots[62]}")
 
 
 def main():

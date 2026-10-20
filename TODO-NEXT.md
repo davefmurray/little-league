@@ -45,9 +45,10 @@ log is in `docs/AUTORUN-REPORT.md`.
       (`tools/password32.py`: 8-byte seed + 31 result bits + version), but the
       stock screen is an 11-character **letter-coded** buffer (`$06B5`), not
       16 hex digits. The A-P letter codec is implemented
-      (`encode_letters`/`decode_letters`, 100 letter round-trips); still
-      need the stock S/U alphabet mapping plus a wider buffer or 11-char
-      compression.
+      (`encode_letters`/`decode_letters`, 100 letter round-trips) and a
+      candidate stock tile alphabet (`STOCK_TILES` from bank5 `$908B`,
+      `encode_stock`/`decode_stock`); still need glyph confirmation plus a
+      wider buffer or 11-char compression.
 - [ ] **In-game bench / substitution test.** The data audit is green
       (16 x 20 players + 3 pitcher records); still need a live START-menu
       substitution/pitcher change on a 20-player team.

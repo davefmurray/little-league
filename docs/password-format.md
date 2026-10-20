@@ -116,3 +116,28 @@ round-trips. The stock password screen's `$06B5` buffer is 11 characters,
 so a 16-letter password still needs a wider buffer or an 11-letter
 compression; the actual stock letter alphabet (the S/U table) also needs to
 be mapped before ROM wiring.
+
+
+## Stock tile alphabet (candidate)
+
+Bank5 `$908B` holds 16 tile codes:
+
+```
+35 37 48 4A 4B 4D 4F 51 53 55 65 67 68 6A 6C 6E
+```
+
+The live password screen's `$06B5` text used `$53`/`$55`, which are entries
+8/9 of this table. `tools/password32.py` now has:
+
+```python
+STOCK_TILES = bytes([...])
+encode_stock(seed, results) -> 16 tile codes
+decode_stock(raw) -> (seed, results, order, slots)
+```
+
+Example: `--seed 0x12345678 --results 0x01234567` gives
+`51 53 4D 4F 4A 4B 37 48 4F 51 4B 4D 48 4A 53 37`.
+
+The glyphs still need to be confirmed against the password CHR bank, and the
+stock `$06B5` buffer is 11 characters, so the 16-tile form still needs a
+wider buffer or an 11-tile compression before ROM wiring.
