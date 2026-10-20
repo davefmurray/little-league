@@ -1760,3 +1760,13 @@ hook writes `$7720` and lands on the bracket instead of the box score.
 
 Next: use the existing live-game session, force the game score/end, or let the
 WATCH sim finish, then verify the scene-0B hook in-context.
+
+## Round 73 — SPEED MODE auto-sim not reached yet
+
+Loaded `direct13`, navigated to SPEED/WATCH, pressed A (default SPEED), ran
+12000 frames. Still `$047B=$13`; the mode never started, so the game-end hook
+was not exercised.
+
+The blocker is input sequencing through matchup/SPEED/WATCH, not the hook.
+Next: drive that menu with the same explicit press/release edges used for the
+field, then let SPEED MODE run to scene 0B.
