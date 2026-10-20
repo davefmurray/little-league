@@ -57,6 +57,10 @@ History: `docs/AUTORUN-REPORT.md`.
        version; `seed_order` xorshift32 Fisher-Yates; `advance` -> 63-slot
        heap. Plan: the 16-char `$06B5` buffer -> `$074D` 8 bytes; a new
        32-team decode fills `$7700`/`$7720`; `$98D5`-side encode.
+       **Mock:** `docs/password-screen.html` renders the 16 chars + the
+       bracket from `seed_order`/`advance` (seed 0x12345678 -> chars
+       `QSMOJK7H55555555`, champion NEW YORK). Next: the `$06B5` buffer
+       and the 6502 decode/encode.
        Stock alphabet `5 7 H J K M O Q S U e g h j l n`; 11-char base-32
        codec done; wire the screen or entry/continue code.
 8. [ ] **In-game bench / attribute card (P2).**

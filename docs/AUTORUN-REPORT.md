@@ -5589,3 +5589,22 @@ Screen plan for the 32-team game:
 - `$98D5`-side encode from the bracket state back to `$074D`.
 
 Next: the `$06B5` buffer and the new decode/encode in bank5.
+
+
+## Round 208 — 32-team password screen mock (item 7)
+
+Added `docs/password-screen.html`: a self-contained mock of the 16-char
+32-team password screen.
+
+- The 16 slots use the stock alphabet `57HJKMOQSUeghjln`.
+- The state is the 8-byte seed + results + version; the hex and the chars
+  are shown together.
+- The bracket below is generated from `seed_order` (xorshift32
+  Fisher-Yates) + `advance` (31 result bits -> 63-slot heap), matching
+  `tools/password32.py`.
+- Seed `0x12345678`, results `0` -> hex `7856341200000080` -> chars
+  `QSMOJK7H55555555`; the bracket renders; the champion is NEW YORK.
+- No console errors.
+
+This is the visual/spec target for the bank5 screen wiring: `$06B5`
+16 chars -> `$074D` 8 bytes -> the new 32-team decode -> `$7700`/`$7720`.
