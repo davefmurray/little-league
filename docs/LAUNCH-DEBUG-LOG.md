@@ -404,3 +404,29 @@ build their lineup. That is the "on-demand roster cache for teams 16–31"
 milestone, not a launch bug.
 
 Both new switches are opt-in: `--skip-password`, `--direct-teams`.
+
+## Loops 19–25 — verification sweep
+
+| loop | check | result |
+|---|---|---|
+| 19 | all four d-pad directions + page wrap | right 0→1, down 1→5, left 5→4, up 4→0, left 0→page3/cursor3, right page3/3→page0/0 |
+| 20 | bracket seed for a page-2 pick | `$7700 = 10 00 01 02 …`, slot 0 shows team 16 (`T17`), cursor `$07C7` 0→1 on down |
+| 21 | bracket A at slot 1 | writes `$04EF/$04F0 = 01 00`; the launch still uses match 0 (`$0650[0]/[1]`) — cursor is browse-only for now |
+| 22 | clean rebuild from the documented chain + regression | `screenshots MATCH`, 0 RAM bytes differ |
+| 23 | default and `--direct-teams` builds | both reach `$047B=$03` on the field |
+| 24 | stock-flow harness after the team setup change | still reaches the field (`$047B=$03`, teams `0f/00`) |
+| 25 | team 5 from the final build, end-to-end | `$07C3=05`, matchup `05/00` (NEW YORK vs JAPAN), field `05/00`, `$27=$06`, PC `$CE01` |
+
+Working state: selector → bracket → A → (password) → matchup → speed mode →
+cutscene → field, with the player's first-round pair. Teams 16–31 reach the
+matchup with `--direct-teams` but need the roster cache/data before the field.
+
+### Loop log index
+
+1 reproduce · 2 frame/RTS · 3 NMI task queue · 4 `$2C/$2D` · 5 `$C040` MMC1 ·
+6 `$98D5/$047D` · 7 end-to-end · 8 selector wiring · 9 nametable · 10
+`$047B` zero-page · 11 `$0522` · 12 team data path · 13 `$0650←$7700` · 14
+selector branches + `$FF` redraw · 15 pick verification · 16 playability · 17
+skip-password · 18 direct-teams · 19 directions · 20 bracket seed · 21 bracket
+cursor · 22 rebuild/regression · 23 default/direct field · 24 harness · 25
+final team-5 run.
