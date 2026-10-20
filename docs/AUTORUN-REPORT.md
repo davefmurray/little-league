@@ -2140,6 +2140,18 @@ Next concrete P1 step: make the order screen deterministic, either
 2. patch the scene-0F handler to auto-select END (the END branch is bank1
    `$993B-$9945`: `LDA #$03 / STA $047B / JMP $CBA2`).
 
-Then the 31-match WATCH soak can run to champion slot 62 (`$773E`).
+### Failed shortcuts (do not repeat)
+
+- Patching bank1 `$96FE` (`LDA $06E1`) to `JMP $993B` jumps to END before the
+  menu state is ready: scene becomes 03 but the field never initializes
+  (static cutscene / broken CHR).
+- `cpu call $993B` from the live order screen also sets scene 03, but the
+  field sits at 0-0 forever; the END branch alone does not reproduce the
+  menu's state.
+- Poking `$04E9` at that field only garbles the screen.
+
+So the fix must reproduce the COM-vs-COM skip **before** scene 0F, not jump
+over the menu after it. Then the 31-match WATCH soak can run to champion slot
+62 (`$773E`).
 
 P1 remains open.
