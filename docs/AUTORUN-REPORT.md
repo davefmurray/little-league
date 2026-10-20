@@ -1586,3 +1586,31 @@ old branch. P0 is shippable without corrupting the team-code table.
 Remaining P1 defect visible in the proof: **both sides are FLO**. The A branch
 writes `$04EF/$04F0`, but stock ends up using the same team for both. This is
 the first P1 task.
+
+## Round 65 — duplicate team source found
+
+Write watch on `$04F0` during launch:
+
+```
+PC    = $9C14 (bank 5)
+value = $0F
+```
+
+Disassembly:
+
+```
+9C0B LDA $0650,Y
+9C0E STA $04EF
+9C11 LDA $0651,Y
+9C14 STA $04F0
+```
+
+So stock copies the two bytes at `$0650/$0651` into the team IDs. Both are
+`$0F`, which is why both sides are FLO.
+
+Tried writing distinct bytes to `$0650` (`$07C7`, EOR 1) in the launch stub.
+Readback is still `0F 0F`; some later routine regenerates the buffer.
+
+Next: write-watch `$0650` after launch and patch the routine that overwrites it,
+or patch the two `LDA $0650,Y`/`LDA $0651,Y` operands to read two distinct
+mailbox bytes.
