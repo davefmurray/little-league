@@ -4542,3 +4542,22 @@ The bracket then appears at scene 12; DOWN x16 puts the cursor on AUS/CUB.
 Separate bug: **LIST OF TEAMS** shows the stock 16-team list with the team
 name repeated (JAPAN); the bank-9 32-team name table is not wired into that
 list screen. It does not block the Start New Series -> bracket path.
+
+
+## Round 168 — the 32-team bracket is a CONTINUE/saved state, not a new-series screen
+
+Fresh-boot probe:
+
+- the ONLY prompt option is END (RIGHT/LEFT both land on END);
+- Start New Series is the stock 4-team flow; it never opens the 32-team bracket;
+- cart RAM `$7F00` has the roster pointers, but `$7700` (the bracket slots)
+  is zero; the emulator's earlier bracket came from **leftover system RAM**,
+  not a battery save.
+
+So the 32-team bracket at scene 12 is the **CONTINUE** state. A fresh
+Mesen2 boot has no continue, hence END only. The emulator reproduced the
+bracket because its system RAM still held the previous session's state.
+
+Next: seed the 2 KB system RAM (and, if needed, the `$7700` cart-RAM heap)
+at boot in a debug ROM, so the bracket opens without a save/password. That
+is a ROM-side fix and can be verified entirely in romdev.

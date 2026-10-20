@@ -51,6 +51,10 @@ log is in `docs/AUTORUN-REPORT.md`.
       Cursor DOWN x16 -> AUS/CUB; the match runs (12-0 in romdev).
 - [ ] **Field render.** The bracket match auto-simulates to the box score;
       choose SPEED MODE / trace the scene-03 render to see the live field.
+- [ ] **Seed the fresh-boot continue state.** The 32-team bracket is a
+      CONTINUE/saved state; a fresh boot only offers END. Build a debug ROM
+      that seeds the 2 KB system RAM (and `$7700` if needed) at boot so the
+      bracket opens without a save/password, then test the high-team field.
 
 - [ ] **Capture a low-team live-field/card-handoff save state** (or a
       breakpoint trace at the scene-`0F`/field transition). Probe result:
