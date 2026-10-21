@@ -237,3 +237,11 @@ source.
 `docs/backlog.json` + `tools/backlog.py` + `tools/verify.sh` +
 `docs/AUTOLOOP.md`. `regression` task done: full verify (check_build +
 bracket/roster tests + 6-match soak) green. Next pick: `pitch-06e2`.
+
+
+## Round 228 note (pitch trace)
+
+`$AD10`: `$06E2[team*2+side]`; `$0490`=team, `$0491`=group. At the
+match-5 stall `$0490=00/$0491=FF` (stale), `$02=0x30` (out of range), so
+`$06E2[18]` is never written. Fix: set `$0490`/`$0491` before `$AD10` and
+guard `$02 < 32`.

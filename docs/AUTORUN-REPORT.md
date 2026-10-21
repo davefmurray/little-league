@@ -5993,3 +5993,37 @@ Result: `check_build OK d043ecdf…`; `test_bracket32`/`test_roster32` OK;
 
 `regression` -> done. Next pick: `pitch-06e2` (restructure the
 `$AC9D`/`$AD10` team-index logic).
+
+
+## Round 228 — $AD10 trace: index = team*2 + side; $0490/$0491 stale
+
+Disassembled `$AD10`:
+
+```
+AD10: LDX $01
+AD12: LDA $06E2,X / LSR x4      ; high nibble = group
+AD19: CMP $0490,Y               ; compare with the group input
+AD1C: BEQ found
+AD1E: INX / INX                 ; stride 2 = team*2
+AD20: CPX #$12 / BCC
+AD24: STX $02,Y / RTS
+AD27: STX $02,Y / CLC / RTS
+```
+
+At the match-5 stall:
+
+```
+$01=03, $02=30, $04ED=00
+$0490=00, $0491=FF
+$06E2[18]=00
+```
+
+So the index formula is `$06E2[team*2 + side]`; `$0490` is the team,
+`$0491` is the group. At the stall they are **stale** (`0`/`FF`), not
+the pair 09/0A, and `$02=0x30` is outside the 16/32-byte table, so the
+write lands out of range and team 9's `$06E2[18]` is never set.
+
+Fix direction: set `$0490`/`$0491` from the current pair before `$AD10`
+(at `$AC9D`), and guard `$02 < 32`.
+
+Trace task done.
