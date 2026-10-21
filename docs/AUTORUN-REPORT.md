@@ -5864,3 +5864,25 @@ source of the stock group table. The earlier `$06E2` writers
 
 Next: read those `$AC` writers and rebuild the 32-team `$06E2` there
 (16 teams x 2 groups), not from `$FD80`.
+
+
+## Round 222 — $06E2 high nibble = $0491 group; low = team/slot
+
+Disassembled the `$AC20-$ACC3` group writers:
+
+```
+AC3D: LDA $06E2,Y / AND #$0F / STA $10
+      LDA $0491 / ASL x4 / ORA $10 / STA $06E2,Y
+AC89: LDA $06E2,Y / AND #$0F / STA $10
+      LDA $0491 / ASL x4 / ORA $10 / STA $06E2,Y
+AC9D: LDA $04ED / STA $01 / LDA #$12 / STA $03 / LDY #$00 / JSR $AD10
+      LDA $0490 / JSR $AD08 / LDY $02 / LDA $06E2,Y / AND #$0F / STA $10
+      LDA $0491 / ASL x4 / ORA $10 / STA $06E2,Y
+```
+
+So the `$06E2` entry is `(group << 4) | low` with `$0491` as the group;
+`$9A1C`/`$9A4E`/`$9FA9` read the high nibble as the group. The stock table
+is the 8-team x 2 layout; the 32-team needs 16 teams x 2 groups = 32
+entries built at these writers.
+
+Next: the 32-byte `$06E2` build at the `$AC` writers (`$0491` per team).

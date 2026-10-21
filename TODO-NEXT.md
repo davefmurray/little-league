@@ -191,3 +191,10 @@ Fixed `$FD80` even bytes are `08 29 42 65 84 17 35 56 71 07 23 44 62 85
 17 33`, not the stock `$06E2` (`04 07 17 16 ...`). So `$AD51` is not the
 group-table source; the `$AC31/$AC4D/$AC7D/$AC85/$AC99/$ACC3` writers
 are. Next: rebuild the 16-team `$06E2` there.
+
+
+## Round 222 note (item 10)
+
+`$06E2` entry = `(group << 4) | low`; the group comes from `$0491` at the
+`$AC3D/$AC4D/$AC89/$AC99/$ACC3` writers. The stock table is 8-team x 2;
+the 32-team needs 16 teams x 2 = 32 entries at those writers.
