@@ -5817,3 +5817,27 @@ mapping. It must be elsewhere in the order/field state (`$0545`/`$05D3`/
 
 Next: re-inspect the pair4 match-5 stall with the `$06E2` mapping proven
 correct; compare `$04EF/$04F0`/`$0650`/`$B2`/`$9A1C` values.
+
+
+## Round 220 — pair4 $06E2 second half is $FD80 even bytes; team 9 -> team 4
+
+Re-ran the pair4 6-match soak:
+
+```
+matches 0-4: OK
+match 5: timeout
+state: $047B=0F, $047C=08, $B2=10, $BC=FF
+$06B5 = "      CHANGE ORD"
+$0527=FF $0547=00 $0545=02 $05D3=FF
+$06E2[0..15] = 07 04 16 17 24 23 32 36 43 42 58 55 65 68 79 79
+$06E2[16..23] = 81 81 00 00 17 16 23 23
+```
+
+So the `$AD51` copy's second half comes from the `$FD80` even bytes
+(team 8+ first players), not from a team-indexed group table.
+`$06E2[18] = 0x00`, not the team 9 entry. The `$06E2` layout is the
+8-team (0-7) x 2 stock layout; the 32-team list/order needs a proper
+16-team / 32-byte team-indexed group table.
+
+Next: build the 16-team `$06E2` at the source (`$AD51`/`$FD80` or the
+team setup) so team 0-15 map to their own group entries.

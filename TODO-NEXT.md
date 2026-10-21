@@ -174,3 +174,12 @@ History: `docs/AUTORUN-REPORT.md`.
 pair4 `$06E2` is 32 bytes, so team 9's slot is `$06E2[18]` and resolves
 correctly. The pair4 match-5 stall is therefore not the `$06E2` mapping;
 re-inspect the order/field state next (`$0545`/`$05D3`/`$B2`/`$9A1C`).
+
+
+## Round 220 note (item 10)
+
+Pair4 soak: matches 0-4 OK, match 5 timeout. `$06E2[16..23] =
+81 81 00 00 17 16 23 23` proves the `$AD51` copy's second half is
+`$FD80` even bytes (team 8+ first players), not a team-indexed group
+table; `$06E2[18]=00` (not team 9). The 32-team needs a proper 16-team /
+32-byte `$06E2` at the source.
