@@ -5950,3 +5950,24 @@ Next: patch both writes via a JSR helper in free space (no inline shift),
 or find a safe site.
 
 Committed evidence: pair7 ROM local, no repo change.
+
+
+## Round 226 — pair7b JSR helper both writes; match 4 still stalls
+
+`$BF00` helper:
+
+```
+BF00: STA $06E2,Y
+      STA $06E3,Y
+      RTS
+ACC3: JSR $BF00   (replaces STA $06E2,Y)
+```
+
+Soak: matches 0-3 OK, **match 4 timeout** (same as pair6).
+
+The `$AC9D` Y*2 rewrite of the table still breaks the low teams; the
+both writes don't fix it. The `$AC9D`/`$AD10`/`$02` logic itself is the
+problem for the 32-team table, not just the missing odd write.
+
+Next: restructure the `$AC9D`/`$AD10` team-index logic at the source
+instead of patching the table write.

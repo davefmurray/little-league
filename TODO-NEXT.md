@@ -222,3 +222,11 @@ pair7 tried an inline `STA $06E3,Y` after `$ACC3`; it broke the boot
 (`$06E2=FF`, `$07FC=FF`, match 0). Inline shifts are unsafe here; next
 use a JSR helper in free space to write both `$06E2[Y*2]` and
 `$06E2[Y*2+1]`.
+
+
+## Round 226 note (item 10)
+
+pair7b (`$BF00` helper writing both `$06E2[Y]` and `$06E2[Y+1]`, JSR
+from `$ACC3`): matches 0-3 OK, match 4 still stalls. The `$AC9D`/`$AD10`
+Y*2 rewrite is wrong for the 32-team; restructure that logic at the
+source.
