@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "active",
       "depends_on": [],
-      "next": "0490/0491 writers: B241 (0524/0525), B254 (0515), A152 (C0->0491), ABAC clear, AC0B/ACA0 clear. Trace B241/B254 and A152 at match 5; 0491=FF likely from A152/C0. Then set 0490/0491 from the current pair before AD10.",
+      "next": "At match-5 stall: C0=00, 0490=00, 0491=FF, 0524=04, 0525=0B, 0515=06, 02=30, 01=03. The 0490/0491 are stale (not 0524/0525). Fix: before AD10 at AC9D, set 0490=0524 and 0491=0525 (JSR helper), guard 02<32.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

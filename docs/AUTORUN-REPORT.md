@@ -6047,3 +6047,22 @@ list-cursor write (`$C0=0x0E/0x0F` or `FF`), not the pair.
 Pitch re-opened with the new hypothesis: trace `$B241`/`$B254`/`$A152` at
 match 5, then set `$0490`/`$0491` from the current pair before `$AD10`
 and guard `$02 < 32`.
+
+
+## Round 230 — match-5 $0490/$0491 stale vs $0524/$0525
+
+Match-5 stall read:
+
+```
+C0=00  0490=00  0491=FF
+0524=04  0525=0B  0515=06
+02=30  01=03
+```
+
+So `$0524`/`$0525` hold a pair-ish (04/0B), while `$0490`/`$0491`
+(what `$AD10` reads) are stale `00`/`FF`. The `$C0=00` rules out the
+`$A152` cursor at this moment.
+
+Fix hypothesis: before `$AD10` at `$AC9D`, set
+`$0490 = $0524` and `$0491 = $0525` (JSR helper at `$BF00`), and guard
+`$02 < 32`.
