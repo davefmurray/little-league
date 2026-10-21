@@ -113,7 +113,9 @@
       "title": "Write both $06E2[Y*2] and $06E2[Y*2+1]",
       "priority": "P0",
       "status": "queued",
-      "depends_on": ["pitch-06e2"],
+      "depends_on": [
+        "pitch-06e2"
+      ],
       "next": "JSR helper in free space; no inline shift",
       "verify": "$06E2[18]/[19] = team 9 group; 10-match soak",
       "attempts": 0,
@@ -125,7 +127,9 @@
       "title": "Source-level 16-team x 2 group table",
       "priority": "P0",
       "status": "queued",
-      "depends_on": ["pitch-06e2"],
+      "depends_on": [
+        "pitch-06e2"
+      ],
       "next": "rewrite the $AC9D/$AD10 team/slot logic for 16 teams x 2",
       "verify": "10-match soak green; $06E2 32 bytes correct",
       "attempts": 0,
@@ -149,7 +153,9 @@
       "title": "Seed $06E2 at list entry + 32 names",
       "priority": "P1",
       "status": "queued",
-      "depends_on": ["list-dispatch"],
+      "depends_on": [
+        "list-dispatch"
+      ],
       "next": "seed $06E2 32 + $071A 32 at the list entry; re-run name check",
       "verify": "list shows 32 real names, no JAPAN fallback",
       "attempts": 0,
@@ -173,7 +179,9 @@
       "title": "Bank5 32-team encode + 16-char screen",
       "priority": "P1",
       "status": "queued",
-      "depends_on": ["password-decode"],
+      "depends_on": [
+        "password-decode"
+      ],
       "next": "encode bracket state -> $074D; wire $06B5 screen",
       "verify": "encode/decode round-trip; screen shows 16 chars",
       "attempts": 0,
@@ -185,7 +193,9 @@
       "title": "26-match soak (field/pitch)",
       "priority": "P1",
       "status": "queued",
-      "depends_on": ["pitch-06e2"],
+      "depends_on": [
+        "pitch-06e2"
+      ],
       "next": "run 26 matches including the match-8 high-team field",
       "verify": "all 26 matches pass",
       "attempts": 0,
@@ -197,7 +207,9 @@
       "title": "Launch-bridge $FF60 + direct-teams in main build",
       "priority": "P1",
       "status": "queued",
-      "depends_on": ["soak-26"],
+      "depends_on": [
+        "soak-26"
+      ],
       "next": "integrate $FF60 pair/direct-teams/skip-password or use launch-bridge base",
       "verify": "high teams 16-31 field correct",
       "attempts": 0,
@@ -208,13 +220,13 @@
       "id": "regression",
       "title": "Wire verify.sh into the loop",
       "priority": "P0",
-      "status": "queued",
+      "status": "done",
       "depends_on": [],
       "next": "run tools/verify.sh after every done",
       "verify": "check_build + data tests + 6-match soak pass",
-      "attempts": 0,
-      "evidence": "",
-      "last_commit": ""
+      "attempts": 1,
+      "evidence": "check_build d043ecdf; test_bracket32/test_roster32 OK; 6-match soak matches 0-5 OK",
+      "last_commit": "ad8c902"
     },
     {
       "id": "hardware-audio",
