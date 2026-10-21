@@ -198,3 +198,11 @@ are. Next: rebuild the 16-team `$06E2` there.
 `$06E2` entry = `(group << 4) | low`; the group comes from `$0491` at the
 `$AC3D/$AC4D/$AC89/$AC99/$ACC3` writers. The stock table is 8-team x 2;
 the 32-team needs 16 teams x 2 = 32 entries at those writers.
+
+
+## Round 223 note (item 10)
+
+pair5 (`$AD51` copy 34 -> 16): matches 0-4 OK, match 5 still stalls;
+`$06E2[16..23] = cf df 00 00 00 60 60 00`, team 9 slot `$06E2[18]=00`.
+The `$AC` writers only build 16 entries; the 32-team needs 32 at those
+writers (16 teams x 2 groups).

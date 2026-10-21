@@ -5886,3 +5886,24 @@ is the 8-team x 2 layout; the 32-team needs 16 teams x 2 groups = 32
 entries built at these writers.
 
 Next: the 32-byte `$06E2` build at the `$AC` writers (`$0491` per team).
+
+
+## Round 223 — $AD51 copy limited to 16; match 5 still stalls
+
+pair5: `$AD57` `CPX #$22` -> `#$10` (copy only the first 16 bytes from `$FD80`).
+
+```
+$06E2[0..15] = 04 07 17 16 23 24 36 32 42 43 55 58 68 65 79 79
+$06E2[16..23] = cf df 00 00 00 60 60 00
+```
+
+The second half is no longer the `$FD80` lineup bytes, but the team 9
+slot `$06E2[18] = 00 00`, not a group entry.
+
+Soak: matches 0-4 OK, match 5 timeout (`$047B=0F`, `$047C=08`,
+`$B2=10`, `$BC=FF`, "CHANGE ORD").
+
+Conclusion: the `$AC` writers only build 16 entries; the 32-team needs
+16 teams x 2 = 32 entries there, not just truncating `$AD51`.
+
+Next: extend the `$AC` writers' X/Y to cover 16 teams x 2 groups.
