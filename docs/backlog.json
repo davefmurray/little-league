@@ -100,13 +100,14 @@
       "id": "pitch-06e2",
       "title": "$06E2 32-entry group table (pitch)",
       "priority": "P0",
-      "status": "active",
+      "status": "blocked",
       "depends_on": [],
       "next": "restructure the $AC9D/$AD10 team-index logic; pair6/7b show Y*2 alone corrupts the table",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 3,
       "evidence": "pair7b match 4 stall (f343569)",
-      "last_commit": "f343569"
+      "last_commit": "f343569",
+      "blocked_reason": "3 attempts exhausted: pair4/pair5 (Y) match-5 stall; pair6 (Y*2) match-4 stall; pair7b (both + JSR $BF00) match-4 stall. Need runtime trace of $AD10/$02/$04ED before more table patches."
     },
     {
       "id": "pitch-odd",
@@ -236,6 +237,18 @@
       "depends_on": [],
       "next": "Mesen2/FCEUX/EverDrive/NES + audio regression + SRAM CONTINUE",
       "verify": "release checklist in docs/hardware-sound.md",
+      "attempts": 0,
+      "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "pitch-ad10-trace",
+      "title": "Runtime trace $AD10/$02/$04ED at order",
+      "priority": "P0",
+      "status": "queued",
+      "depends_on": [],
+      "next": "read $02/$04ED/$03/$0490/$0491 at scene 0F match 5; map team to $06E2 index",
+      "verify": "explain why $06E2[18] != team 9 and document the exact index formula",
       "attempts": 0,
       "evidence": "",
       "last_commit": ""
