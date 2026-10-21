@@ -6100,3 +6100,21 @@ contains groups 0-7 (8 groups x 2); the scan misses and `$02=0x20` lands
 outside the table.
 
 Next: build `$06E2` with 16 groups (32 bytes) so groups 8-15 exist.
+
+
+## Round 233 — pair11 both writes regressed again
+
+pair11: `$BF13` helper writes both `$06E2,Y` and `$06E3,Y`; `$ACC3` JSR.
+
+```
+matches 0-1: OK
+match 2: timeout, $047B=0x16, "WATCH THE GAME"
+$06E2 = 05 09 17 17 ... 0f 0f 01 00 ...
+```
+
+So the odd write itself breaks the order — same failure shape as pair8.
+The `$06E2` 16-byte layout is 8 groups x 2; a 32-byte 16-group table
+must be built at the source (`$AC31`/`$AC9D`/etc.), not by patching the
+store instruction.
+
+Next: build `$06E2` 32 bytes at the `$AC` writers from 16 groups.
