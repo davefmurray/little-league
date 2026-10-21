@@ -235,13 +235,14 @@
       "id": "hardware-audio",
       "title": "Hardware + audio runs",
       "priority": "P2",
-      "status": "queued",
+      "status": "blocked",
       "depends_on": [],
       "next": "Mesen2/FCEUX/EverDrive/NES + audio regression + SRAM CONTINUE",
       "verify": "release checklist in docs/hardware-sound.md",
-      "attempts": 0,
+      "attempts": 1,
       "evidence": "",
-      "last_commit": ""
+      "last_commit": "",
+      "blocked_reason": "Requires user hardware/audio: Mesen2, FCEUX, EverDrive/N8, real NES, audio capture and SRAM power-cycle. The loop can verify ROMs in romdev but cannot run the hardware/audio checklist."
     },
     {
       "id": "pitch-ad10-trace",
