@@ -230,3 +230,10 @@ pair7b (`$BF00` helper writing both `$06E2[Y]` and `$06E2[Y+1]`, JSR
 from `$ACC3`): matches 0-3 OK, match 4 still stalls. The `$AC9D`/`$AD10`
 Y*2 rewrite is wrong for the 32-team; restructure that logic at the
 source.
+
+
+## Loop (AUTOLOOP)
+
+`docs/backlog.json` + `tools/backlog.py` + `tools/verify.sh` +
+`docs/AUTOLOOP.md`. `regression` task done: full verify (check_build +
+bracket/roster tests + 6-match soak) green. Next pick: `pitch-06e2`.

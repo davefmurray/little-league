@@ -5971,3 +5971,25 @@ problem for the 32-team table, not just the missing odd write.
 
 Next: restructure the `$AC9D`/`$AD10` team-index logic at the source
 instead of patching the table write.
+
+
+## Round 227 — loop online; regression task green
+
+Added the automation loop:
+- `tools/backlog.py` (queue CLI), `docs/backlog.json` (19 tasks),
+- `tools/verify.sh` (stock gate + optional 6-match soak),
+- `docs/AUTOLOOP.md` (contract).
+
+First loop iteration:
+
+```
+pick   -> regression (P0)
+start  -> attempts 1
+verify -> ./tools/verify.sh --with-soak
+```
+
+Result: `check_build OK d043ecdf…`; `test_bracket32`/`test_roster32` OK;
+6-match soak matches 0-5 all OK (match 5: 09 v 0A -> `$7725=09`, 1-0).
+
+`regression` -> done. Next pick: `pitch-06e2` (restructure the
+`$AC9D`/`$AD10` team-index logic).
