@@ -6081,3 +6081,22 @@ shifted the order into the SPEED/WATCH path and corrupted `$06E2`.
 
 Next: set `$0490/$0491` from `$04EF/$04F0` (the actual current pair
 09/0A) instead, keep the `$02 < 32` guard, and re-test.
+
+
+## Round 232 — pair10 restores order path; match 5 still needs groups 8-15
+
+pair10 helper (restores `$03=$12`, sets `$0490=$04EF`/`$0491=$04F0`):
+
+```
+matches 0-4: OK
+match 5: timeout
+$06E2 = 07 04 16 17 24 23 32 36 43 42 58 55 65 68 79 79 a2 af 00 00 ...
+state: $047B=0F, $B2=10, $BC=FF, "CHANGE ORD"
+```
+
+The `$03` restore fixed the match-2 regression. The match-5 stall is now
+clearly the **group table**: `$0490=09` (team group 9) but `$06E2` only
+contains groups 0-7 (8 groups x 2); the scan misses and `$02=0x20` lands
+outside the table.
+
+Next: build `$06E2` with 16 groups (32 bytes) so groups 8-15 exist.
