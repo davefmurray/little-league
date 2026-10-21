@@ -6118,3 +6118,22 @@ must be built at the source (`$AC31`/`$AC9D`/etc.), not by patching the
 store instruction.
 
 Next: build `$06E2` 32 bytes at the `$AC` writers from 16 groups.
+
+
+## Round 234 — pair12 (32-byte $06E2) = pair4; team 9 slot still 00
+
+pair12 = pair10 (order fix) + `$AD51` copy 34 (32-byte `$06E2`).
+
+```
+matches 0-4: OK
+match 5: timeout
+$06E2[16..23] = 81 81 00 00 17 16 23 23
+$06E2[18] = 00
+```
+
+Same as pair4: the second half is `$FD80` even bytes, so team 9's slot
+is still `00`. The 16 groups must come from the `$AC` writers
+(`$AC31`/`$AC9D` and friends), with `$0491` as the group.
+
+Next: make the `$AC` writers build group entries 8-15 in the second
+half of the 32-byte `$06E2`.
