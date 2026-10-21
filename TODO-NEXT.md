@@ -183,3 +183,11 @@ Pair4 soak: matches 0-4 OK, match 5 timeout. `$06E2[16..23] =
 `$FD80` even bytes (team 8+ first players), not a team-indexed group
 table; `$06E2[18]=00` (not team 9). The 32-team needs a proper 16-team /
 32-byte `$06E2` at the source.
+
+
+## Round 221 note (item 10)
+
+Fixed `$FD80` even bytes are `08 29 42 65 84 17 35 56 71 07 23 44 62 85
+17 33`, not the stock `$06E2` (`04 07 17 16 ...`). So `$AD51` is not the
+group-table source; the `$AC31/$AC4D/$AC7D/$AC85/$AC99/$ACC3` writers
+are. Next: rebuild the 16-team `$06E2` there.

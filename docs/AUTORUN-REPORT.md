@@ -5841,3 +5841,26 @@ So the `$AD51` copy's second half comes from the `$FD80` even bytes
 
 Next: build the 16-team `$06E2` at the source (`$AD51`/`$FD80` or the
 team setup) so team 0-15 map to their own group entries.
+
+
+## Round 221 — $06E2 stock does not come from $FD80 even bytes
+
+Fixed-bank `$FD80`:
+
+```
+08 16 29 31 42 57 65 73 84 04 17 29 35 48 56 63 71 82 07 19 23 38 ...
+even bytes 0..30: 08 29 42 65 84 17 35 56 71 07 23 44 62 85 17 33
+```
+
+Stock `$06E2`:
+
+```
+04 07 17 16 23 24 36 32 42 43 55 58 68 65 79 79
+```
+
+They do **not** match, so `$AD51` (the `$FD80` -> `$06E2` copy) is not the
+source of the stock group table. The earlier `$06E2` writers
+`$AC31/$AC4D/$AC7D/$AC85/$AC99/$ACC3` build the real group table.
+
+Next: read those `$AC` writers and rebuild the 32-team `$06E2` there
+(16 teams x 2 groups), not from `$FD80`.
