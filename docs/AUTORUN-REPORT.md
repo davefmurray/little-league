@@ -5791,3 +5791,29 @@ handler, not from a code reference.
 
 Next: trace the title menu scene (the `$047B` value that draws the list)
 and the data tables it indexes.
+
+
+## Round 219 — $9A1C/$9A4E/$9FA9 already use team*2; pair4 table correct
+
+Re-read the three readers:
+
+```
+9A1C: LDA $BC / ASL / PHA / TAY / LDA $9B60,Y / STA $06B4 / LDA $9B61,Y
+      / STA $06B3 / PLA / ORA $BD / TAY / LDA $06E2,Y
+      -> $06E2[$BC*2 + $BD]
+9A4E: LDA $BC / ASL / ORA $BD / TAY / LDA $06E2,Y
+      -> $06E2[$BC*2 + $BD]
+9FA9: LDA $01 / ASL / ORA $BD / TAY / LDA $06E2,Y
+      -> $06E2[$01*2 + $BD]
+```
+
+So all three already index `team*2 + group`. The pair4 `$06E2` is 32 bytes
+(`$AD51` `CPX #$22`), so team 9's slot is `$06E2[18]`, and `$9A1C`/
+`$9A4E` resolve it correctly.
+
+Therefore the pair4 match-5 order stall is **not** the `$06E2` index
+mapping. It must be elsewhere in the order/field state (`$0545`/`$05D3`/
+`$B2`/`$9A1C` result).
+
+Next: re-inspect the pair4 match-5 stall with the `$06E2` mapping proven
+correct; compare `$04EF/$04F0`/`$0650`/`$B2`/`$9A1C` values.

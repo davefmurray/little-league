@@ -166,3 +166,11 @@ History: `docs/AUTORUN-REPORT.md`.
 - 32-team bracket state/codes/layout; cold-boot seed; launch bridge; data;
   high-team field render and match result; password codecs; teams 16-31
   data; roster cache; web editor; CLI; build manifest; stock hash/tests.
+
+
+## Round 219 note (item 10)
+
+`$9A1C`, `$9A4E` and `$9FA9` already index `$06E2[team*2 + group]`; the
+pair4 `$06E2` is 32 bytes, so team 9's slot is `$06E2[18]` and resolves
+correctly. The pair4 match-5 stall is therefore not the `$06E2` mapping;
+re-inspect the order/field state next (`$0545`/`$05D3`/`$B2`/`$9A1C`).
