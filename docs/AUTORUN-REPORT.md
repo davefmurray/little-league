@@ -6027,3 +6027,23 @@ Fix direction: set `$0490`/`$0491` from the current pair before `$AD10`
 (at `$AC9D`), and guard `$02 < 32`.
 
 Trace task done.
+
+
+## Round 229 — $0490/$0491 writers found; pitch re-opened
+
+`$0490`/`$0491` writers:
+
+```
+B241: LDA $0490 / STA $0524 / LDA $0525 / STA $0491   (order/team)
+B254: LDA $0515 / STA $0490                            (order state)
+A152: LDA $C0 / STA $0491 / INC $BA                    (list cursor!)
+ABAC: clear 0490/0491/0492
+AC0B/ACA0: clear 0490/0491
+```
+
+At the match-5 stall `$0491=FF` — the strongest candidate is the `$A152`
+list-cursor write (`$C0=0x0E/0x0F` or `FF`), not the pair.
+
+Pitch re-opened with the new hypothesis: trace `$B241`/`$B254`/`$A152` at
+match 5, then set `$0490`/`$0491` from the current pair before `$AD10`
+and guard `$02 < 32`.
