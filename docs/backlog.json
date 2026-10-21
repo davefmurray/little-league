@@ -141,13 +141,14 @@
       "id": "list-dispatch",
       "title": "Find LIST OF TEAMS title scene/$9B68 dispatch",
       "priority": "P1",
-      "status": "active",
+      "status": "blocked",
       "depends_on": [],
       "next": "trace $047B title scene and the $9B68 pointer table ($A0C6..$A286, stride $40)",
       "verify": "list entry reached; $06E2 seeded",
-      "attempts": 2,
+      "attempts": 3,
       "evidence": "$A1C6 patch not reached at scene 0x0D",
-      "last_commit": "08b5412"
+      "last_commit": "08b5412",
+      "blocked_reason": "3 attempts + context checkpoint. Baseline: at scene 0x0D the list shows only CONTINUE END and $06E2=FF. $A1AA/$A1C6/$9B68 is an indirect data/pointer chain (no direct refs; $A1C6 is the 5th pointer of the $9B68 table, $A0C6..$A286 stride $40). Next: disassemble/dump $A0C6..$A286 and trace the $047B title menu that indexes it; then seed $06E2 at the list entry."
     },
     {
       "id": "list-seed",
