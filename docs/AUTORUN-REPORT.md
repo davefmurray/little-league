@@ -6170,3 +6170,19 @@ The `$AD10` scans for `$0490` (09) in the high nibble. Even if the
 
 Next: confirm the `$0490`/`$0491` roles (find vs write) and the write
 index (`$02` vs `$02+1`); the target is `$06E2[18]` holding group 9.
+
+
+## Round 237 — pitch-06e2 blocked after pair8-12
+
+Root cause consolidated:
+
+- `$06E2` first half = the 8 group entries (0-7) built by the `$AC`
+  writers.
+- `$06E2` second half = `$FD80` lineup bytes (team 8+ first players),
+  **not** group entries 8-15.
+- At match 5 `$0490=09` (find) / `$0491=0A` (write), but `$06E2[18]=00`
+  (FD80 byte), so the scan never finds group 9 and `$02=0x20`.
+
+Blocked per the 3-strike rule. Resume: restructure the `$AC` writers so
+the 32-byte `$06E2` gets groups 8-15, preserving the `$0490` find /
+`$0491` write roles.
