@@ -167,13 +167,14 @@
       "id": "password-decode",
       "title": "Bank5 32-team decode (seed_order/advance)",
       "priority": "P1",
-      "status": "active",
+      "status": "blocked",
       "depends_on": [],
       "next": "implement $074D -> $7700/$7720 decode; 16-char $06B5 buffer",
       "verify": "password32 round-trip in ROM",
-      "attempts": 1,
+      "attempts": 2,
       "evidence": "docs/password-screen.html mock",
-      "last_commit": "938443b"
+      "last_commit": "938443b",
+      "blocked_reason": "Context checkpoint. Baseline: password32.py test green (100x hex/letter/stock-tile/stock-ascii/short); stock $9B5F is 16-team only. 32-team decode to implement: $074D 8 bytes = 32-bit seed + 31 result bits + version -> seed_order (xorshift32 Fisher-Yates) + advance -> $7700 32 slots / $7720 winners; 16-char $06B5 buffer. Needs a fresh context for the ~120-byte 6502 routine."
     },
     {
       "id": "password-encode",
