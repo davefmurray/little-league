@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "pair12 match-5: $0490=09 (group to find), $0491=0A (group written), $06E2[18]=00. The $AC9D write must put the found group value at the group*2 slot; check whether $0490/$0491 should be swapped or the write index is $02 vs $02+1.",
+      "next": "pair13 prefill at AD4E wrote (t<<4)|t: $06E2=00 00 11 11 .. 88 88 00 00 aa aa ..; matches 0-4 OK, match 5 still. The $AC9D path overwrote $06E2[18]/[19] to 00, killing team 9 group. Next: make $AC9D write the group 9 at slot 18 (or stop it zeroing the slot); then match 5.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

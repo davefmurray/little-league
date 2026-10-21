@@ -6186,3 +6186,21 @@ Root cause consolidated:
 Blocked per the 3-strike rule. Resume: restructure the `$AC` writers so
 the 32-byte `$06E2` gets groups 8-15, preserving the `$0490` find /
 `$0491` write roles.
+
+
+## Round 238 — pair13 prefill works; $AC9D zeroes team-9 slot
+
+pair13 replaced the `$FD80` copy with a prefill `($06E2[2t]=$06E2[2t+1]=(t<<4)|t)`:
+
+```
+$06E2 = 00 00 11 11 22 22 33 33 44 44 55 55 66 66 77 77 88 88 00 00 aa aa bb bb
+matches 0-4: OK
+match 5: timeout
+```
+
+The prefill works (groups 8-11 exist at 16/18/20/22), but `$06E2[18]/[19]`
+are **00** — the `$AC9D` path overwrote the team-9 slot, and `$0490=09`
+still misses.
+
+Next: make `$AC9D` write group 9 at slot 18 (or stop it zeroing the
+slot), then re-run.
