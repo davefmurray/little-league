@@ -5907,3 +5907,23 @@ Conclusion: the `$AC` writers only build 16 entries; the 32-team needs
 16 teams x 2 = 32 entries there, not just truncating `$AD51`.
 
 Next: extend the `$AC` writers' X/Y to cover 16 teams x 2 groups.
+
+
+## Round 224 — AC9D Y*2 alone corrupts 06E2; match 4 stalls
+
+pair6: patched `$ACB1` to `LDY $02 / TYA / ASL / TAY` (`$06E2[Y*2]`).
+
+```
+$06E2 = 04 08 16 15 29 22 33 37 47 43 58 54 62 69 75 76 f4 ff ...
+```
+
+So only the even entries are rewritten; the odd entries keep old values
+and the table is corrupted. The soak now stalls **earlier** at match 4
+(previously 0-4 passed).
+
+Conclusion: `$06E2` is the 8-teams x 2 layout (even/odd pairs); writing
+only the even half breaks the low teams. The 32-team needs **both**
+`$06E2[Y*2]` and `$06E2[Y*2+1]` (or a source-level restructure of the
+`$AC` writers).
+
+Next: write both entries or restructure the `$AC` writers.

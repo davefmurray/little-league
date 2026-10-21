@@ -206,3 +206,11 @@ pair5 (`$AD51` copy 34 -> 16): matches 0-4 OK, match 5 still stalls;
 `$06E2[16..23] = cf df 00 00 00 60 60 00`, team 9 slot `$06E2[18]=00`.
 The `$AC` writers only build 16 entries; the 32-team needs 32 at those
 writers (16 teams x 2 groups).
+
+
+## Round 224 note (item 10)
+
+pair6 (`$AC9D` Y*2 only): `$06E2` even entries rewritten, odd entries
+stale -> table corrupted, match 4 stalls (earlier than pair5). The
+32-team needs both `$06E2[Y*2]` and `$06E2[Y*2+1]` or a source-level
+restructure.
