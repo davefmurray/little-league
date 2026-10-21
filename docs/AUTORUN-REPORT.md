@@ -6137,3 +6137,19 @@ is still `00`. The 16 groups must come from the `$AC` writers
 
 Next: make the `$AC` writers build group entries 8-15 in the second
 half of the 32-byte `$06E2`.
+
+
+## Round 235 — pair12: $06E2[18]=00, group 9 scan misses
+
+pair12 (32-byte table, order fix) still stalls at match 5. The scan path:
+
+```
+$AD10 reads $06E2[0x12] = 00 -> group 0, not 9
+$0490=09 -> no match -> $02=0x20 (out of table)
+```
+
+So the `$AC9D` group write must target the `group*2` slot with the real
+`$0491` group; `$06E2[18]` must receive group 9 (0x9x), not 00.
+
+Next: verify `$AC9D`/`$0491` at the match-5 order and fix the write index
+so `$06E2[18]` becomes the team-9 group.
