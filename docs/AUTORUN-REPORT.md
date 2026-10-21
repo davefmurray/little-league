@@ -6153,3 +6153,20 @@ So the `$AC9D` group write must target the `group*2` slot with the real
 
 Next: verify `$AC9D`/`$0491` at the match-5 order and fix the write index
 so `$06E2[18]` becomes the team-9 group.
+
+
+## Round 236 — pair12: $0490=09 vs $0491=0A, write still 00
+
+The match-5 order has:
+
+```
+$0490 = 09  (group to find)
+$0491 = 0A  (group written)
+$06E2[18] = 00
+```
+
+The `$AD10` scans for `$0490` (09) in the high nibble. Even if the
+`$AC9D` write uses `$0491` (0A), the slot would hold group 10, not 9.
+
+Next: confirm the `$0490`/`$0491` roles (find vs write) and the write
+index (`$02` vs `$02+1`); the target is `$06E2[18]` holding group 9.
