@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "active",
       "depends_on": [],
-      "next": "At match-5 stall: C0=00, 0490=00, 0491=FF, 0524=04, 0525=0B, 0515=06, 02=30, 01=03. The 0490/0491 are stale (not 0524/0525). Fix: before AD10 at AC9D, set 0490=0524 and 0491=0525 (JSR helper), guard 02<32.",
+      "next": "pair8 (0490=0524/0491=0525 + guard) regressed: matches 0-1 OK, match 2 -> scene 0x16 WATCH, $06E2 changed. 0524/0525 are NOT the pair. Next: set 0490/0491 from $04EF/$04F0 (current pair) instead.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

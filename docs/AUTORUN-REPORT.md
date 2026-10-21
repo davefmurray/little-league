@@ -6066,3 +6066,18 @@ So `$0524`/`$0525` hold a pair-ish (04/0B), while `$0490`/`$0491`
 Fix hypothesis: before `$AD10` at `$AC9D`, set
 `$0490 = $0524` and `$0491 = $0525` (JSR helper at `$BF00`), and guard
 `$02 < 32`.
+
+
+## Round 231 — pair8 ($0490=0524/$0491=0525) regressed
+
+```
+matches 0-1: OK
+match 2: timeout, $047B=0x16, $06B5="WATCH THE GAME"
+$06E2 = 05 09 17 17 24 26 39 33 43 48 51 55 68 64 76 72 ff ff 04 00 ...
+```
+
+So `$0524`/`$0525` (04/0B) are **not** the current pair; using them
+shifted the order into the SPEED/WATCH path and corrupted `$06E2`.
+
+Next: set `$0490/$0491` from `$04EF/$04F0` (the actual current pair
+09/0A) instead, keep the `$02 < 32` guard, and re-test.
