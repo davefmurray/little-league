@@ -214,3 +214,11 @@ pair6 (`$AC9D` Y*2 only): `$06E2` even entries rewritten, odd entries
 stale -> table corrupted, match 4 stalls (earlier than pair5). The
 32-team needs both `$06E2[Y*2]` and `$06E2[Y*2+1]` or a source-level
 restructure.
+
+
+## Round 225 note (item 10)
+
+pair7 tried an inline `STA $06E3,Y` after `$ACC3`; it broke the boot
+(`$06E2=FF`, `$07FC=FF`, match 0). Inline shifts are unsafe here; next
+use a JSR helper in free space to write both `$06E2[Y*2]` and
+`$06E2[Y*2+1]`.

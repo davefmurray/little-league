@@ -5927,3 +5927,26 @@ only the even half breaks the low teams. The 32-team needs **both**
 `$AC` writers).
 
 Next: write both entries or restructure the `$AC` writers.
+
+
+## Round 225 — pair7 (odd $06E2 insert) breaks boot
+
+Inserted `STA $06E3,Y` (`99 E3 06`) after `STA $06E2,Y` ($ACC6):
+
+```
+ACC3: 99 e2 06   STA $06E2,Y
+ACC6: 99 e3 06   STA $06E3,Y
+...
+```
+
+Boot: `$06E2=FF`, `$07FC=FF`, state all `FF`; match 0 fails.
+
+The inline 3-byte insert shifted a branch target/code used by another
+path, or `$06E3` overlaps the following code/table. The branch offset
+alone is unchanged, but the surrounding code is not safe for an inline
+shift.
+
+Next: patch both writes via a JSR helper in free space (no inline shift),
+or find a safe site.
+
+Committed evidence: pair7 ROM local, no repo change.
