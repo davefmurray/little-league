@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "pair13 prefill at AD4E wrote (t<<4)|t: $06E2=00 00 11 11 .. 88 88 00 00 aa aa ..; matches 0-4 OK, match 5 still. The $AC9D path overwrote $06E2[18]/[19] to 00, killing team 9 group. Next: make $AC9D write the group 9 at slot 18 (or stop it zeroing the slot); then match 5.",
+      "next": "pair13 match-5: 04EF/04F0 = 00/00 (not 09/0A!), so the helper sets 0490/0491=00/00; AD10 matches [0x12]=00 and AC9D rewrites [0x12]=00. 0524=01/0525=0A. Next: find the real current-pair source at the order (0524/0525?) and set 0490/0491 correctly before AD10.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

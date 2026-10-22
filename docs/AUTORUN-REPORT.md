@@ -6204,3 +6204,22 @@ still misses.
 
 Next: make `$AC9D` write group 9 at slot 18 (or stop it zeroing the
 slot), then re-run.
+
+
+## Round 239 — pair13: $04EF/$04F0 are 00/00 at match-5 order
+
+Instrumented pair13 at the match-5 stall:
+
+```
+01=02  02=30  03=D0  04ED=00
+0490=00  0491=00  0524=01  0525=0A  0515=08
+$06E2 = 00 00 11 11 ... 88 88 00 00 aa aa bb bb
+```
+
+So the helper copied `$04EF/$04F0` = **00/00**, not the actual pair 09/0A.
+`$AD10` matches `$06E2[0x12]=00` against `$0490=00` and `$AC9D` rewrites
+it to 00 — the prefill entry is destroyed. `$0524/$0525` hold `01/0A`.
+
+Next: find the real current-pair source at the order (likely
+`$0524/$0525` at this point) and set `$0490/$0491` from it before
+`$AD10`.
