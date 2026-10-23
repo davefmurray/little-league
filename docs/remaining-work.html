@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Remaining work — 32-team ROM</title>
+<style>
+  :root{
+    --bg:#0b0d10; --panel:#12161c; --line:#26313f; --fg:#e8eef7;
+    --muted:#8a97a8; --green:#48d17a; --amber:#f2b134; --red:#e5484d;
+    --mono:"SF Mono",ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--mono);padding:18px 0 28px}
+  .wrap{max-width:728px;margin:0 auto;padding:0 4px}
+  h1{font-size:16px;letter-spacing:.14em;margin:0 0 3px}
+  .sub{color:var(--muted);font-size:11px;margin-bottom:12px}
+  .legend{display:flex;gap:14px;font-size:10px;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle}
+  .lane{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+  .lane h2{font-size:10px;letter-spacing:.16em;color:var(--muted);margin:0 0 8px;font-weight:600}
+  .row{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+  .node{background:#0a0f14;border:1px solid var(--line);border-left:3px solid var(--c);border-radius:6px;padding:7px 9px;min-width:150px;flex:1}
+  .node .id{font-size:9px;color:var(--muted);letter-spacing:.04em}
+  .node .t{font-size:11px;font-weight:600;margin:2px 0}
+  .node .n{font-size:9px;color:var(--muted);line-height:1.35}
+  .arrow{align-self:center;color:var(--muted);font-size:14px}
+  .group{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+  .done{font-size:10px;color:var(--muted);line-height:1.7}
+  .done b{color:var(--green)}
+  .note{background:#0a0f14;border:1px dashed var(--line);border-radius:8px;padding:10px;font-size:10px;color:var(--muted);line-height:1.55}
+  .note b{color:var(--amber)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>32-TEAM ROM &mdash; REMAINING WORK</h1>
+  <div class="sub">10 of 20 backlog tasks done &middot; 4 blocked &middot; 6 queued</div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--red)"></i>blocked</span>
+    <span><i class="dot" style="background:var(--amber)"></i>queued</span>
+    <span><i class="dot" style="background:var(--green)"></i>done</span>
+  </div>
+
+  <div class="lane">
+    <h2>PITCH / FIELD &mdash; CRITICAL PATH (P0)</h2>
+    <div class="row">
+      <div class="node" style="--c:var(--red)">
+        <div class="id">pitch-06e2 &middot; P0 &middot; BLOCKED</div>
+        <div class="t">$06E2 16-group table</div>
+        <div class="n">Next: trace $0526 setter / $B271-$97B9 vs $B234; refresh $0490/$0491 at order</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="group">
+        <div class="node" style="--c:var(--amber)"><div class="id">pitch-odd</div><div class="t">both $06E2 writes</div></div>
+        <div class="node" style="--c:var(--amber)"><div class="id">pitch-restructure</div><div class="t">source-level 16&times;2</div></div>
+        <div class="node" style="--c:var(--amber)"><div class="id">soak-26</div><div class="t">26-match soak</div></div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="node" style="--c:var(--amber)"><div class="id">bridge-integrate</div><div class="t">$FF60 + direct teams</div></div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <h2>LIST OF TEAMS (P1)</h2>
+    <div class="row">
+      <div class="node" style="--c:var(--red)">
+        <div class="id">list-dispatch &middot; BLOCKED</div>
+        <div class="t">title scene / $9B68 dispatch</div>
+        <div class="n">Next: dump $A0C6..$A286 (stride $40); trace $047B</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="node" style="--c:var(--amber)"><div class="id">list-seed</div><div class="t">seed $06E2 + 32 names</div></div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <h2>PASSWORD (P1)</h2>
+    <div class="row">
+      <div class="node" style="--c:var(--red)">
+        <div class="id">password-decode &middot; BLOCKED</div>
+        <div class="t">32-team seed_order/advance</div>
+        <div class="n">Next: bank5 32-team decode $074D &rarr; $7700/$7720</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="node" style="--c:var(--amber)"><div class="id">password-encode</div><div class="t">encode + 16-char screen</div></div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <h2>HARDWARE / AUDIO (P2)</h2>
+    <div class="row">
+      <div class="node" style="--c:var(--red)">
+        <div class="id">hardware-audio &middot; BLOCKED</div>
+        <div class="t">Mesen2 / FCEUX / EverDrive / NES</div>
+        <div class="n">Needs your hardware + audio + SRAM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <h2>DONE (10)</h2>
+    <div class="done">
+      <b>&check;</b> launch-bridge &middot; order-start &middot; field-cache &middot; match5 &middot; scene1e &middot; hw-docs &middot; bench-design &middot; step2 &middot; regression &middot; pitch-ad10-trace
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Critical path:</b> pitch-06e2 &rarr; the 26-match soak &rarr; bridge integration. The pitch timing trace is the only thing between the current state and a full 32-team field.
+  </div>
+</div>
+</body>
+</html>
