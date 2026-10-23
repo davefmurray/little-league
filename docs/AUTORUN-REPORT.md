@@ -6472,3 +6472,20 @@ isn't the group 09/0A.
 
 Next: breakpoint on write `$0490` (1168) and `$0524` (1316) to find who
 sets them and when.
+
+
+## Round 253 — $0524 write hits $A4B0 with value 01
+
+Breakpoint on write `$0524` (pair16):
+
+```
+pc: $A4B0 (STA $0524)
+valueByte: 0x01
+callerPc: $CC3E, $CC11
+bank: 5
+```
+
+So the pair loader **does run** and writes `$0524 = 01`. `$0490` still
+ends 00, so something after `$B234` zeroes/overwrites `$0490`.
+
+Next: breakpoint on write `$0490` (1168) to find the zeroing writer.
