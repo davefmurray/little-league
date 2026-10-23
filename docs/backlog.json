@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Bank3 indirect JMP list: 9B2F ($EBF8), A122 ($E5FC), A2E5 ($E7FC), A790 ($E50F), AADC/AC18 ($F91D), AD49 ($F91B). The pair-loader dispatch is likely one of these. Next: instrument $A4AA/$B234 at runtime (breakpoint) to see if loader runs at match-5; or check which vector points into $A440-$A490.",
+      "next": "Breakpoint on read $0524 hit at $985A (frame 1872, value 01): LDA $06E2,Y / LSR x4 / CMP $0524 / BEQ $9826. So $0524 IS the group to compare with $06E2 high nibble. $0524=01 at that point. Next: breakpoint on $06E2[18] read / $A4AA write, compare $0524 source vs $0490; the group comparison is the failing link.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

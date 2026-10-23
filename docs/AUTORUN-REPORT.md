@@ -6415,3 +6415,21 @@ AD49: JMP ($F91B)
 The pair-loader dispatch is one of these vectors. Next: instrument `$A4AA`/
 `$B234` at runtime (breakpoint) to see whether the loader runs at the
 match-5 order; or resolve which vector points into `$A440-$A490`.
+
+
+## Round 250 — breakpoint: $0524 read at $985A (group compare)
+
+```
+984B: LDA $b2 / AND #$0F / ASL A / ORA $bd / TAY
+9853: LDA $06E2,Y
+9856: LSR A x4
+985A: CMP $0524
+985D: BEQ $9826
+```
+
+Breakpoint on read `$0524` hit at `$985A`, frame 1872, value `$01`. So
+`$0524` is the **group value compared against the `$06E2[Y]` high
+nibble** — the actual match check. At that moment `$0524=01`.
+
+Next: breakpoint on `$06E2[18]` read / `$A4AA` write to see whether the
+group table and `$0524` agree; the mismatch is the failing link.
