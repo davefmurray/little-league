@@ -57,17 +57,20 @@ def wait_for(pred, max_frames, chunk=250, label="", on_scene=None):
 
 
 def leave_lineup():
-    """Confirm the pre-game order screens (both teams).
+    """Walk the pre-game order screens back to END, then confirm.
 
-    The top-level handler (bank1 $9BAB) treats B as "select END": it sets
-    $BE=7, and A confirms.  This is deterministic; the old RIGHT x3 walk
-    depended on the hidden $BE selection and often entered a submenu.
+    The high-team path ($06E1=1) opens the change-orders editor as a
+    multi-page menu and B steps back two states at a time ($BA -= 2).
+    The old B -> A alternation re-entered the editor: B backed out one
+    page, A selected the highlighted item again.  Press B until the
+    scene changes (or six tries), then A confirms END if still on 0F.
     """
-    for _ in range(2):
+    for _ in range(6):
         if rd_sys(0x047B)[0] != 0x0F:
             return
         press("b", 2)
-        step(10)
+        step(15)
+    if rd_sys(0x047B)[0] == 0x0F:
         press("a", 2)
         step(30)
 

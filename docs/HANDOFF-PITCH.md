@@ -1,5 +1,12 @@
 # HANDOFF — 32-team ROM, pitch capture/restore (fresh-start)
 
+> **Superseded (Round 268).** The match-5 stall is not the pair capture:
+> `$0524/$0525` are already valid at the order screen and the `$B247`
+> capture never runs. The blocker is the high-team order-menu exit.
+> See `docs/AUTORUN-REPORT.md` Round 268 and
+> `tools/build_pitch_pair23.py`. The `pair22` capture/restore is kept
+> as documented but is inert in this flow.
+
 Repo: `/Users/dfm/GitHub/nesdav/little-league` · branch `main` · HEAD `0fd0e8d`
 Working tree clean; stock `build/direct31.nes` = pinned `d043ecdf…`.
 

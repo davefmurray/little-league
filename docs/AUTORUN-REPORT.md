@@ -6711,3 +6711,52 @@ The only known-good pair is `$0490=01/$0491=09` at field entry
 (`$047B=03`). Next: capture those into scratch RAM at scene 03 and
 re-assert at scene 05, or patch the order to reload the scene-03 pair
 before `$AD10`.
+
+
+## Round 268 — match 5 is the high-team order menu, not the pair
+
+Re-ran pair17 with the soak driver. Matches 0-4 pass; match 5 times out
+at `$047B=0F`. Live state at the stall:
+
+```
+$0524=01 $0525=0A $0526=0A
+$06E2 = 00 00 11 11 ... 88 88 99 99 aa aa ... ff ff   (32 entries, valid)
+$0490=00 $0491=00   BA=11 BE=04 BD=00 C2=00   $07F2=FF
+```
+
+The pair and the 32-byte group table are already correct; `$B247`/
+`$B234` are simply downstream of the stall. Scene 0F dispatches through
+bank7 `$8C4F` -> bank1 `$96ED`; `$06E1=1` takes `$9749`, then the `$BA`
+table opens the change-orders editor. B decrements `$BA` by two
+(`$9904`), so the old B -> A alternation backed out one page and A
+re-entered it. The state never reaches the END item.
+
+pair22 (capture `$0524/$0525` at `$B247` -> `$07F2/$07F3`, restore at
+`$AC09`/`$AC9E`) boots and matches 0-4 still pass, but match 5 stalls
+identically: the capture site is never executed (`$07F2` stays `FF`).
+`$04D1/$04D2` from the handoff are **not free** (bank6 `$AB55`,
+`$AEF1`, `$AFAB/$AFB2/$AFFB/$B6FD/$B77C`, `$AFBB/$B781`;
+bank7/bank15 `$9ED4`), so pair22 uses the documented `$07F2/$07F3`
+debug scratch and helpers in the bank7 `$BF00` FF padding.
+
+pair23 = pair22 + bank1 `$9C42` `JMP $9C4C` (`EA EA`). That always takes
+the stock `$06E1==0` exit instead of `LDA #$07 / STA $BE`, so B leaves
+the order screen. With `leave_lineup` pressing B until the scene leaves
+0F (rather than B -> A), the 10-match soak passes:
+
+```
+match 05: 09 v 0A -> $7725=09 (score 0-0) OK  index=06
+match 06: 0B v 0C -> $7726=0C (score 0-1) OK  index=07
+match 07: 0D v 0E -> $7727=0D (score 1-0) OK  index=08
+match 08: 10 v 11 -> $7728=10 (score 0-0) OK  index=09
+match 09: 12 v 13 -> $7729=13 (score 0-1) OK  index=0A
+```
+
+Stock gate: `check_build`, `test_bracket32`, `test_roster32`, and the
+6-match `--with-soak` all green.
+
+Conclusion: the pair capture/restore is inert in this flow. The match-5
+blocker is the high-team order-menu exit. Follow-up `order-menu-high`:
+fix the second-team order draw (`$BA=03` -> `$99B8`, display list at
+`$0300` overflows and `$0032` wraps) and drop the `$9C42` forced exit.
+
