@@ -6689,3 +6689,14 @@ Result: matches 0-4 OK (boot preserved), match 5 still stalls with
 So by scene 05 the pair source `$0524` is already 0. Next: reload from a
 persistent source (`$0526`? `$04EF/$04F0`?) or move the reload earlier
 (scene 03 entry).
+
+
+## Round 266 — 0526 also 00 at scene 05
+
+`$0526` read at scene 05 is `00`, same as `$0524/$0525`. All three pair
+RAM cells are cleared by then. So reloading from them at scene 05 can't
+work.
+
+Next: use `$04EF/$04F0` (the team ids) as the group source at scene 05,
+or reload at scene-03 entry before the clear, or read the bracket pair
+table (`$052D`/`$A3C2`) directly.
