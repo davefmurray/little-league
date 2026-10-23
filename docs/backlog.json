@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Breakpoint at $B234 hit frame 1820 with 0524=01/0525=09, 0490=FF/0491=FF BEFORE copy. So the copy DOES run with the loader pair. Next: step past $B234 and read 0490/0491; if they become 01/09 then a later writer zeroes them at the order (find it); if not, the copy path is conditional (0523 BNE branch at B24C).",
+      "next": "pair17 (force B234 copy: NOPs at B24C) still stalls; 0490=00/0491=00 at stall, 06E2 keeps 99/99. So even with the copy forced, 0490 ends 00. The 0490=FF->01 path needs tracing after B234 with the copy forced (breakpoint on write 0490 in pair17). Next: run pair17 with breakpoint on 0490 write to see if it ever gets 01 and who clears it.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

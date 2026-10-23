@@ -6583,3 +6583,22 @@ may still skip the `$0490` store from `$0524`.
 Next: step past `$B234` and read `$0490/$0491` — if they become `01/09`,
 a later writer zeroes them at the order; if not, the `$0523` branch is
 the cause.
+
+
+## Round 260 — pair17 forced copy still ends 0490=00
+
+pair17 = pair16 + NOPs at `$B24C` (`LDA $0523`/`BNE $B259`), forcing the
+`$B234` copy. Still:
+
+```
+matches 0-4: OK
+match 5: timeout
+0490=00 0491=00
+$06E2 = ... 88 88 99 99 aa aa bb bb
+```
+
+So even with the copy forced, `$0490` ends `00`. Either the `$0523`
+branch wasn't the only gate, or a later write clears it again.
+
+Next: breakpoint on `$0490` write in pair17 to see whether it ever gets
+`01`, and who clears it after.
