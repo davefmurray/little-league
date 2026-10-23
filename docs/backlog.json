@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "A490 is the loader: LDA $04EF,X (team); ASL; STA $08; LDA $048A&1 EOR 1 -> X; LDA $052D,X | $08 -> Y; LDA $A3C2,Y -> $0525/$0526; LDA $04FD,X -> $0524. Table $A3C2=09 07 09 0a 0d 0e... Next: find A490 caller (A3F6?) and whether it runs before B234; $04FD is the likely pair source.",
+      "next": "A490 is reached by fall-through from A48D (LDX $04EE); the routine starts at A470 (BPL/INC/CMP). No direct JSR A470/A490. Next: find the bank5 routine entry (A46F or earlier) and its caller; verify 04EE/04EF are valid before A490.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

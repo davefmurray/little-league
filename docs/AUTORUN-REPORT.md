@@ -6359,3 +6359,23 @@ pair is entirely from `$04EF`/`$04FD`/`$052D`/`$048A`.
 
 Next: find `$A490`'s caller and whether it runs before `$B234`; `$04FD`
 is the likely real pair source.
+
+
+## Round 247 — A490 is a fall-through; A470 routine has no direct caller
+
+```
+A470: BPL $A474
+A472: INC $08
+A474: LDA $08 / CMP $11 / BPL $A47B / RTS
+A47B: LDA $04B7 / AND #$0C / BEQ / LDA #$01
+A484: CLC / ADC $0793,Y / CMP $10 / BPL $A48D / RTS
+A48D: LDX $04EE
+A490: LDA $04EF,X
+...
+```
+
+No `JSR $A470`/`JSR $A490` exists. The pair loader is a fall-through
+continuation of the `$A470` routine (entry likely `$A46F` or earlier).
+
+Next: find the `$A46F`/earlier entry and its caller; confirm `$04EE`/
+`$04EF` are valid when `$A490` runs.
