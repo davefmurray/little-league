@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "After breakpoint run: 0490=01, 0491=09, 0524=01. So at that stop 0490/0491 are group 1/9 (find=1, write=9) and 0524=1. The stall read 0490=00 happens later. Next: run past the 9E75 hit (maxFrames larger / resume) and read 0490/0491/0524 at successive frames to find the zero; or breakpoint on $A4B0 and read after.",
+      "next": "Stepping after 9E75: 0490 stays 01, 0491 09, 0524 01 for 180 frames; 047B goes 0F -> 03 (field). So 0490 is NOT zeroed in this path; the stall earlier read 00 came from a different point. Next: sample 0490 in the actual match-5 stall run (pair16 6-match then read) to compare; and check why 047B=03 does not start the match.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

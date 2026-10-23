@@ -6533,3 +6533,19 @@ Reading the debug RAM right after the `$0490` write breakpoint:
 So at that stop the pair is find=1, write=9, and `$0524=1`. The stall's
 `0490=00` happens later. Next: run past the `$9E75` hit and sample
 `$0490/$0491/$0524` at successive frames to find the zeroing write.
+
+
+## Round 257 — after 9E75, 0490 stays 01 through scene 03
+
+Stepping 180 frames after the `$0490` write breakpoint:
+
+```
+0490=01 0491=09 0524=01   (all samples)
+047B: 0F -> 03 (field)
+```
+
+So `$0490` is **not** zeroed in this path — the earlier stall read of
+`00` came from a different moment. The scene does switch to 03.
+
+Next: sample `$0490` in the actual pair16 match-5 stall run to compare,
+and check why `$047B=03` doesn't start the match.
