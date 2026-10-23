@@ -6700,3 +6700,14 @@ work.
 Next: use `$04EF/$04F0` (the team ids) as the group source at scene 05,
 or reload at scene-03 entry before the clear, or read the bracket pair
 table (`$052D`/`$A3C2`) directly.
+
+
+## Round 267 — 04EF/04F0 are also 00 at scene 05
+
+pair21 (scene-05 reload from `$04EF/$04F0`) reads `00/00` for those
+cells at that point, so team ids aren't a usable group source either.
+
+The only known-good pair is `$0490=01/$0491=09` at field entry
+(`$047B=03`). Next: capture those into scratch RAM at scene 03 and
+re-assert at scene 05, or patch the order to reload the scene-03 pair
+before `$AD10`.

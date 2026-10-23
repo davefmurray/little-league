@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "0526 is also 00 at scene 05 (read at pair20 build). The pair sources 0524/0525/0526 are all 0 by then. Next: use 04EF/04F0 (team ids) as the group source instead, or reload at scene 03 entry before the clear; or find the bracket pair table read for this order (052D/A3C2).",
+      "next": "04EF/04F0 are 00 at boot/scene 05 reads (pair21 build). So team ids are not a usable group source there either. The only known-good pair at field entry is 0490=01/0491=09 at 047B=03. Next: capture 0490/0491 at 047B=03 into scratch RAM (e.g. 04xx spare) and re-assert at 05; or patch the order to reload scene-03 values before AD10.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
