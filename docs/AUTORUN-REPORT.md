@@ -6396,3 +6396,22 @@ a table target: `$A464`/`$A470`/`$A47C` with counts `$040A`/`$0408`/
 Next: find the table consumer (indirect `JMP ($xx)`), and when it runs
 relative to `$B234`; then decide the fix (load pair before `$B234`, or
 refresh after the dispatch).
+
+
+## Round 249 — bank3 indirect JMP sites
+
+Real `JMP ($xx)` in bank3:
+
+```
+9B2F: JMP ($EBF8)
+A122: JMP ($E5FC)
+A2E5: JMP ($E7FC)
+A790: JMP ($E50F)
+AADC: JMP ($F91D)
+AC18: JMP ($F91D)
+AD49: JMP ($F91B)
+```
+
+The pair-loader dispatch is one of these vectors. Next: instrument `$A4AA`/
+`$B234` at runtime (breakpoint) to see whether the loader runs at the
+match-5 order; or resolve which vector points into `$A440-$A490`.

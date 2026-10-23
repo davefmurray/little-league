@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Bank3 $80F8 is a pointer table: 0A 04 64 A4 / 08 04 70 A4 / 07 04 7C A4 = counts + $A464/$A470/$A47C. The pair loader is dispatched via this table. Next: find the table consumer (indirect JMP) and when it runs vs B234; then decide fix.",
+      "next": "Bank3 indirect JMP list: 9B2F ($EBF8), A122 ($E5FC), A2E5 ($E7FC), A790 ($E50F), AADC/AC18 ($F91D), AD49 ($F91B). The pair-loader dispatch is likely one of these. Next: instrument $A4AA/$B234 at runtime (breakpoint) to see if loader runs at match-5; or check which vector points into $A440-$A490.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
