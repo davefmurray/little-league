@@ -64,7 +64,9 @@ def cmd_pick(_):
     if not cands:
         print("NO READY TASKS")
         return 2
-    t = sorted(cands, key=lambda x: (PRI.get(x["priority"], 9), x.get("attempts", 0), x["id"]))[0]
+    t = sorted(cands, key=lambda x: (PRI.get(x["priority"], 9),
+                                     x["status"] != "active",
+                                     x.get("attempts", 0), x["id"]))[0]
     print(json.dumps(t, indent=2))
     if t.get("attempts", 0) >= 3:
         print("\nWARNING: 3+ attempts on this task. New hypothesis or block it.", file=sys.stderr)
