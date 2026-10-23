@@ -6672,3 +6672,20 @@ pair is valid — loading `$0524/$0525` there breaks startup.
 
 Revert. Next: move the reload to the scene-05 handler entry, or guard it
 (`LDA $0524 / BEQ skip`).
+
+
+## Round 265 — pair19 guarded reload boots but still 0490=00
+
+pair19 = pair17 + guarded reload at `$AC09`/`$AC9E`:
+
+```
+LDA $0524 / BEQ +3 / STA $0490
+LDA $0525 / BEQ +3 / STA $0491
+```
+
+Result: matches 0-4 OK (boot preserved), match 5 still stalls with
+`$0490=00/$0491=00`. The guard sees `$0524=0` at scene 05, so it skips.
+
+So by scene 05 the pair source `$0524` is already 0. Next: reload from a
+persistent source (`$0526`? `$04EF/$04F0`?) or move the reload earlier
+(scene 03 entry).
