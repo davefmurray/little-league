@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Stepping after 9E75: 0490 stays 01, 0491 09, 0524 01 for 180 frames; 047B goes 0F -> 03 (field). So 0490 is NOT zeroed in this path; the stall earlier read 00 came from a different point. Next: sample 0490 in the actual match-5 stall run (pair16 6-match then read) to compare; and check why 047B=03 does not start the match.",
+      "next": "pair16 match-5 stall: 047B=0F (order), 0489=03, 0490=00/0491=00 but 0524=01, 05D3=FF, 0545=03, B2=10. So 0524 holds the loader value 01, 0490/0491 are 00. The B234 copy is not running with 0524=01, or a later clear. Next: breakpoint on B234 (45620) and read 0490 after; or watch 0490 with maxFrames at the stall.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

@@ -6549,3 +6549,20 @@ So `$0490` is **not** zeroed in this path — the earlier stall read of
 
 Next: sample `$0490` in the actual pair16 match-5 stall run to compare,
 and check why `$047B=03` doesn't start the match.
+
+
+## Round 258 — pair16 stall: 0524=01 but 0490=00
+
+```
+047B=0F (order)  0489=03
+0490=00  0491=00  0524=01
+05D3=FF  0545=03  B2=10
+$06E2 = ... 88 88 99 99 aa aa bb bb
+```
+
+So `$0524` holds the loader's `01`, yet `$0490/$0491` are `00` at the
+stall. Either `$B234` isn't running with `$0524=01`, or a later write
+clears `$0490`.
+
+Next: breakpoint at `$B234` (45620) and read `$0490` right after; or
+watch `$0490` with the exact stall `maxFrames`.
