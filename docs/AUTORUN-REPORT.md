@@ -6795,4 +6795,19 @@ or split the flush. `order-menu-high` (second-team draw, 373 bytes) and
 `soak-26` (match 14, 262 bytes) are both blocked on it. The `$9C42`
 forced menu exit stays until the list work can replace it.
 
+Two more probes:
+
+- pair26: cap the `$8223` terminator (`JMP $BF40`, X=0 -> `$32=$FF`).
+  Match 14 still wraps at `$0032=6`.
+- pair27: also cap the `$8202` segment path (preserving `DEC $AC`).
+  Still `$0032=6`; a write breakpoint on `$0032` at the stall sees no
+  write for 3000 frames, so the overlong list is built before the
+  flush blocks.
+
+Next: find the scene-0x13 builder's own `STX $32` site (other
+candidates: `$875A`, `$A566`, `$A5B7`, `$A735`, `$A78F`) or replace the
+per-site caps with pagination/trimming. Do not retry the four probes
+above.
+
+
 
