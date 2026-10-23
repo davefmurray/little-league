@@ -6656,3 +6656,19 @@ the correct one.
 
 Next: patch the `$AC0B`/`$ACA0` clears to reload `$0490/$0491` from the
 pair for high teams (or re-set after scene 05).
+
+
+## Round 264 — pair18 (AC09/AC9F reload) broke boot
+
+pair18 = pair17 + `$AC09`/`$AC9F` `LDA $0524/$0525` instead of `LDA #$00`:
+
+```
+match 0: $07FC=FF (never played)
+0490=FF 0491=FF
+```
+
+So the `$AC09`/`$AC9F` clears run on the **boot path** too, before the
+pair is valid — loading `$0524/$0525` there breaks startup.
+
+Revert. Next: move the reload to the scene-05 handler entry, or guard it
+(`LDA $0524 / BEQ skip`).

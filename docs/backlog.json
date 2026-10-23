@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Scene-05 clear candidates: bank7 $AC0B/$ACA0 (LDA #$00 / STA $0490 / $0491) and bank6 $ABAC (clears 048F/0490/0491/0492). $B241/$B247 copy 0524/0525. Next: patch $AC0B/$ACA0 clears to preserve/reload 0490/0491 for high teams, or re-set after scene 05.",
+      "next": "pair18 (AC09/AC9F reload from 0524/0525) broke boot: match 0 never played, 0490/0491=FF, 07FC=FF. So AC09/AC9F execute before the pair is valid (boot path). Revert; instead put the reload at the scene-05 handler entry, or guard with 0524/0525 != 0. Next: restore pair17 and test a guarded reload.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
