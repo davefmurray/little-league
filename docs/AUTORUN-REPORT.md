@@ -6602,3 +6602,20 @@ branch wasn't the only gate, or a later write clears it again.
 
 Next: breakpoint on `$0490` write in pair17 to see whether it ever gets
 `01`, and who clears it after.
+
+
+## Round 261 — pair17: 9E75 sets 0490=01; later clear remains
+
+Breakpoint on write `$0490` in pair17 hit `$9E75` value `01`; after the
+hit:
+
+```
+0490=01 0491=09 0524=01 0523=02
+```
+
+So `$9E75` sets the correct pair and pair17 keeps it there. The stall
+read of `0490=00` comes from a **later** writer/clear after the scene
+switch.
+
+Next: step from the `$9E75` hit through the scene-03 transition, sampling
+`$0490` until it becomes `00` (pair17).
