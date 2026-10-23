@@ -6265,3 +6265,20 @@ means `$0524/$0525` are 00 when `$B234` runs — the bracket pair is set
 later.
 
 Next: find who sets `$0524/$0525` and when, relative to `$B234`/`$AB76`.
+
+
+## Round 242 — 0524/0525 are the current pair, shifted from 0525/0526
+
+Writers:
+
+```
+97B9 (bank1): LDA #$01 / STA $0523 / LDA $0525 / STA $0524 / LDA $0526 / STA $0525
+B271 (bank7): AND #$7F / STA $0523 / LDA $0525 / STA $0524 / LDA $0526 / STA $0525
+```
+
+So `$0524/$0525` = the current pair, advancing from `$0526`; the
+`$B234` copy to `$0490/$0491` happens before the `$AB76` order. The
+bracket pair source is `$0526`; the shift timing vs `$B234` is the key.
+
+Next: trace the `$0526` setter and whether `$B271`/`$97B9` runs before
+`$B234` at the match-5 order.

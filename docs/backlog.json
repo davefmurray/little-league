@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "B234 already copies 0524/0525 -> 0490/0491 before JSR AB76 (the order). Pair14 helper is redundant. Next: check AB76/the AC9D call timing; 0490/0491=00 means 0524/0525 are 00 when B234 runs, so find who sets the bracket pair and when.",
+      "next": "0524/0525 are the CURRENT pair, shifted from 0525/0526 by 97B9 (bank1) / B271 (bank7): STA 0523=1; LDA 0525->SHA 0524; LDA 0526->STA 0525. So 0526 is the pair source and the shift timing vs B234 is the key. Next: trace 0526 setter and call B271/97B9 before B234.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
