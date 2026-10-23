@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Stepping from 9E75 in pair17: f0 0490=01/047B=0F; f4 0490=01/047B=03; f12 0490=00/0491=00/047B=05; f39 0490=00/047B=0F. So the clear happens at scene 05 (047B=05). Next: identify scene 05 handler and its 0490/0491 writes; likely a scene reset that must be patched for high teams.",
+      "next": "Scene-05 clear candidates: bank7 $AC0B/$ACA0 (LDA #$00 / STA $0490 / $0491) and bank6 $ABAC (clears 048F/0490/0491/0492). $B241/$B247 copy 0524/0525. Next: patch $AC0B/$ACA0 clears to preserve/reload 0490/0491 for high teams, or re-set after scene 05.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

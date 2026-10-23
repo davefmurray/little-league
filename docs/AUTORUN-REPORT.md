@@ -6637,3 +6637,22 @@ So the pair is correct through the field (03) and is **cleared at scene
 
 Next: identify the scene-05 handler and its `$0490/$0491` writes; patch
 it for high teams or re-set the pair after it.
+
+
+## Round 263 — 0490/0491 writers: scene clear candidates
+
+```
+ABAC bank6: LDA #$00 / STA $048F / $0490 / $0491 / $0492
+AC0B bank7: LDA #$00 / STA $0490
+ACA0 bank7: LDA #$00 / STA $0491
+B241 bank7: LDA $0524 / STA $0490 ; LDA $0525 / STA $0491
+B254 bank7: LDA $0515 / STA $0490
+A152 bank1: LDA $C0 / STA $0491
+EC0B/ECA0/F241/F247 bank15: fixed copies
+```
+
+The scene-05 zeroing is `$AC0B`/`$ACA0` (or `$ABAC`). The `$B241` copy is
+the correct one.
+
+Next: patch the `$AC0B`/`$ACA0` clears to reload `$0490/$0491` from the
+pair for high teams (or re-set after scene 05).
