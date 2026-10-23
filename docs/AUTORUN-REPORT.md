@@ -6507,3 +6507,14 @@ writers, or a later clear.
 Next: with `maxFrames` just past the `$9E75` hit, breakpoint again to
 catch the second writer; or read `$0490` immediately after the `$9E75`
 frame.
+
+
+## Round 255 — decrease condition still reports 9E75
+
+`condition:"decrease"` on `$0490` still hit `$9E75`/`0x01` — the harness
+condition compares within the frame, not against the prior frame, so it
+doesn't skip the 0→1 write.
+
+Next: read `$0490` at specific frames after the `$9E75` hit, or break
+with `maxFrames` just past it to catch the next writer; or watch `$0524`
+and read `$0490` immediately after `$B234`.
