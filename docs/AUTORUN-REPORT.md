@@ -6379,3 +6379,20 @@ continuation of the `$A470` routine (entry likely `$A46F` or earlier).
 
 Next: find the `$A46F`/earlier entry and its caller; confirm `$04EE`/
 `$04EF` are valid when `$A490` runs.
+
+
+## Round 248 — pointer table at bank3 $80F8 dispatches A464/A470/A47C
+
+```
+80F8: 0A 04 64 A4
+80FC: 08 04 70 A4
+8100: 07 04 7C A4
+```
+
+So the `$A470` routine (which falls through to the `$A490` pair loader) is
+a table target: `$A464`/`$A470`/`$A47C` with counts `$040A`/`$0408`/
+`$0407`. The pair loader is dispatched indirectly from this table.
+
+Next: find the table consumer (indirect `JMP ($xx)`), and when it runs
+relative to `$B234`; then decide the fix (load pair before `$B234`, or
+refresh after the dispatch).
