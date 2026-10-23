@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "0526 writer is bank5 A4AA: B9 C2 A3 (LDA $A3C2,Y) -> 0525/0526, and BD FD 04 -> 0524. So the real pair comes from the $A3C2 table indexed by Y=$08? (A8). Next: disassemble A490-A4C0 to see the index source and call site vs B234.",
+      "next": "A490 is the loader: LDA $04EF,X (team); ASL; STA $08; LDA $048A&1 EOR 1 -> X; LDA $052D,X | $08 -> Y; LDA $A3C2,Y -> $0525/$0526; LDA $04FD,X -> $0524. Table $A3C2=09 07 09 0a 0d 0e... Next: find A490 caller (A3F6?) and whether it runs before B234; $04FD is the likely pair source.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

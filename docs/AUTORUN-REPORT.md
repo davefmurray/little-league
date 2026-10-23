@@ -6340,3 +6340,22 @@ So the real bracket pair is the `$A3C2` table entry indexed by `Y`
 
 Next: disassemble `$A490-$A4C0` for the index source and the call site
 timing vs `$B234`.
+
+
+## Round 246 — A490 pair loader decoded
+
+```
+A490: LDA $04EF,X        ; team A/B
+A493: ASL A / STA $08
+A496: LDA $048A / AND #$01 / EOR #$01 / TAX
+A49E: LDA $052D,X / ORA $08 / TAY
+A4A4: LDA $A3C2,Y
+A4A7: STA $0525 / STA $0526
+A4AD: LDA $04FD,X / STA $0524
+```
+
+`$A3C2` = `09 07 09 0a 0d 0e 09 0a 09 0e ...` (the pair table). So the
+pair is entirely from `$04EF`/`$04FD`/`$052D`/`$048A`.
+
+Next: find `$A490`'s caller and whether it runs before `$B234`; `$04FD`
+is the likely real pair source.
