@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "pair13 match-5: 04EF/04F0 = 00/00 (not 09/0A!), so the helper sets 0490/0491=00/00; AD10 matches [0x12]=00 and AC9D rewrites [0x12]=00. 0524=01/0525=0A. Next: find the real current-pair source at the order (0524/0525?) and set 0490/0491 correctly before AD10.",
+      "next": "pair14 (helper 0524/0525): matches 0-4 OK, match 5 still; 0490=00/0491=00 at stall, so 0524/0525 are 00 AT the AC9D call too. The actual pair 09/0A arrives later. Next: trace when 0524/0525 become 01/0A vs the AC9D call; set 0490/0491 at the right time or from the bracket source.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

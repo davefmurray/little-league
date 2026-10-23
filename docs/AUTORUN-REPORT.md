@@ -6223,3 +6223,20 @@ it to 00 — the prefill entry is destroyed. `$0524/$0525` hold `01/0A`.
 Next: find the real current-pair source at the order (likely
 `$0524/$0525` at this point) and set `$0490/$0491` from it before
 `$AD10`.
+
+
+## Round 240 — pair14 helper 0524/0525 also 00 at AC9D
+
+pair14 (helper reads `$0524/$0525`): matches 0-4 OK, match 5 still.
+
+```
+$0490=00 $0491=00 at the stall
+$06E2[18]/[19] = 00 00
+```
+
+So `$0524/$0525` are **00 at the `$AC9D` call**; the 01/0A we saw
+earlier appears later in the order sequence. The pair source timing is
+the remaining issue.
+
+Next: trace when `$0524/$0525` become 01/0A relative to the `$AC9D`
+call, or set `$0490/$0491` from the bracket pair at the right point.
