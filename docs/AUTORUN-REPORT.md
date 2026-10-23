@@ -6518,3 +6518,18 @@ doesn't skip the 0→1 write.
 Next: read `$0490` at specific frames after the `$9E75` hit, or break
 with `maxFrames` just past it to catch the next writer; or watch `$0524`
 and read `$0490` immediately after `$B234`.
+
+
+## Round 256 — after 9E75 stop: 0490=01, 0491=09, 0524=01
+
+Reading the debug RAM right after the `$0490` write breakpoint:
+
+```
+0490 = 01
+0491 = 09
+0524 = 01
+```
+
+So at that stop the pair is find=1, write=9, and `$0524=1`. The stall's
+`0490=00` happens later. Next: run past the `$9E75` hit and sample
+`$0490/$0491/$0524` at successive frames to find the zeroing write.

@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "condition:\"decrease\" still reports 9E75/0x01 (harness compares within frame, not prior frame). Next: read 0490 at specific frames after the 9E75 hit (frame from that report), or breakpoint with maxFrames just past 9E75 to catch the next writer; or watch $0524 write and check 0490 immediately after B234.",
+      "next": "After breakpoint run: 0490=01, 0491=09, 0524=01. So at that stop 0490/0491 are group 1/9 (find=1, write=9) and 0524=1. The stall read 0490=00 happens later. Next: run past the 9E75 hit (maxFrames larger / resume) and read 0490/0491/0524 at successive frames to find the zero; or breakpoint on $A4B0 and read after.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
