@@ -100,14 +100,13 @@
       "id": "pitch-06e2",
       "title": "$06E2 32-entry group table (pitch)",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [],
-      "next": "04EF/04F0 are 00 at boot/scene 05 reads (pair21 build). So team ids are not a usable group source there either. The only known-good pair at field entry is 0490=01/0491=09 at 047B=03. Next: capture 0490/0491 at 047B=03 into scratch RAM (e.g. 04xx spare) and re-assert at 05; or patch the order to reload scene-03 values before AD10.",
+      "next": "Match 5 passes via the $9C42 forced menu exit. The pair capture at $B247 is inert in this flow. order-menu-high tracks fixing the second-team order draw and removing the forced exit.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
-      "attempts": 4,
-      "evidence": "pair7b match 4 stall (f343569)",
-      "last_commit": "f343569",
-      "blocked_reason": "Attempts 5+ (pairs 8-12). Root: the $06E2 second half is the $FD80 lineup bytes, not group entries; the $AC writers must build groups 8-15. At match 5 $0490=09/$0491=0A but $06E2[18]=00, so the scan never finds group 9. Next: restructure the $AC writers so the 32-byte $06E2 gets groups 8-15, with the $0490 (find) / $0491 (write) roles preserved."
+      "attempts": 5,
+      "evidence": "10-match soak pass on pair23 (bank1 $9C42 forced menu exit + driver B-walk); stock verify --with-soak green; capture helper at $B247 never ran ($07F2=FF), so match 5 was the high-team order menu, not the pair",
+      "last_commit": "0b7b08d"
     },
     {
       "id": "pitch-odd",
@@ -255,6 +254,20 @@
       "attempts": 1,
       "evidence": "AD10 index = team*2+side; at stall 0490=00/0491=FF stale, 02=0x30 out of range; 06E2[18] never set",
       "last_commit": "da2a757"
+    },
+    {
+      "id": "order-menu-high",
+      "title": "High-team second-team order screen / display-list overflow",
+      "priority": "P1",
+      "status": "queued",
+      "depends_on": [
+        "pitch-06e2"
+      ],
+      "next": "Revert the $9C42 JMP $9C4C and reproduce: scene 0F BA=11 BE=4, B x3, A -> BA=03/BD=1; $99B8 draws the second team and the $0300 display list overflows ($0032 wraps, flush loops at fixed $C545). Fix the second-team draw, then drop the forced menu exit.",
+      "verify": "pair23 with $9C42 reverted passes a 10-match soak without the forced menu exit",
+      "attempts": 0,
+      "evidence": "",
+      "last_commit": ""
     }
   ]
 }
