@@ -6760,3 +6760,39 @@ blocker is the high-team order-menu exit. Follow-up `order-menu-high`:
 fix the second-team order draw (`$BA=03` -> `$99B8`, display list at
 `$0300` overflows and `$0032` wraps) and drop the `$9C42` forced exit.
 
+
+## Round 269 — the 26-match gate hits the 256-byte display list
+
+Closed the stale `pitch-odd`: bank4 `$AD4E` already writes both
+`$06E2[X]` bytes (`$06E2[18]/[19] = 99 99` at the match-5 order) and
+pair16 keeps the `$AA65`/`$AA68` zeroing out. 10/10 and 6/6 soaks pass;
+no new ROM change.
+
+26-match soak on pair23: matches 0-13 pass, match 14 (`1C v 1D`)
+stalls. A 15-match run reproduces it. State:
+
+```
+$047B=13  $07FC=14  $0489=03  $048B/048C=00/02
+BA=13 BE=80 BD=00 C2=00   $0032=06   $0033=BA
+PC in fixed $C558-$C563 (display-list flush)
+```
+
+The next failure is not the field: the scene-0x13 password/menu builds
+262 bytes into the 256-byte `$0300` list, `$0032` wraps to 6, and the
+flush loops.
+
+Two probes:
+
+- pair24: reset `$0032` at scene-0F entry (`$96ED` -> `JSR $FB90`).
+  Match 5 still stalls; `$0033=0x175` (373 bytes), so zeroing at entry
+  does not make the list fit.
+- pair25: change the flush's `CPX $32 / BNE` at fixed `$C53E` to `BCS`
+  (stop when X >= `$32`). This breaks boot (`match 0: $07FC=FF`);
+  normal lists can have X > `$32` mid-build. Do not repeat.
+
+New P0 `displaylist-256`: paginate/trim the order/list/password screens
+or split the flush. `order-menu-high` (second-team draw, 373 bytes) and
+`soak-26` (match 14, 262 bytes) are both blocked on it. The `$9C42`
+forced menu exit stays until the list work can replace it.
+
+
