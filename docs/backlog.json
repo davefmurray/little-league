@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Breakpoint write $0524 in pair16: hit at $A4B0 (STA $0524), value 0x01, caller $CC3E/$CC11. So the pair loader DOES run and writes 0524=01. The stall is later: 0490 ends 00. Next: breakpoint write $0490 (1168) to see who zeroes/overwrites it after B234.",
+      "next": "Breakpoint write $0490 in pair16: hit at $9E75 (bank1), value 0x01, caller $CAC4/$CC11. So 0490 gets 01 then later becomes 00. Next: breakpoint with maxFrames smaller / condition to find the later zero, or read 0490 right after $9E75; likely a second writer after the order.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

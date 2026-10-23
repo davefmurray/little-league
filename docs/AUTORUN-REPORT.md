@@ -6489,3 +6489,21 @@ So the pair loader **does run** and writes `$0524 = 01`. `$0490` still
 ends 00, so something after `$B234` zeroes/overwrites `$0490`.
 
 Next: breakpoint on write `$0490` (1168) to find the zeroing writer.
+
+
+## Round 254 — $0490 written 01 at $9E75 (bank1)
+
+Breakpoint on write `$0490` (pair16):
+
+```
+pc: $9E75 (bank 1)
+valueByte: 0x01
+callerPc: $CAC4, $CC11
+```
+
+So `$0490` does get `01`, then later becomes `00` at the stall. Two
+writers, or a later clear.
+
+Next: with `maxFrames` just past the `$9E75` hit, breakpoint again to
+catch the second writer; or read `$0490` immediately after the `$9E75`
+frame.
