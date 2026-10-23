@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "0524/0525 are the CURRENT pair, shifted from 0525/0526 by 97B9 (bank1) / B271 (bank7): STA 0523=1; LDA 0525->SHA 0524; LDA 0526->STA 0525. So 0526 is the pair source and the shift timing vs B234 is the key. Next: trace 0526 setter and call B271/97B9 before B234.",
+      "next": "B234 copies 0524/0525 -> 0490/0491 BEFORE the B269 shift (0524=0525,0525=0526). So the order uses the previous pair. Next: refresh 0490/0491 from 0524/0525 AFTER the B269 shift, or move the copy.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

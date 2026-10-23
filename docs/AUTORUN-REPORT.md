@@ -6282,3 +6282,26 @@ bracket pair source is `$0526`; the shift timing vs `$B234` is the key.
 
 Next: trace the `$0526` setter and whether `$B271`/`$97B9` runs before
 `$B234` at the match-5 order.
+
+
+## Round 243 — B234 copies before the B269 shift
+
+```
+B234: LDA #$04 / JSR $C14E
+B239: LDA #$00 / STA $0522
+B23E: LDA $0524 / STA $0490
+B244: LDA $0525 / STA $0491
+...
+B261: JSR $AB76
+B264: LDA $0523 / BPL $B27D
+B269: AND #$7F / STA $0523
+B26E: LDA $0525 / STA $0524
+B273: LDA $0526 / STA $0525
+```
+
+So `$B234` copies the pair **before** the `$B269` shift; the order
+(`$AB76`) runs before the shift too. The `$0490/$0491` therefore hold the
+previous pair.
+
+Next: refresh `$0490/$0491` from `$0524/$0525` **after** the shift (or
+move the copy), so the order sees the current pair.
