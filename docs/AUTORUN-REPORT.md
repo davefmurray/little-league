@@ -6619,3 +6619,21 @@ switch.
 
 Next: step from the `$9E75` hit through the scene-03 transition, sampling
 `$0490` until it becomes `00` (pair17).
+
+
+## Round 262 — 0490 clears at scene 05
+
+Stepping from `$9E75` in pair17 (30 frames per sample):
+
+```
+f0  0490=01 047B=0F
+f4  0490=01 047B=03   (field)
+f12 0490=00 0491=00 047B=05
+f39 0490=00 047B=0F
+```
+
+So the pair is correct through the field (03) and is **cleared at scene
+05** (`$047B=05`). The scene-05 handler resets `$0490/$0491`.
+
+Next: identify the scene-05 handler and its `$0490/$0491` writes; patch
+it for high teams or re-set the pair after it.
