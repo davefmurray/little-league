@@ -6240,3 +6240,28 @@ the remaining issue.
 
 Next: trace when `$0524/$0525` become 01/0A relative to the `$AC9D`
 call, or set `$0490/$0491` from the bracket pair at the right point.
+
+
+## Round 241 — B234 already copies 0524/0525 -> 0490/0491
+
+Bank7:
+
+```
+B234: LDA #$04 / JSR $C14E
+B239: LDA #$00 / STA $0522
+B23E: LDA $0524 / STA $0490
+B244: LDA $0525 / STA $0491
+B24A: LDX #$01
+B24C: LDA $0523 / BNE $B259
+B251: LDA $0515 / STA $0490
+B257: LDA #$00
+B259: ...
+B261: JSR $AB76
+```
+
+So the engine already copies `$0524/$0525` to `$0490/$0491` before the
+order (`$AB76`). The pair14 helper is redundant. `$0490/$0491=00`
+means `$0524/$0525` are 00 when `$B234` runs — the bracket pair is set
+later.
+
+Next: find who sets `$0524/$0525` and when, relative to `$B234`/`$AB76`.
