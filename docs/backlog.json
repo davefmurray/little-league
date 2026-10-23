@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "pair16 match-5 stall: 047B=0F (order), 0489=03, 0490=00/0491=00 but 0524=01, 05D3=FF, 0545=03, B2=10. So 0524 holds the loader value 01, 0490/0491 are 00. The B234 copy is not running with 0524=01, or a later clear. Next: breakpoint on B234 (45620) and read 0490 after; or watch 0490 with maxFrames at the stall.",
+      "next": "Breakpoint at $B234 hit frame 1820 with 0524=01/0525=09, 0490=FF/0491=FF BEFORE copy. So the copy DOES run with the loader pair. Next: step past $B234 and read 0490/0491; if they become 01/09 then a later writer zeroes them at the order (find it); if not, the copy path is conditional (0523 BNE branch at B24C).",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

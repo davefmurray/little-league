@@ -6566,3 +6566,20 @@ clears `$0490`.
 
 Next: breakpoint at `$B234` (45620) and read `$0490` right after; or
 watch `$0490` with the exact stall `maxFrames`.
+
+
+## Round 259 — B234 runs with loader pair 0524=01/0525=09
+
+Breakpoint at `$B234` hit frame 1820; before the copy:
+
+```
+0490=FF 0491=FF 0524=01 0525=09
+```
+
+So the copy path **is reached with the correct pair**. `$0490/$0491`
+are `FF` before it. The condition at `$B24C` (`LDA $0523` / `BNE $B259`)
+may still skip the `$0490` store from `$0524`.
+
+Next: step past `$B234` and read `$0490/$0491` — if they become `01/09`,
+a later writer zeroes them at the order; if not, the `$0523` branch is
+the cause.
