@@ -6433,3 +6433,23 @@ nibble** — the actual match check. At that moment `$0524=01`.
 
 Next: breakpoint on `$06E2[18]` read / `$A4AA` write to see whether the
 group table and `$0524` agree; the mismatch is the failing link.
+
+
+## Round 251 — $AA65 zeroes 06E2[18]/[19] (STA $06F4/$06F5)
+
+Breakpoint on write `$06F4` (= `$06E2[18]`) hit at `$AA65`, bank 4,
+caller `$CC11`, A=0:
+
+```
+AA65: STA $06F4
+AA68: STA $06F5
+AA6B: STA $048A
+```
+
+So a reset/init path zeroes the team-9 group slots after the prefill —
+that's why the table keeps showing `00 00`. The zeroing is the actual
+wipe.
+
+Next: find why `$AA44-$AA65` runs at the match-5 order
+(`LDX #$01 / STX $01 / JSR $ABB8`) and either set `$06E2[18]/[19]`
+after it or skip the zero for high-team slots.

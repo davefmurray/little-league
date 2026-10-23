@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Breakpoint on read $0524 hit at $985A (frame 1872, value 01): LDA $06E2,Y / LSR x4 / CMP $0524 / BEQ $9826. So $0524 IS the group to compare with $06E2 high nibble. $0524=01 at that point. Next: breakpoint on $06E2[18] read / $A4AA write, compare $0524 source vs $0490; the group comparison is the failing link.",
+      "next": "Breakpoint on write $06F4 (=06E2[18]) hit at $AA65 (bank4): STA $06F4 / STA $06F5 with A=0 \u2014 an init/reset zeroes team-9 slots. So the prefill is wiped by this reset. Next: find why AA44-AA65 runs at match 5 (LDX #$01/STX $01/JSR $ABB8) and whether 06E2[18]/[19] should be set after it; or skip the zero for high teams.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
