@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "B234 copies 0524/0525 -> 0490/0491 BEFORE the B269 shift (0524=0525,0525=0526). So the order uses the previous pair. Next: refresh 0490/0491 from 0524/0525 AFTER the B269 shift, or move the copy.",
+      "next": "pair15 (refresh 0490/0491 after B269 shift) still stalls; 0490=00/0491=00 at stall, so 0524/0525 are 00 even after the shift. The source 0526 is 00 too. Next: find the real 0526 setter (8D 26 05) and when the bracket pair is loaded; the order is using an unset pair.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",

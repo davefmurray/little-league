@@ -6305,3 +6305,21 @@ previous pair.
 
 Next: refresh `$0490/$0491` from `$0524/$0525` **after** the shift (or
 move the copy), so the order sees the current pair.
+
+
+## Round 244 — pair15 refresh after shift still 00
+
+pair15 = pair14 + `JSR $BF00` at `$B27A` (refresh `$0490/$0491` after the
+`$B269` shift). Still stalls at match 5:
+
+```
+0490=00 0491=00
+$06E2[18]/[19] = 00 00
+```
+
+So `$0524/$0525` are still 00 right after the shift; `$0526` must also be
+00. The order is using an unset pair — the real bracket-pair load happens
+elsewhere.
+
+Next: scan `$8D 26 05` (`STA $0526`) for the true source, and when it runs
+relative to `$B234`/`$B27A`.
