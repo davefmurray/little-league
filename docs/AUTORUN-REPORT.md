@@ -6323,3 +6323,20 @@ elsewhere.
 
 Next: scan `$8D 26 05` (`STA $0526`) for the true source, and when it runs
 relative to `$B234`/`$B27A`.
+
+
+## Round 245 — 0526 pair comes from bank5 A4AA / table $A3C2
+
+Only writer of `$0526`:
+
+```
+A4AA: LDA $A3C2,Y / STA $0525 / STA $0526
+      LDA $04FD,X / STA $0524
+```
+
+So the real bracket pair is the `$A3C2` table entry indexed by `Y`
+(`Y=$08` at `A8`), with `$0524` from `$04FD,X`. The `$B234` copy and
+`$B269` shift operate on whatever that loader left.
+
+Next: disassemble `$A490-$A4C0` for the index source and the call site
+timing vs `$B234`.
