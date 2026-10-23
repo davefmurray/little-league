@@ -6453,3 +6453,22 @@ wipe.
 Next: find why `$AA44-$AA65` runs at the match-5 order
 (`LDX #$01 / STX $01 / JSR $ABB8`) and either set `$06E2[18]/[19]`
 after it or skip the zero for high-team slots.
+
+
+## Round 252 — pair16 keeps 06E2[18]=99, but 0490 stays 00
+
+pair16 = pair15 + NOPs at `$AA65`/`$AA68` (skip zeroing team-9 slots):
+
+```
+$06E2 = 00 00 11 11 ... 88 88 99 99 aa aa bb bb
+matches 0-4: OK
+match 5: timeout
+$0490=00 $0491=00
+```
+
+So the group-table wipe is fixed. The remaining failure is that `$0490`/
+`$0524` are still 00 at the order — the pair source (`$0524`/`$0525`)
+isn't the group 09/0A.
+
+Next: breakpoint on write `$0490` (1168) and `$0524` (1316) to find who
+sets them and when.

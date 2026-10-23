@@ -102,7 +102,7 @@
       "priority": "P0",
       "status": "blocked",
       "depends_on": [],
-      "next": "Breakpoint on write $06F4 (=06E2[18]) hit at $AA65 (bank4): STA $06F4 / STA $06F5 with A=0 \u2014 an init/reset zeroes team-9 slots. So the prefill is wiped by this reset. Next: find why AA44-AA65 runs at match 5 (LDX #$01/STX $01/JSR $ABB8) and whether 06E2[18]/[19] should be set after it; or skip the zero for high teams.",
+      "next": "pair16 (skip zero at AA65/AA68) now keeps 06E2[18]/[19]=99/99 but match 5 still stalls with 0490=00/0491=00. So the group table is fixed; the remaining failure is 0490/0524 being 00 at the order. Next: breakpoint on write 0490 (1168) and 0524 (1316) to see who sets them and when; compare value 09 expected.",
       "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
       "attempts": 4,
       "evidence": "pair7b match 4 stall (f343569)",
