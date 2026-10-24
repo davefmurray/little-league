@@ -6810,4 +6810,30 @@ per-site caps with pagination/trimming. Do not retry the four probes
 above.
 
 
+## Round 270 — exact writer: fixed $C75A (caller $CA1F)
+
+Scene 0x13 dispatches through the 32-entry table at bank7 `$8C52` to
+bank1 `$995F`. A disk savestate at the start of match 14 (scene 0x0B,
+`$07FC=14`) plus A taps reaches scene 0x13 at relative frame 31. A
+conditional write breakpoint on `$0032=6` stops at:
+
+```
+$C75A  STX $32      X=$06 A=$4E Y=$88
+caller $CA1F, bank 15 (fixed), relative frame 64
+```
+
+The text builder at fixed `$C1E5`/`$C202`/`$C223` is a different path;
+the bank7 `$8202`/`$8223` mirror that pair26/27 patched is not
+executed.
+
+- pair28: cap fixed `$C202`/`$C223`. Match 14 still `$0032=6`.
+- pair29: unconditionally cap `$C75A` to `$FF`. Match 5 stalls.
+- pair30: cap only when `$047B==$13` and X < `$10`. Match 5 still
+  stalls (short scene-0x13 lists hit the same threshold).
+
+Next: cap inside `$C790` (the row writer) before X crosses `$FF`, or
+paginate/trim the 262-byte scene-0x13 list. Do not retry pair24-30.
+
+
+
 
