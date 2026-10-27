@@ -194,16 +194,16 @@
       "id": "soak-26",
       "title": "26-match soak (field/pitch)",
       "priority": "P1",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [
         "pitch-06e2",
         "displaylist-256"
       ],
-      "next": "pair23 passes 14/14 then stalls at match 14 (pair 1C v 1D). Reproduce with 15 matches, inspect $047B/$BA/$BE/$07FC and the field; match 5 is fixed, match 14 is the new first failure.",
+      "next": "26-match gate green. Next is bridge-integrate.",
       "verify": "all 26 matches pass",
-      "attempts": 1,
-      "evidence": "currently stalls at match 8",
-      "last_commit": "",
+      "attempts": 2,
+      "evidence": "pair36 26/26 matches OK (0x0F..0x25), including match 14 (1C v 1D) and match 25 (07 v 0C); zero-length $C790 row guard; stock verify --with-soak green.",
+      "last_commit": "935fb2b",
       "blocked_reason": "Match 14 stalls at scene 0x13: $0032 wraps to 6, $0033=0xBA (262 > 256-byte $0300 buffer); 15-match run reproduces. Blocked by displaylist-256."
     },
     {
@@ -266,7 +266,7 @@
         "list-dispatch",
         "pitch-06e2"
       ],
-      "next": "Revert the $9C42 JMP $9C4C and reproduce: scene 0F BA=11 BE=4, B x3, A -> BA=03/BD=1; $99B8 draws the second team and the $0300 display list overflows ($0032 wraps, flush loops at fixed $C545). Fix the second-team draw, then drop the forced menu exit.",
+      "next": "pair37 (no $9C42) still stalls at match 5 even with the pair36 zero-length guard: the 373-byte second-team list still needs the forced exit. After list-dispatch pagination/seed, retest pair37 and remove $9C42.",
       "verify": "pair23 with $9C42 reverted passes a 10-match soak without the forced menu exit",
       "attempts": 0,
       "evidence": "",
@@ -277,13 +277,13 @@
       "id": "displaylist-256",
       "title": "Display list over 256 bytes overflows $0300 (order/list/password)",
       "priority": "P0",
-      "status": "active",
+      "status": "done",
       "depends_on": [],
-      "next": "pair31-33: $C790 bounds checks (X+5*$05, with/without scratch) and combining pair28's $C1E5 caps all leave $0032=6 at match 14. The $C75A X=6 is not produced through the $C790 entry check. Next: break at $C741 and read X before the two $C790 calls; X=6 -> upstream $C713/$C1E5/$E5xx; X=0 -> $C790 entry bypass. Do not retry pair24-33.",
+      "next": "Fixed in pair36 ($C7AB -> zero-length guard). Remaining 373-byte second-team list is order-menu-high.",
       "verify": "pair23 without $9C42 passes 26 matches; no screen wraps $0032",
       "attempts": 3,
-      "evidence": "",
-      "last_commit": ""
+      "evidence": "The 262-byte scene-0x13 overflow was a $05=0 row: $C790's DEC/BNE loop ran 256 times. pair36 writes the header and returns before the loop; 26/26 pass. The remaining 373-byte second-team list is tracked by order-menu-high/list-dispatch, not this generic overflow.",
+      "last_commit": "935fb2b"
     }
   ]
 }
