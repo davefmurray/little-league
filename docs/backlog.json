@@ -279,9 +279,9 @@
       "priority": "P0",
       "status": "active",
       "depends_on": [],
-      "next": "Exact writer: fixed $C75A (STX $32), caller $CA1F, scene 0x13, X=6. pair28 fixed $C1E5 caps still wrap; pair29 unconditional $C75A cap breaks match 5; pair30 scene-0x13/X<0x10 cap also breaks match 5. Next: cap inside $C790 (the row writer) before X crosses $FF, or paginate/trim the 262-byte scene-0x13 list. Do not retry pair24-30.",
+      "next": "pair31-33: $C790 bounds checks (X+5*$05, with/without scratch) and combining pair28's $C1E5 caps all leave $0032=6 at match 14. The $C75A X=6 is not produced through the $C790 entry check. Next: break at $C741 and read X before the two $C790 calls; X=6 -> upstream $C713/$C1E5/$E5xx; X=0 -> $C790 entry bypass. Do not retry pair24-33.",
       "verify": "pair23 without $9C42 passes 26 matches; no screen wraps $0032",
-      "attempts": 2,
+      "attempts": 3,
       "evidence": "",
       "last_commit": ""
     }

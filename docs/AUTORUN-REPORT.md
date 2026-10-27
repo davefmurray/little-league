@@ -6835,5 +6835,23 @@ Next: cap inside `$C790` (the row writer) before X crosses `$FF`, or
 paginate/trim the 262-byte scene-0x13 list. Do not retry pair24-30.
 
 
+## Round 271 — $C790 caps do not stop the wrap
+
+Three bounds-check variants, all still `$0032=6` at match 14:
+
+- pair31: compute `X + 5*$05` with `$07F5`, skip at >= `$F0`. The helper
+  is entered (X=0, `$05=9`), but the `$FBE7` skip path never hits.
+- pair32: same check without RAM scratch (five `ADC $05`). Same result.
+- pair33: combine pair28's fixed `$C1E5` caps with pair32's `$C790`
+  check. Same result.
+
+So the X=6 stored at `$C75A` is not produced by a row that passed
+through the `$C790` entry check. Next: break at `$C741` and read X
+before the two `$C790` calls. X=6 there means the wrap is upstream
+(`$C713`/`$C1E5` or a `$E5xx`/`$E7xx` writer); X=0 means the `$C790`
+call bypasses the entry. Do not retry pair24-33.
+
+
+
 
 
