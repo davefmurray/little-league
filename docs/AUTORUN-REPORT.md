@@ -6852,6 +6852,34 @@ before the two `$C790` calls. X=6 there means the wrap is upstream
 call bypasses the entry. Do not retry pair24-33.
 
 
+## Round 272 — zero-length row guard fixes the 262-byte overflow
+
+pair34 (diagnostic) saved `$32` at `$C741`: at the `$0032=6` write the
+row started at **X=255 with `$05=0`**. `$C790` is a do-while
+(`DEC $07 / BNE`), so a zero-length row runs 256 times and writes
+~1 KB, wrapping X to 6.
+
+- pair35: skip the whole zero-length row at `$C741`. The wrap goes
+  away (`$0032=0x39`) but the game crashes at PC `$81CE` (data); the 3
+  header bytes are needed.
+- pair36: at `$C7AB`, when `$05=0` write the header and return from
+  `$C790` before the loop. 15/15 and **26/26** passes:
+
+```
+match 14: 1C v 1D -> $772E=1D (score 0-1) OK  index=0F
+match 25: 07 v 0C -> $7739=07 (score 1-0) OK  index=1A
+```
+
+- pair37: pair22 (no `$9C42`) + the same guard still stalls at match 5.
+  The 373-byte second-team list is separate (`order-menu-high` /
+  `list-dispatch`), so keep the forced exit for now.
+
+Working base: `build/direct31-pair36.nes`
+`bf86fffd907718f72478733be63c5e3938446488205dbcee0a33b1138c28ea4c`.
+Stock `verify.sh --with-soak` green.
+
+
+
 
 
 
