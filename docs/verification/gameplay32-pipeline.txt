@@ -1,0 +1,19 @@
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step1.nes: ratings table $BC80, reader -> $BC80
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step2.nes: lineups $FD80 (32 x 9), reader -> $FD80
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step3.nes: round label routine $8440, strings $84A0
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step4.nes: header -> $2068, title -> $2088
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step5.nes: bracket codes 0-31 at bank11 $B000
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step6.nes: bracket nametable clear at $FED0
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step7.nes: header space at $B21A, title tail space at $0333
+wrote /Users/dfm/GitHub/nesdav/little-league/build/direct31.nes: real ids + MMC1-reset roster cache
+wrote /Users/dfm/GitHub/nesdav/little-league/build/gameplay32.nes: deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
++ .venv/bin/python tools/build_ratings32.py build/direct20-names.nes -o build/_32full/step1.nes
++ .venv/bin/python tools/build_lineups32.py build/_32full/step1.nes -o build/_32full/step2.nes
++ .venv/bin/python tools/build_round_labels.py build/_32full/step2.nes -o build/_32full/step3.nes
++ .venv/bin/python tools/build_top_row.py build/_32full/step3.nes -o build/_32full/step4.nes
++ .venv/bin/python tools/build_bracket_codes32.py build/_32full/step4.nes -o build/_32full/step5.nes
++ .venv/bin/python tools/build_bracket_clear.py build/_32full/step5.nes -o build/_32full/step6.nes
++ .venv/bin/python tools/build_bracket_layout.py build/_32full/step6.nes -o build/_32full/step7.nes
++ .venv/bin/python tools/build_roster_cache.py build/_32full/step7.nes -o build/direct31.nes
++ .venv/bin/python tools/build_gameplay32.py build/direct31.nes -o build/gameplay32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/gameplay32.nes; baseline preserved at /Users/dfm/GitHub/nesdav/little-league/build/direct31.nes

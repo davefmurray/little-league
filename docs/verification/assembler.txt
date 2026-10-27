@@ -1,0 +1,2 @@
+EXPECTED FAIL old instruction sizes: 
+test_assembler: indexed and indirect zero-page loop plus forward jump OK

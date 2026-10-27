@@ -6978,3 +6978,27 @@ Title-menu probing found Championship > List of Teams enters password
 input scene19. Earlier list-dispatch probes were on scene0D team select.
 Bank1 A1AA is a bench-player scan, so list-seed must use tournament data
 instead of writing32 bytes over the18-byte live lineup.
+
+
+## Round 276 — assembler instruction widths
+
+The runtime-cache prototype exposed a two-pass assembler defect.
+`size_of()` counted indirect and indexed zero-page operands as three
+bytes, shifting every later label. A trailer loop branched to its store
+instead of its load. The first sizing regex also miscounted absolute,Y forms whose operand
+fits in a byte. Independent review caught that case. Numerical
+instruction widths now come from py65 encoding; branch labels retain
+their two-byte width and ROM-address labels their three-byte width.
+`test_assembler.py` executes a loop combining indexed-indirect,
+indirect-indexed and indexed zero-page accesses plus a forward jump.
+The old sizing rule fails this test; the corrected one passes.
+
+The complete `build_32team_full.py` pipeline still produces pinned
+direct31 d043ecdf and gameplay32 deff2f62. Its exact output is saved in
+`docs/verification/gameplay32-pipeline.txt`. Current gameplay CPU tests
+also pass, including the newly added pitcher search check.
+
+The first repair was pushed as db12f09. Two independent Claude reviews
+approve that commit. The first review's empty-header finding was fixed
+before the commit; later test-only edits were rerun by both parent and
+the second reviewer.

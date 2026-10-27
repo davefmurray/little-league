@@ -101,15 +101,11 @@ BRANCHES = {"BNE", "BEQ", "BCC", "BCS", "BMI", "BPL", "BVC", "BVS"}
 
 def size_of(line):
     mnemonic, _, operand = line.partition(" ")
-    if not operand or operand == "A":
-        return 1
-    if operand.startswith("#"):
-        return 2
-    if re.fullmatch(r"\$[0-9A-Fa-f]{1,2}", operand):
-        return 2
     if mnemonic in BRANCHES:
         return 2
-    return 3
+    if operand != "A" and re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", operand):
+        return 3
+    return len(Assembler(MPU()).assemble(line))
 
 
 def assemble(lines, origin):

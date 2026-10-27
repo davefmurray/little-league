@@ -10,7 +10,7 @@
       "verify": "high-team field renders at scene 03",
       "attempts": 1,
       "evidence": "docs/high-team-field.png",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "order-start",
@@ -22,7 +22,7 @@
       "verify": "A/START reaches scene 03",
       "attempts": 1,
       "evidence": "docs/AUTORUN-REPORT.md",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "field-cache",
@@ -135,7 +135,7 @@
       "verify": "All 32 team lineups on both sides, pitcher attributes and score canaries pass; 31-match natural-menu soak green",
       "attempts": 1,
       "evidence": "Corrected the false 32-byte group-table premise; 18-byte lineup and adjacent scores preserved; pitcher routine restored; CPU checks and full31 natural-menu soak pass; docs/verification/gameplay32.txt",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "list-dispatch",
@@ -218,7 +218,7 @@
       "verify": "Main build reproduces gameplay32 hash; 31 matches cover teams 16-31; stack FF at every entry",
       "attempts": 0,
       "evidence": "build_32team_full.py reproducibly builds gameplay32 deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89; stock d043ecdf unchanged; full31 and all32-team lineup tests green",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "regression",
@@ -269,7 +269,7 @@
       "verify": "31-match soak passes with original bank1 9C42 menu code",
       "attempts": 0,
       "evidence": "Original bank1 9C42 code is unchanged from direct31; full31 natural-menu soak passes, including match5; docs/verification/gameplay32.txt",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "displaylist-256",
@@ -293,7 +293,7 @@
       "verify": "AD5C processes nine pitcher/field-position records for both sides; 31-match soak and stock gate green",
       "attempts": 0,
       "evidence": "tools/test_gameplay32.py verifies nine AD63 iterations, pitcher attributes, unchanged E8 and balanced return for both sides; docs/verification/gameplay32.txt",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "lineup-index-wrap",
@@ -305,7 +305,7 @@
       "verify": "py65 all 32 teams x both sides equals the 32 x 9 source table; full 31-match soak",
       "attempts": 0,
       "evidence": "All 32 teams x both sides against stock and varied nine-byte records, repeated copies and preserved score RAM; full31 soak green; docs/verification/gameplay32.txt",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "bracket-stack-leak",
@@ -317,7 +317,7 @@
       "verify": "Stack pointer stays constant across matches; 31-match soak reaches champion without palette writes overwriting return addresses",
       "attempts": 0,
       "evidence": "31 real matches and all31 entry stack pointers FF; champion0B; CPU seven starting stacks x31 launches; docs/verification/gameplay32.txt",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "cpu-pitcher-tables",
@@ -353,7 +353,7 @@
       "verify": "Empty text emits no row and no PPU writes; nonempty output unchanged; full31 soak",
       "attempts": 1,
       "evidence": "Old header-only candidate fails producer/consumer regression; revised C790 guard has zero PPU writes for empty text, unchanged populated rows; stock6 and gameplay31 green in docs/verification/gameplay32.txt",
-      "last_commit": ""
+      "last_commit": "db12f09"
     },
     {
       "id": "pitcher-record-layout",
@@ -365,6 +365,18 @@
       "verify": "All32 teams starting and relief pitchers read intended eight-byte trailer records; used flags and stamina initialized correctly",
       "attempts": 0,
       "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "assembler-zp-width",
+      "title": "Count indirect and indexed zero-page instructions correctly",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "Reproduce wrong branch label from two-byte indirect instructions, fix assembler sizing, verify unchanged baseline pipeline",
+      "verify": "Execute branch loop across indirect/indexed instructions; complete build keeps d043 baseline and deff gameplay hashes",
+      "attempts": 1,
+      "evidence": "Old sizing fails executable loop; new sizing passes; full baseline/gameplay pipeline hashes unchanged. docs/verification/assembler.txt and gameplay32-pipeline.txt",
       "last_commit": ""
     }
   ]
