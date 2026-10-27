@@ -1,0 +1,67 @@
+loaded build/direct31-control-stack.nes, navigated to CONTINUE/END
+match 0 password SP 0xff PC 0xcc09
+match 00: 0F v 00 -> $7720=0F (score 2-0) OK  index=01
+match 1 password SP 0xff PC 0xcc0c
+match 01: 01 v 02 -> $7721=02 (score 0-2) OK  index=02
+match 2 password SP 0xff PC 0xcc09
+match 02: 03 v 04 -> $7722=04 (score 0-1) OK  index=03
+match 3 password SP 0xff PC 0xcc09
+match 03: 05 v 06 -> $7723=06 (score 0-1) OK  index=04
+match 4 password SP 0xff PC 0xcc0c
+match 04: 07 v 08 -> $7724=07 (score 2-0) OK  index=05
+match 5 password SP 0xff PC 0xcc0c
+match 05: 09 v 0A -> $7725=09 (score 0-0) OK  index=06
+match 6 password SP 0xff PC 0xcc0c
+match 06: 0B v 0C -> $7726=0B (score 4-0) OK  index=07
+match 7 password SP 0xff PC 0xcc09
+match 07: 0D v 0E -> $7727=0E (score 1-2) OK  index=08
+match 8 password SP 0xff PC 0xcc0c
+match 08: 10 v 11 -> $7728=10 (score 0-0) OK  index=09
+match 9 password SP 0xff PC 0xcc0c
+match 09: 12 v 13 -> $7729=13 (score 0-10) OK  index=0A
+match 10 password SP 0xff PC 0xcc0c
+match 10: 14 v 15 -> $772A=15 (score 0-1) OK  index=0B
+match 11 password SP 0xff PC 0xcc0c
+match 11: 16 v 17 -> $772B=16 (score 14-0) OK  index=0C
+match 12 password SP 0xff PC 0xcc09
+match 12: 18 v 19 -> $772C=19 (score 0-3) OK  index=0D
+match 13 password SP 0xff PC 0xcc0c
+match 13: 1A v 1B -> $772D=1B (score 0-10) OK  index=0E
+match 14 password SP 0xff PC 0xcc09
+match 14: 1C v 1D -> $772E=1C (score 2-1) OK  index=0F
+match 15 password SP 0xff PC 0xcc0c
+match 15: 1E v 1F -> $772F=1F (score 0-2) OK  index=10
+match 16 password SP 0xff PC 0xcc09
+match 16: 0F v 02 -> $7730=0F (score 2-1) OK  index=11
+match 17 password SP 0xff PC 0xcc0c
+match 17: 04 v 06 -> $7731=06 (score 0-1) OK  index=12
+match 18 password SP 0xff PC 0xcc09
+match 18: 07 v 09 -> $7732=07 (score 0-0) OK  index=13
+match 19 password SP 0xff PC 0xcc0c
+match 19: 0B v 0E -> $7733=0E (score 0-4) OK  index=14
+match 20 password SP 0xff PC 0xcc09
+match 20: 10 v 13 -> $7734=10 (score 6-2) OK  index=15
+match 21 password SP 0xff PC 0xcc0c
+match 21: 15 v 16 -> $7735=16 (score 0-1) OK  index=16
+match 22 password SP 0xff PC 0xcc09
+match 22: 19 v 1B -> $7736=1B (score 2-3) OK  index=17
+match 23 password SP 0xff PC 0xcc0c
+match 23: 1C v 1F -> $7737=1F (score 0-2) OK  index=18
+match 24 password SP 0xff PC 0xcc09
+match 24: 0F v 06 -> $7738=06 (score 0-1) OK  index=19
+match 25 password SP 0xff PC 0xcc09
+match 25: 07 v 0E -> $7739=0E (score 0-2) OK  index=1A
+match 26 password SP 0xff PC 0xcc0c
+match 26: 10 v 16 -> $773A=16 (score 0-1) OK  index=1B
+match 27 password SP 0xff PC 0xcc0c
+match 27: 1B v 1F -> $773B=1B (score 3-0) OK  index=1C
+match 28 password SP 0xff PC 0xcc0c
+match 28: 06 v 0E -> $773C=0E (score 0-1) OK  index=1D
+match 29 password SP 0xff PC 0xcc09
+match 29: 16 v 1B -> $773D=1B (score 0-2) OK  index=1E
+match 30 password SP 0xff PC 0xcc0c
+match 30: 0E v 1B -> $773E=1B (score 1-4) OK  index=1F
+slots: 0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 0f 02 04 06 07 09 0b 0e 10 13 15 16 19 1b 1c 1f 0f 06 07 0e 10 16 1b 1f 06 0e 16 1b 0e 1b 1b
+champion slot 62 ($773E) = 1B
+saved state soak-final and /tmp/soak-final.png
+stack samples: FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF,FF

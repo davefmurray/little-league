@@ -103,12 +103,18 @@ def main():
                          "omit to navigate from boot")
     ap.add_argument("--matches", type=int, default=31)
     ap.add_argument("--shot-every", type=int, default=0)
+    ap.add_argument("--session", default="llbcs",
+                    help="romdev session owned by this run")
+    ap.add_argument("--check-stack", action="store_true",
+                    help="require the same stack pointer at every match entry")
     ap.add_argument("--winner", choices=("forced", "score"), default="forced",
                     help="forced: first team always wins; score: use $048B/$048C")
     ap.add_argument("--mode", choices=("speed", "watch"), default="speed",
                     help="speed: SPEED MODE (per-pitch input may be needed); "
                          "watch: WATCH THE GAME (one cutscene A, then auto)")
     args = ap.parse_args()
+    romdev.SESSION = args.session
+    entry_stack = None
 
     romdev.call("loadMedia", {"platform": "nes",
                               "path": os.path.abspath(args.rom)})
@@ -139,6 +145,15 @@ def main():
 
         wait_for(lambda: rd_sys(0x047B)[0] == 0x13, 120, 10,
                  f"match {m} password")
+        if args.check_stack:
+            cpu = romdev.call("cpu", {"op": "read"})
+            stack = cpu["registers"]["S"]
+            if entry_stack is None:
+                entry_stack = stack
+            if stack != entry_stack:
+                raise SystemExit(f"match {m}: stack ${stack:02X}, "
+                                 f"expected ${entry_stack:02X}")
+            print(f"match {m:02d}: stack ${stack:02X} OK")
         press("a", 2)
         step(60)
         press("a", 2)

@@ -137,13 +137,17 @@ is preserved but unmapped.
 
 ## Lineups
 
-16 teams × 9 bytes at `$96CA`. Each byte packs **batting order in the high
-nibble (0–8)** and **fielding position in the low nibble (1–9)**:
+16 teams × 9 bytes at `$96CA`. Each byte packs **roster player number in the high
+nibble (0–15)** and **fielding position in the low nibble (1–9)**:
 
 ```
 JAPAN  08 16 29 31 42 57 65 73 84
-       order 0..8, positions 8,6,9,1,2,7,5,3,4
+       players 0..8, positions 8,6,9,1,2,7,5,3,4
 ```
+
+The record index is the batting row. Stock starting player numbers happen
+to match those rows; substitutions can change them. The live RAM copy is
+nine interleaved rows for two sides at `$06E2` through `$06F3`.
 
 Positions use scorekeeping numbering: 1 pitcher, 2 catcher, 3 first, 4 second,
 5 third, 6 shortstop, 7 left, 8 center, 9 right.

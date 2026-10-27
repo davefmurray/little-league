@@ -124,16 +124,17 @@
     },
     {
       "id": "pitch-restructure",
-      "title": "Source-level 16-team x 2 group table",
+      "title": "Preserve stock lineup and score layout in the source build",
       "priority": "P0",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
-        "pitch-06e2"
+        "pitch-06e2",
+        "pitcher-entry-overwrite"
       ],
-      "next": "rewrite the $AC9D/$AD10 team/slot logic for 16 teams x 2",
-      "verify": "10-match soak green; $06E2 32 bytes correct",
-      "attempts": 0,
-      "evidence": "",
+      "next": "The 16-team x 2 group-table premise was incorrect. Keep nine packed lineup entries per side.",
+      "verify": "All 32 team lineups on both sides, pitcher attributes and score canaries pass; 31-match natural-menu soak green",
+      "attempts": 1,
+      "evidence": "Corrected the false 32-byte group-table premise; 18-byte lineup and adjacent scores preserved; pitcher routine restored; CPU checks and full31 natural-menu soak pass; docs/verification/gameplay32.txt",
       "last_commit": ""
     },
     {
@@ -142,22 +143,22 @@
       "priority": "P1",
       "status": "blocked",
       "depends_on": [],
-      "next": "trace $047B title scene and the $9B68 pointer table ($A0C6..$A286, stride $40)",
-      "verify": "list entry reached; $06E2 seeded",
+      "next": "Trace title Championship > List of Teams through password input scene19; actual submenu uses bank1 9511, not A1C6. A1AA/071A are player bench state.",
+      "verify": "Runtime title path and data consumers identified without changing live lineup or scores",
       "attempts": 3,
       "evidence": "$A1C6 patch not reached at scene 0x0D",
       "last_commit": "08b5412",
-      "blocked_reason": "3 attempts + context checkpoint. Baseline: at scene 0x0D the list shows only CONTINUE END and $06E2=FF. $A1AA/$A1C6/$9B68 is an indirect data/pointer chain (no direct refs; $A1C6 is the 5th pointer of the $9B68 table, $A0C6..$A286 stride $40). Next: disassemble/dump $A0C6..$A286 and trace the $047B title menu that indexes it; then seed $06E2 at the list entry."
+      "blocked_reason": "Old probes used scene0D team selection. New probe reaches password entry scene19; password validation needed to proceed. A1AA is a player bench scan, not a tournament team list."
     },
     {
       "id": "list-seed",
-      "title": "Seed $06E2 at list entry + 32 names",
+      "title": "Show 32-team tournament list from the bracket data",
       "priority": "P1",
       "status": "queued",
       "depends_on": [
         "list-dispatch"
       ],
-      "next": "seed $06E2 32 + $071A 32 at the list entry; re-run name check",
+      "next": "Use tournament SRAM data for team names after correct list dispatch; never extend the18-byte live lineup at06E2.",
       "verify": "list shows 32 real names, no JAPAN fallback",
       "attempts": 0,
       "evidence": "",
@@ -203,21 +204,20 @@
       "verify": "all 26 matches pass",
       "attempts": 2,
       "evidence": "pair36 26/26 matches OK (0x0F..0x25), including match 14 (1C v 1D) and match 25 (07 v 0C); zero-length $C790 row guard; stock verify --with-soak green.",
-      "last_commit": "935fb2b",
-      "blocked_reason": "Match 14 stalls at scene 0x13: $0032 wraps to 6, $0033=0xBA (262 > 256-byte $0300 buffer); 15-match run reproduces. Blocked by displaylist-256."
+      "last_commit": "935fb2b"
     },
     {
       "id": "bridge-integrate",
       "title": "Launch-bridge $FF60 + direct-teams in main build",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "soak-26"
       ],
-      "next": "integrate $FF60 pair/direct-teams/skip-password or use launch-bridge base",
-      "verify": "high teams 16-31 field correct",
+      "next": "Main build now produces gameplay32.nes from pinned direct31 with the existing real-team cache and repaired launch stack.",
+      "verify": "Main build reproduces gameplay32 hash; 31 matches cover teams 16-31; stack FF at every entry",
       "attempts": 0,
-      "evidence": "",
+      "evidence": "build_32team_full.py reproducibly builds gameplay32 deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89; stock d043ecdf unchanged; full31 and all32-team lineup tests green",
       "last_commit": ""
     },
     {
@@ -261,17 +261,15 @@
       "id": "order-menu-high",
       "title": "High-team second-team order screen / display-list overflow",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [
-        "list-dispatch",
-        "pitch-06e2"
+        "pitch-restructure"
       ],
-      "next": "pair37 (no $9C42) still stalls at match 5 even with the pair36 zero-length guard: the 373-byte second-team list still needs the forced exit. After list-dispatch pagination/seed, retest pair37 and remove $9C42.",
-      "verify": "pair23 with $9C42 reverted passes a 10-match soak without the forced menu exit",
+      "next": "Natural menu exit restored by omitting the experimental group-table and page-offset patches.",
+      "verify": "31-match soak passes with original bank1 9C42 menu code",
       "attempts": 0,
-      "evidence": "",
-      "last_commit": "",
-      "blocked_reason": "Second-team draw is the 32-team list: $0033=0x175 (373) > the 256-byte $0300 buffer; $0032 wraps to 6 and the fixed-bank flush ($C545) starves the menu. A $96ED $0032 reset (pair24) still overflows. Needs list-dispatch pagination/buffer work before the $9C42 forced exit can be removed."
+      "evidence": "Original bank1 9C42 code is unchanged from direct31; full31 natural-menu soak passes, including match5; docs/verification/gameplay32.txt",
+      "last_commit": ""
     },
     {
       "id": "displaylist-256",
@@ -279,11 +277,95 @@
       "priority": "P0",
       "status": "done",
       "depends_on": [],
-      "next": "Fixed in pair36 ($C7AB -> zero-length guard). Remaining 373-byte second-team list is order-menu-high.",
-      "verify": "pair23 without $9C42 passes 26 matches; no screen wraps $0032",
+      "next": "C790 entry guard replaces the incomplete header-only guard; see empty-row-consumer.",
+      "verify": "Empty rows produce no display-list or PPU writes; populated rows unchanged; full31 soak",
       "attempts": 3,
-      "evidence": "The 262-byte scene-0x13 overflow was a $05=0 row: $C790's DEC/BNE loop ran 256 times. pair36 writes the header and returns before the loop; 26/26 pass. The remaining 373-byte second-team list is tracked by order-menu-high/list-dispatch, not this generic overflow.",
+      "evidence": "Historical pair36 prevented the producer overflow but left a zero-count record that C53A copied256 times. Superseded by empty-row-consumer: producer plus consumer regression and full31 gate in docs/verification/gameplay32.txt.",
       "last_commit": "935fb2b"
+    },
+    {
+      "id": "pitcher-entry-overwrite",
+      "title": "Restore pitcher entry overwritten by group initializer",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "Build from pinned direct31 so AD5C remains the original pitcher routine. No identity group initializer.",
+      "verify": "AD5C processes nine pitcher/field-position records for both sides; 31-match soak and stock gate green",
+      "attempts": 0,
+      "evidence": "tools/test_gameplay32.py verifies nine AD63 iterations, pitcher attributes, unchanged E8 and balanced return for both sides; docs/verification/gameplay32.txt",
+      "last_commit": ""
+    },
+    {
+      "id": "lineup-index-wrap",
+      "title": "Load all nine lineup entries for teams 28-31",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "Replace the 8-bit team-times-nine lookup with a bounded two-window copy preserving the stock 18-byte lineup",
+      "verify": "py65 all 32 teams x both sides equals the 32 x 9 source table; full 31-match soak",
+      "attempts": 0,
+      "evidence": "All 32 teams x both sides against stock and varied nine-byte records, repeated copies and preserved score RAM; full31 soak green; docs/verification/gameplay32.txt",
+      "last_commit": ""
+    },
+    {
+      "id": "bracket-stack-leak",
+      "title": "Unwind bracket launch stack before returning to the frame loop",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "At the fixed-bank FF90 launch boundary, discard stale caller frames before JMP CC09; X is FF there",
+      "verify": "Stack pointer stays constant across matches; 31-match soak reaches champion without palette writes overwriting return addresses",
+      "attempts": 0,
+      "evidence": "31 real matches and all31 entry stack pointers FF; champion0B; CPU seven starting stacks x31 launches; docs/verification/gameplay32.txt",
+      "last_commit": ""
+    },
+    {
+      "id": "cpu-pitcher-tables",
+      "title": "Extend CPU manager and relief-pitcher tables to 32 teams",
+      "priority": "P0",
+      "status": "active",
+      "depends_on": [],
+      "next": "Reproduce high-team reads at bank5 A40D/A4A4; preserve low-team data, extend validated tables, exercise substitutions for all32 teams and both sides",
+      "verify": "CPU tests all32 x both sides with valid bench pitcher and manager thresholds; full31 soak and stock gate",
+      "attempts": 1,
+      "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "team-table-audit",
+      "title": "Repair remaining team-indexed gameplay tables",
+      "priority": "P0",
+      "status": "active",
+      "depends_on": [],
+      "next": "Trace bank4 AABB team-by-round values, bank5 9CD0 human-control bitset and BC4F batting bias; define 32-team ownership and reproduce high-team reads beyond each table",
+      "verify": "CPU boundary cases all32 teams and round/control settings; no reads into adjacent code; runtime full31 gate",
+      "attempts": 1,
+      "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "empty-row-consumer",
+      "title": "Avoid zero-count PPU display-list records",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "Retain C790 entry guard; never emit count0 records to C53A",
+      "verify": "Empty text emits no row and no PPU writes; nonempty output unchanged; full31 soak",
+      "attempts": 1,
+      "evidence": "Old header-only candidate fails producer/consumer regression; revised C790 guard has zero PPU writes for empty text, unchanged populated rows; stock6 and gameplay31 green in docs/verification/gameplay32.txt",
+      "last_commit": ""
+    },
+    {
+      "id": "pitcher-record-layout",
+      "title": "Make high-team pitcher records reachable by runtime consumers",
+      "priority": "P0",
+      "status": "queued",
+      "depends_on": [],
+      "next": "Reproduce base+100+byte12 reads into players16-18 instead of high-team trailer at140; choose compatible cache layout or update pitcher-pointer consumers while preserving editor data",
+      "verify": "All32 teams starting and relief pitchers read intended eight-byte trailer records; used flags and stamina initialized correctly",
+      "attempts": 0,
+      "evidence": "",
+      "last_commit": ""
     }
   ]
 }

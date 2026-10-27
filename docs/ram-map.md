@@ -13,19 +13,28 @@ addresses, **not file offsets**.
 | `$04FA` | Home pitcher "value 4" | `$04F9,X` with `X=1` |
 | `$04FB` | Away pitcher stamina remaining | 2nd pitcher record byte |
 | `$04FC` | Home pitcher stamina remaining | indexed `$04FB,X` |
-| `$04FD` | Away pitcher's lineup position | `00–08` |
-| `$04FE` | Home pitcher's lineup position | `$04FD,X` with `X=1` |
+| `$04FD` | Away pitcher's roster player number | `00–0F` |
+| `$04FE` | Home pitcher's roster player number | `$04FD,X` with `X=1` |
 
 The trailer routine confirms the indexing:
 
 ```
 $B094  LDX $04EE
-$B097  LDA $04FD,X     ; away/home pitcher slot
+$B097  LDA $04FD,X     ; away/home pitcher player number
 ```
 
 `$04FB,X` and `$04F9,X` appear throughout banks 1, 4, 5, 6, 7 for stamina and
 pitcher value reads/writes. `$04FA/$04FE` have no standalone absolute references
 because they are reached through the `,X` form.
+
+## Live lineup
+
+`$06E2 + row*2 + side` holds nine batting rows per side, 18 bytes total
+through `$06F3`. Each byte packs the roster player number in its high
+nibble and fielding position (1-9) in its low nibble. `$06F4/$06F5` are
+the prior half-inning score baselines; `$06F6` onward holds line scores.
+`$071A` holds used-player flags indexed by `player*2 + side`, 32 bytes.
+These are player and side structures, independent of tournament team count.
 
 ## Game state (GameHacking standard codes)
 
@@ -78,7 +87,7 @@ because they are reached through the `,X` form.
 ## Notes
 
 - `$04FD` is **not** a generic player-index array; it is the away/home pitcher's
-  lineup position, selected by `$04EE`.
+  roster player number, selected by `$04EE`.
 - The pitcher record fields map to RAM as: byte 1 → stamina (`$04FB/$04FC`),
   byte 3 → "value 4" (`$04F9/$04FA`).
 - Verify any new address in the debugger (`tools/debugger.html`) before relying

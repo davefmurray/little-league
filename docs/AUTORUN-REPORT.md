@@ -6883,3 +6883,98 @@ Stock `verify.sh --with-soak` green.
 
 
 
+
+## Round 273 — recheck the group-table premise
+
+The inherited pair36 passes the 10-match progression gate. Direct CPU execution
+of bank4 `$AD5C`, however, reaches `$AD63` in pinned direct31 but enters the
+group-initialization loop in pair36. The 21-byte patch at `$AD4E` overwrites
+the 7-byte pitcher entry at `$AD5C-$AD62`.
+
+A control ROM uses pinned direct31 with only the forced bank1 `$9C42` exit
+and fixed-bank `$C7AB/$FBF0` zero-length row guard. It passes matches 0-26
+without the group-table, capture/restore, or page-offset experiments. It
+stalls at match 27, pair `$19/$1D`, in the bank4 `$B0BE` position-1 search.
+Team 29's 8-bit `team*9` lineup index wraps. Its side-1 lineup lacks a
+position-1 entry. The initial control is an experiment, not a shipped fix.
+
+A second control uses a two-window lineup copy for teams 28-31. Its changed
+winner path passes matches 0-25, then jams at match 26, scene `$17`, bank6,
+PC `$00F3`. This variant is not accepted. Full 31-match success remains open.
+
+Evidence is under `build/pitch-design/`. The soak's `--winner score` rule
+accepts ties as first-team wins. These results prove scene progression and
+bracket advancement, not complete scoring or manual gameplay correctness.
+
+## Round 274 — lineup semantics and the late-round stack leak
+
+`$06E2-$06F3` is nine packed lineup records per side. The upper nibble is
+a player index and the lower nibble is a field position. `$06F4/$06F5` are
+score totals, and inning data starts at `$06F6`. A 32-byte table at `$06E2`
+collides with these writers. The earlier team/group interpretation is
+incorrect and must not guide further patches.
+
+A CPU test of bank4 `$AD42` against all 32 source lineups found 56/64 side
+cases correct in direct31. Teams 28-31 fail on both sides because Y wraps
+inside the `team*9` source index. A helper uses `$FD80,Y` for teams 0-27
+and `$FE7C,Y` with `(team-28)*9` for teams 28-31. It copies exactly nine
+records, preserves the other side and score RAM, and passes all 64 cases.
+
+Saved match-entry stack pointers at matches 24, 25, and 26 were `$CB`,
+`$C9`, and `$C7`. The fixed-bank launch stub jumps to `$CC09` without
+unwinding the dispatch caller. Each match leaks two bytes. Eventually
+the palette flush's write to `$01B1` corrupts an active return address.
+The instruction trace shows `$CE9C RTS` returning to `$00B7`, then executing
+RAM until the CPU jams at `$00F3`.
+
+The launch stub already sets X to `$FF` and preserves it. Adding `TXS`
+before its final `JMP $CC09` discards the abandoned frames. A full soak
+then passes 31/31, with `$FF` at every password-entry stack check and
+champion `$1B`. Inherited pair36 itself fails the full31 gate at match28.
+
+Restoring the original bank1 `$9C42` menu code also passes 31/31, with
+champion `$0B`. The forced menu exit is no longer needed. The candidate
+therefore starts from pinned direct31 and retains only the zero-length row
+guard, corrected lineup copy, and launch stack reset. Pair36 remains an
+unchanged historical reference.
+
+The existing main-build pipeline reproduces direct31's pinned SHA-256
+exactly. Source integration will produce a separate `gameplay32.nes`.
+The stock gate was rerun serially and passed. An earlier overlapping pair
+of emulator runs was discarded after they shared the same session. The
+soak driver now accepts a session name and a stack-consistency check.
+
+
+## Round 275 — independent review fixes the empty-row consumer
+
+Claude reviewed the source repair and executed the fixed-bank `$C53A`
+consumer. A zero-count row still causes 256 writes to `$2007`, even when
+the producer returns after its header. The old pair35 result did not
+establish that headers are required: its early RTS also bypassed the
+caller cleanup.
+
+The new guard hooks `$C790` itself. Empty text returns before any header
+is emitted. Nonempty text replays `LDA $01 / ORA #$40` and rejoins `$C794`.
+The helper remains 12 bytes at `$FBF0`; `$C7AB` remains stock. CPU tests now
+execute producer and consumer, require zero PPU writes for empty rows,
+and compare populated output in both text modes. The previous candidate
+fails this regression. The ROM lineup records also have an explicit
+positions1-9 and unique-player invariant check.
+
+`./tools/verify.sh --with-soak` passes stock6 and gameplay31, with stackFF
+at every match entry and champion0B. Exact output is committed in
+`docs/verification/gameplay32.txt`. Revised gameplay32 SHA256 is
+`deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89`.
+The pinned direct31 and pair36 artifacts are unchanged.
+
+The independent source explanation also identified unextended team
+tables in bank5. `cpu-pitcher-tables` owns manager/reliever data;
+`team-table-audit` owns the remaining round modifiers, control mask and
+batting bias. These are open work, not claims covered by the soak.
+The RAM, roster and bench-card references now describe players and sides
+correctly. Historical round notes remain as experiment history.
+
+Title-menu probing found Championship > List of Teams enters password
+input scene19. Earlier list-dispatch probes were on scene0D team select.
+Bank1 A1AA is a bench-player scan, so list-seed must use tournament data
+instead of writing32 bytes over the18-byte live lineup.

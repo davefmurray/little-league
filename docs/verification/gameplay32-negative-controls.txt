@@ -1,0 +1,4 @@
+EXPECTED FAIL build/direct31.nes test_lineups: (28, 0)
+EXPECTED FAIL build/direct31-pair36.nes test_pitcher: [44380, 44382, 44384, 44368, 44369, 44370, 44372, 44373, 44374, 44375, 44376, 44378, 44381, 44382, 44384, 44368, 44369, 44370, 44372, 44373, 44374, 44375, 44376, 44378, 44381, 44382, 44384, 44368, 443
+EXPECTED FAIL build/gameplay32-header-control.nes test_rows: (0, 0, 0)
+EXPECTED FAIL build/direct31.nes test_launch: (255, 253)

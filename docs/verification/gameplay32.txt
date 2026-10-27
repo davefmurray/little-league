@@ -1,0 +1,85 @@
+check_build OK: d043ecdfc46c4d50c509db30f757425759a556dec3258be462fa9b3d81091ec1 (393232 bytes, mapper 1)
+test_bracket32: 31 records, rounds 16/8/4/2/1, champion 62, table round-trip OK
+test_roster32: fixture round-trip + edit + attribute/bench + show32 + rominfo OK
+wrote build/gameplay32.nes: deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
+lineups: 32 teams x 2 sides x stock/varied rows, repeated copies, scores and $09 OK
+pitcher: stock $AD5C reaches $AD63 nine times, attributes, $E8 and return stack OK
+rows: empty text emits no row or PPU writes; populated producer/consumer output OK
+launch: $FF90 resets SP to FF for seven starting stacks across 31 launches OK
+builder: exact five changed ranges, deterministic output, bad inputs and path aliases rejected OK
+test_gameplay32: OK deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
+loaded build/direct31.nes, navigated to CONTINUE/END
+match 00: 0F v 00 -> $7720=0F (score 2-0) OK  index=01
+match 01: 01 v 02 -> $7721=02 (score 0-2) OK  index=02
+match 02: 03 v 04 -> $7722=04 (score 0-1) OK  index=03
+match 03: 05 v 06 -> $7723=06 (score 0-1) OK  index=04
+match 04: 07 v 08 -> $7724=07 (score 2-0) OK  index=05
+match 05: 09 v 0A -> $7725=09 (score 0-0) OK  index=06
+slots: 0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 0f 02 04 06 07 09 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
+loaded build/gameplay32.nes, navigated to CONTINUE/END
+match 00: stack $FF OK
+match 00: 0F v 00 -> $7720=0F (score 2-0) OK  index=01
+match 01: stack $FF OK
+match 01: 01 v 02 -> $7721=02 (score 0-2) OK  index=02
+match 02: stack $FF OK
+match 02: 03 v 04 -> $7722=04 (score 0-1) OK  index=03
+match 03: stack $FF OK
+match 03: 05 v 06 -> $7723=06 (score 0-1) OK  index=04
+match 04: stack $FF OK
+match 04: 07 v 08 -> $7724=07 (score 2-0) OK  index=05
+match 05: stack $FF OK
+match 05: 09 v 0A -> $7725=09 (score 0-0) OK  index=06
+match 06: stack $FF OK
+match 06: 0B v 0C -> $7726=0B (score 3-0) OK  index=07
+match 07: stack $FF OK
+match 07: 0D v 0E -> $7727=0E (score 0-2) OK  index=08
+match 08: stack $FF OK
+match 08: 10 v 11 -> $7728=10 (score 0-0) OK  index=09
+match 09: stack $FF OK
+match 09: 12 v 13 -> $7729=12 (score 11-3) OK  index=0A
+match 10: stack $FF OK
+match 10: 14 v 15 -> $772A=15 (score 0-1) OK  index=0B
+match 11: stack $FF OK
+match 11: 16 v 17 -> $772B=17 (score 0-9) OK  index=0C
+match 12: stack $FF OK
+match 12: 18 v 19 -> $772C=19 (score 0-2) OK  index=0D
+match 13: stack $FF OK
+match 13: 1A v 1B -> $772D=1A (score 11-1) OK  index=0E
+match 14: stack $FF OK
+match 14: 1C v 1D -> $772E=1D (score 3-4) OK  index=0F
+match 15: stack $FF OK
+match 15: 1E v 1F -> $772F=1E (score 1-0) OK  index=10
+match 16: stack $FF OK
+match 16: 0F v 02 -> $7730=02 (score 0-5) OK  index=11
+match 17: stack $FF OK
+match 17: 04 v 06 -> $7731=06 (score 0-1) OK  index=12
+match 18: stack $FF OK
+match 18: 07 v 09 -> $7732=07 (score 3-0) OK  index=13
+match 19: stack $FF OK
+match 19: 0B v 0E -> $7733=0B (score 6-3) OK  index=14
+match 20: stack $FF OK
+match 20: 10 v 12 -> $7734=10 (score 11-0) OK  index=15
+match 21: stack $FF OK
+match 21: 15 v 17 -> $7735=17 (score 2-4) OK  index=16
+match 22: stack $FF OK
+match 22: 19 v 1A -> $7736=1A (score 0-10) OK  index=17
+match 23: stack $FF OK
+match 23: 1D v 1E -> $7737=1E (score 0-3) OK  index=18
+match 24: stack $FF OK
+match 24: 02 v 06 -> $7738=02 (score 2-0) OK  index=19
+match 25: stack $FF OK
+match 25: 07 v 0B -> $7739=0B (score 0-9) OK  index=1A
+match 26: stack $FF OK
+match 26: 10 v 17 -> $773A=10 (score 12-1) OK  index=1B
+match 27: stack $FF OK
+match 27: 1A v 1E -> $773B=1A (score 15-0) OK  index=1C
+match 28: stack $FF OK
+match 28: 02 v 0B -> $773C=0B (score 0-1) OK  index=1D
+match 29: stack $FF OK
+match 29: 10 v 1A -> $773D=1A (score 0-11) OK  index=1E
+match 30: stack $FF OK
+match 30: 0B v 1A -> $773E=0B (score 7-3) OK  index=1F
+slots: 0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 0f 02 04 06 07 09 0b 0e 10 12 15 17 19 1a 1d 1e 02 06 07 0b 10 17 1a 1e 02 0b 10 1a 0b 1a 0b
+champion slot 62 ($773E) = 0B
+saved state soak-final and /tmp/soak-final.png

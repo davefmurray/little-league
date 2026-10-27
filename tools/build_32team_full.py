@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build the complete 32-team gameplay ROM.
+"""Build the 32-team gameplay candidate.
 
-    python3 tools/build_32team_full.py
+    .venv/bin/python tools/build_32team_full.py
 
 Chain (all scripts are also runnable individually):
 
@@ -12,6 +12,8 @@ Chain (all scripts are also runnable individually):
       -> build_top_row.py       (header/title rows)
       -> build_roster_cache.py  (bank8 cache, real ids, $7F00 repoint)
       -> build/direct31.nes
+      -> build_gameplay32.py    (lineup indexing, row guard, launch stack)
+      -> build/gameplay32.nes
 
 `direct20-names.nes` is direct20 + the 16-31 rosters + names32:
 
@@ -27,6 +29,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.join(ROOT, "build/direct20-names.nes")
 OUT = os.path.join(ROOT, "build/direct31.nes")
+GAMEPLAY_OUT = os.path.join(ROOT, "build/gameplay32.nes")
 
 
 def run(script, *args):
@@ -53,7 +56,8 @@ def main():
     run("build_bracket_clear.py", s5, "-o", s6)
     run("build_bracket_layout.py", s6, "-o", s7)
     run("build_roster_cache.py", s7, "-o", OUT)
-    print(f"wrote {OUT}")
+    run("build_gameplay32.py", OUT, "-o", GAMEPLAY_OUT)
+    print(f"wrote {GAMEPLAY_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":
