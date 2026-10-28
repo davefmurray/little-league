@@ -13,18 +13,20 @@ hardware, in emulators, and for the audio path.
 - The build manifest pins the exact binary:
   `docs/build-manifest.json` + `python3 tools/check_build.py build/direct31.nes`.
 
-Known bank map (direct31):
+Relevant bank ownership in the current source pipeline:
 
-| bank | use |
-| ---- | --- |
-| 0-1 | menu / list / team card / password helpers |
-| 4 | low-team rosters (`$8420 + t*0x120`) |
-| 5 | password `$9B5F`/`$98D5`, series init |
-| 6 | field/order handlers |
-| 7 | bracket/scene helpers |
-| 8 | high-team rosters (`$8000 + t*0x170`) |
-| 11 | 32-team bracket codes |
-| 15 | fixed: scene table, NMI, cache, launch |
+| Bank | Use |
+| --- | --- |
+| 0, 1, 3, 5 | Live gameplay/menu code and repaired batting-bias copies |
+| 1 | Stock password entry, name tables, CONTINUE helper |
+| 4 | Gameplay, stock rosters, lineup loader and rating bonuses |
+| 5 | Series setup, stock password encoder and CPU pitching |
+| 7 | Stale copy of the old fixed bank; not the live bracket |
+| 8 | Stored 20-player roster blocks |
+| 10 | Four-page team selector |
+| 11 | 32-team bracket, restore and list view |
+| 12 | 22-symbol v1 password codec |
+| 15 | Fixed dispatch, NMI, cache adapter and bank-switch stubs |
 
 ## Emulator execution (romdev)
 
@@ -32,8 +34,9 @@ Known bank map (direct31):
   `127.0.0.1:7331`; client `tools/romdev.py`; session `llbcs`.
 - Deterministic frame stepping; `frame {op:'screenshot', path:...}` for
   evidence; memory reads via `system_ram`/`nes_cart_ram`.
-- Harness: `tools/soak_bracket.py` (CONTINUE/END navigation, scene
-  handlers, 6/26-match soaks, final-state screenshots).
+- Harness: `tools/soak_bracket.py` supports stock navigation, `--team`
+  selection and `--bracket-state` resume. Final checks use 31 matches,
+  live-score mapping and the stock game-over flag.
 - Core: `fceumm`.
 
 ## Hardware test matrix
@@ -61,19 +64,27 @@ Known bank map (direct31):
   select uses the same.
 - 2-player: the stock field supports it; verify P2 pad mapping.
 
-## Known open gaps (link to TODO)
+## Current validation limits
 
-- Field pitch / live-field gameplay (item 10) — `$06E2` group/team.
-- LIST OF TEAMS full 32 scan (item 4) — `$071A`/`$06E2` 32-byte tables.
-- Password screen bank5 wiring (item 7) — `docs/password-screen.html`.
-- Bench/attribute card (item 8).
+The old 32-byte `$06E2` model was incorrect. The live lineup remains
+18 bytes; extending it overwrote line scores. Gameplay, ownership and
+password evidence now live in `docs/gameplay32.md`, `docs/control32.md`
+and `docs/password32.md`.
+
+FCEUmm execution through romdev is not an independent FCEUX application
+run, a Mesen2 run, or a hardware test. Emulator savestates used by the
+resume probes are not proof of battery-backed SRAM after a power cycle.
+The portable, tested resume path is password entry. Real-hardware SRAM
+and audio acceptance remain open.
 
 ## Release checklist
 
-- [ ] `check_build` green against `docs/build-manifest.json`
-- [ ] 6-match soak green
-- [ ] 26-match soak (field/pitch pending)
-- [ ] Brackets render all 32 team names
+- [x] Baseline `check_build` against `docs/build-manifest.json`
+- [x] Stock six-match regression and completed-game 31-match speed gates
+- [x] Controller selection and ownership for all 32 teams
+- [x] Password keyboard restore across all round boundaries
+- [ ] Final display-name correction on high-team game screens
+- [ ] Independent emulator applications and real hardware matrix above
 - [ ] Password round-trip on hardware
-- [ ] Audio regression vs stock
+- [ ] Audio regression against stock
 - [ ] SRAM CONTINUE after power cycle

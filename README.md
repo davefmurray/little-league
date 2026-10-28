@@ -93,23 +93,17 @@ stock 16-team game. The working parts are:
   <img src="docs/high-team-field.png" alt="High-team field entry: launch bridge, scene 03, Top 1st, 0-0, live players/bases" width="640">
 </p>
 
-Known gaps / work in progress:
+Current ROM work:
 
-- the high-team **field entry is solved** (launch bridge -> order screen
-  `$0489=0` -> scene `$03`, field rendered, `docs/high-team-field.png`);
-  the remaining field gap is the **pitch/card loop**: `$0545=0`,
-  `$05D3=06`, `$047F=$7C` and the `$96E6` live-field init is never
-  dispatched, so the field sits at Top 1st, 0-0 without a pitch;
-- the 32-team password model is implemented (`tools/password32.py`, 100 hex +
-  100 letter + 100 stock-tile round-trips), but the stock password screen is
-  an 11-character letter buffer and the candidate alphabet's glyph bank is
-  still unconfirmed; the 11-char base-32 fallback has a mockup at
-  `docs/password-mockup.html`;
-- the post-game bracket is now clean (real 32-team codes, nametable clear,
-  fixed header/title); the remaining garbled rows are score/round
-  placeholders;
-- the hosted editor defaults to the stock 16-team demo; the 32-team mode is
-  loaded from a 32-team ROM or the Data menu.
+- Guarded gameplay stages now complete 31 matches with live-team winner and
+  game-over checks. See [result verification](docs/results32.md).
+- The source selector supports human ownership for all 32 teams. See
+  [selection and controller checks](docs/control32.md).
+- Password integration uses the existing 22-symbol screen and the
+  [v1 format](docs/password-format.md). Its ROM hooks pass controller-driven restore and full-tournament gates.
+- High-team display names and final hardware/audio checks remain open.
+- The hosted editor defaults to the stock 16-team demo; load a 32-team ROM
+  or use the Data menu for the extended data.
 
 See [`docs/32-team-status.md`](docs/32-team-status.md) for the working/
 blocked breakdown and the build commands, `docs/AUTORUN-REPORT.md` for the

@@ -1,0 +1,68 @@
+ROM SHA256 a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
+mode=watch matches=31 winner=live-score require_complete=True check_stack=True team=31
+loaded build/control32.nes, selected team 1F
+match 00: stack $FF OK
+match 00: 1F v 00 -> $7720=1F (live 1F/00, score 2-0, game-over 1) OK  index=01
+match 01: stack $FF OK
+match 01: 01 v 02 -> $7721=02 (live 01/02, score 0-1, game-over 1) OK  index=02
+match 02: stack $FF OK
+match 02: 03 v 04 -> $7722=04 (live 03/04, score 2-3, game-over 1) OK  index=03
+match 03: stack $FF OK
+match 03: 05 v 06 -> $7723=05 (live 05/06, score 3-0, game-over 1) OK  index=04
+match 04: stack $FF OK
+match 04: 07 v 08 -> $7724=07 (live 07/08, score 4-3, game-over 1) OK  index=05
+match 05: stack $FF OK
+match 05: 09 v 0A -> $7725=09 (live 09/0A, score 7-0, game-over 1) OK  index=06
+match 06: stack $FF OK
+match 06: 0B v 0C -> $7726=0C (live 0B/0C, score 0-4, game-over 1) OK  index=07
+match 07: stack $FF OK
+match 07: 0D v 0E -> $7727=0E (live 0D/0E, score 4-5, game-over 1) OK  index=08
+match 08: stack $FF OK
+match 08: 0F v 10 -> $7728=10 (live 10/0F, score 6-3, game-over 1) OK  index=09
+match 09: stack $FF OK
+match 09: 11 v 12 -> $7729=12 (live 12/11, score 8-3, game-over 1) OK  index=0A
+match 10: stack $FF OK
+match 10: 13 v 14 -> $772A=14 (live 14/13, score 2-0, game-over 1) OK  index=0B
+match 11: stack $FF OK
+match 11: 15 v 16 -> $772B=16 (live 16/15, score 7-6, game-over 1) OK  index=0C
+match 12: stack $FF OK
+match 12: 17 v 18 -> $772C=17 (live 18/17, score 4-6, game-over 1) OK  index=0D
+match 13: stack $FF OK
+match 13: 19 v 1A -> $772D=19 (live 1A/19, score 0-3, game-over 1) OK  index=0E
+match 14: stack $FF OK
+match 14: 1B v 1C -> $772E=1C (live 1B/1C, score 2-8, game-over 1) OK  index=0F
+match 15: stack $FF OK
+match 15: 1D v 1E -> $772F=1E (live 1E/1D, score 3-1, game-over 1) OK  index=10
+match 16: stack $FF OK
+match 16: 1F v 02 -> $7730=02 (live 1F/02, score 2-3, game-over 1) OK  index=11
+match 17: stack $FF OK
+match 17: 04 v 05 -> $7731=05 (live 05/04, score 6-3, game-over 1) OK  index=12
+match 18: stack $FF OK
+match 18: 07 v 09 -> $7732=07 (live 09/07, score 2-9, game-over 1) OK  index=13
+match 19: stack $FF OK
+match 19: 0C v 0E -> $7733=0C (live 0C/0E, score 5-2, game-over 1) OK  index=14
+match 20: stack $FF OK
+match 20: 10 v 12 -> $7734=10 (live 10/12, score 8-2, game-over 1) OK  index=15
+match 21: stack $FF OK
+match 21: 14 v 16 -> $7735=14 (live 16/14, score 6-7, game-over 1) OK  index=16
+match 22: stack $FF OK
+match 22: 17 v 19 -> $7736=17 (live 17/19, score 6-5, game-over 1) OK  index=17
+match 23: stack $FF OK
+match 23: 1C v 1E -> $7737=1E (live 1E/1C, score 3-2, game-over 1) OK  index=18
+match 24: stack $FF OK
+match 24: 02 v 05 -> $7738=05 (live 02/05, score 2-4, game-over 1) OK  index=19
+match 25: stack $FF OK
+match 25: 07 v 0C -> $7739=0C (live 07/0C, score 0-4, game-over 1) OK  index=1A
+match 26: stack $FF OK
+match 26: 10 v 14 -> $773A=14 (live 14/10, score 6-2, game-over 1) OK  index=1B
+match 27: stack $FF OK
+match 27: 17 v 1E -> $773B=1E (live 17/1E, score 1-5, game-over 1) OK  index=1C
+match 28: stack $FF OK
+match 28: 05 v 0C -> $773C=05 (live 05/0C, score 5-3, game-over 1) OK  index=1D
+match 29: stack $FF OK
+match 29: 14 v 1E -> $773D=1E (live 1E/14, score 12-2, game-over 1) OK  index=1E
+match 30: stack $FF OK
+match 30: 05 v 1E -> $773E=1E (live 05/1E, score 4-5, game-over 1) OK  index=1F
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 02 04 05 07 09 0c 0e 10 12 14 16 17 19 1c 1e 02 05 07 0c 10 14 17 1e 05 0c 14 1e 05 1e 1e
+champion slot 62 ($773E) = 1E
+saved state soak-final and /tmp/soak-final.png

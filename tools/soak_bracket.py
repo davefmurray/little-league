@@ -155,8 +155,8 @@ def main():
                     help="speed: SPEED MODE (per-pitch input may be needed); "
                          "watch: WATCH THE GAME with controller-only cutscene/score-screen input")
     args = ap.parse_args()
-    if args.state and args.bracket_state:
-        ap.error("choose either --state or --bracket-state")
+    if sum((bool(args.state), bool(args.bracket_state), args.team is not None)) > 1:
+        ap.error("choose only one of --state, --bracket-state or --team")
     romdev.SESSION = args.session
     entry_stack = None
 

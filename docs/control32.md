@@ -52,7 +52,9 @@ seeded, champion 07 and stack FF at every match entry.
 [full tournament](verification/control32-soak.txt).
 Speed mode writes both sides to CPU on field entry, so this proves tournament
 progression rather than human gameplay. The separate WATCH run uses only
-controller input, including the pre-game COM toggle, and remains in progress.
+controller input, including the pre-game COM toggle. It completed all 31
+matches with champion 1E and stack FF throughout.
+[Controller-only WATCH evidence](verification/control32-watch.txt).
 
 High-team labels on the matchup, cutscene, order and field screens still
 use old tables or placeholders. The `high-team-display-names` task owns

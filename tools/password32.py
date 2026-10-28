@@ -1,235 +1,189 @@
 #!/usr/bin/env python3
-"""32-team / 5-round password model.
+"""Format-v1 passwords for the 32-team heap in bank 11.
 
-Format (8 bytes = 16 hex chars):
-
-    bytes 0-3  seed, little-endian 32-bit
-    bytes 4-7  result bits 0-30 (1 = team A wins), bit 31 = version (1)
-
-The seed deterministically shuffles team ids 0-31 (Fisher-Yates with the
-xorshift32 stream below).  Match m pairs slots 2m/2m+1 and writes the
-winner to slot 32+m, exactly like the bank-11 heap.  Slot 62 is the
-champion.
-
-    python3 tools/password32.py test
-    python3 tools/password32.py encode --seed 0x12345678 --results 0x...
-    python3 tools/password32.py decode 123456789abcdef0
+The stock frame holds 22 symbols, or 110 bits. A 14-byte big-endian stream
+has two implicit leading zero bits. Before whitening, its bytes are version
+byte 08, seed, played, four little-endian result bytes, four little-endian CPU
+mask bytes, reserved zero, and the big-endian CRC-16/CCITT-FALSE of bytes
+0..11. Result bit m selects slot 2m+1 when set, slot 2m otherwise.
 """
 import argparse
 import random
 
-VERSION_BIT = 31
-LETTERS = "ABCDEFGHIJKLMNOP"
-# Candidate stock password alphabet (bank5 $908B, 16 tile codes).
-STOCK_TILES = bytes([0x35, 0x37, 0x48, 0x4A, 0x4B, 0x4D, 0x4F, 0x51,
-                     0x53, 0x55, 0x65, 0x67, 0x68, 0x6A, 0x6C, 0x6E])
-B32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
-# Stock 16-symbol password alphabet: ASCII screen codes from bank5 $908B.
-STOCK_ALPHABET = "57HJKMOQSUeghjln"
+ALPHABET = "1AKV5EPR2BLW6FGS3CMX78HT4DNY09JU"
+ALIASES = {"I": "1", "O": "0", "Q": "9", "Z": "2"}
+VALUE = {char: index for index, char in enumerate(ALPHABET)}
+VALUE.update({alias: VALUE[char] for alias, char in ALIASES.items()})
+VERSION = 1
+MASK = bytes.fromhex("2181c9f0dc5ffb2996b1d38cd0aa")
+SYMBOL_COUNT = 22
 
 
-def xorshift32(state):
-    state &= 0xFFFFFFFF
-    state ^= (state << 13) & 0xFFFFFFFF
-    state ^= state >> 17
-    state ^= (state << 5) & 0xFFFFFFFF
-    return state & 0xFFFFFFFF
+def _integer(name, value, maximum):
+    if type(value) is not int or not 0 <= value <= maximum:
+        raise ValueError(f"{name} must be an integer in 0..{maximum}")
+
+
+def _results(played, results):
+    _integer("played", played, 31)
+    _integer("results", results, (1 << played) - 1)
 
 
 def seed_order(seed):
-    """Deterministic 32-team order from a 32-bit seed."""
-    state = seed or 0x9E3779B9
-    order = list(range(32))
-    for i in range(31, 0, -1):
-        state = xorshift32(state)
-        j = state % (i + 1)
-        order[i], order[j] = order[j], order[i]
-    return order
+    """Return the real $8200 seeder's order, seed followed by the other ids."""
+    _integer("seed", seed, 31)
+    return [seed] + [team for team in range(32) if team != seed]
 
 
-def advance(order, results):
-    """Apply 31 result bits to the 63-slot heap; return the slots."""
-    slots = list(order) + [None] * 31
-    for m in range(31):
-        a, b = slots[2 * m], slots[2 * m + 1]
-        if a is None or b is None:
-            raise ValueError(f"match {m}: empty source slot")
-        slots[32 + m] = a if (results >> m) & 1 else b
-    return slots
+def advance(order, played, results):
+    """Return 63 heap slots, with None in each unplayed winner slot."""
+    _results(played, results)
+    try:
+        order = list(order)
+    except TypeError as error:
+        raise ValueError("order must contain each team 0..31 exactly once") from error
+    if (len(order) != 32 or any(type(team) is not int for team in order)
+            or sorted(order) != list(range(32))):
+        raise ValueError("order must contain each team 0..31 exactly once")
+    heap = order + [None] * 31
+    for match in range(played):
+        heap[32 + match] = heap[2 * match + ((results >> match) & 1)]
+    return heap
 
 
-def encode(seed, results):
-    seed &= 0xFFFFFFFF
-    results &= (1 << VERSION_BIT) - 1
-    bits = results | (1 << VERSION_BIT)
-    raw = seed.to_bytes(4, "little") + bits.to_bytes(4, "little")
-    return raw.hex()
+def crc16(data):
+    """CRC-16/CCITT-FALSE, polynomial 1021, initial FFFF, no final XOR."""
+    crc = 0xFFFF
+    for byte in data:
+        crc ^= byte << 8
+        for _ in range(8):
+            crc = ((crc << 1) ^ (0x1021 if crc & 0x8000 else 0)) & 0xFFFF
+    return crc
+
+
+def to_bytes(seed, played, results, cpu_mask):
+    """Return the canonical 14-byte payload before whitening."""
+    _integer("seed", seed, 31)
+    _results(played, results)
+    _integer("cpu_mask", cpu_mask, 0xFFFFFFFF)
+    payload = bytearray([VERSION << 3, seed, played])
+    payload.extend(results.to_bytes(4, "little"))
+    payload.extend(cpu_mask.to_bytes(4, "little"))
+    payload.append(0)
+    payload.extend(crc16(payload).to_bytes(2, "big"))
+    return bytes(payload)
+
+
+def encode(seed, played, results, cpu_mask):
+    """Encode (seed, played, results, cpu_mask) as 22 canonical symbols."""
+    payload = to_bytes(seed, played, results, cpu_mask)
+    bits = int.from_bytes(bytes(byte ^ mask for byte, mask in zip(payload, MASK)), "big")
+    return "".join(ALPHABET[(bits >> shift) & 31] for shift in range(105, -1, -5))
 
 
 def decode(text):
-    raw = bytes.fromhex(text.strip())
-    if len(raw) != 8:
-        raise ValueError(f"expected 8 bytes / 16 hex chars, got {len(raw)}")
-    seed = int.from_bytes(raw[0:4], "little")
-    bits = int.from_bytes(raw[4:8], "little")
-    if not (bits >> VERSION_BIT) & 1:
-        raise ValueError("not a 32-team password (version bit clear)")
-    results = bits & ((1 << VERSION_BIT) - 1)
-    order = seed_order(seed)
-    return seed, results, order, advance(order, results)
-
-
-def encode_letters(seed, results):
-    """Same 8-byte password, rendered as 16 letters (A-P)."""
-    hexstr = encode(seed, results)
-    return "".join(LETTERS[int(c, 16)] for c in hexstr)
-
-
-def decode_letters(text):
-    text = text.strip().upper()
-    if len(text) != 16 or any(c not in LETTERS for c in text):
-        raise ValueError("expected 16 letters A-P")
-    hexstr = "".join(f"{LETTERS.index(c):X}" for c in text)
-    return decode(hexstr)
-
-
-def encode_stock(seed, results):
-    """Same 8-byte password as the 16 stock tile codes."""
-    return bytes(STOCK_TILES[int(c, 16)] for c in encode(seed, results))
-
-
-def decode_stock(raw):
-    raw = bytes(raw)
-    if len(raw) != 16 or any(b not in STOCK_TILES for b in raw):
-        raise ValueError("expected 16 stock tile codes")
-    hexstr = "".join(f"{STOCK_TILES.index(b):X}" for b in raw)
-    return decode(hexstr)
-
-
-def encode_short(seed16, results):
-    """11-char screen-friendly form: 16-bit seed + 31-bit results + version.
-
-    Ten base-32 chars carry 50 bits (48 used); the 11th char is a XOR
-    checksum. This fits the stock 11-character $06B5 buffer if the screen
-    font is extended from 16 to 32 glyphs.
-    """
-    if not (0 <= seed16 <= 0xFFFF) or not (0 <= results <= 0x7FFFFFFF):
-        raise ValueError("seed16/results out of range")
-    bits = seed16 | (results << 16) | (1 << 47)
-    out = []
-    for i in range(10):
-        out.append(B32[(bits >> (5 * (9 - i))) & 31])
-    check = 0
-    for c in out:
-        check ^= B32.index(c)
-    out.append(B32[check])
-    return "".join(out)
-
-
-def decode_short(text):
-    text = text.strip().upper()
-    if len(text) != 11 or any(c not in B32 for c in text):
-        raise ValueError("expected 11 chars from the base-32 alphabet")
-    body, check = text[:10], text[10]
-    want = 0
-    for c in body:
-        want ^= B32.index(c)
-    if B32.index(check) != want:
-        raise ValueError("checksum mismatch")
+    """Return (seed, played, results, cpu_mask), accepting spaces and aliases."""
+    if not isinstance(text, str) or not text.isascii():
+        raise ValueError("expected 22 ASCII password symbols")
+    text = text.replace(" ", "").upper()
+    if len(text) != SYMBOL_COUNT or any(char not in VALUE for char in text):
+        raise ValueError("expected 22 password symbols from the stock alphabet")
     bits = 0
-    for c in body:
-        bits = (bits << 5) | B32.index(c)
-    if not (bits >> 47) & 1:
-        raise ValueError("version bit missing")
-    return bits & 0xFFFF, (bits >> 16) & 0x7FFFFFFF
+    for char in text:
+        bits = (bits << 5) | VALUE[char]
+    payload = bytes(byte ^ mask for byte, mask in zip(bits.to_bytes(14, "big"), MASK))
+    if crc16(payload[:12]) != int.from_bytes(payload[12:], "big"):
+        raise ValueError("password CRC mismatch")
+    if payload[0] != VERSION << 3:
+        raise ValueError("unsupported version or nonzero reserved bits")
+    if (payload[1] | payload[2]) & 0xE0 or payload[6] & 0x80 or payload[11]:
+        raise ValueError("nonzero reserved bits")
+    seed, played = payload[1:3]
+    results = int.from_bytes(payload[3:7], "little")
+    _results(played, results)
+    return seed, played, results, int.from_bytes(payload[7:11], "little")
 
 
-def encode_stock_ascii(seed, results):
-    """16-char stock-alphabet form (one char per nibble)."""
-    return "".join(STOCK_ALPHABET[int(c, 16)] for c in encode(seed, results))
-
-
-def decode_stock_ascii(text):
-    text = text.strip()
-    if len(text) != 16 or any(c not in STOCK_ALPHABET for c in text):
-        raise ValueError("expected 16 chars from the stock alphabet")
-    hexstr = "".join(f"{STOCK_ALPHABET.index(c):X}" for c in text)
-    return decode(hexstr)
+def display(text):
+    """Return the stock 26-byte display buffer for a valid v1 password."""
+    text = encode(*decode(text))
+    return (text[:6] + " " + text[6:12]).encode("ascii") + b"\xff" + (
+        text[12:18] + " " + text[18:]).encode("ascii") + b"\xff"
 
 
 def test(rounds=100):
-    rng = random.Random(0x50415353)
+    """Run deterministic host round trips and every one-symbol substitution."""
+    _integer("rounds", rounds, 10000)
+    rng = random.Random(0x5032)
+    states = [(0, 0, 0, 0), (31, 31, 0x7FFFFFFF, 0xFFFFFFFF)]
     for _ in range(rounds):
-        seed = rng.getrandbits(32)
-        results = rng.getrandbits(31)
-        text = encode(seed, results)
-        dseed, dres, order, slots = decode(text)
-        assert dseed == seed and dres == results
-        expected = advance(seed_order(seed), results)
-        assert slots == expected
-        assert slots[62] is not None
-    for _ in range(rounds):
-        seed = rng.getrandbits(32)
-        results = rng.getrandbits(31)
-        text = encode_letters(seed, results)
-        dseed, dres, _, dslots = decode_letters(text)
-        assert dseed == seed and dres == results
-        assert dslots == advance(seed_order(seed), results)
-
-    for _ in range(rounds):
-        seed = rng.getrandbits(32)
-        results = rng.getrandbits(31)
-        raw = encode_stock(seed, results)
-        dseed, dres, _, dslots = decode_stock(raw)
-        assert dseed == seed and dres == results
-        assert dslots == advance(seed_order(seed), results)
-
-    for _ in range(rounds):
-        seed16 = rng.getrandbits(16)
-        results = rng.getrandbits(31)
-        text = encode_short(seed16, results)
-        assert len(text) == 11
-        assert decode_short(text) == (seed16, results)
-
-    for _ in range(rounds):
-        seed = rng.getrandbits(32)
-        results = rng.getrandbits(31)
-        text = encode_stock_ascii(seed, results)
-        dseed, dres, _, dslots = decode_stock_ascii(text)
-        assert dseed == seed and dres == results
-        assert dslots == advance(seed_order(seed), results)
-
-    # Known edge: seed 0 with all-A wins -> champion is the first seed.
-    text = encode(0, (1 << 31) - 1)
-    _, _, order, slots = decode(text)
-    assert slots[62] == order[0]
-    print(f"password32: {rounds} hex + {rounds} letter + {rounds} stock-tile "
-          f"+ {rounds} stock-ascii + {rounds} 11-char short round-trips OK; "
-          f"champion all-A = {slots[62]}")
+        played = rng.randrange(32)
+        states.append((rng.randrange(32), played, rng.getrandbits(played), rng.getrandbits(32)))
+    substitutions = swaps = 0
+    aliases = {value: key for key, value in ALIASES.items()}
+    for state in states:
+        text = encode(*state)
+        assert decode(text) == state
+        alias = "".join(aliases.get(char, char) for char in text)
+        assert decode(alias) == state
+        heap = advance(seed_order(state[0]), state[1], state[2])
+        assert heap[32 + state[1]:] == [None] * (31 - state[1])
+        for index, original in enumerate(text):
+            for char in ALPHABET:
+                if char == original:
+                    continue
+                try:
+                    decode(text[:index] + char + text[index + 1:])
+                except ValueError:
+                    substitutions += 1
+                else:
+                    raise AssertionError("one-symbol substitution accepted")
+        for index in range(SYMBOL_COUNT - 1):
+            if text[index] == text[index + 1]:
+                continue
+            changed = text[:index] + text[index + 1] + text[index] + text[index + 2:]
+            try:
+                decode(changed)
+            except ValueError:
+                swaps += 1
+            else:
+                raise AssertionError("adjacent swap accepted")
+    assert crc16(b"123456789") == 0x29B1
+    assert advance(seed_order(31), 31, 0)[62] == 31
+    assert advance(seed_order(31), 31, 0x7FFFFFFF)[62] == 30
+    print(f"password32 v1: {len(states)} round trips with aliases; "
+          f"{substitutions} substitutions and {swaps} adjacent swaps rejected")
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    sub = ap.add_subparsers(dest="cmd", required=True)
-    t = sub.add_parser("test")
-    t.add_argument("--rounds", type=int, default=100)
-    e = sub.add_parser("encode")
-    e.add_argument("--seed", type=lambda s: int(s, 0), default=0)
-    e.add_argument("--results", type=lambda s: int(s, 0), default=0)
-    d = sub.add_parser("decode")
-    d.add_argument("text")
-    args = ap.parse_args()
-
-    if args.cmd == "test":
-        test(args.rounds)
-    elif args.cmd == "encode":
-        print(encode(args.seed, args.results))
-    else:
-        seed, results, order, slots = decode(args.text)
-        print(f"seed=0x{seed:08X} results=0x{results:08X}")
-        print("order:", " ".join(f"{x:02X}" for x in order))
-        print("slots:", " ".join("--" if x is None else f"{x:02X}" for x in slots))
-        print(f"champion: {slots[62]:02X}")
+    parser = argparse.ArgumentParser(description=__doc__)
+    sub = parser.add_subparsers(dest="command", required=True)
+    check = sub.add_parser("test", help="run deterministic host checks and exhaustive substitutions")
+    check.add_argument("--rounds", type=int, default=100)
+    encoder = sub.add_parser("encode", help="encode the four v1 state fields")
+    integer = lambda value: int(value, 0)
+    encoder.add_argument("--seed", type=integer, default=0, help="first team id, 0..31")
+    encoder.add_argument("--played", type=integer, default=0, help="matches played, 0..31")
+    encoder.add_argument("--results", type=integer, default=0, help="bit m selects slot 2m+1; bits >= played are zero")
+    encoder.add_argument("--cpu-mask", type=integer, default=0xFFFFFFFF, help="32 bits; set means CPU-controlled")
+    decoder = sub.add_parser("decode", help="decode 22 symbols, allowing ASCII spaces and I/O/Q/Z aliases")
+    decoder.add_argument("text")
+    args = parser.parse_args()
+    try:
+        if args.command == "test":
+            test(args.rounds)
+        elif args.command == "encode":
+            print(encode(args.seed, args.played, args.results, args.cpu_mask))
+        else:
+            seed, played, results, cpu_mask = decode(args.text)
+            print(f"seed={seed} played={played} results=0x{results:08X} cpu_mask=0x{cpu_mask:08X}")
+            print("order:", " ".join(f"{team:02X}" for team in seed_order(seed)))
+            heap = advance(seed_order(seed), played, results)
+            print("slots:", " ".join("--" if team is None else f"{team:02X}" for team in heap))
+            if played == 31:
+                print(f"champion: {heap[62]:02X}")
+    except ValueError as error:
+        parser.error(str(error))
 
 
 if __name__ == "__main__":

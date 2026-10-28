@@ -139,56 +139,54 @@
     },
     {
       "id": "list-dispatch",
-      "title": "Find LIST OF TEAMS title scene/$9B68 dispatch",
+      "title": "Route active and password-restored LIST OF TEAMS to the bracket",
       "priority": "P1",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [],
-      "next": "Trace title Championship > List of Teams through password input scene19; actual submenu uses bank1 9511, not A1C6. A1AA/071A are player bench state.",
-      "verify": "Runtime title path and data consumers identified without changing live lineup or scores",
-      "attempts": 3,
-      "evidence": "$A1C6 patch not reached at scene 0x0D",
-      "last_commit": "08b5412",
-      "blocked_reason": "Old probes used scene0D team selection. New probe reaches password entry scene19; password validation needed to proceed. A1AA is a player bench scan, not a tournament team list."
+      "next": "Accepted v1 codec, guarded hooks and controller-driven restore/list/CONTINUE paths.",
+      "verify": "Controller-only inactive-password and active-list/title navigation preserve heap and index",
+      "attempts": 4,
+      "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
+      "last_commit": ""
     },
     {
       "id": "list-seed",
-      "title": "Show 32-team tournament list from the bracket data",
+      "title": "Show all32 seeded team codes from the tournament heap",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "list-dispatch"
       ],
-      "next": "Use tournament SRAM data for team names after correct list dispatch; never extend the18-byte live lineup at06E2.",
-      "verify": "list shows 32 real names, no JAPAN fallback",
-      "attempts": 0,
-      "evidence": "",
+      "next": "Accepted v1 codec, guarded hooks and controller-driven restore/list/CONTINUE paths.",
+      "verify": "Controller-only LIST shows all32 tournament codes, exits on fresh A/B and preserves state",
+      "attempts": 1,
+      "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
       "last_commit": ""
     },
     {
       "id": "password-decode",
-      "title": "Bank5 32-team decode (seed_order/advance)",
+      "title": "Restore32-team v1 passwords through the22-symbol keyboard",
       "priority": "P1",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [],
-      "next": "implement $074D -> $7700/$7720 decode; 16-char $06B5 buffer",
-      "verify": "password32 round-trip in ROM",
-      "attempts": 2,
-      "evidence": "docs/password-screen.html mock",
-      "last_commit": "938443b",
-      "blocked_reason": "Context checkpoint. Baseline: password32.py test green (100x hex/letter/stock-tile/stock-ascii/short); stock $9B5F is 16-team only. 32-team decode to implement: $074D 8 bytes = 32-bit seed + 31 result bits + version -> seed_order (xorshift32 Fisher-Yates) + advance -> $7700 32 slots / $7720 winners; 16-char $06B5 buffer. Needs a fresh context for the ~120-byte 6502 routine."
+      "next": "Accepted v1 codec, guarded hooks and controller-driven restore/list/CONTINUE paths.",
+      "verify": "Host/CPU checks and actual typed password restore at0,1,15,16,23,27,29,30,31 completed matches",
+      "attempts": 3,
+      "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
+      "last_commit": ""
     },
     {
       "id": "password-encode",
-      "title": "Bank5 32-team encode + 16-char screen",
+      "title": "Display22-symbol v1 passwords for the complete tournament state",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "password-decode"
       ],
-      "next": "encode bracket state -> $074D; wire $06B5 screen",
-      "verify": "encode/decode round-trip; screen shows 16 chars",
-      "attempts": 0,
-      "evidence": "",
+      "next": "Accepted v1 codec, guarded hooks and controller-driven restore/list/CONTINUE paths.",
+      "verify": "Actual displayed password decodes to heap/index/mask and typed restore matches",
+      "attempts": 1,
+      "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
       "last_commit": ""
     },
     {
@@ -401,7 +399,7 @@
       "verify": "Select each high team through the UI; real controller input reaches that team; CPU teams retain AI; preserve original low-team mode",
       "attempts": 1,
       "evidence": "control32 a1caf9a2: all32 actual controller selections/heldA transitions/masks/matchup0080; human team31 order and field input probe; CPU31744 ownership5888 parity7936 routing; source pipeline stock6/full31 speed champion07 stackFF; independent review approves. docs/verification/control32-{cpu,ui,pipeline,gate,soak}.txt.",
-      "last_commit": ""
+      "last_commit": "3aaed9b"
     },
     {
       "id": "pitcher-fatigue-flags",
@@ -419,16 +417,15 @@
       "id": "watch-driver-match5",
       "title": "Verify watch-mode navigation at match 5",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "depends_on": [
         "high-team-human-control"
       ],
-      "next": "Full watch-mode run times out at match5 without CPU RAM writes; inspect scene and compare cpu32 before deciding whether driver or ROM is wrong",
+      "next": "COM toggle through controller input handles human ownership; screen-aware launch avoids stale A presses.",
       "verify": "Controller-only watch run reaches at least16 matches and explains the initial stall",
       "attempts": 1,
-      "evidence": "",
-      "last_commit": "",
-      "blocked_reason": "Controller-only watch reaches a legitimate human-controlled match at index5: scene03, flags80/00, teams0A/09. The 16-bit stock ownership mask is preserved by compatibility repair. This requires the separately tracked 32-bracket ownership mode, not more automatic button presses."
+      "evidence": "docs/verification/control32-watch.txt: controller-only 31/31, champion 1E, game-over 1 and stack FF; previous stall waited for human-team input",
+      "last_commit": ""
     },
     {
       "id": "high-roster-role-flags",

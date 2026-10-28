@@ -112,8 +112,7 @@ M3 logic port to bank 11.
 - [x] **32-slot bracket.** Five rounds, 32 first-round slots, new bracket table
       and screen. Koushien reference captured in `docs/koushien-bracket.md`.
 - [x] **Password format** for 32 teams / 5 rounds (model:
-      `tools/password32.py`; the stock 11-character letter screen is still
-      the wiring blocker).
+      `tools/password32.py`; v1 uses the existing 22-symbol screen).
 
 ## Data-map completion (in progress)
 
@@ -312,19 +311,15 @@ intact (`$98BB`, `S=$FB`). Full details and dead ends: `docs/HANDOFF.md`.
       and jams at `PC=$00C3`; the stock post-game path is past its 16-team
       design. State-only soak still covers champion math.
 
-### P2 — Password (deferred)
+### P2 — Password integration
 
-- [x] Locate password encode/decode: encode/series init bank5 `$98D5`,
-      decode/advance bank5 `$9B5F`; decode verified with
-      `$074D=0123456789abcdef -> $0650=00..0F`. Format documented in
-      `docs/password-format.md`.
-- [x] 32-team / 5-round password encode + decode model
-      (`tools/password32.py`: 4-byte seed + 31 result bits + version bit).
-- [x] 100 random round-trips: `python3 tools/password32.py test` (100/100).
-- [ ] Wire into stock password screen.
-- [x] Keep the stock 16-team password path working: encoder `$98D5` ->
-      decoder `$9B5F` round-trip is exact (`$0650` before == after,
-      `$074D=35dca1b6f2479e80`).
+- [x] Identify stock encoder bank5 `$A036` and decoder bank1 `$A8A2`.
+- [x] Implement and independently review v1 host and 6502 codecs, with seed,
+      completed-match count, 31 result bits, 32 ownership bits and CRC-16.
+- [x] Validate the real 22-symbol screen capacity. See `docs/password-format.md`.
+- [x] Accept guarded hooks after controller-driven restore and resume gates.
+- Stock championship passwords are rejected by the new championship path.
+  The original codec bytes remain available for parity tests.
 
 ### P3 — Content correctness (deferred)
 

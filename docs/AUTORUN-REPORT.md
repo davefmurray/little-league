@@ -7181,11 +7181,41 @@ writes are used in those UI probes.
 
 Source pipeline and stock6/full31 speed gates pass, champion07 and stackFF
 at every match. Speed mode forces both sides to CPU, so human-control
-claims use the separate UI evidence. A controller-only WATCH tournament
-is still running. The new --team driver path uses the selector; the
+claims use the separate UI evidence. The controller-only WATCH tournament later completed all 31 matches,
+champion 1E, with stack FF throughout (control32-watch.txt). The new --team driver path uses the selector; the
 --bracket-state path can resume a disk savestate at its actual match index.
 
 High-team names are a separate newly recorded defect. Team31 is selected
 as CZECH REPUBLIC but the matchup reads unrelated text, cutscene says
 TEAM32, order saysT32 and field HUD saysFLO. Gameplay IDs and roster players
 remain correct. The high-team-display-names task owns these readers.
+
+
+## Round 284: accepted password, LIST and CONTINUE integration
+
+The final password32 ROM is 978abc42, with 902 changed bytes above
+control32. The v1 codec stores the seed, completed matches, result bits
+and all 32 ownership bits in the existing 22-symbol screen with CRC16.
+Independent codec and integration reviews approve. The full source
+pipeline reproduces the pin; stock-six/full-31 SPEED gates pass, champion
+05, with every game completed and stack FF at each entry.
+
+Actual keyboard entry restores nine checkpoints (0, 1, 15, 16, 23, 27,
+29, 30 and 31). Each unfinished restore completes its next game. Active
+LIST and CONTINUE preserve the heap and launch the expected pair. A
+completed tournament returns through A or B without launching match 31.
+A corrupted code reaches the original error state, dismisses with A and
+accepts corrected input. Exact commands are in docs/password32.md.
+
+The first integration candidate left CONTINUE reading FF/FF after a
+finished restore. The final bank1 BE40 helper routes active 32-team
+CONTINUE through the bracket. It does not grow the name records ending
+at BE3F. Follow-up output guards protect Python sources and prior ROMs;
+the shared protected hash set now also contains the original game ROM.
+These guard changes do not change output ROM bytes.
+
+The independent controller-only control32 WATCH run also passes 31/31,
+champion 1E. It uses the menu COM toggle and never forces ownership in
+RAM. SPEED gates still do that on field entry and are labeled accordingly.
+This closes watch-driver-match5. High-team name rendering and physical
+hardware/audio validation remain open.
