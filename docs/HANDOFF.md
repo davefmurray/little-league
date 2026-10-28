@@ -4,20 +4,19 @@ Start with [32-team-status.md](32-team-status.md),
 [backlog.json](backlog.json) and [TODO-NEXT.md](../TODO-NEXT.md).
 The old launch investigation is preserved in git history.
 
-The accepted candidate is `build/teamnames32.nes`, SHA-256
-`5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c`.
+The accepted candidate is `build/visualtables32.nes`, SHA-256
+`cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780`.
 The source pipeline reproduces it from the existing
 `build/direct20-names.nes` bootstrap artifact. The original-ROM-only
 bootstrap is not yet reproducible from committed scripts alone.
 
 ## Continue work
 
-Run `python3 tools/backlog.py pick`. The remaining software tasks are
-matchup round labels, high-team flag bounds and uniform palette bounds.
-The bounded visual-table design lives in
-`build/pitch-design/visual-tables.md` when that delegated design completes.
-Root owns the romdev server and every emulator session. Parallel workers
-must use isolated CPU tests and must not touch emulator sessions.
+The software backlog is complete. `python3 tools/backlog.py pick` reports
+no ready tasks. The final visual-table unit is documented in
+[visualtables32.md](visualtables32.md), with source, CPU, controller and
+stock-six/full-31 gate evidence. Root owns romdev sessions; any future
+parallel workers must use isolated CPU tests.
 
 Physical hardware/audio validation remains blocked on an external setup.
 Do not mark that task complete from emulator or savestate evidence.
@@ -27,7 +26,7 @@ Do not mark that task complete from emulator or savestate evidence.
 Names, all 32 human selections, completed-game bracket advancement,
 password restore, LIST and CONTINUE have committed builders and tests.
 See the linked status document for each stage and its limitations.
-The final name ROM passes stock-six/full-31 SPEED gates. Control32 also
+The final visual-table ROM passes stock-six/full-31 SPEED gates. Control32 also
 passes a full controller-only WATCH tournament. SPEED writes CPU control
 flags on field entry; it does not prove human gameplay.
 
@@ -51,6 +50,7 @@ through stock home/away swaps, rather than assume the human is side 0.
 - Use `tools/build_32team_full.py` and `tools/verify.sh --with-soak` for
   integrated validation. Read each stage document before claiming space.
 
-Known separate limitations include placeholder selector flags, no
+Known separate limitations include omitted high-team gameplay flags,
+stock-preset high-team uniforms, placeholder selector flags, no
 eliminated-team marks in the bracket grid, rejection of old passwords,
 and no physical hardware/audio validation.

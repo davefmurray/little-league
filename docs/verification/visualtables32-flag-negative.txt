@@ -1,0 +1,10 @@
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only seed=31 played=30 results=0 mask=7FFFFFFF expected='1ST ROUND'
+Traceback (most recent call last):
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_matchup_round.py", line 82, in <module>
+    main()
+    ~~~~^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_matchup_round.py", line 73, in main
+    assert len(flag_sprites) == (9 if team < 16 else 0), (team, flag_sprites)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (31, [b'8\x01\x020', b'8\x00\x028', b'8\x02\x02@', b'@\x03\x020', b'@\x04\x028', b'@8\x02@', b'H9\x020', b'H8\x028', b'H\xca\x02@'])

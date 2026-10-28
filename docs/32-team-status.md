@@ -1,10 +1,11 @@
 # 32-team ROM status
 
-The current source pipeline produces `build/teamnames32.nes`, SHA-256
-`5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c`.
+The current source pipeline produces `build/visualtables32.nes`, SHA-256
+`cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780`.
 It supports 32-team selection, human ownership, completed-game bracket
-progression, password resume and real high-team names. Flag and uniform
-table bounds and the matchup round label remain open.
+progression, password resume, real high-team names and correct matchup
+round labels. All software backlog tasks are accepted. Physical hardware
+and audio validation remain blocked.
 
 | Area | Evidence and limits |
 |---|---|
@@ -14,9 +15,9 @@ table bounds and the matchup round label remain open.
 | Completed games | All 31 matches advance on game-over and credit live teams after side swaps. Ties use the first bracket team, tested only in the CPU harness. |
 | Passwords | The existing 22-symbol keyboard restores seed, results, match index and the 32-bit CPU mask. Nine checkpoints and eight subsequent games pass. Old 16-team passwords are rejected. |
 | LIST and CONTINUE | Active LIST shows the seeded 32-team grid. CONTINUE opens the bracket. Finished tournaments return safely to the title. The grid does not mark eliminated teams. |
-| Tournament gates | Final team-name ROM passes stock-six/full-31 SPEED verification. Control32 separately passes 31 controller-only WATCH games. SPEED forces CPU ownership on field entry; WATCH uses menu toggles. |
+| Tournament gates | Final visual-table ROM passes stock-six/full-31 SPEED verification. Control32 separately passes 31 controller-only WATCH games. SPEED forces CPU ownership on field entry; WATCH uses menu toggles. |
 | Display labels | Full high-team names and canonical HUD codes pass CPU and controller checks. Low-team output is unchanged. |
-| Visual tables | High-team flags and uniform palettes still overread 16-team tables. The matchup round label remains 1ST ROUND. Repairs are queued; selector flag images are placeholders. |
+| Visual tables | All five matchup labels pass controller checks. High-team flags are omitted, and high uniforms use declared stock presets. Shared reads are bounded. The separate 32-team selector still has placeholder flag artwork. |
 | Hardware and sound | Not validated on physical hardware or a second emulator implementation. Savestates do not prove battery-backed persistence. |
 
 ## Build and verify
@@ -32,7 +33,7 @@ ROM at the repository root for stock checks, then run:
 ```
 
 The source chain retains pinned intermediate ROMs. `build/` is ignored by
-git. The final stage is `teamnames32.nes`; `direct31.nes` remains the frozen
+git. The final stage is `visualtables32.nes`; `direct31.nes` remains the frozen
 regression baseline.
 
 ## Evidence
@@ -42,7 +43,8 @@ regression baseline.
 - [Completed-game results](results32.md) and [human control](control32.md).
 - [Password integration](password32.md) includes exact resume commands;
   [format](password-format.md) documents the codec.
-- [Real gameplay names](teamnames32.md), [final combined gate](verification/teamnames32-gate.txt) and
+- [Real gameplay names](teamnames32.md), [visual-table repairs](visualtables32.md),
+  [final combined gate](verification/visualtables32-gate.txt) and
   [controller-only WATCH tournament](verification/control32-watch.txt).
 - [Backlog](backlog.json) is the task authority.
   [Decision trail](decisions.tsv) records accepted designs.

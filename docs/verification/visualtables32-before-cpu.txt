@@ -1,0 +1,11 @@
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+team 00 palette pointer FAC0, bytes 05200f
+team 0F palette pointer FAED, bytes 0a2b38
+team 10 palette pointer FAF0, bytes 008001
+team 1F palette pointer FB1D, bytes 20ab02
+team 0F flag table reads 9769,97B2,97B3,97B4,97B5,97B6,97B7,97B8,97B9,97BA,97BB,97BC,97BD,97BE,97BF,97C0,97C1,97C2,97C3
+OAM bytes written 36
+team 10 flag table reads 976A,976B,976C,976D,976E,976F,9770,9771,9772,9773,9774,9775,9776,9777,9778,9779,977A,977B
+OAM bytes written 36
+team 1F flag table reads 976C,976D,976E,976F,9770,9771,9772,9773,9774,9775,9776,9777,9778,9779,977A,977B,977C,977D
+OAM bytes written 36

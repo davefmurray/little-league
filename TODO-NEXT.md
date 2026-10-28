@@ -1,21 +1,22 @@
 # Remaining work
 
-The authoritative queue is [docs/backlog.json](docs/backlog.json).
-Run `python3 tools/backlog.py pick` to select the next ready item.
-The former investigation log in this file is preserved in git history;
-its 32-byte lineup premise and password-buffer assumptions were disproved.
+The software backlog is complete. Physical hardware/audio validation is
+the one blocked item in [docs/backlog.json](docs/backlog.json). It requires
+an external console/flash-cart setup and independent emulator applications.
+See [hardware-sound.md](docs/hardware-sound.md) for the matrix.
 
-1. Repair matchup round labels using the actual 32-team match index.
-2. Bound gameplay flag reads. Preserve stock low-team flags and omit high
-   flags until real artwork is available.
-3. Extend uniform palettes. Preserve low-team palettes and explicitly
-   assign their valid presets to teams 16-31.
-4. Run physical hardware/audio validation. This requires an external
-   console/flash-cart setup and is blocked in this environment. See
-   [hardware-sound.md](docs/hardware-sound.md).
+The accepted source pipeline produces `build/visualtables32.nes`, SHA-256
+`cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780`.
+It passes the final stock-six/full-31 SPEED gate. Controller probes cover
+all five matchup labels, password restore, high-team human play and flag
+omission. Independent review approves the guarded builders and CPU tests.
 
-Start the next visual-table unit from `build/teamnames32.nes` (`5998632d`).
-Accepted work and evidence are summarized in
-[32-team-status.md](docs/32-team-status.md). Password, LIST, CONTINUE, all
-32 human selections, completed-game results, real high-team names and
-both 31-match SPEED and WATCH gates have passed their documented checks.
+Known limitations remain explicit. High flags are omitted rather than
+invented; high uniforms reuse stock presets; the 32-team selector flag
+area is a placeholder; the bracket grid has no elimination marks. The
+source pipeline still requires the existing `direct20-names.nes` bootstrap
+artifact. The ROM header declares no battery-backed persistence; passwords
+are the supported resume path.
+
+See [32-team-status.md](docs/32-team-status.md) for stage evidence and
+[HANDOFF.md](docs/HANDOFF.md) for maintained invariants.

@@ -1,0 +1,35 @@
++ .venv/bin/python tools/build_ratings32.py build/direct20-names.nes -o build/_32full/step1.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step1.nes: ratings table $BC80, reader -> $BC80
++ .venv/bin/python tools/build_lineups32.py build/_32full/step1.nes -o build/_32full/step2.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step2.nes: lineups $FD80 (32 x 9), reader -> $FD80
++ .venv/bin/python tools/build_round_labels.py build/_32full/step2.nes -o build/_32full/step3.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step3.nes: round label routine $8440, strings $84A0
++ .venv/bin/python tools/build_top_row.py build/_32full/step3.nes -o build/_32full/step4.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step4.nes: header -> $2068, title -> $2088
++ .venv/bin/python tools/build_bracket_codes32.py build/_32full/step4.nes -o build/_32full/step5.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step5.nes: bracket codes 0-31 at bank11 $B000
++ .venv/bin/python tools/build_bracket_clear.py build/_32full/step5.nes -o build/_32full/step6.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step6.nes: bracket nametable clear at $FED0
++ .venv/bin/python tools/build_bracket_layout.py build/_32full/step6.nes -o build/_32full/step7.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step7.nes: header space at $B21A, title tail space at $0333
++ .venv/bin/python tools/build_roster_cache.py build/_32full/step7.nes -o build/direct31.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/direct31.nes: real ids + MMC1-reset roster cache
++ .venv/bin/python tools/build_gameplay32.py build/direct31.nes -o build/gameplay32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/gameplay32.nes: deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
++ .venv/bin/python tools/build_cpu32.py build/gameplay32.nes -o build/cpu32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/cpu32.nes: 338c1cc9bf80f6b77f441b472e91fd7536223d0b1b129fc8b7307ccb6f006327
++ .venv/bin/python tools/build_teamtables32.py build/cpu32.nes -o build/teamtables32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/teamtables32.nes: 775595bef3506de25f704fe0530f6833d8ce0541155110920e739f19425cd006
++ .venv/bin/python tools/build_roles32.py build/teamtables32.nes -o build/roles32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/roles32.nes: ddb83443653af408926d98843709e7831fed8fabd40f5e762db655c9a868431b
++ .venv/bin/python tools/build_results32.py build/roles32.nes -o build/results32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/results32.nes: 9a3a5d4fe17f69bfe926af07de9a6309240eb5c60d693be8ce0a966b29454d9b
++ .venv/bin/python tools/build_control32.py build/results32.nes -o build/control32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/control32.nes: a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
++ .venv/bin/python tools/build_passwordrom32.py build/control32.nes -o build/password32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/password32.nes: 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
++ .venv/bin/python tools/build_teamnames32.py build/password32.nes -o build/teamnames32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/teamnames32.nes: 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c (700 bytes changed)
++ .venv/bin/python tools/build_visualtables32.py build/teamnames32.nes -o build/visualtables32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/visualtables32.nes: cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780 (133 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/visualtables32.nes; baseline preserved at /Users/dfm/GitHub/nesdav/little-league/build/direct31.nes

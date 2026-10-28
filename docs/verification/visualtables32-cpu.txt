@@ -1,0 +1,15 @@
+input 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+candidate cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780
+negative input: 15/15 later labels wrong; high flags visible/out of bounds [16, 16]; high palettes wrong/out of bounds 16/16
+ownership: exact manifest covers 133 changed bytes in five named ranges; bank7, fixed padding, CHR/art, original palettes/pointer and prior-stage reservations preserved
+builder guards: exact input/header/size, reader/table/blank preimages, named reservations, overlaps and incomplete manifests rejected
+output/CLI guards: original/source/data/Python, symbolic/hard aliases, 12 prior hashes and 10 real copies protected; deterministic build and exact JSON manifest from another cwd
+consumer audit: eight live palette calls covered; two text-literal matches and two unchanged bank7 duplicates identified; flag consumers cover selector, analysis, matchup and both endings
+flags: 1312 cases, both entry contracts, exact low parity, 36/48-byte hidden footprints including OAM wrap and low-to-high redraws; high paths read no flag data
+flag callers: 160 selector/analysis/ending cases; both matchup sides covered by the round matrix
+palettes: 1280 pointer/register/bank cases and 1152 actual consumer cases; all eight calls covered, expected donor colors and reads bounded to $FAC0-$FAEF; exact low parity
+matchup parity: 1056 exact live machine-state comparisons, including all 16 stock label indices and both mode guards
+rounds: 2028 full matchup executions, all 32 teams/both sides/all 31 positions; text and actual two-row font tiles correct; $0746 never written
+round write bounds: new VRAM cells confined to the 14-column label; RAM writes stay within the stock set, dead stack and text buffer
+visualtables32 SHA256 cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780
+PASS (25.1s)

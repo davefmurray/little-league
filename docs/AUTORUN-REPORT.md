@@ -7249,3 +7249,40 @@ champion07, game-over1 and stackFF. SPEED's CPU forcing remains disclosed.
 The audit found three separate defects: high flags and uniforms overread
 16-entry tables, and matchup labels always show1ST ROUND. Three backlog
 items now own a bounded visual-table follow-up. No new flag art is claimed.
+
+## Round 286: bounded visual tables and actual matchup rounds
+
+The final visualtables32 source build is
+cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780,
+133 changed bytes above teamnames32. The matchup uses the five bracket
+stages while preserving the stock gameplay counter. High flags are
+omitted and their complete prior OAM footprints cleared, including the
+four-row CB52 entry. High uniforms explicitly reuse stock presets.
+
+Two layouts were compared. The design prototype relocated 96 palette
+bytes into fixed padding. The implementation instead maps high IDs to
+their donors inside the existing 21-byte pointer routine, preserving
+low-team final state and avoiding the fixed-bank reservation. The
+prototype's initial flag omission handled only three rows; direct CB52
+tests exposed that and the final helper follows the row count.
+
+Root reproduced the old final label and visible incorrect flag through
+the controller. The final CPU suite exercises all 32 teams/both sides,
+all 31 bracket positions, eight palette calls and both flag entries.
+Actual password input reaches all five labels, including a two-high-team
+match with both flag rectangles empty. Team 31 reaches human field play.
+Source pipeline and stock-six/full-31 SPEED gate pass, champion 03, every
+advance game-over 1 and stack FF. SPEED forces CPU ownership on field entry.
+
+Independent review approves the final ROM, builder and tests. The space
+question is resolved: all paths to the fixed field readers map bank 6,
+so their indexed reads cannot touch the round block in bank 5. Review
+checked direct calls, fallthrough and dispatch paths. The controller
+probe also checks trailing blanks across the full 14-column label.
+All three visual-table backlog items are accepted.
+
+Hardware notes now match both ROM headers: neither declares a battery,
+and the header mirroring bit is horizontal while MMC1 controls runtime
+mirroring. Password entry is the supported persistence path. Physical
+hardware/audio and a clean bootstrap from the original ROM alone remain
+outside the demonstrated evidence.

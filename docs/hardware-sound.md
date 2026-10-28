@@ -8,8 +8,9 @@ hardware, in emulators, and for the audio path.
 - Mapper: **MMC1** (iNES mapper 1).
 - PRG: 16 x 16 KiB banks (256 KiB image), fixed bank 15 at `$C000`.
 - CHR: 128 KiB.
-- Mirroring: vertical (header-controlled).
-- Battery: **yes** (SRAM), used by the stock save/continue path.
+- Mirroring: the header declares horizontal; MMC1 controls mirroring at runtime.
+- Battery: **not declared** in either the original or candidate iNES header.
+  Cart RAM is used during play; power-cycle persistence is not promised.
 - The build manifest pins the exact binary:
   `docs/build-manifest.json` + `python3 tools/check_build.py build/direct31.nes`.
 
@@ -74,8 +75,9 @@ and `docs/password32.md`.
 FCEUmm execution through romdev is not an independent FCEUX application
 run, a Mesen2 run, or a hardware test. Emulator savestates used by the
 resume probes are not proof of battery-backed SRAM after a power cycle.
-The portable, tested resume path is password entry. Real-hardware SRAM
-and audio acceptance remain open.
+The portable, tested resume path is password entry. Real-hardware password
+and audio acceptance remain open. Any flash-cart RAM persistence is an
+additional platform capability, not a feature declared by this ROM header.
 
 ## Release checklist
 
@@ -84,8 +86,8 @@ and audio acceptance remain open.
 - [x] Controller selection and ownership for all 32 teams
 - [x] Password keyboard restore across all round boundaries
 - [x] Display-name correction on high-team game screens
-- [ ] Bound flag/uniform tables and correct matchup round labels
+- [x] Bound flag/uniform tables and correct matchup round labels
 - [ ] Independent emulator applications and real hardware matrix above
 - [ ] Password round-trip on hardware
 - [ ] Audio regression against stock
-- [ ] SRAM CONTINUE after power cycle
+- [ ] Confirm power-cycle behavior; use passwords for supported persistence

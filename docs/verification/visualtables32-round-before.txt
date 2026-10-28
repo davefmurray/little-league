@@ -1,0 +1,3 @@
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only seed=31 played=30 results=0 mask=7FFFFFFF expected='1ST ROUND'
+label tiles match '1ST ROUND'; live=1f0f stock counter=0; screenshot /tmp/visualtables32-before/match-30.png

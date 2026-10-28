@@ -1,0 +1,10 @@
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only seed=31 played=30 results=0 mask=7FFFFFFF expected='FINALS'
+Traceback (most recent call last):
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_matchup_round.py", line 71, in <module>
+    main()
+    ~~~~^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_matchup_round.py", line 66, in main
+    assert actual == tile, (args.label, hex(address), actual, tile)
+           ^^^^^^^^^^^^^^
+AssertionError: ('FINALS', '0x21c6', 177, 139)
