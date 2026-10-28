@@ -7114,3 +7114,23 @@ it, and removed the fixed player15 seed. Real Right/A input selected
 Australia16 and seeded it first among32 unique teams. It still duplicates
 the stock chooser and does not set human ownership. Production design is
 active; the prototype is not part of this table unit.
+
+## Round 281: runtime pitcher roles and bracket result audit
+
+The roles32 stage normalizes only pitcher bit7 in the runtime cache.
+Declared specialists0/1/2 retain the bit; players3-14 lose it. The other
+role bits retain their current strategy assignments. The stored roster
+and earlier build stages stay pinned. Exactly58 bytes change atFB90.
+CPU tests pass actual menu classification, cache writes, fresh pitchers
+and2304 substitution cases. The old input fails team17/player5 menu
+classification. Source pipeline and stock6/full31 pass, champion04,
+stackFF at every entry. Independent review approves. Its doc limits are now explicit. CPU tests
+also cover the second menu reader A1D3 and derive high-team classification
+from the pitcher-record selector.
+
+A control-path design audit exposed two older result-contract defects.
+A real controller-only WATCH run advances after one half-inning with
+04D0=00 and scores0/0. A CPU probe also credits the wrong team when live
+sides have swapped relative to the heap. These are tracked separately as
+bracket-result-contract; the previous speed soak did not cover them.
+Evidence is in docs/verification/bracket-result-negative.txt.

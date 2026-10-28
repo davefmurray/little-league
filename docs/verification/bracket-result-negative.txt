@@ -1,0 +1,13 @@
+Input roles32 SHA256 ddb83443653af408926d98843709e7831fed8fabd40f5e762db655c9a868431b
+Controller-only WATCH run from clean boot, no RAM injection.
+loaded build/roles32.nes, navigated to CONTINUE/END
+match 00: 0F v 00 -> $7720=0F (score 0-0) OK  index=01
+slots: 0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 0f ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
+$048A 01 00 00
+$04D0 00
+$04E9 01 00 80 80 01 00 00 0f
+$07FC 01
+pair 0f 00 winner 0f
+
+CPU negative control at bank11 $83A0: heap pair0F/00, live teams00/0F, scores2/0. Actual winner0F, expected00. Match index advanced to01.

@@ -15,10 +15,13 @@ python3 tools/check_build.py build/direct31.nes
 .venv/bin/python tools/build_teamtables32.py build/cpu32.nes -o build/teamtables32.nes
 .venv/bin/python tools/test_teamtables32.py build/cpu32.nes --candidate build/teamtables32.nes
 
+.venv/bin/python tools/build_roles32.py build/teamtables32.nes -o build/roles32.nes
+.venv/bin/python tools/test_roles32.py build/teamtables32.nes --candidate build/roles32.nes
+
 if [ "${1:-}" = "--with-soak" ]; then
   timeout 300 python3 tools/soak_bracket.py \
     --rom build/direct31.nes --matches 6 --winner score --mode speed --session verify-stock
   timeout 300 python3 tools/soak_bracket.py \
-    --rom build/teamtables32.nes --matches 31 --winner score --mode speed \
+    --rom build/roles32.nes --matches 31 --winner score --mode speed \
     --check-stack --session verify-gameplay
 fi

@@ -341,7 +341,7 @@
       "verify": "CPU boundary cases all32 teams and round/control settings; no reads into adjacent code; runtime full31 gate",
       "attempts": 1,
       "evidence": "775595be passes full pipeline, stock6/full31 champion06 and stable stack; 465408 batting cases, all32 bonuses/ownership, low parity; independent review approves. docs/verification/teamtables32-gate.txt",
-      "last_commit": ""
+      "last_commit": "99c53b2"
     },
     {
       "id": "empty-row-consumer",
@@ -434,11 +434,25 @@
       "id": "high-roster-role-flags",
       "title": "Define high-team fielder and CPU substitution role flags",
       "priority": "P0",
-      "status": "active",
+      "status": "done",
       "depends_on": [],
       "next": "Audit generated random flag bits: 39 nonpitchers have bit7, and bits3-6 drive pinch hitting/running; choose intentional role metadata or safe defaults without changing pinned intermediates",
       "verify": "Actual bank1 fielder state and bank5 pinch-hit/run paths use deliberate flags; low-team behavior unchanged",
       "attempts": 1,
+      "evidence": "Runtime cache bit7 follows declared pitcher selectors; CPU cache/menu/fresh-pitcher/substitution checks and stock6/full31 pass. Independent review approves ddb83443. Human menus have CPU-only coverage; older bracket completion defects tracked separately.",
+      "last_commit": ""
+    },
+    {
+      "id": "bracket-result-contract",
+      "title": "Advance only completed games and credit the live winning team",
+      "priority": "P0",
+      "status": "queued",
+      "depends_on": [
+        "high-roster-role-flags"
+      ],
+      "next": "Restore stock between-inning score handling until 04D0 marks game over; map winning score side through 04EF/F0; retain bracket-first tie policy",
+      "verify": "Old ROM fails WATCH half-inning and swapped-side controls; CPU game-over and result cases, real WATCH full game, stock6 and full31 gates",
+      "attempts": 0,
       "evidence": "",
       "last_commit": ""
     }

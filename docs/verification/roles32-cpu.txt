@@ -1,0 +1,7 @@
+old flag negative control rejected menu classification: (17, 0, 5, 0)
+cache: all32/both slots, 303 writes to 288 addresses, canaries, low pointers and AB22 state OK
+menu: all480 high-team player/side cases classify declared pitchers through bank1 A125 and A1D3 OK
+fresh pitchers: all starters and high-team P1/P2/P3 retain fatigue checks and are not immediately relieved OK
+pinch run/hit: 2304 cases preserve decisions, exact writes/registers and low RAM; 130 valid bench queues OK
+builder: pinned output, only58 helper bytes changed, immutable input and alias guards OK
+roles32 passed: ddb83443653af408926d98843709e7831fed8fabd40f5e762db655c9a868431b

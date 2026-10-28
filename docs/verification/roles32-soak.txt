@@ -1,0 +1,66 @@
+loaded build/roles32.nes, navigated to CONTINUE/END
+match 00: stack $FF OK
+match 00: 0F v 00 -> $7720=00 (score 0-1) OK  index=01
+match 01: stack $FF OK
+match 01: 01 v 02 -> $7721=02 (score 0-1) OK  index=02
+match 02: stack $FF OK
+match 02: 03 v 04 -> $7722=04 (score 0-1) OK  index=03
+match 03: stack $FF OK
+match 03: 05 v 06 -> $7723=05 (score 2-0) OK  index=04
+match 04: stack $FF OK
+match 04: 07 v 08 -> $7724=08 (score 1-4) OK  index=05
+match 05: stack $FF OK
+match 05: 09 v 0A -> $7725=09 (score 0-0) OK  index=06
+match 06: stack $FF OK
+match 06: 0B v 0C -> $7726=0C (score 0-1) OK  index=07
+match 07: stack $FF OK
+match 07: 0D v 0E -> $7727=0D (score 5-1) OK  index=08
+match 08: stack $FF OK
+match 08: 10 v 11 -> $7728=11 (score 3-4) OK  index=09
+match 09: stack $FF OK
+match 09: 12 v 13 -> $7729=13 (score 1-2) OK  index=0A
+match 10: stack $FF OK
+match 10: 14 v 15 -> $772A=15 (score 1-4) OK  index=0B
+match 11: stack $FF OK
+match 11: 16 v 17 -> $772B=17 (score 2-3) OK  index=0C
+match 12: stack $FF OK
+match 12: 18 v 19 -> $772C=18 (score 6-1) OK  index=0D
+match 13: stack $FF OK
+match 13: 1A v 1B -> $772D=1A (score 5-1) OK  index=0E
+match 14: stack $FF OK
+match 14: 1C v 1D -> $772E=1C (score 1-0) OK  index=0F
+match 15: stack $FF OK
+match 15: 1E v 1F -> $772F=1F (score 1-2) OK  index=10
+match 16: stack $FF OK
+match 16: 00 v 02 -> $7730=02 (score 0-4) OK  index=11
+match 17: stack $FF OK
+match 17: 04 v 05 -> $7731=04 (score 1-0) OK  index=12
+match 18: stack $FF OK
+match 18: 08 v 09 -> $7732=08 (score 0-0) OK  index=13
+match 19: stack $FF OK
+match 19: 0C v 0D -> $7733=0C (score 6-0) OK  index=14
+match 20: stack $FF OK
+match 20: 11 v 13 -> $7734=11 (score 8-6) OK  index=15
+match 21: stack $FF OK
+match 21: 15 v 17 -> $7735=17 (score 0-3) OK  index=16
+match 22: stack $FF OK
+match 22: 18 v 1A -> $7736=1A (score 5-8) OK  index=17
+match 23: stack $FF OK
+match 23: 1C v 1F -> $7737=1F (score 2-5) OK  index=18
+match 24: stack $FF OK
+match 24: 02 v 04 -> $7738=04 (score 1-2) OK  index=19
+match 25: stack $FF OK
+match 25: 08 v 0C -> $7739=0C (score 0-1) OK  index=1A
+match 26: stack $FF OK
+match 26: 11 v 17 -> $773A=11 (score 5-0) OK  index=1B
+match 27: stack $FF OK
+match 27: 1A v 1F -> $773B=1F (score 3-9) OK  index=1C
+match 28: stack $FF OK
+match 28: 04 v 0C -> $773C=04 (score 2-0) OK  index=1D
+match 29: stack $FF OK
+match 29: 11 v 1F -> $773D=1F (score 1-4) OK  index=1E
+match 30: stack $FF OK
+match 30: 04 v 1F -> $773E=04 (score 1-0) OK  index=1F
+slots: 0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 00 02 04 05 08 09 0c 0d 11 13 15 17 18 1a 1c 1f 02 04 08 0c 11 17 1a 1f 04 0c 11 1f 04 1f 04
+champion slot 62 ($773E) = 04
+saved state soak-final and /tmp/soak-final.png
