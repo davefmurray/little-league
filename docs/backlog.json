@@ -462,50 +462,50 @@
       "next": "Accepted canonical full names and high-team HUD codes; visual-table repairs are separate.",
       "verify": "CPU all32 name readers; screenshots high16/31 names at matchup/order/field; source gate and final31 soak",
       "attempts": 1,
-      "evidence": "teamnames32 5998632d; independent review approves; 1845 CPU oracles,3600 low parity,2400 metadata cases; all16 high controller HUDs, restored two-high matchup, low00 nametable parity, stock6/full31 champion07; docs/teamnames32.md",
-      "last_commit": ""
+      "evidence": "teamnames32 5998632d; corrected CPU suite, source pipeline, stock6/full31 SPEED, all16 human HUD probes, low-team nametable parity and password-restored high/high labels pass; independent review approves. See docs/teamnames32.md.",
+      "last_commit": "77f1950"
     },
     {
       "id": "matchup-round32",
       "title": "Show the actual five-round stage on the matchup screen",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "high-team-display-names"
       ],
       "next": "Design a guarded visual-table stage after teamnames32; preserve original low-team and stock-series behavior.",
       "verify": "All31 match indices choose correct labels; stock16 mode retains exact output; password-restored final renders FINALS",
-      "attempts": 0,
-      "evidence": "",
-      "last_commit": ""
+      "attempts": 1,
+      "evidence": "cf4f1126: all31 indices/all32 teams/both sides CPU-tested, actual keyboard restores show all five labels with full 14-column glyph checks, stock counter preserved; source pipeline, stock6/full31 and review pass.",
+      "last_commit": "d16f23c"
     },
     {
       "id": "high-team-flag-bounds",
       "title": "Bound gameplay flag reads for teams16-31",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "high-team-display-names"
       ],
       "next": "Design a guarded visual-table stage after teamnames32; preserve original low-team and stock-series behavior.",
       "verify": "No high-team flag-table overread; low flags unchanged; high flags omitted until real artwork exists",
-      "attempts": 0,
-      "evidence": "",
-      "last_commit": ""
+      "attempts": 1,
+      "evidence": "cf4f1126: high flags hidden with bounded 36/48-byte OAM footprints; exact low parity; CPU consumers, controller high/low and high/high probes, stock6/full31 gate and independent review pass. See docs/visualtables32.md.",
+      "last_commit": "d16f23c"
     },
     {
       "id": "uniform-palette32",
       "title": "Use declared valid uniform palettes for teams16-31",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "high-team-display-names"
       ],
       "next": "Design a guarded visual-table stage after teamnames32; preserve original low-team and stock-series behavior.",
       "verify": "All32 team palette reads stay within owned data; low palettes unchanged; high palettes use documented stock presets",
-      "attempts": 0,
-      "evidence": "",
-      "last_commit": ""
+      "attempts": 1,
+      "evidence": "cf4f1126: 1280 pointer cases and 1152 actual palette consumer cases cover all eight calls; high16+i uses stocki, low final state exact; field probe, stock6/full31 and independent review pass.",
+      "last_commit": "d16f23c"
     }
   ]
 }
