@@ -95,6 +95,9 @@ stock 16-team game. The working parts are:
 
 Current ROM work:
 
+[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-2/little-league-32-team.nes)
+or open the [release with screenshots and a music sample](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-2).
+
 - Guarded gameplay stages now complete 31 matches with live-team winner and
   game-over checks. See [result verification](docs/results32.md).
 - The source selector supports human ownership for all 32 teams. See

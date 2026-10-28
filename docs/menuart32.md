@@ -7,6 +7,10 @@ and produces SHA-256
 The candidate changes 9,115 bytes. CPU, controller, audio-activity and
 stock-six/full-31 tournament checks pass.
 
+[Download preview 2](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-2).
+The uploaded ROM, screenshots and music sample were downloaded again and
+matched their SHA-256 checksums. The release tags source commit `3435849`.
+
 ![Team selector](verification/menuart32/selector-31.png)
 ![Quarter-final bracket](verification/menuart32/bracket-24.png)
 

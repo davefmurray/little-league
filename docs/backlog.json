@@ -519,7 +519,7 @@
       "verify": "32 selections, audio activity, password/list transitions, mapper trace, stock6/full31 and independent review",
       "attempts": 1,
       "evidence": "bcb7fcdc: 32 controller selections, stock song06 activity, high-team human field, typed password/list/finished transitions, WATCH1, mapper trace and stock6/full31 pass. Independent assembly review found no blocker; both output-protection findings fixed and tested without ROM drift. See docs/menuart32.md.",
-      "last_commit": ""
+      "last_commit": "3435849"
     }
   ]
 }
