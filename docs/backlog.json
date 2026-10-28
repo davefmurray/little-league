@@ -236,12 +236,12 @@
       "priority": "P2",
       "status": "blocked",
       "depends_on": [],
-      "next": "Mesen2/FCEUX/EverDrive/NES + audio regression + SRAM CONTINUE",
+      "next": "Run independent Mesen2/FCEUX applications, NES/EverDrive/N8 and audio capture; verify password resume across power cycles. The ROM header does not declare battery-backed SRAM.",
       "verify": "release checklist in docs/hardware-sound.md",
       "attempts": 1,
       "evidence": "",
       "last_commit": "",
-      "blocked_reason": "Requires user hardware/audio: Mesen2, FCEUX, EverDrive/N8, real NES, audio capture and SRAM power-cycle. The loop can verify ROMs in romdev but cannot run the hardware/audio checklist."
+      "blocked_reason": "Physical NES/flash-cart and audio capture are unavailable in this environment. Romdev CPU, controller and tournament gates pass, but do not satisfy the external hardware/audio checklist. Passwords are the supported persistence path; SRAM CONTINUE is not promised."
     },
     {
       "id": "pitch-ad10-trace",
