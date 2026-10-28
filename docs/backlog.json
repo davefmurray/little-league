@@ -98,29 +98,29 @@
     },
     {
       "id": "pitch-06e2",
-      "title": "$06E2 32-entry group table (pitch)",
+      "title": "Preserve the stock 18-byte live lineup",
       "priority": "P0",
       "status": "done",
       "depends_on": [],
-      "next": "Match 5 passes via the $9C42 forced menu exit. The pair capture at $B247 is inert in this flow. order-menu-high tracks fixing the second-team order draw and removing the forced exit.",
-      "verify": "10-match soak: match 5 passes; $06E2[18]/[19] resolve team 9",
+      "next": "Historical group-table premise superseded by gameplay32. Keep the stock nine rows per side; do not restore pair-chain patches.",
+      "verify": "tools/test_gameplay32.py checks all32 teams and both sides with score canaries; full31 soak",
       "attempts": 5,
-      "evidence": "10-match soak pass on pair23 (bank1 $9C42 forced menu exit + driver B-walk); stock verify --with-soak green; capture helper at $B247 never ran ($07F2=FF), so match 5 was the high-team order menu, not the pair",
-      "last_commit": "0b7b08d"
+      "evidence": "Supersedes earlier pair23 evidence: AD10 searches the player high nibble; byte index is row*2+side, not team*2+side. 06E2+18/19 are score baselines. Stock consumers and score init restored in db12f09; docs/gameplay32.md and docs/verification/gameplay32.txt.",
+      "last_commit": "db12f09"
     },
     {
       "id": "pitch-odd",
-      "title": "Write both $06E2[Y*2] and $06E2[Y*2+1]",
+      "title": "Load both sides without overwriting line scores",
       "priority": "P0",
       "status": "done",
       "depends_on": [
         "pitch-06e2"
       ],
-      "next": "Stale: pair13 prefill + pair16 no-zero already write both bytes. Next is order-menu-high (promoted P0) to remove the forced menu exit.",
-      "verify": "$06E2[18]/[19] = team 9 group; 10-match soak",
+      "next": "Historical group-table premise superseded by gameplay32. Keep the stock nine rows per side; do not restore pair-chain patches.",
+      "verify": "tools/test_gameplay32.py checks all32 teams and both sides with score canaries; full31 soak",
       "attempts": 1,
-      "evidence": "Already delivered by pair13/pair16 on the pair23 base: bank4 $AD4E loop writes $06E2[X]=(X>>1)<<4|(X>>1) for X=0..$1F (both bytes), and $AA65/$AA68 stay NOPed; 10/10 and 6/6 soaks pass; live match-5 order showed $06E2[18]/[19]=99 99. No new ROM change needed.",
-      "last_commit": "d6ebaa0"
+      "evidence": "Supersedes earlier pair23 evidence: AD10 searches the player high nibble; byte index is row*2+side, not team*2+side. 06E2+18/19 are score baselines. Stock consumers and score init restored in db12f09; docs/gameplay32.md and docs/verification/gameplay32.txt.",
+      "last_commit": "db12f09"
     },
     {
       "id": "pitch-restructure",
@@ -247,15 +247,15 @@
     },
     {
       "id": "pitch-ad10-trace",
-      "title": "Runtime trace $AD10/$02/$04ED at order",
+      "title": "Trace AD10 lookup by roster player and side",
       "priority": "P0",
       "status": "done",
       "depends_on": [],
-      "next": "read $02/$04ED/$03/$0490/$0491 at scene 0F match 5; map team to $06E2 index",
-      "verify": "explain why $06E2[18] != team 9 and document the exact index formula",
+      "next": "Historical group-table premise superseded by gameplay32. Keep the stock nine rows per side; do not restore pair-chain patches.",
+      "verify": "tools/test_gameplay32.py checks all32 teams and both sides with score canaries; full31 soak",
       "attempts": 1,
-      "evidence": "AD10 index = team*2+side; at stall 0490=00/0491=FF stale, 02=0x30 out of range; 06E2[18] never set",
-      "last_commit": "da2a757"
+      "evidence": "Supersedes earlier pair23 evidence: AD10 searches the player high nibble; byte index is row*2+side, not team*2+side. 06E2+18/19 are score baselines. Stock consumers and score init restored in db12f09; docs/gameplay32.md and docs/verification/gameplay32.txt.",
+      "last_commit": "db12f09"
     },
     {
       "id": "order-menu-high",
@@ -323,12 +323,12 @@
       "id": "cpu-pitcher-tables",
       "title": "Extend CPU manager and relief-pitcher tables to 32 teams",
       "priority": "P0",
-      "status": "active",
+      "status": "done",
       "depends_on": [],
-      "next": "Reproduce high-team reads at bank5 A40D/A4A4; preserve low-team data, extend validated tables, exercise substitutions for all32 teams and both sides",
-      "verify": "CPU tests all32 x both sides with valid bench pitcher and manager thresholds; full31 soak and stock gate",
+      "next": "Retain managerBC80 and relieversBCA0, validated high-team specialists1/2; no reads into batting bias",
+      "verify": "CPU tests all32 x both sides with valid relief specialists and manager thresholds; full31 soak and stock gate",
       "attempts": 1,
-      "evidence": "",
+      "evidence": "All32 CPU styles/relievers, threshold boundaries, used-state cases and2048 low-team queue parity; independent review approves338c1cc9; stock6/full31 pass in docs/verification/cpu32-soak.txt",
       "last_commit": ""
     },
     {
@@ -359,12 +359,12 @@
       "id": "pitcher-record-layout",
       "title": "Make high-team pitcher records reachable by runtime consumers",
       "priority": "P0",
-      "status": "queued",
+      "status": "done",
       "depends_on": [],
-      "next": "Reproduce base+100+byte12 reads into players16-18 instead of high-team trailer at140; choose compatible cache layout or update pitcher-pointer consumers while preserving editor data",
+      "next": "Retain 15-player runtime view with relocated48-byte trailer; stored20-player data unchanged",
       "verify": "All32 teams starting and relief pitchers read intended eight-byte trailer records; used flags and stamina initialized correctly",
-      "attempts": 0,
-      "evidence": "",
+      "attempts": 1,
+      "evidence": "All32 x both cache slots, exact288 addresses/291 writes, stock low pointers, stamina and intended eight-byte records; stock6/full31 pass; docs/verification/cpu32-cpu.txt",
       "last_commit": ""
     },
     {
@@ -377,6 +377,69 @@
       "verify": "Execute branch loop across indirect/indexed instructions; complete build keeps d043 baseline and deff gameplay hashes",
       "attempts": 1,
       "evidence": "Old sizing fails executable loop; new sizing passes; full baseline/gameplay pipeline hashes unchanged. docs/verification/assembler.txt and gameplay32-pipeline.txt",
+      "last_commit": "273b5de"
+    },
+    {
+      "id": "high-team-starters",
+      "title": "Start each high team with its declared P1 pitcher",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "Swap player0/player3 field positions in high-team lineup data; preserve batting order and all roster records",
+      "verify": "Execute cache load, AB22, AD42 and ABB8 for all32 teams and both sides; high starters use P1 records; full31 gate",
+      "attempts": 1,
+      "evidence": "AD42/ABB8 actual starter tests all32 x both sides; cache-only control failsplayer3, finalhighstartersplayer0/P1; stock6/full31 green in docs/verification/cpu32-soak.txt",
+      "last_commit": ""
+    },
+    {
+      "id": "high-team-human-control",
+      "title": "Connect the selected team to 32-team human ownership",
+      "priority": "P0",
+      "status": "queued",
+      "depends_on": [],
+      "next": "Remove inherited fixed team15 seed and define a bracket-specific ownership policy permitting selected high teams without corrupting the original16-bit mask",
+      "verify": "Select each high team through the UI; real controller input reaches that team; CPU teams retain AI; preserve original low-team mode",
+      "attempts": 0,
+      "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "pitcher-fatigue-flags",
+      "title": "Mark declared high-team pitchers for CPU fatigue checks",
+      "priority": "P0",
+      "status": "done",
+      "depends_on": [],
+      "next": "Normalize bit7 for the three declared specialists in the runtime cache while retaining stored roster records and other flag bits",
+      "verify": "Fresh starters and all high-team relievers enter fatigue checks without immediate relief; forced-exhaustion cases still queue; full31 gate",
+      "attempts": 1,
+      "evidence": "Fresh starters and high P1/P2/P3 enter fatigue checks and stay in; disabled-normalization control fails; exhausted/used cases pass; independent fullAB76 probe64cases; docs/verification/cpu32-cpu.txt",
+      "last_commit": ""
+    },
+    {
+      "id": "watch-driver-match5",
+      "title": "Verify watch-mode navigation at match 5",
+      "priority": "P0",
+      "status": "blocked",
+      "depends_on": [
+        "high-team-human-control"
+      ],
+      "next": "Full watch-mode run times out at match5 without CPU RAM writes; inspect scene and compare cpu32 before deciding whether driver or ROM is wrong",
+      "verify": "Controller-only watch run reaches at least16 matches and explains the initial stall",
+      "attempts": 1,
+      "evidence": "",
+      "last_commit": "",
+      "blocked_reason": "Controller-only watch reaches a legitimate human-controlled match at index5: scene03, flags80/00, teams0A/09. The 16-bit stock ownership mask is preserved by compatibility repair. This requires the separately tracked 32-bracket ownership mode, not more automatic button presses."
+    },
+    {
+      "id": "high-roster-role-flags",
+      "title": "Define high-team fielder and CPU substitution role flags",
+      "priority": "P0",
+      "status": "queued",
+      "depends_on": [],
+      "next": "Audit generated random flag bits: 39 nonpitchers have bit7, and bits3-6 drive pinch hitting/running; choose intentional role metadata or safe defaults without changing pinned intermediates",
+      "verify": "Actual bank1 fielder state and bank5 pinch-hit/run paths use deliberate flags; low-team behavior unchanged",
+      "attempts": 0,
+      "evidence": "",
       "last_commit": ""
     }
   ]

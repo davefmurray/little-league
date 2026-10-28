@@ -1,0 +1,17 @@
+old-ROM negative control rejected manager styles/pointers: (16, 0, 'manager style', 114)
+old-ROM negative control rejected relief-player IDs: (16, 0, 0, 'invalid player', 32)
+old-ROM negative control rejected full CPU substitution queue: (16, 0, 0, (0, 0), 32)
+managers: 32 teams x 2 sides x 2 relief counts x leading/trailing, valid pointers and thresholds OK
+relievers: 32 teams x 2 sides x 2 selections, player IDs 0..14 and stock choices OK
+threshold decisions: all teams/sides, exact boundaries, stamina increment and occupied-base increment OK
+queues: 32 teams x 2 sides x counts 0..3 x all 16 used-status pairs, bounded returns and valid queues OK
+stock parity: teams 0..15 have identical RAM, registers, writes and instruction traces on every queue case
+entry guards: already-queued and human-controlled teams return without substitutions OK
+fresh pitchers: all starters and high-team P1/P2/P3 retain fatigue checks and are not immediately relieved OK
+random-roster-flags negative control rejected fresh pitcher: (16, 0, 0, 'skipped fatigue checks')
+active relief specialists: stock $ABF4 swaps players 1/2 into pitching on both sides using only 18 lineup bytes OK
+old-ROM negative control rejected runtime cache: (16, 0)
+runtime cache: all32 x both sides, bounded 15-player/trailer copy, low pointers, flags, stamina, pitcher records and actual starter initialization OK
+cache-only negative control rejected starter lineup: (16, 0, 'starting pitcher', 3)
+builder: exactly 218 changed bytes, stock tables and old batting-bias reads preserved, mismatches and input aliases rejected OK
+test_cpu32: OK 338c1cc9bf80f6b77f441b472e91fd7536223d0b1b129fc8b7307ccb6f006327

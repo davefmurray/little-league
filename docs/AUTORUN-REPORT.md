@@ -7002,3 +7002,78 @@ The first repair was pushed as db12f09. Two independent Claude reviews
 approve that commit. The first review's empty-header finding was fixed
 before the commit; later test-only edits were rerun by both parent and
 the second reviewer.
+
+
+## Round 277 — CPU pitching tables and compatible cache
+
+The CPU manager table at bank5 A35A and reliever pairs at A3C2 held only
+16 teams. Executing the old readers produced invalid manager pointers and
+reliever IDs for high teams. The new builder relocates32 manager bytes and
+64 reliever bytes to BC61/BC81. Low-team bytes and all
+2,048 low-team queue cases remain identical. High teams default to style1
+and select their declared specialists1/2 through stock position swaps.
+They have no specialist bench pair, so the implementation does not invent
+pitchers9/10.
+
+The same audit confirmed a separate80-byte offset error. Stored high-team
+blocks have20 player records before the trailer; B094 and AB22 expect15.
+A cache adapter now copies15 records and relocates the48-byte trailer,
+leaving stored roster data and stock consumers intact. All32 teams and
+both cache slots pass bounded-write tests. Original low-team pointers are
+restored. Direct lookups for declared high-team pitcher selectors and their stamina
+reads match the intended records. This did not test the actual starter;
+Round 278 addresses that omission. The old ROM fails these regressions.
+
+The source output matches the independently assembled cache prototype.
+Both complete31 matches, champion15 and stackFF throughout. The full
+source pipeline and verify gate pass; evidence is in docs/verification/
+cpu32-cpu.txt, cpu32-pipeline.txt and cpu32-soak.txt. Output SHA256 is
+2c8670f1139a824ed3543771528128d01eb6f50a1f7d92a7468adf34843a5b70.
+Per-round modifiers, control masks and batting bias remain open.
+
+
+## Round 278 — Start the declared high-team pitcher
+
+The runtime-layout design review found that the inherited Japan lineup
+puts player 3 on the mound, while the high-team roster gives P1 to player 0.
+The cache-only candidate passes direct pointer tests but fails the new
+AD42/ABB8 starter test at team16/side0 with pitcher3. This is a separate
+data mismatch, not another pointer bug.
+
+The CPU stage swaps two field positions per high team. Player0 pitches;
+player3 moves to center field. Batting order and roster storage stay intact.
+All32 teams and both sides now pass actual starter initialization checks
+for player, stamina, saved state, skill and arm. Low-team queue parity
+uses low-team opponents so intentionally changed high-team lineups do not
+pollute its RAM comparison. The cache-only negative control remains.
+
+The new output is a105b66027056cecd7ef86efd9e10b78e9a8b7381d02aba6c31b519a11896e2a.
+It changes194 bytes from gameplay32. The prior2c867 prototype and its
+champion15 run establish only the cache stage. The revised full gate passes stock6 and cpu32 full31, champion1F, with
+stackFF at every match entry. Independent review is pending.
+
+
+## Round 279 — Real pitcher flags and table isolation
+
+The independent CPU review rejected the first unit. Manager bytes at BC61
+changed high-team batting-bias reads into that space. The table now starts
+at BC80, relievers at BCA0, and a regression preserves BC5F-BC6E exactly.
+All four batting-bias copies remain a separate repair.
+
+The review also reproduced immediate relief for13 of16 high-team starters.
+The generated roster randomly assigns flag bit7, but the CPU requires it
+to enter fatigue checks. The runtime cache now sets bit7 for validated
+P1/P2/P3 players0/1/2. It preserves other flag bits and stored editor data.
+Tests obtain flags by executing the cache, require fresh pitchers to stay
+in, and retain exhausted and used-reliever cases. Disabling the bit7
+normalization fails at team16/player0. Low-team queues remain identical.
+
+Reliever selection now reads the final starter-corrected lineup. The
+output changes218 bytes from gameplay32 and hashes to
+338c1cc9bf80f6b77f441b472e91fd7536223d0b1b129fc8b7307ccb6f006327.
+CPU tests and the full source pipeline pass. The fresh gate passes stock6
+and cpu32 full31, champion00, with stackFF throughout. The second independent review approves and additionally executes all64
+high-team full AB76 relief paths. Final source-only cleanup constrains
+relievers to players1/2 and names cache layout constants; output bytes
+remain338c1cc9. Other random role flags are tracked separately. Earlier
+hashes and champions describe intermediate evidence.

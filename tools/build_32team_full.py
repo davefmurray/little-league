@@ -3,18 +3,6 @@
 
     .venv/bin/python tools/build_32team_full.py
 
-Chain (all scripts are also runnable individually):
-
-    build/direct20-names.nes
-      -> build_ratings32.py     (bank3 $BC80, 32 x 4)
-      -> build_lineups32.py     (fixed $FD80, 32 x 9)
-      -> build_round_labels.py  (bank11 $8440/$84A0/$8500)
-      -> build_top_row.py       (header/title rows)
-      -> build_roster_cache.py  (bank8 cache, real ids, $7F00 repoint)
-      -> build/direct31.nes
-      -> build_gameplay32.py    (lineup indexing, row guard, launch stack)
-      -> build/gameplay32.nes
-
 `direct20-names.nes` is direct20 + the 16-31 rosters + names32:
 
     python3 tools/build_extra_rosters.py build/direct20.nes \
@@ -30,6 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.join(ROOT, "build/direct20-names.nes")
 OUT = os.path.join(ROOT, "build/direct31.nes")
 GAMEPLAY_OUT = os.path.join(ROOT, "build/gameplay32.nes")
+CPU_OUT = os.path.join(ROOT, "build/cpu32.nes")
 
 
 def run(script, *args):
@@ -57,7 +46,8 @@ def main():
     run("build_bracket_layout.py", s6, "-o", s7)
     run("build_roster_cache.py", s7, "-o", OUT)
     run("build_gameplay32.py", OUT, "-o", GAMEPLAY_OUT)
-    print(f"wrote {GAMEPLAY_OUT}; baseline preserved at {OUT}")
+    run("build_cpu32.py", GAMEPLAY_OUT, "-o", CPU_OUT)
+    print(f"wrote {CPU_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":
