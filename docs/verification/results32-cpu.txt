@@ -1,0 +1,9 @@
+old winner negative control: swapped live sides incorrectly credit team15 instead of team0
+old gate negative control: unfinished game reaches winner entry
+completion gate: exhibitions and unfinished games retain bank4; completed championship games select bank11
+ongoing games: 1152 cases match the stock box-score handler exactly
+winners: 9920 cases cover all teams, match positions, side swaps and ties; completed brackets stay unchanged
+held-A negative control launches immediately; fixed bracket waits for release and a new press
+builder: 98 changed bytes within existing result routines
+CLI: input aliases rejected and output matches guarded build
+results32 passed: 9a3a5d4fe17f69bfe926af07de9a6309240eb5c60d693be8ce0a966b29454d9b

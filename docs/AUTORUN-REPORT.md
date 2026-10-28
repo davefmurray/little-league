@@ -7134,3 +7134,30 @@ A real controller-only WATCH run advances after one half-inning with
 sides have swapped relative to the heap. These are tracked separately as
 bracket-result-contract; the previous speed soak did not cover them.
 Evidence is in docs/verification/bracket-result-negative.txt.
+
+## Round 282: completed games, live winners and fresh button presses
+
+The old scene0B hook also ran between innings. A real WATCH probe
+advanced after one half-inning at0-0 with the stock game-over flag clear.
+The old score-to-heap mapping also credited the wrong team after a side
+swap. The result stage now retains the stock between-inning handler,
+requires Championship mode plus game over, and maps scores through live
+team IDs. Terminal ties retain the first-bracket-team policy.
+
+The stricter runs exposed two input problems. A CPU serial-controller
+negative control confirmed that held A could launch immediately on
+bracket entry; sampling the initial buttons makes the next launch wait
+for release and a fresh press. That fix alone did not explain the
+full-run failure. A final-ROM input trace reproduced the driver's blind
+third A press arriving after a fast game had finished, launching the
+next match before result validation. The driver now reads the pre-game
+substate before pressing and stops navigation when play starts.
+
+Final candidate 9a3a5d4f passes 1,152 stock-continuation CPU cases and
+9,920 winner cases, plus held-A, immutable-input, ownership and CLI alias
+guards. The guarded source build changes 98 bytes. The SHA-stamped
+31-match run passes completion and live-identity checks, champion 07,
+with stack FF at every entry. A final-ROM controller-only WATCH game
+finishes 3-5 for team 0F after the live sides swap. Independent review
+approved the ROM code; the combined stock-six and final-31 gate also passes. Independent review approves the corrected driver and final acceptance. Earlier fb6976 and prototype logs are superseded for
+acceptance by the final SHA-stamped runs.

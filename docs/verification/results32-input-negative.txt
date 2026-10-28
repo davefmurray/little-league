@@ -1,0 +1,11 @@
+ROM SHA256 9a3a5d4fe17f69bfe926af07de9a6309240eb5c60d693be8ce0a966b29454d9b
+Old fixed-timing driver, read-only instrumentation around input/frame calls.
+ADVANCE 500 (25, '0500010d', '0c09', 0) -> (26, '0b00000d', '0c09', 1)
+match 25: 09 v 0C -> $7739=0C (live 0C/09, score 6-0, game-over 1) OK  index=1A
+INPUT a 2 (26, '0b00000d', '0c09', 1) -> (26, '1302010d', '0001', 1)
+match 26: stack $FF OK
+INPUT a 2 (26, '13030101', '1317', 1) -> (26, '13040101', '1317', 1)
+INPUT a 2 (26, '13060100', '1317', 1) -> (26, '1d060105', '1317', 0)
+ADVANCE 60 (26, '1d060105', '1317', 0) -> (27, '0b06010c', '1317', 1)
+INPUT a 2 (27, '0b06010c', '1317', 1) -> (27, '1308010c', '0001', 1)
+match 26: live teams 0001 differ from bracket 1317

@@ -440,20 +440,20 @@
       "verify": "Actual bank1 fielder state and bank5 pinch-hit/run paths use deliberate flags; low-team behavior unchanged",
       "attempts": 1,
       "evidence": "Runtime cache bit7 follows declared pitcher selectors; CPU cache/menu/fresh-pitcher/substitution checks and stock6/full31 pass. Independent review approves ddb83443. Human menus have CPU-only coverage; older bracket completion defects tracked separately.",
-      "last_commit": ""
+      "last_commit": "e584566"
     },
     {
       "id": "bracket-result-contract",
       "title": "Advance only completed games and credit the live winning team",
       "priority": "P0",
-      "status": "queued",
+      "status": "done",
       "depends_on": [
         "high-roster-role-flags"
       ],
-      "next": "Restore stock between-inning score handling until 04D0 marks game over; map winning score side through 04EF/F0; retain bracket-first tie policy",
+      "next": "Result repair accepted. Seed-once, human selection and completed-bracket view are separate units.",
       "verify": "Old ROM fails WATCH half-inning and swapped-side controls; CPU game-over and result cases, real WATCH full game, stock6 and full31 gates",
-      "attempts": 0,
-      "evidence": "",
+      "attempts": 1,
+      "evidence": "Final results32 9a3a5d4f: CPU1152 stock continuations/9920 winner cases, final source pipeline, stock6/full31 with live identities/game-over/stackFF, controller-only WATCH3-5 winner0F, independent ROM and driver reviews approve. Logs docs/verification/results32-{cpu,pipeline,gate,soak,watch-gate,input-negative}.txt. Full gate exit0.",
       "last_commit": ""
     }
   ]

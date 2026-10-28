@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
-"""Drive the P1 bracket through N matches with the forced-winner hook.
+"""Drive a bracket through matches and validate recorded results.
 
-    python3 tools/soak_bracket.py --rom build/direct17.nes --matches 31
+    python3 tools/soak_bracket.py --rom build/results32.nes --matches 31 \
+        --winner live-score --require-complete --check-stack
 
-Assumes a romdev server on 127.0.0.1:7331.  With --state, restores a
-savestate at the stock team-select CONTINUE/END prompt (CONTINUE
-selected); without it, drives the boot -> title -> Championship -> Start
-New Series -> team-select path itself.
-
-For each match:
-  1. bracket A launches the pair at $7700[2m], $7700[2m+1];
-  2. A through password, matchup and SPEED MODE;
-  3. wait for the scene-0B hook to write $7720+m and bump $07FC;
-  4. verify the slot equals the forced winner (the first team).
+Requires romdev on localhost:7331. --state resumes the stock team-select
+CONTINUE/END prompt; otherwise navigation starts at boot. Speed mode
+forces CPU control through RAM writes. Watch mode uses controller input.
 """
 import argparse
+import hashlib
 import os
 import sys
 
@@ -95,6 +90,21 @@ def navigate_to_prompt():
     step(30)
 
 
+def enter_game(match, mode):
+    for _ in range(120):
+        if rd_sys(0x07FC)[0] != match:
+            return
+        scene, substate = rd_sys(0x047B, 2)
+        if scene != 0x13:
+            return
+        if substate == 6 and mode == "watch" and rd_sys(0x047E)[0] == 0:
+            press("down", 2)
+        elif substate in (3, 6, 8):
+            press("a", 2)
+        step(10)
+    raise SystemExit(f"match {match}: pre-game screen did not advance")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rom", default="build/direct17.nes")
@@ -107,15 +117,20 @@ def main():
                     help="romdev session owned by this run")
     ap.add_argument("--check-stack", action="store_true",
                     help="require the same stack pointer at every match entry")
-    ap.add_argument("--winner", choices=("forced", "score"), default="forced",
-                    help="forced: first team always wins; score: use $048B/$048C")
+    ap.add_argument("--winner", choices=("forced", "score", "live-score"), default="forced",
+                    help="forced: first team wins; score: bracket-order scores; "
+                         "live-score: score side mapped through the live team IDs")
+    ap.add_argument("--require-complete", action="store_true",
+                    help="require the stock game-over flag before bracket advancement")
     ap.add_argument("--mode", choices=("speed", "watch"), default="speed",
                     help="speed: SPEED MODE (per-pitch input may be needed); "
-                         "watch: WATCH THE GAME (one cutscene A, then auto)")
+                         "watch: WATCH THE GAME with controller-only cutscene/score-screen input")
     args = ap.parse_args()
     romdev.SESSION = args.session
     entry_stack = None
 
+    with open(args.rom, "rb") as source:
+        print(f"ROM SHA256 {hashlib.sha256(source.read()).hexdigest()}", flush=True)
     romdev.call("loadMedia", {"platform": "nes",
                               "path": os.path.abspath(args.rom)})
     if args.state:
@@ -154,23 +169,22 @@ def main():
                 raise SystemExit(f"match {m}: stack ${stack:02X}, "
                                  f"expected ${entry_stack:02X}")
             print(f"match {m:02d}: stack ${stack:02X} OK")
-        press("a", 2)
-        step(60)
-        press("a", 2)
-        step(60)
+        enter_game(m, args.mode)
         if args.mode == "watch":
-            press("down", 2)
-            step(10)
-        press("a", 2)
-        if args.mode == "watch":
-            # The pre-match cutscene waits for A; after that WATCH runs
-            # itself to the box score (the score may be 0-0, a tie -> A).
-            step(500)
-            press("a", 2)
-            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 20000, 500,
-                     f"match {m} result",
-                     on_scene=lambda: (leave_lineup_top()
-                                       if rd_sys(0x047B)[0] == 0x0F else None))
+            if rd_sys(0x07FC)[0] == m:
+                step(500)
+            if rd_sys(0x07FC)[0] == m:
+                press("a", 2)
+
+            def handle_watch_scene():
+                scene = rd_sys(0x047B)[0]
+                if scene == 0x0F:
+                    leave_lineup_top()
+                elif scene == 0x0B:
+                    press("a", 2)
+
+            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 400000, 500,
+                     f"match {m} result", on_scene=handle_watch_scene)
         else:
             # The stock field waits for a human pitch on some pairings.
             # Reassert both-COM at the field and advance a waiting cutscene.
@@ -192,12 +206,20 @@ def main():
                                            "offset": 0x04E9, "hex": "00"})
                     seen["com"] = True
 
-            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 40000, 500,
+            wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 400000, 500,
                      f"match {m} result", on_scene=handle_scene)
 
         slot = rd_cart(0x7720 + m)[0]
         scores = rd_sys(0x048B, 2)
-        if args.winner == "score":
+        if args.require_complete and not rd_sys(0x04D0)[0]:
+            raise SystemExit(f"match {m}: bracket advanced before game over, half-inning {rd_sys(0x048A)[0]}")
+        if args.winner == "live-score":
+            live = rd_sys(0x04EF, 2)
+            if sorted(live) != sorted(pair):
+                raise SystemExit(f"match {m}: live teams {live.hex()} differ from bracket {pair.hex()}")
+            expected = pair[0] if scores[0] == scores[1] else live[int(scores[0] < scores[1])]
+            note = f"live {live[0]:02X}/{live[1]:02X}, score {scores[0]}-{scores[1]}, game-over {rd_sys(0x04D0)[0]}"
+        elif args.winner == "score":
             expected = pair[0] if scores[0] >= scores[1] else pair[1]
             note = f"score {scores[0]}-{scores[1]}"
         else:
