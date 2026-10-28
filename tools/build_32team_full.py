@@ -22,6 +22,7 @@ CPU_OUT = os.path.join(ROOT, "build/cpu32.nes")
 TABLES_OUT = os.path.join(ROOT, "build/teamtables32.nes")
 ROLES_OUT = os.path.join(ROOT, "build/roles32.nes")
 RESULTS_OUT = os.path.join(ROOT, "build/results32.nes")
+CONTROL_OUT = os.path.join(ROOT, "build/control32.nes")
 
 
 def run(script, *args):
@@ -53,7 +54,8 @@ def main():
     run("build_teamtables32.py", CPU_OUT, "-o", TABLES_OUT)
     run("build_roles32.py", TABLES_OUT, "-o", ROLES_OUT)
     run("build_results32.py", ROLES_OUT, "-o", RESULTS_OUT)
-    print(f"wrote {RESULTS_OUT}; baseline preserved at {OUT}")
+    run("build_control32.py", RESULTS_OUT, "-o", CONTROL_OUT)
+    print(f"wrote {CONTROL_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":

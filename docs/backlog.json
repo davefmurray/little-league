@@ -395,12 +395,12 @@
       "id": "high-team-human-control",
       "title": "Connect the selected team to 32-team human ownership",
       "priority": "P0",
-      "status": "queued",
+      "status": "done",
       "depends_on": [],
-      "next": "Remove inherited fixed team15 seed and define a bracket-specific ownership policy permitting selected high teams without corrupting the original16-bit mask",
+      "next": "Human selector integrated. Display-name readers and password/list integration continue separately; WATCH31 is in progress.",
       "verify": "Select each high team through the UI; real controller input reaches that team; CPU teams retain AI; preserve original low-team mode",
-      "attempts": 0,
-      "evidence": "",
+      "attempts": 1,
+      "evidence": "control32 a1caf9a2: all32 actual controller selections/heldA transitions/masks/matchup0080; human team31 order and field input probe; CPU31744 ownership5888 parity7936 routing; source pipeline stock6/full31 speed champion07 stackFF; independent review approves. docs/verification/control32-{cpu,ui,pipeline,gate,soak}.txt.",
       "last_commit": ""
     },
     {
@@ -454,6 +454,18 @@
       "verify": "Old ROM fails WATCH half-inning and swapped-side controls; CPU game-over and result cases, real WATCH full game, stock6 and full31 gates",
       "attempts": 1,
       "evidence": "Final results32 9a3a5d4f: CPU1152 stock continuations/9920 winner cases, final source pipeline, stock6/full31 with live identities/game-over/stackFF, controller-only WATCH3-5 winner0F, independent ROM and driver reviews approve. Logs docs/verification/results32-{cpu,pipeline,gate,soak,watch-gate,input-negative}.txt. Full gate exit0.",
+      "last_commit": "989e3d8"
+    },
+    {
+      "id": "high-team-display-names",
+      "title": "Use selected high-team names on game and order screens",
+      "priority": "P1",
+      "status": "queued",
+      "depends_on": [],
+      "next": "Controller-only team31 selection is CZECH REPUBLIC, but pre-game says TEAM32, order T32 and field HUD FLO. Audit name readers and remove 16-team aliasing without changing gameplay or pinned earlier stages.",
+      "verify": "CPU all32 name readers; screenshots high16/31 names at matchup/order/field; source gate and final31 soak",
+      "attempts": 0,
+      "evidence": "",
       "last_commit": ""
     }
   ]

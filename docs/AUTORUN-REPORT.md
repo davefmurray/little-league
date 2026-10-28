@@ -7161,3 +7161,31 @@ with stack FF at every entry. A final-ROM controller-only WATCH game
 finishes 3-5 for team 0F after the live sides swap. Independent review
 approved the ROM code; the combined stock-six and final-31 gate also passes. Independent review approves the corrected driver and final acceptance. Earlier fb6976 and prototype logs are superseded for
 acceptance by the final SHA-stamped runs.
+
+## Round 283: select, seed and control all 32 teams
+
+The control32 stage moves the selector to bank10, removes its debug writes,
+and commits one four-byte CPU mask with only the chosen team human. New
+series sets the active marker, clears transient view mode and seeds once.
+Bracket redraw no longer uses selector scratch RAM. Entry and handoff both
+require button release. The source build changes1,929 bytes,85 outside
+bank10, producing a1caf9a2. Independent review approves.
+
+CPU coverage includes31,744 ownership setups,5,888 exact parity cases,
+7,936 controller-routing cases and the existing result regressions. Actual
+controller probes select all32 teams and verify masks and matchup flags.
+Team31's human order menu reaches the field. An initial65-frame input probe
+showed no lasting difference; a longer matched-state1200-frame comparison
+shows gameplay changes with repeated controller1 A input. No ownership RAM
+writes are used in those UI probes.
+
+Source pipeline and stock6/full31 speed gates pass, champion07 and stackFF
+at every match. Speed mode forces both sides to CPU, so human-control
+claims use the separate UI evidence. A controller-only WATCH tournament
+is still running. The new --team driver path uses the selector; the
+--bracket-state path can resume a disk savestate at its actual match index.
+
+High-team names are a separate newly recorded defect. Team31 is selected
+as CZECH REPUBLIC but the matchup reads unrelated text, cutscene says
+TEAM32, order saysT32 and field HUD saysFLO. Gameplay IDs and roster players
+remain correct. The high-team-display-names task owns these readers.

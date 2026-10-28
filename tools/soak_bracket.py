@@ -97,12 +97,37 @@ def enter_game(match, mode):
         scene, substate = rd_sys(0x047B, 2)
         if scene != 0x13:
             return
-        if substate == 6 and mode == "watch" and rd_sys(0x047E)[0] == 0:
+        if substate == 3 and mode == "watch" and rd_sys(0xBE)[0] < 0x80:
+            press("down", 2)
+        elif substate == 6 and mode == "watch" and rd_sys(0x047E)[0] == 0:
             press("down", 2)
         elif substate in (3, 6, 8):
             press("a", 2)
         step(10)
     raise SystemExit(f"match {match}: pre-game screen did not advance")
+
+
+def navigate_selector(team):
+    step(120)
+    press("start", 3)
+    step(20)
+    press("a", 3)
+    step(20)
+    for _ in range(2):
+        press("down", 3)
+        step(20)
+    press("a", 10)
+    step(60)
+    for _ in range((team // 8) * 4 + team % 4):
+        press("right", 2)
+        step(3)
+    if team % 8 >= 4:
+        press("down", 2)
+        step(3)
+    press("a", 10)
+    step(30)
+    if rd_cart(0x7700)[0] != team or rd_sys(0x07FC)[0] != 0:
+        raise SystemExit(f"selector did not seed team {team:02X}")
 
 
 def main():
@@ -111,7 +136,11 @@ def main():
     ap.add_argument("--state", default="",
                     help="savestate at CONTINUE/END (CONTINUE selected); "
                          "omit to navigate from boot")
+    ap.add_argument("--bracket-state", default="",
+                    help="resume a saved bracket, including a password-restored tournament")
     ap.add_argument("--matches", type=int, default=31)
+    ap.add_argument("--team", type=int, choices=range(32),
+                    help="enter the four-page selector and choose this team")
     ap.add_argument("--shot-every", type=int, default=0)
     ap.add_argument("--session", default="llbcs",
                     help="romdev session owned by this run")
@@ -126,35 +155,48 @@ def main():
                     help="speed: SPEED MODE (per-pitch input may be needed); "
                          "watch: WATCH THE GAME with controller-only cutscene/score-screen input")
     args = ap.parse_args()
+    if args.state and args.bracket_state:
+        ap.error("choose either --state or --bracket-state")
     romdev.SESSION = args.session
     entry_stack = None
 
     with open(args.rom, "rb") as source:
         print(f"ROM SHA256 {hashlib.sha256(source.read()).hexdigest()}", flush=True)
+    print(f"mode={args.mode} matches={args.matches} winner={args.winner} "
+          f"require_complete={args.require_complete} check_stack={args.check_stack} team={args.team}", flush=True)
     romdev.call("loadMedia", {"platform": "nes",
                               "path": os.path.abspath(args.rom)})
-    if args.state:
+    if args.bracket_state:
+        romdev.call("state", {"op": "load", "path": args.bracket_state})
+        print(f"loaded {args.rom}, bracket state {args.bracket_state}")
+    elif args.state:
         romdev.call("state", {"op": "load", "path": args.state})
         print(f"loaded {args.rom}, state {args.state}")
+    elif args.team is not None:
+        navigate_selector(args.team)
+        print(f"loaded {args.rom}, selected team {args.team:02X}")
     else:
         navigate_to_prompt()
         print(f"loaded {args.rom}, navigated to CONTINUE/END")
 
-    # CONTINUE -> END, then A enters the bracket and launches match 0.
-    press("right", 4)
-    press("a", 2)
-    step(60)
+    if args.team is None and not args.bracket_state:
+        press("right", 4)
+        press("a", 2)
+        step(60)
     press("a", 2)
     step(30)
 
-    for m in range(args.matches):
+    first_match = rd_sys(0x07FC)[0] if args.bracket_state else 0
+    if first_match + args.matches > 31:
+        ap.error("requested matches exceed the remaining tournament")
+    for m in range(first_match, first_match + args.matches):
         idx = rd_sys(0x07FC)[0]
         if idx != m:
             raise SystemExit(f"match {m}: $07FC={idx:02X}, expected {m:02X}")
         pair = rd_cart(0x7700 + 2 * m, 2)
         if pair == b"\xff\xff":
             raise SystemExit(f"match {m}: pair is unset")
-        if m > 0:
+        if m > first_match:
             press("a", 2)
             step(10)
 
@@ -237,7 +279,7 @@ def main():
 
     slots = rd_cart(0x7700, 63)
     print("slots:", slots.hex(" "))
-    if args.matches == 31:
+    if first_match + args.matches == 31:
         champ = slots[62]
         print(f"champion slot 62 ($773E) = {champ:02X}")
         if champ == 0xFF:

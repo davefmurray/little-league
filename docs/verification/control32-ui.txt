@@ -1,0 +1,39 @@
+ROM SHA256 a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
+Controller-only selection from saved selector-open state, all32 teams; 10-frame confirm and launch holds
+team 00: seed preserved, mask feffffff, live 0001, human/CPU flags 0080, held A retained password screen OK
+team 01: seed preserved, mask fdffffff, live 0100, human/CPU flags 0080, held A retained password screen OK
+team 02: seed preserved, mask fbffffff, live 0200, human/CPU flags 0080, held A retained password screen OK
+team 03: seed preserved, mask f7ffffff, live 0300, human/CPU flags 0080, held A retained password screen OK
+team 04: seed preserved, mask efffffff, live 0400, human/CPU flags 0080, held A retained password screen OK
+team 05: seed preserved, mask dfffffff, live 0500, human/CPU flags 0080, held A retained password screen OK
+team 06: seed preserved, mask bfffffff, live 0600, human/CPU flags 0080, held A retained password screen OK
+team 07: seed preserved, mask 7fffffff, live 0700, human/CPU flags 0080, held A retained password screen OK
+team 08: seed preserved, mask fffeffff, live 0800, human/CPU flags 0080, held A retained password screen OK
+team 09: seed preserved, mask fffdffff, live 0900, human/CPU flags 0080, held A retained password screen OK
+team 0A: seed preserved, mask fffbffff, live 0a00, human/CPU flags 0080, held A retained password screen OK
+team 0B: seed preserved, mask fff7ffff, live 0b00, human/CPU flags 0080, held A retained password screen OK
+team 0C: seed preserved, mask ffefffff, live 0c00, human/CPU flags 0080, held A retained password screen OK
+team 0D: seed preserved, mask ffdfffff, live 0d00, human/CPU flags 0080, held A retained password screen OK
+team 0E: seed preserved, mask ffbfffff, live 0e00, human/CPU flags 0080, held A retained password screen OK
+team 0F: seed preserved, mask ff7fffff, live 0f00, human/CPU flags 0080, held A retained password screen OK
+team 10: seed preserved, mask fffffeff, live 1000, human/CPU flags 0080, held A retained password screen OK
+team 11: seed preserved, mask fffffdff, live 1100, human/CPU flags 0080, held A retained password screen OK
+team 12: seed preserved, mask fffffbff, live 1200, human/CPU flags 0080, held A retained password screen OK
+team 13: seed preserved, mask fffff7ff, live 1300, human/CPU flags 0080, held A retained password screen OK
+team 14: seed preserved, mask ffffefff, live 1400, human/CPU flags 0080, held A retained password screen OK
+team 15: seed preserved, mask ffffdfff, live 1500, human/CPU flags 0080, held A retained password screen OK
+team 16: seed preserved, mask ffffbfff, live 1600, human/CPU flags 0080, held A retained password screen OK
+team 17: seed preserved, mask ffff7fff, live 1700, human/CPU flags 0080, held A retained password screen OK
+team 18: seed preserved, mask fffffffe, live 1800, human/CPU flags 0080, held A retained password screen OK
+team 19: seed preserved, mask fffffffd, live 1900, human/CPU flags 0080, held A retained password screen OK
+team 1A: seed preserved, mask fffffffb, live 1a00, human/CPU flags 0080, held A retained password screen OK
+team 1B: seed preserved, mask fffffff7, live 1b00, human/CPU flags 0080, held A retained password screen OK
+team 1C: seed preserved, mask ffffffef, live 1c00, human/CPU flags 0080, held A retained password screen OK
+team 1D: seed preserved, mask ffffffdf, live 1d00, human/CPU flags 0080, held A retained password screen OK
+team 1E: seed preserved, mask ffffffbf, live 1e00, human/CPU flags 0080, held A retained password screen OK
+team 1F: seed preserved, mask ffffff7f, live 1f00, human/CPU flags 0080, held A retained password screen OK
+all32 controller selections and matchup ownership pass
+High team31 human order screen entered at scene/substate 0f08
+Controller B backs out and A confirms END; scene 0301 live/ownership 008000011f00 seed scratch 08
+A short65-frame comparison showed no lasting field-state difference, so it did not prove input response.
+Matched human-field savestate over1200 requested frames: no-input run field substate00, balls/strikes state at0486=02; repeated port1 A2 with13-frame gaps ends substate02,0486=00. Ownership remains0080, live teams1F/00. Controller-only input changes gameplay; no CPU-ownership RAM injection in this probe.

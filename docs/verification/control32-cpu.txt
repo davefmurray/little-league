@@ -1,0 +1,11 @@
+negative controls: results32 forces high teams CPU, inherits stray team9 human, and reseeds to15
+entry: title queues $12, bridge serially maps bank10, legacy scene13 VIEW reader absent
+commit: all32 x four prior masks initialize exactly one human, bounded writes and balanced stack
+selector: serial pads select all32, held keys ignored, OAM hidden, no debug stores or new B exit
+seed once: all32 reset VIEW, set active marker, seed once; real $AAFB wipe and two full redraws preserve heap
+handoff: real $4016 serial regression reproduces results32 exit on poll10 with A down; control32 waits to poll15 release
+ownership: 31744 setups, 5888 exact low-team/all-CPU-high parity cases, 3968 restored-mask setups
+routing: 7936 real $C585 cases route port1 in both halves and home/away layouts; COM toggle lasts one match
+results preserved: six gate cases, 1152 exact stock continuations, 9920 live-side winner cases
+builder: exactly 1929 changed bytes, 85 outside bank10; source assets match, guards and aliases rejected
+control32 CPU checks passed: a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
