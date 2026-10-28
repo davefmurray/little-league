@@ -7286,3 +7286,62 @@ and the header mirroring bit is horizontal while MMC1 controls runtime
 mirroring. Password entry is the supported persistence path. Physical
 hardware/audio and a clean bootstrap from the original ROM alone remain
 outside the demonstrated evidence.
+
+## Round 287: pxl menu art and stock menu music
+
+The accepted menuart32 stage produces
+bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+from frozen visualtables32 cf4f1126. It changes 9,115 bytes across nine
+reservations. The two entry hooks replace presentation while preserving
+stock commit, seeding, ownership, launch, password and result routines.
+The selector shows all 32 teams with simplified flags. The bracket draws
+63 bounded heap slots, the next pair and its round. Stock song06 and
+move/confirm effects run through the existing audio engine.
+
+Independent designs and a judge selected the shared CHR19 layout and a
+short-path stock NMI used only as a frame clock. Audio runs in the menu
+loop after vblank writes. The judge required explicit MMC1 control,
+future-slot masking and DMA stalls in timing; all are implemented and
+covered by negative controls. Model the Domain shaped the region manifest
+and MenuAssets format. Prove It Works required assembled-ROM execution,
+real controller captures and a complete tournament before publication.
+
+Root's baseline mapper tours covered a complete game, password/finished
+navigation and attract mode without CHR19. An initial trace falsely
+reported CHR19 because its overflow retry loaded a savestate with the
+API's default one-frame rendering step. Restoring with render=false and
+probeLiveness=false removed that unobserved interval. Only corrected
+traces are retained as evidence. The new full-game trace covers 65,832
+frames and 7,568,618 mapper writes with no partial sequence at stock CHR
+writers. CHR19 is selected through CHR1 at the two initial menus and the
+result bracket, never through CHR0.
+
+The root emulator probe accepts all32 choices, exact ownership masks and
+held-A handoffs. The first automated choice used the old page navigation
+because the driver assumed the hook targeted A000; assembled code enters
+at A1BD. The driver now recognizes the reserved selector code range and
+uses grid navigation. No ROM change was needed. Czech Republic reaches
+human field play with its canonical HUD. Typed quarter-final passwords,
+active LIST, CONTINUE and finished-series A/B paths pass. Menu audio
+captures show changing notes and envelopes; counters advance180 times in
+180 frames. The actual completed tournament also retains menu music.
+
+Independent code review found no assembly blocker. It reproduced two
+output-protection defects: converter output could alias its input ROM,
+and builder protection omitted nested source PNGs. Root fixed both,
+added direct/symbolic/hard-alias CLI regressions and normal-output checks,
+and reran the complete CPU suite with pinned pxl regeneration. The ROM
+hash did not change. The fixture now initializes CHR shadow bytes as well
+as mapper latches. Twenty-three divider/narration comments were removed;
+external timing, mapper, heap and audio contract explanations remain.
+No constraint encoding or additional architecture was needed.
+
+The source pipeline reproduces bcb7fcdc. The combined gate exits zero:
+stock6 passes; final-ROM SPEED passes31/31 with every game-over1 and stack
+FF, champion0C. SPEED writes both sides to COM at field entry. A separate
+controller-only WATCH game passes, 1F over00 by2-1. The final CPU log
+postdates tool-only review fixes; the gate's CPU section predates them but
+tests the identical ROM. Physical hardware, a second emulator engine and
+a clean bootstrap from the original ROM alone remain unvalidated.
+See docs/menuart32.md and docs/verification/menuart32-* for commands,
+logs, captures and limits.

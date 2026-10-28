@@ -103,7 +103,10 @@ Current ROM work:
   [v1 format](docs/password-format.md). Its ROM hooks pass controller-driven restore and full-tournament gates.
 - [High-team display names](docs/teamnames32.md) now use canonical metadata.
 - [Visual-table repairs](docs/visualtables32.md) bound flag and palette reads and
-  show the correct five matchup rounds. Hardware/audio checks remain open.
+  show the correct five matchup rounds.
+- [New menu art and music](docs/menuart32.md) adds the 32-team flag grid,
+  tournament tree and stock menu song. The current output is `build/menuart32.nes`.
+  Physical hardware and a second emulator remain unvalidated.
 - The hosted editor defaults to the stock 16-team demo; load a 32-team ROM
   or use the Data menu for the extended data.
 

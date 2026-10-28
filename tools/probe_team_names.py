@@ -35,7 +35,7 @@ def main():
     if args.bracket_state:
         romdev.call("state", {"op": "load", "path": str(args.bracket_state.resolve())})
     else:
-        navigate_selector(args.team)
+        navigate_selector(args.team, args.rom)
     press("a", 2)
     step(30)
     captured = set()

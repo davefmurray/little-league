@@ -1,0 +1,61 @@
+{
+  "chip": "nes",
+  "framesTraced": 180,
+  "startFrame": 334,
+  "endFrame": 514,
+  "channels": [
+    "pulse1",
+    "pulse2",
+    "triangle",
+    "noise",
+    "dmc"
+  ],
+  "transitions": 5,
+  "timeline": {
+    "pulse1": [
+      {
+        "frame": 0,
+        "note": "D4",
+        "freq": 293.6,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "pulse2": [
+      {
+        "frame": 0,
+        "note": "G3",
+        "freq": 195.9,
+        "volume": 15,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "triangle": [
+      {
+        "frame": 0,
+        "note": "A3",
+        "freq": 219.33,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "noise": [
+      {
+        "frame": 0,
+        "period": 0,
+        "volume": 0,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "dmc": [
+      {
+        "frame": 0,
+        "enabled": false
+      }
+    ]
+  },
+  "note": "Per-channel note-timeline: each entry is a value TRANSITION at frame N (held notes collapse to one entry). Assert your melody on the 'frequency'/'note' sequence per channel; compare frame deltas for rhythm."
+}

@@ -1,0 +1,17 @@
+input cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780
+candidate bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+converter: deterministic, committed JSON current; 221 tiles (37 referenced stock glyphs, none committed), 35 free; 12 bad inputs rejected; pinned pxl re-render matches 68 committed PNGs pixel for pixel
+builder: 9115 changed bytes inside 9 whole reservations; fixed bank, banks 0-9 and 12-15, header and every CHR bank but $19 identical; 43 stock dependency, hook, reservation, CHR $19, font and table guards each reject a one-bit drift; bad manifests and stale assets rejected
+output guards: builder and converter refuse input ROMs, copies, nested PNGs, source and symbolic/hard aliases; normal ROM/JSON outputs pass; deterministic CLI build and manifest from another cwd
+RAM audit: no stock instruction addresses $07F3 or $07F4; only the two menu banks do
+entry paths: result@6, result@30, password@17, list@12, list@31, continue@23, continue@0 each draw the oracle bracket from the real heap and exit to $FF90 with the old ROM's state; held entry buttons and their release ignored in both menus
+heap bounds: 68 poisoned heaps (stale valid winners, out-of-range ids, $07FC up to $FF) render only slots below 32+min($07FC,31); slot 63 never read; every data read inside its table; control: dropping the bound shows stale winners
+audio: 600 idle selector frames tick once each and equal the stock tick's APU writes; song $06 never re-queued through moves, commit, handoff, bracket and launch; $36/$35 on moves/confirm; 1 untimed frame(s) at the handoff; result jingle replaced once. Controls: old bracket 0 ticks in 120 frames; unguarded queue restarts; $2D=0 double-ticks
+vblank: worst selector frame ends its PPU work 1162 cycles after vblank start (a full 36-byte panel update, OAM DMA 514 cycles), bracket 721, budget 2273; controls: uncharged DMA reads 648, a 6x update lands late
+PRG RAM and mapper: 315 menu PRG RAM reads all under CHR (0,1); no NMI split a mapper write; every MMC1 load completes on a stock routine's fifth write; controls: CHR $19 before the heap copy caught, old bracket leaves MMC1 serial count 1 at $8680
+zero page: 400 frames of ticks and NMIs write nothing in $00-$0F
+selector sync: 26 frames through six moves show the cursor on the team the panel names
+renders: 10 ROM-executed frames equal the converter oracle; PNGs in build/menu32-rom; control: one flipped map byte in either screen is caught
+selection: all 32 teams chosen by serial controller input reach $FF90 through the stock commit, seed and launch with the old ROM's exact game RAM, PRG RAM, mapper and stack state (74s)
+menuart32 SHA256 bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+PASS (136.5s)

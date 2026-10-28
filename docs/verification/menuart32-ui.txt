@@ -1,0 +1,37 @@
+ROM SHA256 bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+selector-00: CHR(0,25), song06, 180 menu ticks, 11 notes, 181 APU transitions; PNG/WAV saved
+team 00: grid choice, seed, ownership and held-A handoff pass
+team 01: grid choice, seed, ownership and held-A handoff pass
+team 02: grid choice, seed, ownership and held-A handoff pass
+team 03: grid choice, seed, ownership and held-A handoff pass
+team 04: grid choice, seed, ownership and held-A handoff pass
+team 05: grid choice, seed, ownership and held-A handoff pass
+team 06: grid choice, seed, ownership and held-A handoff pass
+team 07: grid choice, seed, ownership and held-A handoff pass
+team 08: grid choice, seed, ownership and held-A handoff pass
+team 09: grid choice, seed, ownership and held-A handoff pass
+team 0A: grid choice, seed, ownership and held-A handoff pass
+team 0B: grid choice, seed, ownership and held-A handoff pass
+team 0C: grid choice, seed, ownership and held-A handoff pass
+team 0D: grid choice, seed, ownership and held-A handoff pass
+team 0E: grid choice, seed, ownership and held-A handoff pass
+team 0F: grid choice, seed, ownership and held-A handoff pass
+team 10: grid choice, seed, ownership and held-A handoff pass
+team 11: grid choice, seed, ownership and held-A handoff pass
+team 12: grid choice, seed, ownership and held-A handoff pass
+team 13: grid choice, seed, ownership and held-A handoff pass
+team 14: grid choice, seed, ownership and held-A handoff pass
+team 15: grid choice, seed, ownership and held-A handoff pass
+team 16: grid choice, seed, ownership and held-A handoff pass
+team 17: grid choice, seed, ownership and held-A handoff pass
+team 18: grid choice, seed, ownership and held-A handoff pass
+team 19: grid choice, seed, ownership and held-A handoff pass
+team 1A: grid choice, seed, ownership and held-A handoff pass
+team 1B: grid choice, seed, ownership and held-A handoff pass
+team 1C: grid choice, seed, ownership and held-A handoff pass
+team 1D: grid choice, seed, ownership and held-A handoff pass
+team 1E: grid choice, seed, ownership and held-A handoff pass
+selector-31: CHR(0,25), song06, 180 menu ticks, 14 notes, 217 APU transitions; PNG/WAV saved
+team 1F: grid choice, seed, ownership and held-A handoff pass
+bracket-00: CHR(0,25), song06, 180 menu ticks, 12 notes, 203 APU transitions; PNG/WAV saved
+bracket launch restores both NMI guards and reaches password display

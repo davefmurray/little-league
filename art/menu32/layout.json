@@ -1,0 +1,54 @@
+{
+  "format": "menu32-layout/1",
+  "backdrop": "0C",
+  "screens": {
+    "selector": {
+      "palettes": [["28", "30", "16"], ["1A", "30", "16"], ["1A", "30", "28"], ["16", "28", "30"]],
+      "sprite_palettes": [["28", "30", "16"], ["28", "30", "16"], ["28", "30", "16"], ["28", "30", "16"]],
+      "flag_palettes": [0, 1, 2],
+      "cards": {"flag_row": 7, "row_pitch": 4, "col": 1, "col_pitch": 4},
+      "text": [
+        {"row": 3, "col": 8, "text": "CHOOSE YOUR TEAM", "palette": 3},
+        {"row": 26, "col": 9, "text": "MOVE", "palette": 0},
+        {"row": 26, "col": 19, "text": "SELECT", "palette": 0}
+      ],
+      "regions": [
+        {"name": "info_flag", "row": 24, "col": 2, "width": 2, "palette": "flag"},
+        {"name": "info_name", "row": 24, "col": 5, "width": 14, "palette": 0},
+        {"name": "info_region", "row": 24, "col": 23, "width": 7, "palette": 3}
+      ]
+    },
+    "bracket": {
+      "palettes": [["38", "30", "10"], ["28", "30", "10"], ["16", "28", "30"], ["3D", "30", "10"]],
+      "sprite_palettes": [["28", "30", "16"], ["28", "30", "16"], ["28", "30", "16"], ["28", "30", "16"]],
+      "slot_palettes": {"normal": 0, "alternate": 3, "highlight": 1},
+      "tree": {"row0": 4, "left": [1, 4, 7, 10], "right": [29, 26, 23, 20],
+               "final": [[13, 11], [17, 11]], "champion": [15, 9]},
+      "text": [
+        {"row": 2, "col": 6, "text": "CHAMPIONSHIP BRACKET", "palette": 2},
+        {"row": 3, "col": 1, "text": "32", "palette": 2},
+        {"row": 3, "col": 4, "text": "16", "palette": 2},
+        {"row": 3, "col": 7, "text": "QF", "palette": 2},
+        {"row": 3, "col": 10, "text": "SF", "palette": 2},
+        {"row": 3, "col": 20, "text": "SF", "palette": 2},
+        {"row": 3, "col": 23, "text": "QF", "palette": 2},
+        {"row": 3, "col": 26, "text": "16", "palette": 2},
+        {"row": 3, "col": 29, "text": "32", "palette": 2},
+        {"row": 8, "col": 12, "text": "CHAMPION", "palette": 0},
+        {"row": 11, "col": 15, "text": "VS", "palette": 0},
+        {"row": 27, "col": 22, "text": "PRESS A", "palette": 1}
+      ],
+      "regions": [
+        {"name": "round", "row": 22, "col": 2, "width": 14, "palette": 2},
+        {"name": "match", "row": 22, "col": 22, "width": 8, "palette": 2},
+        {"name": "chip_a", "row": 24, "col": 3, "width": 2, "palette": 1},
+        {"name": "name_a", "row": 24, "col": 6, "width": 14, "palette": 1},
+        {"name": "vs", "row": 25, "col": 6, "width": 2, "palette": 1},
+        {"name": "chip_b", "row": 26, "col": 3, "width": 2, "palette": 1},
+        {"name": "name_b", "row": 26, "col": 6, "width": 14, "palette": 1}
+      ],
+      "rounds": [[0, "1ST ROUND"], [16, "2ND ROUND"], [24, "QUARTER FINALS"], [28, "SEMI FINALS"],
+                 [30, "FINALS"], [31, "CHAMPION"]]
+    }
+  }
+}

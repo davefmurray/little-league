@@ -11,6 +11,7 @@ forces CPU control through RAM writes. Watch mode uses controller input.
 import argparse
 import hashlib
 import os
+from pathlib import Path
 import sys
 
 sys.path.insert(0, "tools")
@@ -107,7 +108,7 @@ def enter_game(match, mode):
     raise SystemExit(f"match {match}: pre-game screen did not advance")
 
 
-def navigate_selector(team):
+def open_selector(team, rom_path=None):
     step(120)
     press("start", 3)
     step(20)
@@ -118,12 +119,17 @@ def navigate_selector(team):
         step(20)
     press("a", 10)
     step(60)
-    for _ in range((team // 8) * 4 + team % 4):
-        press("right", 2)
+    entry = Path(rom_path).read_bytes()[0x28010:0x28013] if rom_path is not None else b""
+    grid = len(entry) == 3 and entry[0] == 0x4C and 0xA000 <= int.from_bytes(entry[1:], "little") < 0xA400
+    moves = (["down"] * (team >> 3) + ["right"] * (team & 7) if grid else
+             ["right"] * ((team // 8) * 4 + team % 4) + (["down"] if team % 8 >= 4 else []))
+    for button in moves:
+        press(button, 2)
         step(3)
-    if team % 8 >= 4:
-        press("down", 2)
-        step(3)
+
+
+def navigate_selector(team, rom_path=None):
+    open_selector(team, rom_path)
     press("a", 10)
     step(30)
     if rd_cart(0x7700)[0] != team or rd_sys(0x07FC)[0] != 0:
@@ -140,7 +146,7 @@ def main():
                     help="resume a saved bracket, including a password-restored tournament")
     ap.add_argument("--matches", type=int, default=31)
     ap.add_argument("--team", type=int, choices=range(32),
-                    help="enter the four-page selector and choose this team")
+                    help="enter the selector and choose this team")
     ap.add_argument("--shot-every", type=int, default=0)
     ap.add_argument("--session", default="llbcs",
                     help="romdev session owned by this run")
@@ -173,7 +179,7 @@ def main():
         romdev.call("state", {"op": "load", "path": args.state})
         print(f"loaded {args.rom}, state {args.state}")
     elif args.team is not None:
-        navigate_selector(args.team)
+        navigate_selector(args.team, args.rom)
         print(f"loaded {args.rom}, selected team {args.team:02X}")
     else:
         navigate_to_prompt()

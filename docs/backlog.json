@@ -506,6 +506,20 @@
       "attempts": 1,
       "evidence": "cf4f1126: 1280 pointer cases and 1152 actual palette consumer cases cover all eight calls; high16+i uses stocki, low final state exact; field probe, stock6/full31 and independent review pass.",
       "last_commit": "d16f23c"
+    },
+    {
+      "id": "menu-art-music",
+      "title": "NES-native selector and bracket art with stock menu music",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "uniform-palette32"
+      ],
+      "next": "",
+      "verify": "32 selections, audio activity, password/list transitions, mapper trace, stock6/full31 and independent review",
+      "attempts": 1,
+      "evidence": "bcb7fcdc: 32 controller selections, stock song06 activity, high-team human field, typed password/list/finished transitions, WATCH1, mapper trace and stock6/full31 pass. Independent assembly review found no blocker; both output-protection findings fixed and tested without ROM drift. See docs/menuart32.md.",
+      "last_commit": ""
     }
   ]
 }

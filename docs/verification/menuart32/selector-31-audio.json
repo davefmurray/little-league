@@ -1,0 +1,1669 @@
+{
+  "chip": "nes",
+  "framesTraced": 180,
+  "startFrame": 362,
+  "endFrame": 542,
+  "channels": [
+    "pulse1",
+    "pulse2",
+    "triangle",
+    "noise",
+    "dmc"
+  ],
+  "transitions": 217,
+  "timeline": {
+    "pulse1": [
+      {
+        "frame": 0,
+        "note": "B4",
+        "freq": 492.78,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 2,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 3,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 4,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 5,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 6,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 10,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 8,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 10,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 12,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 14,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 14,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 16,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 15,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 34,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 50,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 51,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 52,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 53,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 54,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 58,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 59,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 60,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 61,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 62,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 66,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 67,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 68,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 69,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 70,
+        "note": "B3",
+        "freq": 246.93,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 74,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 75,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 76,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 77,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 78,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 10,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 80,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 82,
+        "note": "G4",
+        "freq": 391.12,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 98,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 99,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 100,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 101,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 102,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 10,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 104,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 106,
+        "note": "F#4",
+        "freq": 369.18,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 122,
+        "note": "E4",
+        "freq": 329,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 123,
+        "note": "E4",
+        "freq": 329,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 124,
+        "note": "E4",
+        "freq": 329,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 125,
+        "note": "E4",
+        "freq": 329,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 126,
+        "note": "E4",
+        "freq": 329,
+        "volume": 10,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 128,
+        "note": "E4",
+        "freq": 329,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 130,
+        "note": "E4",
+        "freq": 329,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 132,
+        "note": "E4",
+        "freq": 329,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 134,
+        "note": "E4",
+        "freq": 329,
+        "volume": 14,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 136,
+        "note": "E4",
+        "freq": 329,
+        "volume": 15,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 146,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 147,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 148,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 149,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 150,
+        "note": "A4",
+        "freq": 438.67,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 154,
+        "note": "B4",
+        "freq": 492.78,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 155,
+        "note": "B4",
+        "freq": 492.78,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 156,
+        "note": "B4",
+        "freq": 492.78,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 157,
+        "note": "B4",
+        "freq": 492.78,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 158,
+        "note": "B4",
+        "freq": 492.78,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 162,
+        "note": "C#5",
+        "freq": 553.77,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 163,
+        "note": "C#5",
+        "freq": 553.77,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 164,
+        "note": "C#5",
+        "freq": 553.77,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 165,
+        "note": "C#5",
+        "freq": 553.77,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 166,
+        "note": "C#5",
+        "freq": 553.77,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 170,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 171,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 7,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 172,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 173,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 9,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 174,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 10,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 176,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 178,
+        "note": "D5",
+        "freq": 585.66,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "pulse2": [
+      {
+        "frame": 0,
+        "note": "G5",
+        "freq": 782.24,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 1,
+        "note": "G5",
+        "freq": 782.24,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 34,
+        "note": "G5",
+        "freq": 782.24,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 50,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 51,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 52,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 53,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 54,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 58,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 59,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 60,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 61,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 62,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 66,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 67,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 68,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 69,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 70,
+        "note": "B3",
+        "freq": 244.24,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 74,
+        "note": "E4",
+        "freq": 329,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 75,
+        "note": "E4",
+        "freq": 329,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 76,
+        "note": "E4",
+        "freq": 329,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 77,
+        "note": "E4",
+        "freq": 329,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 82,
+        "note": "E4",
+        "freq": 329,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 98,
+        "note": "D4",
+        "freq": 293.6,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 99,
+        "note": "D4",
+        "freq": 293.6,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 100,
+        "note": "D4",
+        "freq": 293.6,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 101,
+        "note": "D4",
+        "freq": 293.6,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 106,
+        "note": "D4",
+        "freq": 293.6,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 122,
+        "note": "C#4",
+        "freq": 276.88,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 123,
+        "note": "C#4",
+        "freq": 276.88,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 124,
+        "note": "C#4",
+        "freq": 276.88,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 125,
+        "note": "C#4",
+        "freq": 276.88,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 146,
+        "note": "A4",
+        "freq": 433.57,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 147,
+        "note": "A4",
+        "freq": 433.57,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 148,
+        "note": "A4",
+        "freq": 433.57,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 149,
+        "note": "A4",
+        "freq": 433.57,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 150,
+        "note": "A4",
+        "freq": 433.57,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 154,
+        "note": "B4",
+        "freq": 486.35,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 155,
+        "note": "B4",
+        "freq": 486.35,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 156,
+        "note": "B4",
+        "freq": 486.35,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 157,
+        "note": "B4",
+        "freq": 486.35,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 158,
+        "note": "B4",
+        "freq": 486.35,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 162,
+        "note": "C#5",
+        "freq": 548.34,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 163,
+        "note": "C#5",
+        "freq": 548.34,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 164,
+        "note": "C#5",
+        "freq": 548.34,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 165,
+        "note": "C#5",
+        "freq": 548.34,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 166,
+        "note": "C#5",
+        "freq": 548.34,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 170,
+        "note": "D5",
+        "freq": 579.59,
+        "volume": 8,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 171,
+        "note": "D5",
+        "freq": 579.59,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 172,
+        "note": "D5",
+        "freq": 579.59,
+        "volume": 11,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 173,
+        "note": "D5",
+        "freq": 579.59,
+        "volume": 12,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 178,
+        "note": "D5",
+        "freq": 579.59,
+        "volume": 3,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "triangle": [
+      {
+        "frame": 0,
+        "note": "F#3",
+        "freq": 184.59,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 2,
+        "note": "A3",
+        "freq": 219.33,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 10,
+        "note": "F#3",
+        "freq": 184.59,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 18,
+        "note": "A3",
+        "freq": 219.33,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 26,
+        "note": "C#4",
+        "freq": 276.88,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 74,
+        "note": "E3",
+        "freq": 164.5,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 98,
+        "note": "B3",
+        "freq": 246.39,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 122,
+        "note": "A3",
+        "freq": 219.33,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 146,
+        "note": "C#4",
+        "freq": 276.88,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 170,
+        "note": "D4",
+        "freq": 292.83,
+        "playing": true,
+        "enabled": true
+      }
+    ],
+    "noise": [
+      {
+        "frame": 0,
+        "period": 0,
+        "volume": 0,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 2,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 3,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 4,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 5,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 10,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 11,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 12,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 13,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 18,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 19,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 20,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 21,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 26,
+        "period": 8,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 27,
+        "period": 8,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 28,
+        "period": 8,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 29,
+        "period": 8,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 42,
+        "period": 8,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 43,
+        "period": 8,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 44,
+        "period": 8,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 45,
+        "period": 8,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 50,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 51,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 52,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 53,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 58,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 59,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 60,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 61,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 66,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 67,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 68,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 69,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 74,
+        "period": 8,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 75,
+        "period": 8,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 76,
+        "period": 8,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 77,
+        "period": 8,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 90,
+        "period": 8,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 91,
+        "period": 8,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 92,
+        "period": 8,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 93,
+        "period": 8,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 98,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 99,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 100,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 101,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 106,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 107,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 108,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 109,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 114,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 115,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 116,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 117,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 122,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 123,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 124,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 125,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 130,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 131,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 132,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 133,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 138,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 139,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 140,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 141,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 146,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 147,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 148,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 149,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 154,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 155,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 156,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 157,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 162,
+        "period": 4,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 163,
+        "period": 4,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 164,
+        "period": 4,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 165,
+        "period": 4,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      },
+      {
+        "frame": 170,
+        "period": 8,
+        "volume": 13,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 171,
+        "period": 8,
+        "volume": 6,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 172,
+        "period": 8,
+        "volume": 2,
+        "playing": true,
+        "enabled": true
+      },
+      {
+        "frame": 173,
+        "period": 8,
+        "volume": 0,
+        "playing": false,
+        "enabled": true
+      }
+    ],
+    "dmc": [
+      {
+        "frame": 0,
+        "enabled": false
+      }
+    ]
+  },
+  "note": "Per-channel note-timeline: each entry is a value TRANSITION at frame N (held notes collapse to one entry). Assert your melody on the 'frequency'/'note' sequence per channel; compare frame deltas for rhythm.",
+  "floodWarning": "note: this session made 667 calls in the last 10s (66.7 req/s) on a server other agents share. A per-item loop over audioDebug should be one bulk call: batch the work into one call (every romdev tool that reads or steps takes a count/length)."
+}

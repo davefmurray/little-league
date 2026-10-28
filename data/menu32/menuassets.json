@@ -1,0 +1,2316 @@
+{
+ "bracket": {
+  "highlights": [
+   [
+    [
+     8,
+     245
+    ]
+   ],
+   [
+    [
+     8,
+     80
+    ]
+   ],
+   [
+    [
+     16,
+     245
+    ]
+   ],
+   [
+    [
+     16,
+     80
+    ]
+   ],
+   [
+    [
+     24,
+     245
+    ]
+   ],
+   [
+    [
+     24,
+     80
+    ]
+   ],
+   [
+    [
+     32,
+     245
+    ]
+   ],
+   [
+    [
+     32,
+     80
+    ]
+   ],
+   [
+    [
+     15,
+     245
+    ]
+   ],
+   [
+    [
+     15,
+     80
+    ]
+   ],
+   [
+    [
+     23,
+     245
+    ]
+   ],
+   [
+    [
+     23,
+     80
+    ]
+   ],
+   [
+    [
+     31,
+     245
+    ]
+   ],
+   [
+    [
+     31,
+     80
+    ]
+   ],
+   [
+    [
+     39,
+     245
+    ]
+   ],
+   [
+    [
+     39,
+     80
+    ]
+   ],
+   [
+    [
+     9,
+     17
+    ]
+   ],
+   [
+    [
+     17,
+     17
+    ]
+   ],
+   [
+    [
+     25,
+     17
+    ]
+   ],
+   [
+    [
+     33,
+     17
+    ]
+   ],
+   [
+    [
+     14,
+     68
+    ]
+   ],
+   [
+    [
+     22,
+     68
+    ]
+   ],
+   [
+    [
+     30,
+     68
+    ]
+   ],
+   [
+    [
+     38,
+     68
+    ]
+   ],
+   [
+    [
+     9,
+     64
+    ],
+    [
+     10,
+     16
+    ],
+    [
+     17,
+     4
+    ],
+    [
+     18,
+     1
+    ]
+   ],
+   [
+    [
+     25,
+     64
+    ],
+    [
+     26,
+     16
+    ],
+    [
+     33,
+     4
+    ],
+    [
+     34,
+     1
+    ]
+   ],
+   [
+    [
+     13,
+     64
+    ],
+    [
+     14,
+     16
+    ],
+    [
+     21,
+     4
+    ],
+    [
+     22,
+     1
+    ]
+   ],
+   [
+    [
+     29,
+     64
+    ],
+    [
+     30,
+     16
+    ],
+    [
+     37,
+     4
+    ],
+    [
+     38,
+     1
+    ]
+   ],
+   [
+    [
+     18,
+     64
+    ],
+    [
+     26,
+     4
+    ]
+   ],
+   [
+    [
+     21,
+     16
+    ],
+    [
+     29,
+     1
+    ]
+   ],
+   [
+    [
+     19,
+     80
+    ],
+    [
+     20,
+     80
+    ]
+   ],
+   [
+    [
+     19,
+     4
+    ],
+    [
+     20,
+     1
+    ]
+   ]
+  ],
+  "rounds": [
+   [
+    0,
+    "1ST ROUND"
+   ],
+   [
+    16,
+    "2ND ROUND"
+   ],
+   [
+    24,
+    "QUARTER FINALS"
+   ],
+   [
+    28,
+    "SEMI FINALS"
+   ],
+   [
+    30,
+    "FINALS"
+   ],
+   [
+    31,
+    "CHAMPION"
+   ]
+  ],
+  "slots": [
+   8321,
+   8353,
+   8385,
+   8417,
+   8449,
+   8481,
+   8513,
+   8545,
+   8577,
+   8609,
+   8641,
+   8673,
+   8705,
+   8737,
+   8769,
+   8801,
+   8349,
+   8381,
+   8413,
+   8445,
+   8477,
+   8509,
+   8541,
+   8573,
+   8605,
+   8637,
+   8669,
+   8701,
+   8733,
+   8765,
+   8797,
+   8829,
+   8356,
+   8388,
+   8484,
+   8516,
+   8612,
+   8644,
+   8740,
+   8772,
+   8378,
+   8410,
+   8506,
+   8538,
+   8634,
+   8666,
+   8762,
+   8794,
+   8423,
+   8455,
+   8679,
+   8711,
+   8439,
+   8471,
+   8695,
+   8727,
+   8554,
+   8586,
+   8564,
+   8596,
+   8557,
+   8561,
+   8495
+  ]
+ },
+ "cursor_tile": 160,
+ "empty_chip": [
+  98,
+  99
+ ],
+ "format": "menuassets/1",
+ "meta": {
+  "chr_bank": 25,
+  "font_bank": 0,
+  "font_glyphs": [
+   32,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   81,
+   82,
+   83,
+   84,
+   85,
+   86,
+   87,
+   88,
+   89,
+   90
+  ],
+  "font_sha256": "ba23d2e5aff309939562f9a852c74cd89d910758405b06597811c43e4001198b",
+  "format": "menuassets/1",
+  "palette_table": "fceux-default-6bit, channel (v<<2)|(v>>4)",
+  "pxl": {
+   "commit": "3bc816cb15a14592e0dc062ee98013637d399457",
+   "node_min": [
+    22,
+    18,
+    0
+   ],
+   "regenerate": ".venv/bin/python tools/menu32_convert.py --rom build/visualtables32.nes --pxl build/vendor/claude-pxl",
+   "render": "node <pxl>/bin/pxl.js build art/menu32/menu32.px.js --out <dir> --no-preview",
+   "repo": "https://github.com/augusto-scarvalho/claude-pxl"
+  },
+  "sources": {
+   "art/menu32/layout.json": "2f51a919fb2200fe22991dbad1100c933cf6f290721f2cbd51d2317f7c557911",
+   "art/menu32/menu32.px.js": "cfc8c7717eb194ec336a6aba870a3c4d9f2c251adee8e8d9586b07037b7a70a5",
+   "art/menu32/out/scenes/bracket.png": "0018b08ac666f5e2c1fd23ed37d389fa36c49089b467b82db901c6baa666bc96",
+   "art/menu32/out/scenes/selector.png": "47d50cb42e01a8ace063ce172cf03e34b186990ee926a47d2b76f171c1babbe7",
+   "art/menu32/out/sprites/chip_0.png": "5959d73ab878ae9240cdaefe2058f101019555e33ad73949813bd32572ed0d46",
+   "art/menu32/out/sprites/chip_1.png": "df9e478d1f65d2f2be057dd9aa9d469ddb67183080dc4e80f3f2fec33f6c48e7",
+   "art/menu32/out/sprites/chip_10.png": "ed08f7be2483d1fa8746bed90138bbb3a0201bd497bb11370d14984dcd1357dd",
+   "art/menu32/out/sprites/chip_11.png": "b6d415ce0a4ca2479ef1ba61e8ddbb1fdee3f5bc519e845d6688e33771b46bfb",
+   "art/menu32/out/sprites/chip_12.png": "caf72fdb9b28e3f724b9421e6fb0c4796a964802c9b30d2a97880fe1ff4a878a",
+   "art/menu32/out/sprites/chip_13.png": "ad0e01cc91bb5b894639aa04e13a94312359750b6441c047152b4b4440cf5917",
+   "art/menu32/out/sprites/chip_14.png": "ef6015dafe3564ac8ad55141986c517f306aea40c7683bf6925d374ac7e844bd",
+   "art/menu32/out/sprites/chip_15.png": "61af8c1042251223b95311b4afb53d75492123d7a2b46d2360940182c0775b17",
+   "art/menu32/out/sprites/chip_16.png": "0c32f7eb1ce490e5f3dcb526a22f43cc0bd638d785a7dcd1441826a4a7bce505",
+   "art/menu32/out/sprites/chip_17.png": "6608e28208d9cc3321938d3487d3612836184dec17035f48e71b858109c6882c",
+   "art/menu32/out/sprites/chip_18.png": "f3a134b25c61ade5f7db822f8a552a88de3a8f4148c68411334f7aaba3652bed",
+   "art/menu32/out/sprites/chip_19.png": "4e5bc2ac4391d9b50ad9d6113df42761b0a4d731f5d3f3be1bce7710709d58b9",
+   "art/menu32/out/sprites/chip_2.png": "5f3a2e0c569f6e172313d013960245896c56f8c0323007e28836aa01fbfb3bb1",
+   "art/menu32/out/sprites/chip_20.png": "463bb6a54e103a98b7dac923f5a6fbfef4ccd2923c87affb557ca90bfc116791",
+   "art/menu32/out/sprites/chip_21.png": "09e5416df2d96a93720e5b9fd2393ccbe09857f48c305bfb6aa450d8a63693af",
+   "art/menu32/out/sprites/chip_22.png": "65a17d4376e4ab4ffdcd96b0d5cd73d89d15f79a1021597736cdaae77164cdf9",
+   "art/menu32/out/sprites/chip_23.png": "fe970de88b92de91ffdf2bfa40f56d016e517c397187cb8a53e6fe6cffc55758",
+   "art/menu32/out/sprites/chip_24.png": "055cff728495e68a6ccb242306fc1072a0a412cf2f6a623c516d571d21c467d8",
+   "art/menu32/out/sprites/chip_25.png": "0e8cf6a7878b9a15dbf8843e39b58e9de99ec93db0bd1db1765634c482aa649c",
+   "art/menu32/out/sprites/chip_26.png": "add42d5a427e9668832ec3c871122f91e5de63650baf5916817f6ea623de1ec6",
+   "art/menu32/out/sprites/chip_27.png": "820d42669df0290ad5a16e6f9113235c4284e09eb3a2fe6fed173ced45fecefc",
+   "art/menu32/out/sprites/chip_28.png": "bc4bb044d174b70ee990959543aae5a34613584fd4b72d0b61452f086459c186",
+   "art/menu32/out/sprites/chip_29.png": "506403ead2d891d3c54ee3c191d29b62606d0c53b11d7e878b538f18dfafce3e",
+   "art/menu32/out/sprites/chip_3.png": "f0d00dd76b684a7292245bb664a265de8f002e66494fd5a38ca60ccd1a918cad",
+   "art/menu32/out/sprites/chip_30.png": "6ad77afe98ce25e821913afbb35fe7784a0f1cff4587d773b8cbde3e7198f0f6",
+   "art/menu32/out/sprites/chip_31.png": "880132c5c9525ab3bcd327a5c32cc59a75c4ddf7cfb7d69f9e4d45cb6b69cda4",
+   "art/menu32/out/sprites/chip_4.png": "fd724a7dbf7630fb6b6452620d7f8108804ae3c2fb073b496f26abd5516409cb",
+   "art/menu32/out/sprites/chip_5.png": "121b82b7fe13bf993f157a474583fa2b7c76d82ded78dc1a64d4c6a89e157040",
+   "art/menu32/out/sprites/chip_6.png": "623ae9d574c11fae0d0bf14431462fc29bb2ce47ee669736ef776170a5b8d70b",
+   "art/menu32/out/sprites/chip_7.png": "eb4a345d8159fe054b49901c81b0a48215967bc7df05950bce052479fea3b83a",
+   "art/menu32/out/sprites/chip_8.png": "d8166be66d48d722b47820e869ee2f1d34322306c0e95024e50ead82fa785a25",
+   "art/menu32/out/sprites/chip_9.png": "f38d023313088f3f7d9adac93a8d71c781291f7facdd2f56eb34db2b510578e7",
+   "art/menu32/out/sprites/chip_empty.png": "4c5a5e450fafbb24b6f32b8848036a5f6c42ee41bf23201f6e1ec6e1c1b11c40",
+   "art/menu32/out/sprites/cursor_corner.png": "21303d27593b34a9b5ec3853ab3ebea11da310b1caaf3ef4c367f378e6a6a6cf",
+   "art/menu32/out/sprites/flag_0.png": "f61402361df7f18e9a2512147efa7a3ca9e8cd0b2d8331a52e4b840e95136d86",
+   "art/menu32/out/sprites/flag_1.png": "d625daff973a4f28bad6b53e0150e49cf8e4a6b42bd43feac4f83689520edcfe",
+   "art/menu32/out/sprites/flag_10.png": "002b7dcbb99a369939f89127822f20770f6b354ec36c6da7fc5416521722439a",
+   "art/menu32/out/sprites/flag_11.png": "7500222ba2f8cfd99a8cc494a60a7fdeb53627bc5ec6da5ceab4ec3843450618",
+   "art/menu32/out/sprites/flag_12.png": "b0efe3c456cc7096ed22ac1a1fada57ac7ca958b1a9e4f9a0b34123837762440",
+   "art/menu32/out/sprites/flag_13.png": "7095faad0a6184950f16dbde3b98591ef007864015cbe6fdbebf1676b43c27bf",
+   "art/menu32/out/sprites/flag_14.png": "52e70fee8558bf659ef5c4113b7885ac64d418bc9bf3839d19976872862cd770",
+   "art/menu32/out/sprites/flag_15.png": "0a6a289b64849e05c99febb65612990c11c4412fb8fbfe45a1dcafe212d55238",
+   "art/menu32/out/sprites/flag_16.png": "c41f5837c84579173a90c4ef3e4a6413984000f6c3d92fcf2de1dc8951de6516",
+   "art/menu32/out/sprites/flag_17.png": "9f684ff5b49f564afe22b88d4d98914966de2aa0cdf903b831f17c9a5c50fde4",
+   "art/menu32/out/sprites/flag_18.png": "cdd0d05731a320d16b681e98803235b042ad9cad014425fa8752bc80f6168b56",
+   "art/menu32/out/sprites/flag_19.png": "3607be08c4e90547d8b5bf6b21b929f55ffbd3a09dce1cf693192f927aeedfd1",
+   "art/menu32/out/sprites/flag_2.png": "6d865fbbccf9f108c89c0afe125fa0df6de42bf76930a2bb251c36c88b7dca0c",
+   "art/menu32/out/sprites/flag_20.png": "fbef1cc61193c933a9bc19896c851a2fc5121c97432093deeadc2467f072478f",
+   "art/menu32/out/sprites/flag_21.png": "089b0cb8f4431f21f9507b9aaa5dfe3f6f3012f01f1b58a129a099c93d11944e",
+   "art/menu32/out/sprites/flag_22.png": "e1182a62a3f30b608a2996aec1b0fc8eebe9f8f3c29dedfa60df666bb0fa337e",
+   "art/menu32/out/sprites/flag_23.png": "de9f748f25419367a6368bf49f605584440e14da1cd3d62a507b292420c6bdc2",
+   "art/menu32/out/sprites/flag_24.png": "0c5249bad1e57c1beb70d727966b1e897afbea5ebf8b10e75b71ddb2ba07f71d",
+   "art/menu32/out/sprites/flag_25.png": "b0f5b9fbae569c04b63aa386a0b0a72c3cf23602af625653f6aea26abc1722d0",
+   "art/menu32/out/sprites/flag_26.png": "d24bc0b9a0a0fa9d338804d40f4f673f0c409e8d54510d37aaac1264d2eeb483",
+   "art/menu32/out/sprites/flag_27.png": "5da79cf1e442fe1b8aa690e207e03d95d44b89c9cecc54396c9b54edb32207e3",
+   "art/menu32/out/sprites/flag_28.png": "1529d37f5f2e7a5d8a9e01823f6c8138e049b24373de452284a5eca4b44b2271",
+   "art/menu32/out/sprites/flag_29.png": "4315c20a51ddc45c6d3f4bb48d332b2626921da20b6f2092cd8cd95e46bd4c80",
+   "art/menu32/out/sprites/flag_3.png": "8f2e5398293cf52a65c66d42d69b4993809b6de12594c7fb2317bf60ac52c683",
+   "art/menu32/out/sprites/flag_30.png": "a8b34cd69c595d4473f61aad80390d9d5418012868d8e68cbd10c366dc62ad17",
+   "art/menu32/out/sprites/flag_31.png": "60c6ffde80ba6ac02f37661c88d8957167f3cd334a873ec3edb1b59dd67e293d",
+   "art/menu32/out/sprites/flag_4.png": "fc4743765a7ed68cce9e2328abca8d778690217d51331bb37e99afcdbdf8c2c8",
+   "art/menu32/out/sprites/flag_5.png": "3318c7208c73583e9c192b0486137c705088a625505046be24bb4a90f08be916",
+   "art/menu32/out/sprites/flag_6.png": "c09ef7d6be4987ff35b6af92e1f32b7d1ef8705e0f37c4e44158fc7c4ec9c8b4",
+   "art/menu32/out/sprites/flag_7.png": "cef5a161a0d863c2d49e2c144073383da0dcb3f0b491a0aba21b42587f3f8624",
+   "art/menu32/out/sprites/flag_8.png": "428780d6a3f71958620f560eb02fe8df90bb5f2ffeb3f378ac0fe7ce6aefd61b",
+   "art/menu32/out/sprites/flag_9.png": "86a9776a16ce44aad6b7abf6d533ca831fdbc516d95f72e298bacd6beb4d026e",
+   "data/teams32.json": "47a295f668285ddebefa2f869cbe5bd303f4e1c854e78021f9c4d9bc9c009c8c",
+   "tools/menu32_convert.py": "21a9d41922d788b00c7b84444d4e38a9dcb3554a48bc6b11f626675414ced685"
+  },
+  "tiles_free": 35,
+  "tiles_used": 221
+ },
+ "screens": {
+  "bracket": {
+   "attributes": "a0a0a0a0a0a0a0a0f0000084210000f0f0000000000000f0f0000000000000f0f0000000000000f084a5a5a50585a52144555555554050100000000000000000",
+   "nametable": "2020202020202020202020202020202020202020202020202020202020202020a1a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a3ba20202020204348414d50494f4e5348495020425241434b45542020202020bbba333220313620514620534620202020202020205346205146203136203332bba42020bc20202020202020202020bdbebfc020202020202020202020c12020a7a42020c22020bc20202020202020c3c4c5c620202020202020c12020c72020a7a42020c82020c92020202020202020cacb2020202020202020cc2020cd2020a7a42020ce2020cf2020bc2020202020d0d12020202020c12020d22020d32020a7a42020bc2020d42020c920204348414d50494f4e2020cc2020d52020c12020a7a42020c22020c92020d6202020202020202020202020d72020cc2020c72020a7a42020c82020ce2020d6202020d8d9dadbd9dc202020d72020d32020cd2020a7a42020ce2020202020cf2020c8202056532020cd2020d22020202020d32020a7a42020bc2020202020d42020ce202020202020d32020d52020202020c12020a7a42020c22020bc2020d6202020202020202020202020d72020c12020c72020a7a42020c82020c92020d6202020202020202020202020d72020cc2020cd2020a7a42020ce2020cf2020c9202020202020202020202020cc2020d22020d32020a7a42020bc2020d42020ce202020202020202020202020d32020d52020c12020a7a42020c22020c9202020202020202020202020202020202020cc2020c72020a7a42020c82020ce202020202020202020202020202020202020d32020cd2020a7a42020ce202020202020202020202020202020202020202020202020d32020a7a420acadadadadadadadadadadadadadadadadadadadadadadadadadadae20a7a4202020202020202020202020202020202020202020202020202020202020a7a4202020202020202020202020202020202020202020202020202020202020a7a4202020202020202020202020202020202020202020202020202020202020a7a4202020202020202020202020202020202020202020202020202020202020a7a4202020202020202020202020202020202020202020202020202020202020a7a4202020202020202020202020202020202020202020202020202020202020a7a4202020202020202020202020202020202020202020505245535320412020a7b7b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b92020202020202020202020202020202020202020202020202020202020202020",
+   "palette": "0c3830100c2830100c1628300c3d30100c2830160c2830160c2830160c283016",
+   "regions": {
+    "chip_a": {
+     "nt": 8963,
+     "palette": 1,
+     "width": 2
+    },
+    "chip_b": {
+     "nt": 9027,
+     "palette": 1,
+     "width": 2
+    },
+    "match": {
+     "nt": 8918,
+     "palette": 2,
+     "width": 8
+    },
+    "name_a": {
+     "nt": 8966,
+     "palette": 1,
+     "width": 14
+    },
+    "name_b": {
+     "nt": 9030,
+     "palette": 1,
+     "width": 14
+    },
+    "round": {
+     "nt": 8898,
+     "palette": 2,
+     "width": 14
+    },
+    "vs": {
+     "nt": 8998,
+     "palette": 1,
+     "width": 2
+    }
+   }
+  },
+  "selector": {
+   "attributes": "0000f0f0f0f00000000000000000000000000050005000000000000000000050a000000000000000000000000000000000000000000c0f030000000000000000",
+   "nametable": "2020202020202020202020202020202020202020202020202020202020202020a1a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a3a420202020a5a6202020202020202020202020202020202020a5a620202020a7a420202020a8a92043484f4f534520594f5552205445414d20a8a920202020a7a420202020aaab202020202020202020202020202020202020aaab20202020a7a420acadadadadadadadadadadadadadadadadadadadadadadadadadadae20a7a4afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afafa7b06465b1b26667b1b26869b1b26a6bb1b26c6db1b26e6fb1b27071b1b27273b3b00001b1b20203b1b20405b1b20607b1b20809b1b20a0bb1b20c0db1b20e0fb3a4b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b4a7a4afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afafa7b07475b1b27677b1b27879b1b27a7bb1b27c7db1b27e7fb1b28081b1b28283b3b01011b1b21213b1b21415b1b21617b1b20c18b1b2191ab1b21b1cb1b21d1eb3a4b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b4a7a4afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afafa7b08485b1b28687b1b28889b1b28a8bb1b28c8db1b28e8eb1b28f8fb1b29091b3b01f21b1b22223b1b22425b1b22605b1b22718b1b22829b1b22a2bb1b22c2db3a4b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b4a7a4afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afaf2020afafa7b09293b1b29494b1b29596b1b29798b1b2999ab1b29b9cb1b29d9eb1b29f73b3b02e2fb1b23a3bb1b23c3db1b23e3fb1b2405bb1b25c5db1b25e5fb1b26061b3a4b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b42020b4b4a7a420acadadadadadadadadadadadadadadadadadadadadadadadadadadae20a7a420afaf202020202020202020202020202020202020202020202020202020a7a4b22020b12020202020202020202020202020202020202020202020202020a7a420b4b4202020202020202020202020202020202020202020202020202020a7a4202020202020b5204d4f564520202020b62053454c454354202020202020a7a4202020202020202020202020202020202020202020202020202020202020a7b7b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b92020202020202020202020202020202020202020202020202020202020202020",
+   "palette": "0c2830160c1a30160c1a30280c1628300c2830160c2830160c2830160c283016",
+   "regions": {
+    "info_flag": {
+     "attr": {
+      "offset": 48,
+      "values": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       4,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       4,
+       8,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ]
+     },
+     "nt": 8962,
+     "palette": "flag",
+     "width": 2
+    },
+    "info_name": {
+     "nt": 8965,
+     "palette": 0,
+     "width": 14
+    },
+    "info_region": {
+     "nt": 8983,
+     "palette": 3,
+     "width": 7
+    }
+   }
+  }
+ },
+ "selector": {
+  "cards": [
+   [
+    1,
+    7
+   ],
+   [
+    5,
+    7
+   ],
+   [
+    9,
+    7
+   ],
+   [
+    13,
+    7
+   ],
+   [
+    17,
+    7
+   ],
+   [
+    21,
+    7
+   ],
+   [
+    25,
+    7
+   ],
+   [
+    29,
+    7
+   ],
+   [
+    1,
+    11
+   ],
+   [
+    5,
+    11
+   ],
+   [
+    9,
+    11
+   ],
+   [
+    13,
+    11
+   ],
+   [
+    17,
+    11
+   ],
+   [
+    21,
+    11
+   ],
+   [
+    25,
+    11
+   ],
+   [
+    29,
+    11
+   ],
+   [
+    1,
+    15
+   ],
+   [
+    5,
+    15
+   ],
+   [
+    9,
+    15
+   ],
+   [
+    13,
+    15
+   ],
+   [
+    17,
+    15
+   ],
+   [
+    21,
+    15
+   ],
+   [
+    25,
+    15
+   ],
+   [
+    29,
+    15
+   ],
+   [
+    1,
+    19
+   ],
+   [
+    5,
+    19
+   ],
+   [
+    9,
+    19
+   ],
+   [
+    13,
+    19
+   ],
+   [
+    17,
+    19
+   ],
+   [
+    21,
+    19
+   ],
+   [
+    25,
+    19
+   ],
+   [
+    29,
+    19
+   ]
+  ]
+ },
+ "teams": [
+  {
+   "chip": [
+    0,
+    1
+   ],
+   "code": "JPN",
+   "flag": [
+    100,
+    101
+   ],
+   "flag_palette": 0,
+   "id": 0,
+   "name": "JAPAN         ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    2,
+    3
+   ],
+   "code": "ARI",
+   "flag": [
+    102,
+    103
+   ],
+   "flag_palette": 0,
+   "id": 1,
+   "name": "ARIZONA       ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    4,
+    5
+   ],
+   "code": "PEN",
+   "flag": [
+    104,
+    105
+   ],
+   "flag_palette": 0,
+   "id": 2,
+   "name": "PENNSYLVANIA  ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    6,
+    7
+   ],
+   "code": "TPE",
+   "flag": [
+    106,
+    107
+   ],
+   "flag_palette": 0,
+   "id": 3,
+   "name": "CHINESE TAIPEI",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    8,
+    9
+   ],
+   "code": "KOR",
+   "flag": [
+    108,
+    109
+   ],
+   "flag_palette": 0,
+   "id": 4,
+   "name": "KOREA         ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    10,
+    11
+   ],
+   "code": "NY",
+   "flag": [
+    110,
+    111
+   ],
+   "flag_palette": 0,
+   "id": 5,
+   "name": "NEW YORK      ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    12,
+    13
+   ],
+   "code": "CAL",
+   "flag": [
+    112,
+    113
+   ],
+   "flag_palette": 0,
+   "id": 6,
+   "name": "CALIFORNIA    ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    14,
+    15
+   ],
+   "code": "TEX",
+   "flag": [
+    114,
+    115
+   ],
+   "flag_palette": 0,
+   "id": 7,
+   "name": "TEXAS         ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    16,
+    17
+   ],
+   "code": "HAW",
+   "flag": [
+    116,
+    117
+   ],
+   "flag_palette": 0,
+   "id": 8,
+   "name": "HAWAII        ",
+   "region": " HAWAII"
+  },
+  {
+   "chip": [
+    18,
+    19
+   ],
+   "code": "ESP",
+   "flag": [
+    118,
+    119
+   ],
+   "flag_palette": 0,
+   "id": 9,
+   "name": "SPAIN         ",
+   "region": " EUROPE"
+  },
+  {
+   "chip": [
+    20,
+    21
+   ],
+   "code": "PUR",
+   "flag": [
+    120,
+    121
+   ],
+   "flag_palette": 0,
+   "id": 10,
+   "name": "PUERTORICO    ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    22,
+    23
+   ],
+   "code": "MEX",
+   "flag": [
+    122,
+    123
+   ],
+   "flag_palette": 1,
+   "id": 11,
+   "name": "MEXICO        ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    12,
+    24
+   ],
+   "code": "CAN",
+   "flag": [
+    124,
+    125
+   ],
+   "flag_palette": 0,
+   "id": 12,
+   "name": "CANADA        ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    25,
+    26
+   ],
+   "code": "ITA",
+   "flag": [
+    126,
+    127
+   ],
+   "flag_palette": 1,
+   "id": 13,
+   "name": "ITALY         ",
+   "region": " EUROPE"
+  },
+  {
+   "chip": [
+    27,
+    28
+   ],
+   "code": "ILL",
+   "flag": [
+    128,
+    129
+   ],
+   "flag_palette": 0,
+   "id": 14,
+   "name": "ILLINOIS      ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    29,
+    30
+   ],
+   "code": "FLA",
+   "flag": [
+    130,
+    131
+   ],
+   "flag_palette": 0,
+   "id": 15,
+   "name": "FLORIDA       ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    31,
+    33
+   ],
+   "code": "AUS",
+   "flag": [
+    132,
+    133
+   ],
+   "flag_palette": 0,
+   "id": 16,
+   "name": "AUSTRALIA     ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    34,
+    35
+   ],
+   "code": "CUB",
+   "flag": [
+    134,
+    135
+   ],
+   "flag_palette": 0,
+   "id": 17,
+   "name": "CUBA          ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    36,
+    37
+   ],
+   "code": "DOM",
+   "flag": [
+    136,
+    137
+   ],
+   "flag_palette": 0,
+   "id": 18,
+   "name": "DOMINICAN REP ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    38,
+    5
+   ],
+   "code": "VEN",
+   "flag": [
+    138,
+    139
+   ],
+   "flag_palette": 0,
+   "id": 19,
+   "name": "VENEZUELA     ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    39,
+    24
+   ],
+   "code": "PAN",
+   "flag": [
+    140,
+    141
+   ],
+   "flag_palette": 0,
+   "id": 20,
+   "name": "PANAMA        ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    40,
+    41
+   ],
+   "code": "NED",
+   "flag": [
+    142,
+    142
+   ],
+   "flag_palette": 0,
+   "id": 21,
+   "name": "NETHERLANDS   ",
+   "region": " EUROPE"
+  },
+  {
+   "chip": [
+    42,
+    43
+   ],
+   "code": "GER",
+   "flag": [
+    143,
+    143
+   ],
+   "flag_palette": 0,
+   "id": 22,
+   "name": "GERMANY       ",
+   "region": " EUROPE"
+  },
+  {
+   "chip": [
+    44,
+    45
+   ],
+   "code": "RSA",
+   "flag": [
+    144,
+    145
+   ],
+   "flag_palette": 1,
+   "id": 23,
+   "name": "SOUTH AFRICA  ",
+   "region": " EUROPE"
+  },
+  {
+   "chip": [
+    46,
+    47
+   ],
+   "code": "BRA",
+   "flag": [
+    146,
+    147
+   ],
+   "flag_palette": 2,
+   "id": 24,
+   "name": "BRAZIL        ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    58,
+    59
+   ],
+   "code": "COL",
+   "flag": [
+    148,
+    148
+   ],
+   "flag_palette": 0,
+   "id": 25,
+   "name": "COLOMBIA      ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    60,
+    61
+   ],
+   "code": "NIC",
+   "flag": [
+    149,
+    150
+   ],
+   "flag_palette": 0,
+   "id": 26,
+   "name": "NICARAGUA     ",
+   "region": "AMERICA"
+  },
+  {
+   "chip": [
+    62,
+    63
+   ],
+   "code": "PHI",
+   "flag": [
+    151,
+    152
+   ],
+   "flag_palette": 0,
+   "id": 27,
+   "name": "PHILIPPINES   ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    64,
+    91
+   ],
+   "code": "HKG",
+   "flag": [
+    153,
+    154
+   ],
+   "flag_palette": 0,
+   "id": 28,
+   "name": "HONG KONG     ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    92,
+    93
+   ],
+   "code": "GUM",
+   "flag": [
+    155,
+    156
+   ],
+   "flag_palette": 0,
+   "id": 29,
+   "name": "GUAM          ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    94,
+    95
+   ],
+   "code": "NZL",
+   "flag": [
+    157,
+    158
+   ],
+   "flag_palette": 0,
+   "id": 30,
+   "name": "NEW ZEALAND   ",
+   "region": "   ASIA"
+  },
+  {
+   "chip": [
+    96,
+    97
+   ],
+   "code": "CZE",
+   "flag": [
+    159,
+    115
+   ],
+   "flag_palette": 0,
+   "id": 31,
+   "name": "CZECH REPUBLIC",
+   "region": " EUROPE"
+  }
+ ],
+ "tiles": [
+  {
+   "index": 0,
+   "pattern": "7fe4f5f4b5cd7f000000000000000000",
+   "source": "chip:0:0"
+  },
+  {
+   "index": 1,
+   "pattern": "fe6da569ededfe000000000000000000",
+   "source": "chip:0:1"
+  },
+  {
+   "index": 2,
+   "pattern": "7fccb584b5b57f000000000000000000",
+   "source": "chip:1:0"
+  },
+  {
+   "index": 3,
+   "pattern": "fe63b77777a3fe000000000000000000",
+   "source": "chip:1:1"
+  },
+  {
+   "index": 4,
+   "pattern": "7f8cb58cbdbc7f000000000000000000",
+   "source": "chip:2:0"
+  },
+  {
+   "index": 5,
+   "pattern": "fe2de569ed2dfe000000000000000000",
+   "source": "chip:2:1"
+  },
+  {
+   "index": 6,
+   "pattern": "7f88dbd8dbdb7f000000000000000000",
+   "source": "chip:3:0"
+  },
+  {
+   "index": 7,
+   "pattern": "fec35fc7dfc3fe000000000000000000",
+   "source": "chip:3:1"
+  },
+  {
+   "index": 8,
+   "pattern": "7fb6ad9dadb67f000000000000000000",
+   "source": "chip:4:0"
+  },
+  {
+   "index": 9,
+   "pattern": "fe63ada3ab6dfe000000000000000000",
+   "source": "chip:4:1"
+  },
+  {
+   "index": 10,
+   "pattern": "7ff6f2f4f6f67f000000000000000000",
+   "source": "chip:5:0"
+  },
+  {
+   "index": 11,
+   "pattern": "feafafdfdfdffe000000000000000000",
+   "source": "chip:5:1"
+  },
+  {
+   "index": 12,
+   "pattern": "7fc6bdbcbdc57f000000000000000000",
+   "source": "chip:6:0"
+  },
+  {
+   "index": 13,
+   "pattern": "fe6faf2fafa1fe000000000000000000",
+   "source": "chip:6:1"
+  },
+  {
+   "index": 14,
+   "pattern": "7f88dbd8dbd87f000000000000000000",
+   "source": "chip:7:0"
+  },
+  {
+   "index": 15,
+   "pattern": "fe5bdbe7db5bfe000000000000000000",
+   "source": "chip:7:1"
+  },
+  {
+   "index": 16,
+   "pattern": "7fb6b584b5b57f000000000000000000",
+   "source": "chip:8:0"
+  },
+  {
+   "index": 17,
+   "pattern": "fedd5d55495dfe000000000000000000",
+   "source": "chip:8:1"
+  },
+  {
+   "index": 18,
+   "pattern": "7f86bd8ebf847f000000000000000000",
+   "source": "chip:9:0"
+  },
+  {
+   "index": 19,
+   "pattern": "fe23ed63af6ffe000000000000000000",
+   "source": "chip:9:1"
+  },
+  {
+   "index": 20,
+   "pattern": "7f8db58dbdbe7f000000000000000000",
+   "source": "chip:10:0"
+  },
+  {
+   "index": 21,
+   "pattern": "fea3ada3ab6dfe000000000000000000",
+   "source": "chip:10:1"
+  },
+  {
+   "index": 22,
+   "pattern": "7fba92aababa7f000000000000000000",
+   "source": "chip:11:0"
+  },
+  {
+   "index": 23,
+   "pattern": "fe2ded73ed2dfe000000000000000000",
+   "source": "chip:11:1"
+  },
+  {
+   "index": 24,
+   "pattern": "fe6da529adadfe000000000000000000",
+   "source": "chip:12:1"
+  },
+  {
+   "index": 25,
+   "pattern": "7fc4eeeeeec67f000000000000000000",
+   "source": "chip:13:0"
+  },
+  {
+   "index": 26,
+   "pattern": "fe67dbc3dbdbfe000000000000000000",
+   "source": "chip:13:1"
+  },
+  {
+   "index": 27,
+   "pattern": "7f8bdbdbdb887f000000000000000000",
+   "source": "chip:14:0"
+  },
+  {
+   "index": 28,
+   "pattern": "fedfdfdfdf43fe000000000000000000",
+   "source": "chip:14:1"
+  },
+  {
+   "index": 29,
+   "pattern": "7f85bd8dbdbc7f000000000000000000",
+   "source": "chip:15:0"
+  },
+  {
+   "index": 30,
+   "pattern": "fef3ede1ed2dfe000000000000000000",
+   "source": "chip:15:1"
+  },
+  {
+   "index": 31,
+   "pattern": "7fcdb585b5b67f000000000000000000",
+   "source": "chip:16:0"
+  },
+  {
+   "font": 32,
+   "index": 32,
+   "source": "font: "
+  },
+  {
+   "index": 33,
+   "pattern": "feb1afb3bd63fe000000000000000000",
+   "source": "chip:16:1"
+  },
+  {
+   "index": 34,
+   "pattern": "7fc5bdbdbdc67f000000000000000000",
+   "source": "chip:17:0"
+  },
+  {
+   "index": 35,
+   "pattern": "fea3ada3ad63fe000000000000000000",
+   "source": "chip:17:1"
+  },
+  {
+   "index": 36,
+   "pattern": "7f9cababab9c7f000000000000000000",
+   "source": "chip:18:0"
+  },
+  {
+   "index": 37,
+   "pattern": "fedd49555dddfe000000000000000000",
+   "source": "chip:18:1"
+  },
+  {
+   "index": 38,
+   "pattern": "7fbabad6d6ee7f000000000000000000",
+   "source": "chip:19:0"
+  },
+  {
+   "index": 39,
+   "pattern": "7f8eb58cbdbd7f000000000000000000",
+   "source": "chip:20:0"
+  },
+  {
+   "index": 40,
+   "pattern": "7fb495a4b5b47f000000000000000000",
+   "source": "chip:21:0"
+  },
+  {
+   "index": 41,
+   "pattern": "fe23ed6ded23fe000000000000000000",
+   "source": "chip:21:1"
+  },
+  {
+   "index": 42,
+   "pattern": "7fc4bda4b5c47f000000000000000000",
+   "source": "chip:22:0"
+  },
+  {
+   "index": 43,
+   "pattern": "fe23ed63eb2dfe000000000000000000",
+   "source": "chip:22:1"
+  },
+  {
+   "index": 44,
+   "pattern": "7f8eb58eafb47f000000000000000000",
+   "source": "chip:23:0"
+  },
+  {
+   "index": 45,
+   "pattern": "fe33ed61ad6dfe000000000000000000",
+   "source": "chip:23:1"
+  },
+  {
+   "index": 46,
+   "pattern": "7f8cb58cb58d7f000000000000000000",
+   "source": "chip:24:0"
+  },
+  {
+   "index": 47,
+   "pattern": "fe73ad616dadfe000000000000000000",
+   "source": "chip:24:1"
+  },
+  {
+   "font": 48,
+   "index": 48,
+   "source": "font:0"
+  },
+  {
+   "font": 49,
+   "index": 49,
+   "source": "font:1"
+  },
+  {
+   "font": 50,
+   "index": 50,
+   "source": "font:2"
+  },
+  {
+   "font": 51,
+   "index": 51,
+   "source": "font:3"
+  },
+  {
+   "font": 52,
+   "index": 52,
+   "source": "font:4"
+  },
+  {
+   "font": 53,
+   "index": 53,
+   "source": "font:5"
+  },
+  {
+   "font": 54,
+   "index": 54,
+   "source": "font:6"
+  },
+  {
+   "font": 55,
+   "index": 55,
+   "source": "font:7"
+  },
+  {
+   "font": 56,
+   "index": 56,
+   "source": "font:8"
+  },
+  {
+   "font": 57,
+   "index": 57,
+   "source": "font:9"
+  },
+  {
+   "index": 58,
+   "pattern": "7fc6bdbdbdc67f000000000000000000",
+   "source": "chip:25:0"
+  },
+  {
+   "index": 59,
+   "pattern": "fe6fafafaf61fe000000000000000000",
+   "source": "chip:25:1"
+  },
+  {
+   "index": 60,
+   "pattern": "7fb496a6b6b47f000000000000000000",
+   "source": "chip:26:0"
+  },
+  {
+   "index": 61,
+   "pattern": "fe63dfdfdf63fe000000000000000000",
+   "source": "chip:26:1"
+  },
+  {
+   "index": 62,
+   "pattern": "7f8db58cbdbd7f000000000000000000",
+   "source": "chip:27:0"
+  },
+  {
+   "index": 63,
+   "pattern": "fea3b737b7a3fe000000000000000000",
+   "source": "chip:27:1"
+  },
+  {
+   "index": 64,
+   "pattern": "7fb5b584b5b57f000000000000000000",
+   "source": "chip:28:0"
+  },
+  {
+   "font": 65,
+   "index": 65,
+   "source": "font:A"
+  },
+  {
+   "font": 66,
+   "index": 66,
+   "source": "font:B"
+  },
+  {
+   "font": 67,
+   "index": 67,
+   "source": "font:C"
+  },
+  {
+   "font": 68,
+   "index": 68,
+   "source": "font:D"
+  },
+  {
+   "font": 69,
+   "index": 69,
+   "source": "font:E"
+  },
+  {
+   "font": 70,
+   "index": 70,
+   "source": "font:F"
+  },
+  {
+   "font": 71,
+   "index": 71,
+   "source": "font:G"
+  },
+  {
+   "font": 72,
+   "index": 72,
+   "source": "font:H"
+  },
+  {
+   "font": 73,
+   "index": 73,
+   "source": "font:I"
+  },
+  {
+   "font": 74,
+   "index": 74,
+   "source": "font:J"
+  },
+  {
+   "font": 75,
+   "index": 75,
+   "source": "font:K"
+  },
+  {
+   "font": 76,
+   "index": 76,
+   "source": "font:L"
+  },
+  {
+   "font": 77,
+   "index": 77,
+   "source": "font:M"
+  },
+  {
+   "font": 78,
+   "index": 78,
+   "source": "font:N"
+  },
+  {
+   "font": 79,
+   "index": 79,
+   "source": "font:O"
+  },
+  {
+   "font": 80,
+   "index": 80,
+   "source": "font:P"
+  },
+  {
+   "font": 81,
+   "index": 81,
+   "source": "font:Q"
+  },
+  {
+   "font": 82,
+   "index": 82,
+   "source": "font:R"
+  },
+  {
+   "font": 83,
+   "index": 83,
+   "source": "font:S"
+  },
+  {
+   "font": 84,
+   "index": 84,
+   "source": "font:T"
+  },
+  {
+   "font": 85,
+   "index": 85,
+   "source": "font:U"
+  },
+  {
+   "font": 86,
+   "index": 86,
+   "source": "font:V"
+  },
+  {
+   "font": 87,
+   "index": 87,
+   "source": "font:W"
+  },
+  {
+   "font": 88,
+   "index": 88,
+   "source": "font:X"
+  },
+  {
+   "font": 89,
+   "index": 89,
+   "source": "font:Y"
+  },
+  {
+   "font": 90,
+   "index": 90,
+   "source": "font:Z"
+  },
+  {
+   "index": 91,
+   "pattern": "feb16fe96db1fe000000000000000000",
+   "source": "chip:28:1"
+  },
+  {
+   "index": 92,
+   "pattern": "7fc5bda5b5c47f000000000000000000",
+   "source": "chip:29:0"
+  },
+  {
+   "index": 93,
+   "pattern": "fe5d49555d5dfe000000000000000000",
+   "source": "chip:29:1"
+  },
+  {
+   "index": 94,
+   "pattern": "7fb497a6b5b47f000000000000000000",
+   "source": "chip:30:0"
+  },
+  {
+   "index": 95,
+   "pattern": "fe2faf6fef21fe000000000000000000",
+   "source": "chip:30:1"
+  },
+  {
+   "index": 96,
+   "pattern": "7fc4bfbebdc47f000000000000000000",
+   "source": "chip:31:0"
+  },
+  {
+   "index": 97,
+   "pattern": "fe21af63ef21fe000000000000000000",
+   "source": "chip:31:1"
+  },
+  {
+   "index": 98,
+   "pattern": "6a008000800015006a00800080001500",
+   "source": "chip:empty:0"
+  },
+  {
+   "index": 99,
+   "pattern": "a800010001005600a800010001005600",
+   "source": "chip:empty:1"
+  },
+  {
+   "index": 100,
+   "pattern": "0000010303010000ffffffffffffffff",
+   "source": "flag:0:0"
+  },
+  {
+   "index": 101,
+   "pattern": "000080c0c0800000ffffffffffffffff",
+   "source": "flag:0:1"
+  },
+  {
+   "index": 102,
+   "pattern": "fffffefc000000001bc5f30f01020000",
+   "source": "flag:1:0"
+  },
+  {
+   "index": 103,
+   "pattern": "ffff7f3f00000000d8a3cff080400000",
+   "source": "flag:1:1"
+  },
+  {
+   "index": 104,
+   "pattern": "0003070707031f000000181310000000",
+   "source": "flag:2:0"
+  },
+  {
+   "index": 105,
+   "pattern": "00c0e0e0e0c0f800000018c808000000",
+   "source": "flag:2:1"
+  },
+  {
+   "index": 106,
+   "pattern": "0000010300000000fffef9fbf9fdfffa",
+   "source": "flag:3:0"
+  },
+  {
+   "index": 107,
+   "pattern": "000080c000000000ff7f9fdf9fbfffaf",
+   "source": "flag:3:1"
+  },
+  {
+   "index": 108,
+   "pattern": "0000010302000000ffafdffffedeafff",
+   "source": "flag:4:0"
+  },
+  {
+   "index": 109,
+   "pattern": "0000808000000000fff5fbbf3f7bf5ff",
+   "source": "flag:4:1"
+  },
+  {
+   "index": 110,
+   "pattern": "0001030203010f000000081908080000",
+   "source": "flag:5:0"
+  },
+  {
+   "index": 111,
+   "pattern": "0080c040c080f0000000109810100000",
+   "source": "flag:5:1"
+  },
+  {
+   "index": 112,
+   "pattern": "40e0431f1f05fffffffffce0e0faffff",
+   "source": "flag:6:0"
+  },
+  {
+   "index": 113,
+   "pattern": "0000f0f8f050ffffffff0f070fafffff",
+   "source": "flag:6:1"
+  },
+  {
+   "index": 114,
+   "pattern": "0000000007070707070727ff77570707",
+   "source": "flag:7:0"
+  },
+  {
+   "index": 115,
+   "pattern": "00000000ffffffffffffffffffffffff",
+   "source": "flag:7:1"
+  },
+  {
+   "index": 116,
+   "pattern": "10ff1000ff0000ffbbffbaffff00ffff",
+   "source": "flag:8:0"
+  },
+  {
+   "index": 117,
+   "pattern": "00ff0000ff0000ffffff00ffff00ffff",
+   "source": "flag:8:1"
+  },
+  {
+   "index": 118,
+   "pattern": "ffffffffffffffffffff10181800ffff",
+   "source": "flag:9:0"
+  },
+  {
+   "index": 119,
+   "pattern": "ffffffffffffffffffff00000000ffff",
+   "source": "flag:9:1"
+  },
+  {
+   "index": 120,
+   "pattern": "7f1f000101001f7f7f1f072171071f7f",
+   "source": "flag:10:0"
+  },
+  {
+   "index": 121,
+   "pattern": "ffff00ffff00ffffffffffffffffffff",
+   "source": "flag:10:1"
+  },
+  {
+   "index": 122,
+   "pattern": "f8f8f9fbf9fbf8f80707070706040707",
+   "source": "flag:11:0"
+  },
+  {
+   "index": 123,
+   "pattern": "1f1f9fdf9fdf1f1fffffffff7f3fffff",
+   "source": "flag:11:1"
+  },
+  {
+   "index": 124,
+   "pattern": "f0f1f5f7f3f1f1f0ffffffffffffffff",
+   "source": "flag:12:0"
+  },
+  {
+   "index": 125,
+   "pattern": "0f8fafefcf8f0f0fffffffffffffffff",
+   "source": "flag:12:1"
+  },
+  {
+   "index": 126,
+   "pattern": "f8f8f8f8f8f8f8f80707070707070707",
+   "source": "flag:13:0"
+  },
+  {
+   "index": 127,
+   "pattern": "1f1f1f1f1f1f1f1fffffffffffffffff",
+   "source": "flag:13:1"
+  },
+  {
+   "index": 128,
+   "pattern": "0000030303000000fffcf8f8f8fcffe0",
+   "source": "flag:14:0"
+  },
+  {
+   "index": 129,
+   "pattern": "0000c040c0000000ff3f1f1f1f3fff07",
+   "source": "flag:14:1"
+  },
+  {
+   "index": 130,
+   "pattern": "c0300d02030d30c0fffffefcfcfeffff",
+   "source": "flag:15:0"
+  },
+  {
+   "index": 131,
+   "pattern": "030cb0c040b00c03ffff7f3f3f7fffff",
+   "source": "flag:15:1"
+  },
+  {
+   "index": 132,
+   "pattern": "10fe100000000000bafeba0000103810",
+   "source": "flag:16:0"
+  },
+  {
+   "index": 133,
+   "pattern": "00000000000000000008002204000800",
+   "source": "flag:16:1"
+  },
+  {
+   "index": 134,
+   "pattern": "80e0f8de8ef8e08080e0fffefeffe080",
+   "source": "flag:17:0"
+  },
+  {
+   "index": 135,
+   "pattern": "00000000000000000000ff0000ff0000",
+   "source": "flag:17:1"
+  },
+  {
+   "index": 136,
+   "pattern": "0000000101fefefe010101fefeffffff",
+   "source": "flag:18:0"
+  },
+  {
+   "index": 137,
+   "pattern": "7f7f7f8080000000ffffff7f7f808080",
+   "source": "flag:18:1"
+  },
+  {
+   "index": 138,
+   "pattern": "ffffff000000ffff000000020810ffff",
+   "source": "flag:19:0"
+  },
+  {
+   "index": 139,
+   "pattern": "ffffff000000ffff000000401008ffff",
+   "source": "flag:19:1"
+  },
+  {
+   "index": 140,
+   "pattern": "0000000000000000fff7e3ff00000000",
+   "source": "flag:20:0"
+  },
+  {
+   "index": 141,
+   "pattern": "ffffffff00103800ffffffffffffffff",
+   "source": "flag:20:1"
+  },
+  {
+   "index": 142,
+   "pattern": "ffffff0000000000ffffffffff000000",
+   "source": "flag:21:0"
+  },
+  {
+   "index": 143,
+   "pattern": "000000ffffffffff000000ffff000000",
+   "source": "flag:22:0"
+  },
+  {
+   "index": 144,
+   "pattern": "1b37601f1f603018070f1f00001f0804",
+   "source": "flag:23:0"
+  },
+  {
+   "index": 145,
+   "pattern": "ffff00ffff000000ffffff0000ff0000",
+   "source": "flag:23:1"
+  },
+  {
+   "index": 146,
+   "pattern": "fffffefcfcfeffff0001061c1f060100",
+   "source": "flag:24:0"
+  },
+  {
+   "index": 147,
+   "pattern": "ffff7f3f3f7fffff00806038f8608000",
+   "source": "flag:24:1"
+  },
+  {
+   "index": 148,
+   "pattern": "ffffffff0000ffff000000000000ffff",
+   "source": "flag:25:0"
+  },
+  {
+   "index": 149,
+   "pattern": "0000000103000000000000fefc000000",
+   "source": "flag:26:0"
+  },
+  {
+   "index": 150,
+   "pattern": "00000080c00000000000007f3f000000",
+   "source": "flag:26:1"
+  },
+  {
+   "index": 151,
+   "pattern": "8000006461071fff00e0f89a9fffff7f",
+   "source": "flag:27:0"
+  },
+  {
+   "index": 152,
+   "pattern": "00000000ffffffff00000000ffffffff",
+   "source": "flag:27:1"
+  },
+  {
+   "index": 153,
+   "pattern": "fffef9f9fff8feffffffffffffffffff",
+   "source": "flag:28:0"
+  },
+  {
+   "index": 154,
+   "pattern": "ff7f4f9f7f9f7fffffffffffffffffff",
+   "source": "flag:28:1"
+  },
+  {
+   "index": 155,
+   "pattern": "ff808384848380ffff808082828080ff",
+   "source": "flag:29:0"
+  },
+  {
+   "index": 156,
+   "pattern": "ff01c12121c101ffff0101c1c10101ff",
+   "source": "flag:29:1"
+  },
+  {
+   "index": 157,
+   "pattern": "10fe100000000000bafeba0000000000",
+   "source": "flag:30:0"
+  },
+  {
+   "index": 158,
+   "pattern": "0008002200000800001c007700001c00",
+   "source": "flag:30:1"
+  },
+  {
+   "index": 159,
+   "pattern": "0000000001071f7f7f1f070101071f7f",
+   "source": "flag:31:0"
+  },
+  {
+   "index": 160,
+   "pattern": "fc84bca0a0e000000078404040000000",
+   "source": "sprite:cursor_corner"
+  },
+  {
+   "index": 161,
+   "pattern": "0000000000000000000f102324282828",
+   "source": "selector:0,1"
+  },
+  {
+   "index": 162,
+   "pattern": "000000000000000000ff00ff00000000",
+   "source": "selector:1,1"
+  },
+  {
+   "index": 163,
+   "pattern": "000000000000000000f008c424141414",
+   "source": "selector:31,1"
+  },
+  {
+   "index": 164,
+   "pattern": "00000000000000002828282828282828",
+   "source": "selector:0,2"
+  },
+  {
+   "index": 165,
+   "pattern": "0000000000000c0400000000030f1f3f",
+   "source": "selector:5,2"
+  },
+  {
+   "index": 166,
+   "pattern": "000000000000302000000000c0f0f8fc",
+   "source": "selector:6,2"
+  },
+  {
+   "index": 167,
+   "pattern": "00000000000000001414141414141414",
+   "source": "selector:31,2"
+  },
+  {
+   "index": 168,
+   "pattern": "0c0818101018080c7f7fffffffff7f7f",
+   "source": "selector:5,3"
+  },
+  {
+   "index": 169,
+   "pattern": "3010180808181030fefefffffffffefe",
+   "source": "selector:6,3"
+  },
+  {
+   "index": 170,
+   "pattern": "040c0000000000003f1f0f0300000000",
+   "source": "selector:5,4"
+  },
+  {
+   "index": 171,
+   "pattern": "2030000000000000fcf8f0c000000000",
+   "source": "selector:6,4"
+  },
+  {
+   "index": 172,
+   "pattern": "00000f140f0000000000000000000000",
+   "source": "selector:2,5"
+  },
+  {
+   "index": 173,
+   "pattern": "0000ff00ff0000000000000000000000",
+   "source": "selector:3,5"
+  },
+  {
+   "index": 174,
+   "pattern": "0000f028f00000000000000000000000",
+   "source": "selector:29,5"
+  },
+  {
+   "index": 175,
+   "pattern": "000000000000000000000000000000ff",
+   "source": "selector:1,6"
+  },
+  {
+   "index": 176,
+   "pattern": "00000000000000002929292929292929",
+   "source": "selector:0,7"
+  },
+  {
+   "index": 177,
+   "pattern": "00000000000000008080808080808080",
+   "source": "selector:3,7"
+  },
+  {
+   "index": 178,
+   "pattern": "00000000000000000101010101010101",
+   "source": "selector:4,7"
+  },
+  {
+   "index": 179,
+   "pattern": "00000000000000009494949494949494",
+   "source": "selector:31,7"
+  },
+  {
+   "index": 180,
+   "pattern": "0000000000000000ff00000000000000",
+   "source": "selector:1,9"
+  },
+  {
+   "index": 181,
+   "pattern": "00000000000000003828feaafe283800",
+   "source": "selector:7,26"
+  },
+  {
+   "index": 182,
+   "pattern": "3c66dbc3db7e3c003c7effffff7e3c00",
+   "source": "selector:17,26"
+  },
+  {
+   "index": 183,
+   "pattern": "00000000000000002828282423100f00",
+   "source": "selector:0,28"
+  },
+  {
+   "index": 184,
+   "pattern": "000000000000000000000000ff00ff00",
+   "source": "selector:1,28"
+  },
+  {
+   "index": 185,
+   "pattern": "000000000000000014141424c408f000",
+   "source": "selector:31,28"
+  },
+  {
+   "index": 186,
+   "pattern": "28282828282828282828282828282828",
+   "source": "bracket:0,2"
+  },
+  {
+   "index": 187,
+   "pattern": "14141414141414141414141414141414",
+   "source": "bracket:31,2"
+  },
+  {
+   "index": 188,
+   "pattern": "000000f010101010000000f010101010",
+   "source": "bracket:3,4"
+  },
+  {
+   "index": 189,
+   "pattern": "00000000000304080000000000000000",
+   "source": "bracket:14,4"
+  },
+  {
+   "index": 190,
+   "pattern": "00000000ff9fbfbf0000000000604040",
+   "source": "bracket:15,4"
+  },
+  {
+   "index": 191,
+   "pattern": "00000000ffffffff0000000000000000",
+   "source": "bracket:16,4"
+  },
+  {
+   "index": 192,
+   "pattern": "0000000000c020100000000000000000",
+   "source": "bracket:17,4"
+  },
+  {
+   "index": 193,
+   "pattern": "0000000f080808080000000f08080808",
+   "source": "bracket:28,4"
+  },
+  {
+   "index": 194,
+   "pattern": "101010ff00000000101010ff00000000",
+   "source": "bracket:3,5"
+  },
+  {
+   "index": 195,
+   "pattern": "08080403000000000000000000000000",
+   "source": "bracket:14,5"
+  },
+  {
+   "index": 196,
+   "pattern": "bfbfbfdf7f3f1f074040402000000000",
+   "source": "bracket:15,5"
+  },
+  {
+   "index": 197,
+   "pattern": "fffffffffefcf8e00000000000000000",
+   "source": "bracket:16,5"
+  },
+  {
+   "index": 198,
+   "pattern": "101020c0000000000000000000000000",
+   "source": "bracket:17,5"
+  },
+  {
+   "index": 199,
+   "pattern": "080808ff00000000080808ff00000000",
+   "source": "bracket:28,5"
+  },
+  {
+   "index": 200,
+   "pattern": "000000ff10101010000000ff10101010",
+   "source": "bracket:3,6"
+  },
+  {
+   "index": 201,
+   "pattern": "101010f010101010101010f010101010",
+   "source": "bracket:6,6"
+  },
+  {
+   "index": 202,
+   "pattern": "000001001f3f203f0303030700001f00",
+   "source": "bracket:15,6"
+  },
+  {
+   "index": 203,
+   "pattern": "00000000f8fc04fcc0c0c0e00000f800",
+   "source": "bracket:16,6"
+  },
+  {
+   "index": 204,
+   "pattern": "0808080f080808080808080f08080808",
+   "source": "bracket:25,6"
+  },
+  {
+   "index": 205,
+   "pattern": "000000ff08080808000000ff08080808",
+   "source": "bracket:28,6"
+  },
+  {
+   "index": 206,
+   "pattern": "101010f000000000101010f000000000",
+   "source": "bracket:3,7"
+  },
+  {
+   "index": 207,
+   "pattern": "1010101f000000001010101f00000000",
+   "source": "bracket:6,7"
+  },
+  {
+   "index": 208,
+   "pattern": "003f0000000000007f7f7f0000000000",
+   "source": "bracket:15,7"
+  },
+  {
+   "index": 209,
+   "pattern": "00fc000000000000fefefe0000000000",
+   "source": "bracket:16,7"
+  },
+  {
+   "index": 210,
+   "pattern": "080808f800000000080808f800000000",
+   "source": "bracket:25,7"
+  },
+  {
+   "index": 211,
+   "pattern": "0808080f000000000808080f00000000",
+   "source": "bracket:28,7"
+  },
+  {
+   "index": 212,
+   "pattern": "0000001f101010100000001f10101010",
+   "source": "bracket:6,8"
+  },
+  {
+   "index": 213,
+   "pattern": "000000f808080808000000f808080808",
+   "source": "bracket:25,8"
+  },
+  {
+   "index": 214,
+   "pattern": "10101010101010101010101010101010",
+   "source": "bracket:9,9"
+  },
+  {
+   "index": 215,
+   "pattern": "08080808080808080808080808080808",
+   "source": "bracket:22,9"
+  },
+  {
+   "index": 216,
+   "pattern": "00000001010101010000000101010101",
+   "source": "bracket:13,10"
+  },
+  {
+   "index": 217,
+   "pattern": "000000ff00000000000000ff00000000",
+   "source": "bracket:14,10"
+  },
+  {
+   "index": 218,
+   "pattern": "010101ff00000000010101ff00000000",
+   "source": "bracket:15,10"
+  },
+  {
+   "index": 219,
+   "pattern": "808080ff00000000808080ff00000000",
+   "source": "bracket:16,10"
+  },
+  {
+   "index": 220,
+   "pattern": "00000080808080800000008080808080",
+   "source": "bracket:18,10"
+  }
+ ]
+}

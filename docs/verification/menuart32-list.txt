@@ -1,0 +1,7 @@
+ROM SHA256 bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+controller-only menu=continue seed=31 played=24 results=00555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+actual password display and launched matchup match restored state
+active LIST OF TEAMS preserves heap and match index
+B returns to title; CONTINUE preserves the bracket and launches its actual next pair
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/menuart32/bracket-24.png

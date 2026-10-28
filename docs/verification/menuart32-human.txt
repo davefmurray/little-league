@@ -1,0 +1,9 @@
+ROM SHA256 bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+controller-only human team 1F, bracket_state=None
+matchup: scene 13/03; screenshot docs/verification/menuart32/1f-matchup.png
+cutscene: scene 11/01; screenshot docs/verification/menuart32/1f-cutscene.png
+order: scene 0F/08; screenshot docs/verification/menuart32/1f-order.png
+field: scene 03/07; screenshot docs/verification/menuart32/1f-field.png
+live teams 1f00, ownership 0080, human side 0
+field HUD side 0 has canonical label 'CZE' padded to five tiles
+field reached with selected team human; inspect captured labels
