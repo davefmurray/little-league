@@ -66,6 +66,7 @@ non-pitchers carry bit 7, and bits 3-6 affect pinch hitting and running.
 This stage sets bit 7 only for declared players 0/1/2 and preserves the
 remaining data. `high-roster-role-flags` tracks that separate repair.
 
-Per-round modifiers, control masks and batting bias remain separate open
-work. Password resume, the tournament team-list UI, manual gameplay and
+The later [teamtables32](teamtables32.md) stage repairs bonus and batting
+tables and guards the original ownership mask. Human-team selection and
+bracket ownership remain separate work. Password resume, the tournament team-list UI, manual gameplay and
 hardware/audio validation are not established by this gate.

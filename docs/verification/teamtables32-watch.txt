@@ -1,0 +1,13 @@
+loaded build/teamtables32.nes, navigated to CONTINUE/END
+match 00: stack $FF OK
+match 00: 0F v 00 -> $7720=0F (score 0-0) OK  index=01
+match 01: stack $FF OK
+match 01: 01 v 02 -> $7721=01 (score 0-0) OK  index=02
+match 02: stack $FF OK
+match 02: 03 v 04 -> $7722=03 (score 0-0) OK  index=03
+match 03: stack $FF OK
+match 03: 05 v 06 -> $7723=05 (score 2-0) OK  index=04
+match 04: stack $FF OK
+match 04: 07 v 08 -> $7724=07 (score 2-0) OK  index=05
+match 05: stack $FF OK
+timeout waiting for match 5 result after 20000 frames

@@ -19,6 +19,7 @@ BASE = os.path.join(ROOT, "build/direct20-names.nes")
 OUT = os.path.join(ROOT, "build/direct31.nes")
 GAMEPLAY_OUT = os.path.join(ROOT, "build/gameplay32.nes")
 CPU_OUT = os.path.join(ROOT, "build/cpu32.nes")
+TABLES_OUT = os.path.join(ROOT, "build/teamtables32.nes")
 
 
 def run(script, *args):
@@ -47,7 +48,8 @@ def main():
     run("build_roster_cache.py", s7, "-o", OUT)
     run("build_gameplay32.py", OUT, "-o", GAMEPLAY_OUT)
     run("build_cpu32.py", GAMEPLAY_OUT, "-o", CPU_OUT)
-    print(f"wrote {CPU_OUT}; baseline preserved at {OUT}")
+    run("build_teamtables32.py", CPU_OUT, "-o", TABLES_OUT)
+    print(f"wrote {TABLES_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":

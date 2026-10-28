@@ -71,7 +71,8 @@ These are player and side structures, independent of tournament team count.
 | Address | Meaning |
 |---|---|
 | `$0650` | Bracket slot array |
-| `$0746` | Round counter |
+| `$0746` | Stock tournament match counter; `$AAAB` maps it to a rating tier |
+| `$074B/$074C` | Stock 16-bit CPU ownership mask; set bit means CPU |
 | `$074B–$0756` | Password state bytes |
 
 ## Selector hack state (our code)

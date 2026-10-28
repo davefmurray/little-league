@@ -33,19 +33,21 @@ post-game bookkeeping.
 LDY $04EF,X
 LDA $9CD0,Y        ; bit mask for this team
 ...
-LDA $074B,Y        ; alive/result bitfield
+LDA $074B,Y        ; CPU ownership bitfield
 AND mask
 BEQ ...
 LDA #$80
-STA $04EB,X        ; $04EB/$04EC = side alive flag ($80)
+STA $04EB,X        ; $04EB/$04EC = CPU control flag ($80)
 ```
 
-- **`$04EB/$04EC`** = `$80` if the side is still alive/eligible.
-- **`$074B/$074C`** = 16-bit result/elimination bitfield (one bit per team).
+- **`$04EB/$04EC`** = `$80` for CPU control, zero for human control.
+- **`$074B/$074C`** = 16-bit CPU ownership mask (one bit per team).
 - `$9CD0` = `01 02 04 08 10 20 40 80` repeated twice for teams 0–15.
 
-`$9F55` ORs the winner’s bit back into `$074B,Y` after a game, confirming this is
-the persistent tournament state.
+`$9F55` records CPU ownership in `$074B,Y`. The result bits are handled
+separately by `$9F87`. Fixed `$C585` filters controller input according to
+the ownership flags. The teamtables32 stage preserves low-team ownership
+and defaults high teams to CPU without writing past the two-byte mask.
 
 ## Display setup
 
@@ -61,8 +63,8 @@ the persistent tournament state.
 ## What the 32-team scene must provide
 
 1. Write the two team ids to **`$04EF` / `$04F0`** before entering the game.
-2. Set **`$04EB` / `$04EC`** to `$80`.
-3. Keep its own 32-bit result state; do **not** reuse `$074B/$074C` (16 bits).
+2. Set **`$04EB` / `$04EC`** according to human or CPU ownership.
+3. Keep its own bracket result state; do **not** reuse the CPU mask `$074B/$074C`.
 4. Extend the team tables to 32 entries before handing over ids 16–31:
    names, ratings, rosters, flags, uniforms.
 5. Preserve `$0746` if the stock post-game path is reused, or provide a new

@@ -7077,3 +7077,40 @@ high-team full AB76 relief paths. Final source-only cleanup constrains
 relievers to players1/2 and names cache layout constants; output bytes
 remain338c1cc9. Other random role flags are tracked separately. Earlier
 hashes and champions describe intermediate evidence.
+
+
+## Round 280 — Remaining team tables
+
+The CPU unit is committed and pushed as9e2a61b. The next stage repairs
+three independent table boundaries. Bank4 packed bonuses move to a128-byte
+table preserving all64 low-team bytes and using neutral high-team values.
+All four batting-bias copies in banks0/1/3/5 now have32 entries. The stock
+16 signed biases stay intact; high teams use zero.
+
+Ownership is a16-bit CPU mask, not elimination state. The reader returns
+CPU for high teams and the writer skips their persistence. Low-team state,
+side swaps, controller routing and the shared result-bit reader remain
+unchanged. High-team human selection belongs to the next mode integration.
+
+The rebased output is775595bef3506de25f704fe0530f6833d8ce0541155110920e739f19425cd006,
+with274 changed bytes from338c1cc9. CPU tests cover465408 batting cases,
+all32 bonus/control boundaries,1024 team-pair routing, low-team parity,
+exact ownership and seven failing unpatched controls. A31-match speed
+soak passes, champion06, with stackFF at every entry. The combined source pipeline and stock6/full31 gate also pass.
+Independent review approves. It reran the CPU suite and checked all readers,
+free-space reservations and hook contracts. The watch evidence link, owned
+space list and unextended bank2 picker sites are now explicit; the
+constant-only assertion was removed.
+
+A controller-only watch run completed five matches, then waited at match5
+for a human. The field is live at scene03 with flags80/00 and teams0A/09.
+This confirms the inherited low-team ownership mask still assigns human
+teams; it is not proof of an emulator hang. watch-driver-match5 now depends
+on high-team-human-control. Speed-gate RAM injection remains disclosed.
+
+A separate selector prototype loaded the old four-page selector source
+into the otherwise blank bank10, routed the initial bracket entry through
+it, and removed the fixed player15 seed. Real Right/A input selected
+Australia16 and seeded it first among32 unique teams. It still duplicates
+the stock chooser and does not set human ownership. Production design is
+active; the prototype is not part of this table unit.

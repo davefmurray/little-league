@@ -329,18 +329,18 @@
       "verify": "CPU tests all32 x both sides with valid relief specialists and manager thresholds; full31 soak and stock gate",
       "attempts": 1,
       "evidence": "All32 CPU styles/relievers, threshold boundaries, used-state cases and2048 low-team queue parity; independent review approves338c1cc9; stock6/full31 pass in docs/verification/cpu32-soak.txt",
-      "last_commit": ""
+      "last_commit": "9e2a61b"
     },
     {
       "id": "team-table-audit",
       "title": "Repair remaining team-indexed gameplay tables",
       "priority": "P0",
-      "status": "active",
+      "status": "done",
       "depends_on": [],
-      "next": "Trace bank4 AABB team-by-round values, bank5 9CD0 human-control bitset and BC4F batting bias; define 32-team ownership and reproduce high-team reads beyond each table",
+      "next": "Retain neutral high-team bonus/bias policy and original low-team ownership. High-team human selection uses a separate mode; bypass unextended bank2 picker BA45/BB2E/BB49/BC70/BCB7/BD87.",
       "verify": "CPU boundary cases all32 teams and round/control settings; no reads into adjacent code; runtime full31 gate",
       "attempts": 1,
-      "evidence": "",
+      "evidence": "775595be passes full pipeline, stock6/full31 champion06 and stable stack; 465408 batting cases, all32 bonuses/ownership, low parity; independent review approves. docs/verification/teamtables32-gate.txt",
       "last_commit": ""
     },
     {
@@ -365,7 +365,7 @@
       "verify": "All32 teams starting and relief pitchers read intended eight-byte trailer records; used flags and stamina initialized correctly",
       "attempts": 1,
       "evidence": "All32 x both cache slots, exact288 addresses/291 writes, stock low pointers, stamina and intended eight-byte records; stock6/full31 pass; docs/verification/cpu32-cpu.txt",
-      "last_commit": ""
+      "last_commit": "9e2a61b"
     },
     {
       "id": "assembler-zp-width",
@@ -389,7 +389,7 @@
       "verify": "Execute cache load, AB22, AD42 and ABB8 for all32 teams and both sides; high starters use P1 records; full31 gate",
       "attempts": 1,
       "evidence": "AD42/ABB8 actual starter tests all32 x both sides; cache-only control failsplayer3, finalhighstartersplayer0/P1; stock6/full31 green in docs/verification/cpu32-soak.txt",
-      "last_commit": ""
+      "last_commit": "9e2a61b"
     },
     {
       "id": "high-team-human-control",
@@ -413,7 +413,7 @@
       "verify": "Fresh starters and all high-team relievers enter fatigue checks without immediate relief; forced-exhaustion cases still queue; full31 gate",
       "attempts": 1,
       "evidence": "Fresh starters and high P1/P2/P3 enter fatigue checks and stay in; disabled-normalization control fails; exhausted/used cases pass; independent fullAB76 probe64cases; docs/verification/cpu32-cpu.txt",
-      "last_commit": ""
+      "last_commit": "9e2a61b"
     },
     {
       "id": "watch-driver-match5",
@@ -434,11 +434,11 @@
       "id": "high-roster-role-flags",
       "title": "Define high-team fielder and CPU substitution role flags",
       "priority": "P0",
-      "status": "queued",
+      "status": "active",
       "depends_on": [],
       "next": "Audit generated random flag bits: 39 nonpitchers have bit7, and bits3-6 drive pinch hitting/running; choose intentional role metadata or safe defaults without changing pinned intermediates",
       "verify": "Actual bank1 fielder state and bank5 pinch-hit/run paths use deliberate flags; low-team behavior unchanged",
-      "attempts": 0,
+      "attempts": 1,
       "evidence": "",
       "last_commit": ""
     }

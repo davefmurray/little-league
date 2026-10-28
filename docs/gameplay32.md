@@ -31,7 +31,9 @@ Run the pipeline with the repository Python environment:
 The pipeline retains `build/direct31.nes` as the pinned regression baseline
 and writes these core repairs to `build/gameplay32.nes`. It then builds
 [cpu32](cpu32.md), which repairs CPU pitching tables and the runtime
-roster view. These files are
+roster view. The final [teamtables32](teamtables32.md) stage extends rating
+bonuses, all four batting-bias tables and the compatibility ownership
+guards. These files are
 ignored by git. The repair deliberately pins the exact baseline independently
 of the manifest. Updating the manifest alone does not authorize a new
 input; roster changes require reviewing and updating the repair pin too.
@@ -52,8 +54,9 @@ compatibility, audio quality, or password resume support.
 
 The gameplay32 intermediate still has high-team defects in CPU pitching
 tables and the runtime pitcher-record view; the cpu32 stage repairs them.
-Per-round modifiers, the human-control mask and batting bias remain open
-in `docs/backlog.json`. The empty-row branch is
+The teamtables32 stage preserves low-team ownership and defaults high
+teams to CPU. Human selection and bracket ownership remain open in
+`docs/backlog.json`. The empty-row branch is
 covered by CPU producer/consumer tests; its execution was not measured
 during the tournament soak.
 
