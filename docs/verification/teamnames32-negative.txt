@@ -1,0 +1,14 @@
+ROM SHA256 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
+controller-only selected team 1F
+matchup: scene 13/03; screenshot /tmp/names32-before/1f-matchup.png
+cutscene: scene 11/01; screenshot /tmp/names32-before/1f-cutscene.png
+order: scene 0F/08; screenshot /tmp/names32-before/1f-order.png
+field: scene 03/07; screenshot /tmp/names32-before/1f-field.png
+Traceback (most recent call last):
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_team_names.py", line 86, in <module>
+    main()
+    ~~~~^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_team_names.py", line 70, in main
+    assert actual == expected.encode("ascii"), (actual, expected)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (b'FLO', 'CZE')

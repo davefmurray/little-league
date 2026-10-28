@@ -1,0 +1,146 @@
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 10
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/10-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/10-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/10-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/10-field.png
+field HUD has canonical code AUS
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 11
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/11-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/11-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/11-order.png
+field: scene 03/00; screenshot /tmp/teamnames32-ui/11-field.png
+field HUD has canonical code CUB
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 12
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/12-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/12-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/12-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/12-field.png
+field HUD has canonical code DOM
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 13
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/13-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/13-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/13-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/13-field.png
+field HUD has canonical code VEN
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 14
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/14-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/14-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/14-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/14-field.png
+field HUD has canonical code PAN
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 15
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/15-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/15-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/15-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/15-field.png
+field HUD has canonical code NED
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 16
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/16-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/16-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/16-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/16-field.png
+field HUD has canonical code GER
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 17
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/17-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/17-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/17-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/17-field.png
+field HUD has canonical code RSA
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 18
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/18-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/18-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/18-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/18-field.png
+field HUD has canonical code BRA
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 19
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/19-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/19-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/19-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/19-field.png
+field HUD has canonical code COL
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 1A
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/1a-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/1a-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/1a-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/1a-field.png
+field HUD has canonical code NIC
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 1B
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/1b-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/1b-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/1b-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/1b-field.png
+field HUD has canonical code PHI
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 1C
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/1c-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/1c-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/1c-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/1c-field.png
+field HUD has canonical code HKG
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 1D
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/1d-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/1d-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/1d-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/1d-field.png
+field HUD has canonical code GUM
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 1E
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/1e-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/1e-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/1e-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/1e-field.png
+field HUD has canonical code NZL
+field reached with selected team human; inspect captured labels
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 1F
+matchup: scene 13/03; screenshot /tmp/teamnames32-ui/1f-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-ui/1f-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-ui/1f-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-ui/1f-field.png
+field HUD has canonical code CZE
+field reached with selected team human; inspect captured labels
+All16 high-team controller flows reach human play with canonical five-tile HUD labels. Larger labels require visual inspection.
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only selected team 00
+matchup: scene 13/03; screenshot /tmp/names32-low-after/00-matchup.png
+cutscene: scene 11/01; screenshot /tmp/names32-low-after/00-cutscene.png
+order: scene 0F/08; screenshot /tmp/names32-low-after/00-order.png
+field: scene 03/00; screenshot /tmp/names32-low-after/00-field.png
+field reached with selected team human; inspect captured labels
+Low-team00 nametables match password32 exactly on all four captured screens.
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only human team 1F, bracket_state=None
+matchup: scene 13/03; screenshot /tmp/teamnames32-final-ui/1f-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-final-ui/1f-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-final-ui/1f-order.png
+field: scene 03/07; screenshot /tmp/teamnames32-final-ui/1f-field.png
+live teams 1f00, ownership 0080, human side 0
+field HUD side 0 has canonical label 'CZE' padded to five tiles
+field reached with selected team human; inspect captured labels

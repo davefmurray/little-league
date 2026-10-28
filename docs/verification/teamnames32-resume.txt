@@ -1,0 +1,14 @@
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only menu=continue seed=0 played=15 results=00005555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /tmp/teamnames32-restored.png
+ROM SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+controller-only human team 1F, bracket_state=/tmp/teamnames32-restored.state
+matchup: scene 13/03; screenshot /tmp/teamnames32-resume/1f-matchup.png
+cutscene: scene 11/01; screenshot /tmp/teamnames32-resume/1f-cutscene.png
+order: scene 0F/08; screenshot /tmp/teamnames32-resume/1f-order.png
+field: scene 03/00; screenshot /tmp/teamnames32-resume/1f-field.png
+live teams 1e1f, ownership 8000, human side 1
+field HUD side 0 has canonical label 'NZL' padded to five tiles
+field HUD side 1 has canonical label 'CZE' padded to five tiles
+field reached with selected team human; inspect captured labels

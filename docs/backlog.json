@@ -147,7 +147,7 @@
       "verify": "Controller-only inactive-password and active-list/title navigation preserve heap and index",
       "attempts": 4,
       "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
-      "last_commit": ""
+      "last_commit": "d45048f"
     },
     {
       "id": "list-seed",
@@ -161,7 +161,7 @@
       "verify": "Controller-only LIST shows all32 tournament codes, exits on fresh A/B and preserves state",
       "attempts": 1,
       "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
-      "last_commit": ""
+      "last_commit": "d45048f"
     },
     {
       "id": "password-decode",
@@ -173,7 +173,7 @@
       "verify": "Host/CPU checks and actual typed password restore at0,1,15,16,23,27,29,30,31 completed matches",
       "attempts": 3,
       "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
-      "last_commit": ""
+      "last_commit": "d45048f"
     },
     {
       "id": "password-encode",
@@ -187,7 +187,7 @@
       "verify": "Actual displayed password decodes to heap/index/mask and typed restore matches",
       "attempts": 1,
       "evidence": "password32 978abc42; independent codec and hook reviews approve; docs/verification/password32-{codec-cpu,hooks-cpu,pipeline,gate,resume,list,ui}.txt; stock6/full31 and nine typed resume checkpoints pass",
-      "last_commit": ""
+      "last_commit": "d45048f"
     },
     {
       "id": "soak-26",
@@ -425,7 +425,7 @@
       "verify": "Controller-only watch run reaches at least16 matches and explains the initial stall",
       "attempts": 1,
       "evidence": "docs/verification/control32-watch.txt: controller-only 31/31, champion 1E, game-over 1 and stack FF; previous stall waited for human-team input",
-      "last_commit": ""
+      "last_commit": "d45048f"
     },
     {
       "id": "high-roster-role-flags",
@@ -457,10 +457,52 @@
       "id": "high-team-display-names",
       "title": "Use selected high-team names on game and order screens",
       "priority": "P1",
-      "status": "queued",
+      "status": "done",
       "depends_on": [],
-      "next": "Controller-only team31 selection is CZECH REPUBLIC, but pre-game says TEAM32, order T32 and field HUD FLO. Audit name readers and remove 16-team aliasing without changing gameplay or pinned earlier stages.",
+      "next": "Accepted canonical full names and high-team HUD codes; visual-table repairs are separate.",
       "verify": "CPU all32 name readers; screenshots high16/31 names at matchup/order/field; source gate and final31 soak",
+      "attempts": 1,
+      "evidence": "teamnames32 5998632d; independent review approves; 1845 CPU oracles,3600 low parity,2400 metadata cases; all16 high controller HUDs, restored two-high matchup, low00 nametable parity, stock6/full31 champion07; docs/teamnames32.md",
+      "last_commit": ""
+    },
+    {
+      "id": "matchup-round32",
+      "title": "Show the actual five-round stage on the matchup screen",
+      "priority": "P1",
+      "status": "queued",
+      "depends_on": [
+        "high-team-display-names"
+      ],
+      "next": "Design a guarded visual-table stage after teamnames32; preserve original low-team and stock-series behavior.",
+      "verify": "All31 match indices choose correct labels; stock16 mode retains exact output; password-restored final renders FINALS",
+      "attempts": 0,
+      "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "high-team-flag-bounds",
+      "title": "Bound gameplay flag reads for teams16-31",
+      "priority": "P1",
+      "status": "queued",
+      "depends_on": [
+        "high-team-display-names"
+      ],
+      "next": "Design a guarded visual-table stage after teamnames32; preserve original low-team and stock-series behavior.",
+      "verify": "No high-team flag-table overread; low flags unchanged; high flags omitted until real artwork exists",
+      "attempts": 0,
+      "evidence": "",
+      "last_commit": ""
+    },
+    {
+      "id": "uniform-palette32",
+      "title": "Use declared valid uniform palettes for teams16-31",
+      "priority": "P1",
+      "status": "queued",
+      "depends_on": [
+        "high-team-display-names"
+      ],
+      "next": "Design a guarded visual-table stage after teamnames32; preserve original low-team and stock-series behavior.",
+      "verify": "All32 team palette reads stay within owned data; low palettes unchanged; high palettes use documented stock presets",
       "attempts": 0,
       "evidence": "",
       "last_commit": ""

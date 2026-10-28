@@ -1,0 +1,23 @@
+base 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
+candidate 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+execution guard: both misaligned ending probes fail before entering PPU mirror space
+ownership: exactly 700 changed bytes within manifest; header, CHR, low names/flags, CONTINUE and bias preserved
+input guards: pinned hash, size/header and manifest overlap, length, bank bounds and preimages enforced
+metadata: 37 invalid records rejected; 2400 CPU cases at name lengths 1/11/12/13/14 and code lengths 2/3
+output guards: input, original ROM, metadata, Python, symbolic/hard aliases, 11 pinned hashes and 10 real ROM copies protected
+CLI: source-relative metadata, deterministic rebuilds and rejected writes verified from another working directory
+oracle: 1845 reader/team/side/opponent cases, 0 failures
+parity: 3600 low-team cases compared on full machine state
+writes: high-team RAM and I/O writes are within the low-team write set
+readbank matchup: bank1 $9180-$BDBF ['full', 'stockfull']
+readbank pregame: bank1 $B2F6-$BDBE ['full', 'longptr', 'stocklong']
+readbank order: bank1 $BEAE-$BFFB ['short', 'shortptr']
+readbank field_hud: bank1 $936E-$BE3F ['codes', 'stockcodes']
+readbank box_score: bank1 $936E-$BE3F ['codes', 'stockcodes']
+readbank team_select: bank1 $BDB0-$BDBF ['full']
+readbank power_analysis: bank1 $BDB0-$BDBF ['full']
+readbank ending_short: bank1 $BEAE-$BFFB ['short', 'shortptr']
+readbank ending_full: bank1 $BDB0-$BDBF ['full']
+negative: base ROM high-team oracle failures per reader: {'matchup': 16, 'pregame': 16, 'order': 16, 'field_hud': 16, 'box_score': 16, 'team_select': 16, 'power_analysis': 16, 'ending_short': 16, 'ending_full': 16}
+teamnames32 SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+PASS (12.0s)

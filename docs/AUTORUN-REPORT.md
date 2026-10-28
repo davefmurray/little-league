@@ -7219,3 +7219,33 @@ champion 1E. It uses the menu COM toggle and never forces ownership in
 RAM. SPEED gates still do that on field entry and are labeled accordingly.
 This closes watch-driver-match5. High-team name rendering and physical
 hardware/audio validation remain open.
+
+
+## Round 285: accepted team-name readers
+
+teamnames32 5998632d changes 700 bytes above password32. Canonical full
+names replace the legacy placeholders; descriptor slots 2/3 supply high
+codes/full names without losing the team high bit. Two 13-byte hooks fix
+HUD and box-score selection. Low-team names and font flags are unchanged.
+
+Independent review approves the ROM, guarded builder and corrected test.
+The final CPU run has 1,845 reader cases, 3,600 exact low-team comparisons
+and 2,400 metadata boundary cases. The prototype's ending probes began
+one byte early and fitted their expected headers to a stray JSR into
+PPU mirror space. They now start at AC85/ACCD with header20, and the
+harness rejects execution outside PRG ROM. The earlier gate CPU section
+predates this test correction; teamnames32-cpu.txt is the final CPU record.
+The ROM bytes never changed.
+
+All 16 high teams reach human gameplay with their canonical five-tile HUD
+labels. Team0's complete nametables match password32 on the four captured
+screens. CZECH REPUBLIC, DOMINICAN REP, SOUTH AFRICA and NETHERLANDS were
+visually inspected for fit. A typed password restores a match with high
+teams on both sides; CZE/NZL labels remain correct after the ownership
+swap. Box score and ending evidence is CPU-only.
+
+The full source pipeline reproduces the hash; stock6/full31 SPEED passes,
+champion07, game-over1 and stackFF. SPEED's CPU forcing remains disclosed.
+The audit found three separate defects: high flags and uniforms overread
+16-entry tables, and matchup labels always show1ST ROUND. Three backlog
+items now own a bounded visual-table follow-up. No new flag art is claimed.

@@ -1,211 +1,56 @@
-# Handoff — 32-team launch bridge
+# Current 32-team handoff
 
-**State: the launch bridge works.** Bracket → A → password screen → matchup →
-speed mode → cutscene → field, with a balanced stack and green regression.
+Start with [32-team-status.md](32-team-status.md),
+[backlog.json](backlog.json) and [TODO-NEXT.md](../TODO-NEXT.md).
+The old launch investigation is preserved in git history.
 
-The full probe record and the four root causes are in
-[`docs/LAUNCH-DEBUG-LOG.md`](LAUNCH-DEBUG-LOG.md). Read that before touching the
-launch path; this file is the map, not the story.
+The accepted candidate is `build/teamnames32.nes`, SHA-256
+`5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c`.
+The source pipeline reproduces it from the existing
+`build/direct20-names.nes` bootstrap artifact. The original-ROM-only
+bootstrap is not yet reproducible from committed scripts alone.
 
----
+## Continue work
 
-## 1. What works
+Run `python3 tools/backlog.py pick`. The remaining software tasks are
+matchup round labels, high-team flag bounds and uniform palette bounds.
+The bounded visual-table design lives in
+`build/pitch-design/visual-tables.md` when that delegated design completes.
+Root owns the romdev server and every emulator session. Parallel workers
+must use isolated CPU tests and must not touch emulator sessions.
 
-- 32 teams × 20 players in bank 8 (`data/roster.json`).
-- 32-team selector in bank 10 (`data/teams32.json`).
-- 32-team bracket screen in bank 11, seeded from `$07C3`.
-- **Bracket → stock launch**, via the call-based bridge below:
-  - bracket A sets `$04EF/$04F0`, `$07FF` and `RTS`es;
-  - the trampoline rebuilds the password buffer and re-enters the stock
-    scene-18 body;
-  - stock takes over: password screen → matchup → speed mode → cutscene → field.
-- **Selector → bracket → launch** in the production build: the selector's A
-  hands the stock dispatcher scene 18, the hook runs the bracket, and the same
-  bridge resumes. Reaches password → matchup → speed mode → cutscene → field.
-- **All 32 team ids launch and play.** `--direct-teams` + `build_names32.py`
-  extend the two 16-entry name tables and bypass the 4-bit team unpack.
-- **A full game completes.** With `--roster-cache` on the dispatcher, a COM
-  game reaches the box score and `A` advances the tournament (`$0746` 0→1,
-  next matchup). Without the cache the post-game path jumps into RAM.
-- Stock regression green:
+Physical hardware/audio validation remains blocked on an external setup.
+Do not mark that task complete from emulator or savestate evidence.
 
-```sh
-.venv/bin/python tools/verify_regression.py \
-  "Little League Baseball - Championship Series (USA).nes" build/launch-stock.nes
-# screenshots MATCH, system_ram differs in 0 bytes
-```
+## Accepted behavior and evidence
 
-## 2. Build chain
+Names, all 32 human selections, completed-game bracket advancement,
+password restore, LIST and CONTINUE have committed builders and tests.
+See the linked status document for each stage and its limitations.
+The final name ROM passes stock-six/full-31 SPEED gates. Control32 also
+passes a full controller-only WATCH tournament. SPEED writes CPU control
+flags on field entry; it does not prove human gameplay.
 
-```sh
-BASE="Little League Baseball - Championship Series (USA).nes"
-.venv/bin/python tools/expand_rom.py "$BASE" -o build/32x20.nes
-.venv/bin/python tools/build_32x20.py build/32x20.nes data/roster.json -o build/32x20-ui.nes
-.venv/bin/python tools/build_select_screen.py build/32x20-ui.nes data/teams32.json -o build/select-screen.nes
-python3 tools/build_dispatcher.py build/select-screen.nes --roster-cache -o build/dispatcher.nes
-.venv/bin/python tools/build_bracket_screen.py build/dispatcher.nes --loop-to 0x8100 -o build/bracket-screen.nes
+Team-name CPU probes use ending entries `$AC85` and `$ACCD`. Their old
+one-byte-early entries executed PPU mirror space; the harness now rejects
+execution below PRG ROM. Controller probes must follow team identity
+through stock home/away swaps, rather than assume the human is side 0.
 
-# launch bridge (production: selector -> bracket -> launch)
-.venv/bin/python tools/build_bracket_input.py build/bracket-screen.nes \
-  --return-on-a -o build/bracket-launch-input.nes
-.venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
-  -o build/launch-prod.nes
+## Invariants
 
-# harness build: stock team select -> END -> bracket -> launch
-.venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
-  --stock-flow -o build/launch-stock.nes
+- `$06E2-$06F3` is the stock 18-byte lineup, nine rows per side. Each byte
+  packs player number and field position. `$06F4` onward holds scores.
+- Do not restore any pair-chain patch or the abandoned 32-byte initializer.
+  Bank 7 is a stale copy and is not the live fixed bank.
+- Bracket seeding happens once per series. `$07C3` is cleared by stock
+  match initialization; redraws must retain the heap at `$7700`.
+- CPU ownership uses `$074B/$074C/$07F1/$07F2`, set bit means CPU.
+  The 32-team mode requires `$07ED != 0` and `$07EF == $32`.
+- Preserve the input and output hashes of accepted stages. New repair
+  stages build on the final candidate and guard every claimed ROM region.
+- Use `tools/build_32team_full.py` and `tools/verify.sh --with-soak` for
+  integrated validation. Read each stage document before claiming space.
 
-# 32-team build (ids 16-31 selectable and playable)
-.venv/bin/python tools/build_launch_bridge.py build/bracket-launch-input.nes \
-  --direct-teams -o build/launch-direct.nes
-python3 tools/build_names32.py build/launch-direct.nes -o build/launch32.nes
-
-# 32-team tournament state (experimental)
-python3 tools/build_32bracket.py build/launch-direct.nes --state --keep-seed \
-  -o build/state.nes
-python3 tools/build_names32.py build/state.nes -o build/launch32state.nes
-```
-
-`--roster-cache` prepends `JSR $FB90` to the `$FF00` dispatcher (and reloads
-`A=$80` before its `STA $2000`). `build_32x20.py` repoints roster reads to
-`$7F00`, so if the cache never runs those reads return zeros and the
-end-of-game/box-score path jumps into RAM (`PC=$7703`, jammed) — it must be in
-the chain.
-
-`--stock-flow` restores stock `$CC06` so the stock team-select path runs and
-END reaches `$98B9`; it is **test scaffolding** and the path that verifiably
-reaches the field. It bypasses the dispatcher, so it does **not** run the
-roster cache and will still crash after a game.
-
-Build outputs are gitignored.
-
-## 3. Key addresses
-
-| Address | Meaning |
-|---|---|
-| `$07C3` | selected team (`$FF` = selector, otherwise team id) |
-| `$04EF/$04F0` | matchup team IDs, set at `$9C00` from `$0650[$8941[...]]` |
-| `$0650-$065F` | 16-team tournament buffer (seeded by `$FF60` from `$7700`) |
-| `$074D-$0754` | packed password bytes, rebuilt by `$FF60` |
-| `$0670-$067F` | per-team win counts (cleared by `$FF60`) |
-| `$7700-$771F` | 32-team seed order (bracket), source for the handoff |
-| `$9B5F` | 4-bit unpacker: rebuilds `$0650` from `$074D` |
-| `$9BFD` | matchup's `JSR $9B5F` call site (`--direct-teams` patches it) |
-| `$9C00` | matchup team setup: `$04EF/$04F0 = $0650[$8941[3*$0746]]` |
-| `$0522` | lineup-init flag: `$FF` at boot, cleared by the stock team select |
-| `$B2D6` | 16-entry long-name pointer table (loader `$AF53`) |
-| `$9280` | 16-entry short-name pointer table (loader `$C958`, fixed bank) |
-| `$BC80/$BD40` | `build_names32.py` 32-entry replacement tables |
-| `$33/$34` | team ids used by the password/game path |
-| `$047B` | scene id |
-| `$047C` | scene sub-state / sub-handler index |
-| `$047D` | frame flag: main loop waits for 0, NMI clears it, `$CC0E` sets it |
-| `$0522` | lineup-init flag: `$FF` at boot, cleared by the stock team select; scene 15 skips its init when nonzero |
-| `$2C` | NMI reentrancy guard (`$CD8A`) |
-| `$2D` | bank-switch / deferred-task guard (`$C14E`, `$CF74`, `$CE45`) |
-| `$AD` | PPU mask shadow (`$2001`), compared at `$CDBD` |
-| `$CC52` | scene handler table, word at `$CC52 + 2*scene` |
-| `$CCAC` | scene bank table, indexed `scene >> 1` |
-| `$C232` | RTS-table dispatcher (pops its return address) |
-| `$CC09` | stock main loop |
-| `$CC0E` | main loop after `$047D` wait |
-| `$98B9` | **scene-18 handler** (`END` / series init), bank 5 |
-| `$98D5` | password buffer builder; polls `$047D`, needs NMI |
-| `$995F` | **scene-19 handler** (password screen), bank 5 |
-| `$CF74` | NMI/main-loop deferred-task helper; calls `$8048`/`$816C` in the **current bank** |
-| `$C040` | ROM constant `$40` — **also MMC1 CHR-1. Never store to it.** |
-| `$8000/$8100` | bracket screen / input in bank 11 |
-| `$8200` | seed routine in bank 11 |
-| `$B000/$B100/$B200` | codes / palette / display list |
-
-## 4. The bridge
-
-`tools/build_launch_bridge.py`:
-
-- Bank 5 `$98B9`: `4C 20 FF EA EA EA` (`JMP $FF20`; NOPs). The scene-18
-  handler is tail-jumped, so the stock caller's frame stays on the stack.
-- Fixed bank `$FF20` (59 bytes, listed in the log): assert `$2C/$2D`, NMI
-  off, bank 11, `JSR $8000` (bracket), bank 5, `$AD=$1E`, NMI on, `$047B=$12`,
-  `$0522=0`, `JSR $FF60`, release guards, `JMP $98C0`.
-- Fixed bank `$FF60` (`TEAMSETUP`): `$064F=$FF`, `$7700[0..15] -> $0650`,
-  clear `$0670[0..15]`, repack `$074D..$0754`. This is what makes the field
-  teams match the bracket's first-round pair.
-- Optional experiments: `--skip-password` enters scene 19 at the matchup
-  substate (`$98C8: 07 -> 02`); `--direct-teams` patches `$9BFD: JSR $9B5F`
-  to `JSR $FF60`, so the matchup reads `$7700` directly instead of the 4-bit
-  packed password. Needed for team ids 16-31, which the stock password
-  truncates to 0-15. Teams 16-31 still need real roster/name data and the
-  on-demand cache before their field will render.
-- The bracket is built with `--return-on-a`, so its A handler ends in `RTS`.
-
-Production entry: the selector's A handler waits for release, drops the
-`JSR $FF00` frame, sets `$047B=$12` and `JMP $CC09`, so the stock dispatcher
-calls the hooked scene-18 handler with a normal frame. The stack is exactly
-stock: `S=$FF` at the main loop after the resume.
-
-## 5. The four root causes (short form)
-
-1. **NMI deferred tasks are bank-relative.** `$CF74` calls `$8048`/`$816C` in
-   whatever bank is mapped. With bank 11 mapped that is mid-instruction bracket
-   code. Guard the bracket with `$2C=1` and `$2D=1`.
-2. **`STA $C040` is an MMC1 CHR-1 write.** One stray bit de-aligns the shift
-   register; the next bank-5 write latches bank 10. The bracket now NOPs those
-   five bytes (`build_bracket_screen.py`).
-3. **`$98D5` polls `$047D`, which only NMI clears.** Enable NMI and set
-   `$AD=$1E` before calling it.
-4. **Synthetic return frames are a trap.** v1's `JSR $FF20` + saved frame left
-   `S` one low and returned mid-instruction. Use a tail `JMP` hook and a real
-   `JSR` into the bracket.
-
-## 6. What is still open
-
-1. **Real data for teams 16–31.** They launch, but bank 8 holds a copy of
-   team 15's block with `B1601`-style names, and the field HUD shows
-   `FLO`/`JAPAN`. Fill `data/roster.json` / the bank-8 blocks and the
-   ratings/lineup/colour tables.
-2. **Full 32-team tournament state.** `build_32bracket.py --state --keep-seed`
-   installs the 31-match table/`$7700`/`$7740` state and the first game runs;
-   the match index advances in-game. A real proof needs 16 first-round results
-   (or the isolated 5-round CPU test). Experimental.
-3. **On-demand cache for teams 16–31.** The reset cache still copies teams
-   0–15 only; ids 16–31 play from the placeholder bank-8 blocks.
-2. **Password format** is still the stock 16-slot table (`$994F`); the
-   32-team tournament state is not encoded.
-3. **Bracket seeding in the stock flow** uses whatever `$07C3` held; in the
-   selector flow it is the real pick (0–31).
-
-## 7. Dead ends — do not repeat
-
-- Cold-entering stock scenes: `$CC09`, `$CC0E`, `$D014`, `$B9C0`, `$995F`.
-- Scene id poking without the dispatcher context (`$047B=$11`, `$13`, `$0F`).
-- Registering a new scene by writing `$CCAC`/handler table by guessed offsets.
-- `JMP` into the stock main loop; it destroys the RTS dispatch frames.
-- Assuming `$CBE6` is a routine: it is `LDA #$00`.
-- Assuming `$98B7` is the routine: it is data; real entry is `$98B9`.
-- Enabling NMI immediately before a bank switch or `RTS` (NMI storm).
-- **Believing `STA $C040` is harmless.** It is a mapper write.
-- **Trusting a PC breakpoint without checking `$27`.** PC breakpoints are
-  bank-agnostic; `$8162/$8172` hit in bank 2 are not the bracket.
-- Trusting `stepInstructions` under NMI; use free-running `traceInstructions`.
-
-## 8. Useful diagnostics
-
-- `docs/LAUNCH-DEBUG-LOG.md` — loop-by-loop probes, proof of each root cause.
-- `tools/romdev.py` — one-command romdev client (`load`, `step`, `press`, `pc`,
-  `bp`, `trace`, `ram`, `save`, `loadstate`).
-- `docs/AUTORUN-REPORT.md` — earlier chronological probe log.
-- `.claude/skills/llbcs-32-team`, `.claude/skills/nes-romdev-debug`,
-  `.claude/skills/nes-display-lists`.
-
-## 9. Repo hygiene
-
-- Commit/push after every green change.
-- Never commit `build/` or `*.nes`.
-- Run `tools/verify_regression.py` after any stock-side patch.
-- Stock 16-team path must keep working.
-
-## 10. Recommendation
-
-The hard integration problem is solved. The next milestone is production
-wiring (selector → `$07C3` → bracket → bridge) and the team handoff (`$33/$34`),
-not more launch debugging. Ship the working hack if wiring slips.
+Known separate limitations include placeholder selector flags, no
+eliminated-team marks in the bracket grid, rejection of old passwords,
+and no physical hardware/audio validation.

@@ -24,6 +24,7 @@ ROLES_OUT = os.path.join(ROOT, "build/roles32.nes")
 RESULTS_OUT = os.path.join(ROOT, "build/results32.nes")
 CONTROL_OUT = os.path.join(ROOT, "build/control32.nes")
 PASSWORD_OUT = os.path.join(ROOT, "build/password32.nes")
+NAMES_OUT = os.path.join(ROOT, "build/teamnames32.nes")
 
 
 def run(script, *args):
@@ -57,7 +58,8 @@ def main():
     run("build_results32.py", ROLES_OUT, "-o", RESULTS_OUT)
     run("build_control32.py", RESULTS_OUT, "-o", CONTROL_OUT)
     run("build_passwordrom32.py", CONTROL_OUT, "-o", PASSWORD_OUT)
-    print(f"wrote {PASSWORD_OUT}; baseline preserved at {OUT}")
+    run("build_teamnames32.py", PASSWORD_OUT, "-o", NAMES_OUT)
+    print(f"wrote {NAMES_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":

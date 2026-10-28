@@ -83,7 +83,8 @@ and audio acceptance remain open.
 - [x] Stock six-match regression and completed-game 31-match speed gates
 - [x] Controller selection and ownership for all 32 teams
 - [x] Password keyboard restore across all round boundaries
-- [ ] Final display-name correction on high-team game screens
+- [x] Display-name correction on high-team game screens
+- [ ] Bound flag/uniform tables and correct matchup round labels
 - [ ] Independent emulator applications and real hardware matrix above
 - [ ] Password round-trip on hardware
 - [ ] Audio regression against stock

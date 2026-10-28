@@ -101,7 +101,8 @@ Current ROM work:
   [selection and controller checks](docs/control32.md).
 - Password integration uses the existing 22-symbol screen and the
   [v1 format](docs/password-format.md). Its ROM hooks pass controller-driven restore and full-tournament gates.
-- High-team display names and final hardware/audio checks remain open.
+- [High-team display names](docs/teamnames32.md) now use canonical metadata.
+  Flag/palette table bounds, matchup round labels and hardware/audio checks remain open.
 - The hosted editor defaults to the stock 16-team demo; load a 32-team ROM
   or use the Data menu for the extended data.
 

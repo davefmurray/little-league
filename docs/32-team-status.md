@@ -1,9 +1,10 @@
 # 32-team ROM status
 
-The current source pipeline produces `build/password32.nes`, SHA-256
-`978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a`.
+The current source pipeline produces `build/teamnames32.nes`, SHA-256
+`5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c`.
 It supports 32-team selection, human ownership, completed-game bracket
-progression and password resume. High-team display labels remain open.
+progression, password resume and real high-team names. Flag and uniform
+table bounds and the matchup round label remain open.
 
 | Area | Evidence and limits |
 |---|---|
@@ -13,13 +14,17 @@ progression and password resume. High-team display labels remain open.
 | Completed games | All 31 matches advance on game-over and credit live teams after side swaps. Ties use the first bracket team, tested only in the CPU harness. |
 | Passwords | The existing 22-symbol keyboard restores seed, results, match index and the 32-bit CPU mask. Nine checkpoints and eight subsequent games pass. Old 16-team passwords are rejected. |
 | LIST and CONTINUE | Active LIST shows the seeded 32-team grid. CONTINUE opens the bracket. Finished tournaments return safely to the title. The grid does not mark eliminated teams. |
-| Tournament gates | Final password ROM passes stock-six/full-31 SPEED verification. Control32 separately passes 31 controller-only WATCH games. SPEED forces CPU ownership on field entry; WATCH uses menu toggles. |
-| Display labels | High-team matchup, order and HUD readers still use placeholders or old tables. Repair is queued. Selector flag images are placeholders. |
+| Tournament gates | Final team-name ROM passes stock-six/full-31 SPEED verification. Control32 separately passes 31 controller-only WATCH games. SPEED forces CPU ownership on field entry; WATCH uses menu toggles. |
+| Display labels | Full high-team names and canonical HUD codes pass CPU and controller checks. Low-team output is unchanged. |
+| Visual tables | High-team flags and uniform palettes still overread 16-team tables. The matchup round label remains 1ST ROUND. Repairs are queued; selector flag images are placeholders. |
 | Hardware and sound | Not validated on physical hardware or a second emulator implementation. Savestates do not prove battery-backed persistence. |
 
 ## Build and verify
 
-Supply the original game ROM at the repository root, then run:
+The current pipeline requires the earlier `build/direct20-names.nes`
+artifact. The script documents how to derive that from `direct20.nes`;
+those bootstrap artifacts are not distributed. Keep the original game
+ROM at the repository root for stock checks, then run:
 
 ```sh
 .venv/bin/python tools/build_32team_full.py
@@ -27,7 +32,7 @@ Supply the original game ROM at the repository root, then run:
 ```
 
 The source chain retains pinned intermediate ROMs. `build/` is ignored by
-git. The final stage is `password32.nes`; `direct31.nes` remains the frozen
+git. The final stage is `teamnames32.nes`; `direct31.nes` remains the frozen
 regression baseline.
 
 ## Evidence
@@ -37,7 +42,7 @@ regression baseline.
 - [Completed-game results](results32.md) and [human control](control32.md).
 - [Password integration](password32.md) includes exact resume commands;
   [format](password-format.md) documents the codec.
-- [Final combined gate](verification/password32-gate.txt) and
+- [Real gameplay names](teamnames32.md), [final combined gate](verification/teamnames32-gate.txt) and
   [controller-only WATCH tournament](verification/control32-watch.txt).
 - [Backlog](backlog.json) is the task authority.
   [Decision trail](decisions.tsv) records accepted designs.
