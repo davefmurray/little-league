@@ -1,0 +1,26 @@
+Independent review of frozen title32 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+
+Reviewer reran all three CPU suites, full picker parity, all 32 rating readers,
+independent draw/wire checks and output alias probes. No ROM correctness blocker.
+Both reachable title draw callers enter with display-list length $32=0.
+Reviewed root stock-six/random-31 and complete 1P/2P/WATCH Exhibition logs.
+Resume and full attract-return runtime evidence remained root-owned.
+
+P2 finding: draw/pick builders accepted title assets and their aliases as outputs;
+all three builders and the converter accepted tools/verify.sh.
+Root correction: recursively protect title art/data in the inherited draw guard;
+protect verify.sh in both builder and converter paths. Converter retains its own
+asset JSON as an intentional output. CLI regressions now try each source, nested
+PNG, symbolic alias and hard alias; normal builds and converter outputs still pass.
+Final CPU logs are frontend32-{draw,pick,title}-cpu.txt. ROM bytes are unchanged.
+
+Nonblocking: generated title JSON embeds 26 stock glyph patterns checked against
+the pinned ROM, rather than using the menu format's glyph references. Retained.
+Clarified that the unreleased experimental v2 interpretation is unsupported;
+shared version/CRC means wire rejection of every experimental code is not promised.
+Removed stale art narration and redundant dependency comments; typed region banks.
+Retained assembly/table ABI comments and timing-model limits. Broader header/log
+representation cleanup was deferred because it is not needed for this behavior.
+
+Root acceptance and emulator limits are recorded in docs/draw32.md, pick32.md,
+title32.md and frontend32 runtime logs. No hardware or second-emulator claim.

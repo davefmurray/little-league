@@ -1,0 +1,11 @@
+{
+  "repo": "https://github.com/augusto-scarvalho/claude-pxl",
+  "commit": "3bc816cb15a14592e0dc062ee98013637d399457",
+  "node_min": [
+    22,
+    18,
+    0
+  ],
+  "render": "node <pxl>/bin/pxl.js build art/title32/title32.px.js --out <dir> --no-preview",
+  "regenerate": ".venv/bin/python tools/title32_convert.py --rom build/pick32.nes --pxl build/vendor/claude-pxl"
+}

@@ -1,0 +1,10 @@
+input 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa
+candidate 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+converter: deterministic; committed JSON current (201 tiles, 26 stock glyphs); 8 bad inputs rejected; pinned pxl reproduces all 12 committed PNGs
+converter CLI: --out and --preview from another directory; --check passes current and fails stale JSON; 12 protected targets refused as --out or --preview (ROM, nested PNGs, source, layout, lock, data, links), and the assets as --preview
+builder: 4584 changed bytes inside 6 whole reservations; banks 1-15, header and every CHR bank but $17 identical; 16 dependency, digest, hook, reservation and pinned stock CHR $17 guards each reject a one-bit drift; bad manifests and 9 malformed or foreign assets rejected
+output guards: deterministic CLI build and manifest from another directory; 46 protected targets refused (inputs, renamed copy, sources, assets, nested PNGs, symbolic and hard links); a bad input keeps the output
+title tail: v1 and v2 series survive post-game, the new title draw, START on either controller, mode menu and CONTINUE, with displayed codes 4995FEC5ESTVP6KM5YCNYM, 4T06FEC5ESTVP6KM5TPUF0, 7D97FEC5ESTVP6KM54DA0M
+runtime: frame 120 shows the converted title from CHR $17 with its palette and song $04 and no late VRAM writes (control: the stock title differs); START on controller 1 or 2 reaches the mode menu with song $06 (frames 66, 66); attract phases 0-3 start at frames 306, 726, 1210, 1513 and demo scene $08 at 1815, at most 2 frames from the stock title (307, 727, 1211, 1514; 1817); cutscene phases 0-2 show the stock screens and CHR; phase 3 redraws the new title
+title32 SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+PASS (76.1s)

@@ -1,0 +1,12 @@
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only tour=title
+title: CHR17, song04, 71 APU transitions in 120 frames
+attract redraw uses CHR17 and enters demo
+START port 1 after 120 frames: mode menu and song06
+START port 2 after 120 frames: mode menu and song06
+START port 1 after 400 frames: mode menu and song06
+START port 2 after 400 frames: mode menu and song06
+START port 1 after 1000 frames: mode menu and song06
+START port 2 after 1000 frames: mode menu and song06
+START port 1 after 1550 frames: mode menu and song06
+START port 2 after 1550 frames: mode menu and song06

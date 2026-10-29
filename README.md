@@ -54,68 +54,44 @@ is in **[docs/game-writeup.md](docs/game-writeup.md)**.
 
 ---
 
-## 32-team tournament branch
+## 32-team edition
 
-The repository now carries an in-progress 32-team tournament on top of the
-stock 16-team game. The working parts are:
+[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-3/little-league-32-team.nes)
+or open the [release and screenshots](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-3).
 
-- **Bracket scene** in bank 11: 63-slot heap (`$7700-$773E`), live match
-  index `$07FC`, real-score winner (`$048B/$048C`), post-game redraw.
-- **Five rounds**: source `2m`, destination `32+m`; champion lands in slot 62
-  (`$773E`). A state-only 31-match soak through the real ROM routine is green
-  (`champion = 0F`).
-- **Selector**: four pages, with real teams on pages 3-4 (`AUSTRALIA`, `CUBA`,
-  `DOMINICAN REP`, ... `CZECH REPUBLIC`).
-- **Roster data**: 20 generated players and three pitcher records for teams
-  16-31 (`data/roster32.json`, `tools/build_extra_rosters.py`).
-- **Bracket UI**: live `ROUND 1..5` / `CHAMPION` title, `WIN<code>` line,
-  cursor marker.
-- **Roster cache**: the two current teams are copied to `$7800`/`$7A00` and
-  `$7F00` is repointed; the MMC1 reset before the bank-8 switch was the
-  missing step.
-- **32-team data**: ratings at bank3 `$BC80`, lineups at fixed `$FD80`,
-  browser editor 32x20 ROM/JSON modes, CLI `roster.py show` and
-  `roster32.py extract/apply`.
-- **High-team field entry**: `tools/build_launch32.py` applies the 32-team
-  data to the real launch-bridge base (`scene-18 $98B9 -> $FF20`), selects
-  the bracket pair (`$FF60` + `$04EF/$04F0`) and reaches the live field at
-  scene `$03` with `$0489=0` (`docs/high-team-field.png`).
+- **Random tournaments:** choose any of 32 teams. Your team plays first; the
+  other teams are shuffled once. Passwords save the draw and progress.
+- **One team picker:** the flag grid serves Championship, Exhibition
+  (1P, 2P and WATCH) and Power Analysis. In 2P, controller 2 chooses the opponent.
+- **New title and menus:** NES pixel art, a full bracket tree, and stock menu
+  music. The title retains its original music and attract sequence.
+- **Resume:** existing 32-team v1 passwords still work. Random tournaments use
+  v2 codes; original 16-team game passwords are not supported.
+- **Gameplay:** completed-game results, high-team names, pitchers and roster
+  caches are covered by CPU tests and emulator tournament runs.
 
 <p align="center">
-  <img src="docs/teams16-31-select.png" alt="32-team selector page 3: Australia, Cuba, Dominican Republic, Venezuela" width="640">
+  <img src="docs/verification/frontend32/title.png" alt="New baseball title screen" width="512">
 </p>
-
 <p align="center">
-  <img src="docs/bracket-layout.png" alt="32-team bracket: real team codes, R32/R16/QF/SF headers, WIN row" width="640">
+  <img src="docs/verification/frontend32/exhibition-2p/exhibition-1-second-pick.png" alt="Shared 32-team Exhibition picker" width="512">
 </p>
 
-<p align="center">
-  <img src="docs/high-team-field.png" alt="High-team field entry: launch bridge, scene 03, Top 1st, 0-0, live players/bases" width="640">
-</p>
+The final build is `build/title32.nes`. It passes the baseline six-game and
+random 31-match emulator gates. Controller probes also complete high-team
+1P, 2P and WATCH exhibitions and preserve a suspended tournament. SPEED
+soaks force CPU ownership; the separate controller probes do not.
 
-Current ROM work:
+Physical hardware and a second emulator implementation remain unvalidated.
+High-team uniforms reuse stock presets, gameplay flags are omitted, and the
+small selector flags are simplified. The source pipeline still needs the
+existing `direct20-names.nes` bootstrap artifact.
 
-[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-2/little-league-32-team.nes)
-or open the [release with screenshots and a music sample](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-2).
-
-- Guarded gameplay stages now complete 31 matches with live-team winner and
-  game-over checks. See [result verification](docs/results32.md).
-- The source selector supports human ownership for all 32 teams. See
-  [selection and controller checks](docs/control32.md).
-- Password integration uses the existing 22-symbol screen and the
-  [v1 format](docs/password-format.md). Its ROM hooks pass controller-driven restore and full-tournament gates.
-- [High-team display names](docs/teamnames32.md) now use canonical metadata.
-- [Visual-table repairs](docs/visualtables32.md) bound flag and palette reads and
-  show the correct five matchup rounds.
-- [New menu art and music](docs/menuart32.md) adds the 32-team flag grid,
-  tournament tree and stock menu song. The current output is `build/menuart32.nes`.
-  Physical hardware and a second emulator remain unvalidated.
-- The hosted editor defaults to the stock 16-team demo; load a 32-team ROM
-  or use the Data menu for the extended data.
-
-See [`docs/32-team-status.md`](docs/32-team-status.md) for the working/
-blocked breakdown and the build commands, `docs/AUTORUN-REPORT.md` for the
-full probe log, and `TODO-NEXT.md` for the live open list.
+See [status and build commands](docs/32-team-status.md),
+[random draws and passwords](docs/draw32.md), [picker controls](docs/pick32.md),
+[title artwork](docs/title32.md), and [menu art/music](docs/menuart32.md).
+The hosted editor defaults to the stock 16-team demo; load a 32-team ROM or
+use its Data menu for the extended data.
 
 ---
 

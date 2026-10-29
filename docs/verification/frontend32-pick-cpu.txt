@@ -1,0 +1,20 @@
+input b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541
+candidate 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa
+builder: 721 changed bytes inside 5 whole reservations; banks 0, 3-9 and 11-15, header and CHR identical; 34 dependency, digest, hook and reservation guards each reject a one-bit drift; bad manifests rejected; reused helpers, card origin and cursor tile equal menuart32's generated labels and assets; a header needing glyph '!' is rejected
+output guards: deterministic CLI build and manifest from another directory; 40 protected targets refused (inputs, renamed copy, sources, nested PNG, symbolic and hard links); a bad input keeps the output
+picker units: a second pick equal to the first is refused for all 32 teams with no game-state write; controller 1 and 2 reads and the held-button latch on both ports; 8 mode headers queued at $2068
+title tail: v1 and v2 series survive post-game, title, START on either controller, mode menu and CONTINUE (40CKT8YCSUT8XWB4HWCWDR, 74CMT8YCSUT8XWB4H2D3JR)
+championship: team 20 committed through $9620; draw seed 1FEB from $33=7F $07F3=2B; heap equals the host draw (first opponent 22); only team 20 human; $07ED first set by the commit at bank 11 $86E7; every $7760/$7761 access comes from the bank-11 draw with CHR latches below $10
+cancel: fresh boot START NEW SERIES then B keeps $07ED=00; CONTINUE opens password entry (scene 19)
+control without the bank-1 patch: START NEW SERIES sets $07ED=12 and after B, CONTINUE enters scene 13/03 in bank 5
+active series with draw seeds 0, $1234 and $3FFF: START NEW SERIES, move to team 31, B, then CONTINUE reaches the bank-11 bracket with heap, seed, markers and masks unchanged and zero $7760/$7761 writes
+exhibition 1P: picks (20, 31) on controllers (0, 0); $04EB/$04EC 00/80; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1160 of 2273 cycles
+exhibition 1P: picks (16, 3) on controllers (0, 0); $04EB/$04EC 00/80; $04E2=0 over a stale 1, series intact; exact roster caches and pointers; $C585 routes both sides through swaps; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1160 of 2273 cycles
+exhibition 2P: picks (3, 22) on controllers (0, 1); $04EB/$04EC 00/00; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; controller 1 cannot steer, pick or go back on side 2; controller 2 can; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1162 of 2273 cycles
+exhibition WATCH: picks (30, 29) on controllers (0, 0); $04EB/$04EC 80/80; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1162 of 2273 cycles
+exhibition 2P: picks (31, 0) on controllers (0, 1); $04EB/$04EC 00/00; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; controller 1 cannot steer, pick or go back on side 2; controller 2 can; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1162 of 2273 cycles
+exhibition rules: the same team is refused as the second pick; B while choosing the second team returns to the first with the cursor on it; B again reaches the mode menu
+analysis: 27 and 31 viewed; ratings B reopens the picker on the viewed team; B reaches the mode menu; active series intact
+exit parity: 100 RAM bytes differ at scene $10; through scenes $11 and $0F the only ones read before rewritten are audio state, $33, $047D, $049D/$049E and the cache inputs $07FD/$07FE (11 bytes)
+pick32 SHA256 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa
+PASS (223.8s)

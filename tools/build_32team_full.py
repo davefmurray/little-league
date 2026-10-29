@@ -27,6 +27,9 @@ PASSWORD_OUT = os.path.join(ROOT, "build/password32.nes")
 NAMES_OUT = os.path.join(ROOT, "build/teamnames32.nes")
 VISUAL_OUT = os.path.join(ROOT, "build/visualtables32.nes")
 MENU_OUT = os.path.join(ROOT, "build/menuart32.nes")
+DRAW_OUT = os.path.join(ROOT, "build/draw32.nes")
+PICK_OUT = os.path.join(ROOT, "build/pick32.nes")
+TITLE_OUT = os.path.join(ROOT, "build/title32.nes")
 
 
 def run(script, *args):
@@ -63,7 +66,10 @@ def main():
     run("build_teamnames32.py", PASSWORD_OUT, "-o", NAMES_OUT)
     run("build_visualtables32.py", NAMES_OUT, "-o", VISUAL_OUT)
     run("build_menuart32.py", VISUAL_OUT, "-o", MENU_OUT)
-    print(f"wrote {MENU_OUT}; baseline preserved at {OUT}")
+    run("build_draw32.py", MENU_OUT, "-o", DRAW_OUT)
+    run("build_pick32.py", DRAW_OUT, "-o", PICK_OUT)
+    run("build_title32.py", PICK_OUT, "-o", TITLE_OUT)
+    print(f"wrote {TITLE_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":

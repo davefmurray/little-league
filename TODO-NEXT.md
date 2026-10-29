@@ -5,14 +5,14 @@ the one blocked item in [docs/backlog.json](docs/backlog.json). It requires
 an external console/flash-cart setup and independent emulator applications.
 See [hardware-sound.md](docs/hardware-sound.md) for the matrix.
 
-The accepted source pipeline produces `build/menuart32.nes`, SHA-256
-`bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3`.
-It passes the final stock-six/full-31 SPEED gate. Controller probes cover
-all five matchup labels, password restore, high-team human play and flag
-omission. The new selector and bracket add NES artwork and stock menu
-music. All 32 selections and audio activity pass emulator checks.
-Independent review found no assembly blocker; its two build-output guard
-findings were fixed and covered by CLI regressions.
+The accepted source pipeline produces `build/title32.nes`, SHA-256
+`8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c`.
+The new stages add repeatable random draws, v2 passwords, a shared picker
+for Exhibition and Power Analysis, and title artwork. The source rebuild,
+CPU suites and stock-six/random-full-31 gate pass. Controller checks cover
+all 32 Analysis teams, both input ports, 1P/2P/WATCH exhibitions and v1/v2
+resume. Independent review found no ROM correctness blocker; output guard
+findings are fixed and covered by CLI regressions.
 
 Known limitations remain explicit. High gameplay flags remain omitted;
 high uniforms reuse stock presets; selector flags are simplified to

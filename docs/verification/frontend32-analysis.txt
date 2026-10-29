@@ -1,0 +1,35 @@
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only tour=analysis
+analysis 00: selected, details, B return, cursor and series preserved
+analysis 01: selected, details, B return, cursor and series preserved
+analysis 02: selected, details, B return, cursor and series preserved
+analysis 03: selected, details, B return, cursor and series preserved
+analysis 04: selected, details, B return, cursor and series preserved
+analysis 05: selected, details, B return, cursor and series preserved
+analysis 06: selected, details, B return, cursor and series preserved
+analysis 07: selected, details, B return, cursor and series preserved
+analysis 08: selected, details, B return, cursor and series preserved
+analysis 09: selected, details, B return, cursor and series preserved
+analysis 0A: selected, details, B return, cursor and series preserved
+analysis 0B: selected, details, B return, cursor and series preserved
+analysis 0C: selected, details, B return, cursor and series preserved
+analysis 0D: selected, details, B return, cursor and series preserved
+analysis 0E: selected, details, B return, cursor and series preserved
+analysis 0F: selected, details, B return, cursor and series preserved
+analysis 10: selected, details, B return, cursor and series preserved
+analysis 11: selected, details, B return, cursor and series preserved
+analysis 12: selected, details, B return, cursor and series preserved
+analysis 13: selected, details, B return, cursor and series preserved
+analysis 14: selected, details, B return, cursor and series preserved
+analysis 15: selected, details, B return, cursor and series preserved
+analysis 16: selected, details, B return, cursor and series preserved
+analysis 17: selected, details, B return, cursor and series preserved
+analysis 18: selected, details, B return, cursor and series preserved
+analysis 19: selected, details, B return, cursor and series preserved
+analysis 1A: selected, details, B return, cursor and series preserved
+analysis 1B: selected, details, B return, cursor and series preserved
+analysis 1C: selected, details, B return, cursor and series preserved
+analysis 1D: selected, details, B return, cursor and series preserved
+analysis 1E: selected, details, B return, cursor and series preserved
+analysis 1F: selected, details, B return, cursor and series preserved
+analysis B returns to mode menu with NMI guards clear

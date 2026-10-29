@@ -37,10 +37,18 @@ python3 tools/check_build.py build/direct31.nes
 .venv/bin/python tools/build_menuart32.py build/visualtables32.nes -o build/menuart32.nes
 .venv/bin/python tools/test_menuart32.py build/visualtables32.nes --candidate build/menuart32.nes
 
+.venv/bin/python tools/build_draw32.py build/menuart32.nes -o build/draw32.nes
+.venv/bin/python tools/test_draw32.py build/menuart32.nes --candidate build/draw32.nes
+.venv/bin/python tools/build_pick32.py build/draw32.nes -o build/pick32.nes
+.venv/bin/python tools/test_pick32.py build/draw32.nes --candidate build/pick32.nes
+.venv/bin/python tools/title32_convert.py --rom build/pick32.nes --check
+.venv/bin/python tools/build_title32.py build/pick32.nes -o build/title32.nes
+.venv/bin/python tools/test_title32.py build/pick32.nes --candidate build/title32.nes
+
 if [ "${1:-}" = "--with-soak" ]; then
   timeout 300 python3 tools/soak_bracket.py \
     --rom build/direct31.nes --matches 6 --winner score --mode speed --session verify-stock
   timeout 300 python3 tools/soak_bracket.py \
-    --rom build/menuart32.nes --team 31 --matches 31 --winner live-score --require-complete --mode speed \
+    --rom build/title32.nes --team 31 --matches 31 --winner live-score --require-complete --mode speed \
     --check-stack --session verify-gameplay
 fi

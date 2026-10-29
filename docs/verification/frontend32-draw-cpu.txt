@@ -1,0 +1,13 @@
+input bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+candidate b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541
+host draw: xorshift16 period 65535; seed 0 equals the stock seeder for all 32 teams; 6 golden draws; 16383 distinct draws for teams 0 and 31 (control: 8-bit seeds give 255); all 65536 timing pairs reach every seed 4-8 times; first opponent counts 474-610 over the family
+host codec: 408 states round trip (206 v1 byte-identical to password32, 202 v2 rejected by password32); 6 golden codes with case, space and alias input; 27 correct-CRC invalid forms and 8184 one-symbol substitutions rejected
+CLI: password32v2 encode/decode take explicit --team and --draw-seed; password32 --seed still means the selected team; draw32 prints the order
+builder: 317 changed bytes inside 6 whole reservations; banks 0-10 and 13-15, header and CHR identical; 15 dependency, digest, hook and reservation guards each reject a one-bit drift; bad manifests rejected; v1 codec labels match password32_6502
+output guards: deterministic CLI build and manifest from another directory; 40 protected targets refused (inputs, renamed copy, sources, nested PNG, symbolic and hard links); a bad input keeps the output
+RAM audit: 15 new $7760/$7761 operands, all inside the bank-11 draw and bank-12 codec code; the 16 base matches are bank-0 table bytes
+6502 draw: dr_rng equals xorshift16 for all 65535 states; 16415 draws (every seed, every team at seed 0) equal the host; 813-10082 cycles, mean 10018; writes only $7700-$771F, $00-$08 and stack, never $34 or the seed; capture equals the host for all 65536 timing pairs; restore_draw copies the decoded seed and draws
+CPU codec: 408 codes (202 v2) decode like the host; menuart32 rejects all 202 v2 codes and keeps every v1 code; 27 correct-CRC invalid forms rejected with heap, seed, markers and masks unchanged (the stock bridge then clears only $07ED); 8184 substitutions rejected; 408 display buffers equal the host with no PRG RAM writes; 120 bridge decode -> restore -> encode cycles reproduce heap, markers, seed and the typed code, writing only heap and seed. Controls: restore-call heap WRONG/code WRONG; encode-call heap ok/code WRONG; no gate rejects v2
+title tail: v1 and v2 series (draw seeds 0, $1234, $3FFF) survive the real post-game $B63D, title init, START on either controller, mode-menu init and CONTINUE into bank 11 with heap, seed, markers and masks unchanged; the displayed codes are 4995FEC5ESTVP6KM5YCNYM, 4T06FEC5ESTVP6KM5TPUF0, 7D97FEC5ESTVP6KM54DA0M; RESET's $CD20/$CD5C never ran. Control: a direct $CD5C call clears $07ED
+draw32 SHA256 b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541
+PASS (87.0s)

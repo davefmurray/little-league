@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Type a v1 password through the game's controller-driven keyboard.
+"""Type a v1 or v2 password through the game's controller-driven keyboard.
 
     python3 tools/probe_password_ui.py --rom build/password32.nes --seed 31 --played 15
 """
@@ -8,7 +8,7 @@ from collections import deque
 import hashlib
 from pathlib import Path
 
-import password32
+import password32v2
 import romdev
 from soak_bracket import press, rd_cart, rd_sys, step, wait_for
 
@@ -66,7 +66,7 @@ def list_flow(text, played, shot):
         press("a", 3)
         step(30)
         assert rd_sys(0x047B, 2) == bytes((0x13, 8))
-        assert rd_sys(0x0643, 26) == password32.display(text)
+        assert rd_sys(0x0643, 26) == password32v2.display(text)
         press("a", 2)
         wait_for(lambda: rd_sys(0x047B, 2) == bytes((0x13, 3)), 240, 10, "matchup")
         step(20)
@@ -104,6 +104,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--rom", type=Path, required=True)
     ap.add_argument("--seed", type=int, default=31)
+    ap.add_argument("--draw-seed", type=lambda value: int(value, 0), default=0,
+                    help="0 keeps the legacy draw; 1..16383 selects a repeatable v2 draw")
     ap.add_argument("--played", type=int, default=15)
     ap.add_argument("--results", type=lambda value: int(value, 0))
     ap.add_argument("--cpu-mask", type=lambda value: int(value, 0))
@@ -116,16 +118,18 @@ def main():
     ap.add_argument("--state-path", type=Path,
                     help="save the restored bracket for a subsequent match probe")
     args = ap.parse_args()
+    args.shot = str(Path(args.shot).resolve())
     romdev.SESSION = args.session
     rom = args.rom.read_bytes()
     results = args.results if args.results is not None else 0x55555555 & ((1 << args.played) - 1)
     mask = args.cpu_mask if args.cpu_mask is not None else 0xFFFFFFFF ^ (1 << args.seed)
-    state = args.seed, args.played, results, mask
-    text = password32.encode(*state)
+    state = password32v2.Series(team=args.seed, played=args.played, results=results,
+                               cpu_mask=mask, draw_seed=args.draw_seed)
+    text = password32v2.encode(state)
     if args.invalid:
         text = text[:-1] + ("1" if text[-1] != "1" else "A")
     print(f"ROM SHA256 {hashlib.sha256(rom).hexdigest()}", flush=True)
-    print(f"controller-only menu={args.menu} seed={args.seed} played={args.played} results={results:08X} mask={mask:08X} invalid={args.invalid}", flush=True)
+    print(f"controller-only menu={args.menu} team={args.seed} draw-seed={args.draw_seed} played={args.played} results={results:08X} mask={mask:08X} invalid={args.invalid}", flush=True)
     open_entry(args.rom, args.menu)
     type_password(rom, text)
     assert rd_sys(0xC2)[0] == 0
@@ -147,21 +151,22 @@ def main():
             press("a", 2)
             step(3)
         assert rd_sys(0xBD)[0] == 0
-        type_password(rom, password32.encode(*state))
+        type_password(rom, password32v2.encode(state))
         press("a", 10)
         step(60)
         assert rd_sys(0x27)[0] == 11 and rd_sys(0x07FC)[0] == args.played
         assert rd_cart(0x7700)[0] == args.seed
         print("error dismissal, keyboard rewind and corrected password restore pass", flush=True)
     else:
-        heap = bytes(255 if team is None else team for team in
-                     password32.advance(password32.seed_order(args.seed), args.played, results))
+        heap = bytes(255 if team is None else team for team in password32v2.heap(state))
         assert rd_cart(0x7700, 63) == heap
         assert rd_sys(0x07FC)[0] == args.played
         actual_mask = rd_sys(0x074B, 2) + rd_sys(0x07F1, 2)
         assert actual_mask == mask.to_bytes(4, "little"), actual_mask.hex()
         assert rd_sys(0x07ED)[0] != 0 and rd_sys(0x07EF)[0] == 0x32
         assert rd_sys(0x27)[0] == 11
+        if args.draw_seed:
+            assert int.from_bytes(rd_cart(0x7760, 2), "little") == args.draw_seed
         print("restored heap, match index and all 32 ownership bits; held END press did not launch", flush=True)
         romdev.call("state", {"op": "save", "name": "password-restored"})
         if args.state_path:

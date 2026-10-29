@@ -1,0 +1,85 @@
+{
+  "backdrop": "0C",
+  "palettes": [
+    [
+      "28",
+      "30",
+      "16"
+    ],
+    [
+      "1A",
+      "30",
+      "16"
+    ],
+    [
+      "1A",
+      "30",
+      "28"
+    ],
+    [
+      "16",
+      "28",
+      "30"
+    ]
+  ],
+  "sprite_palettes": [
+    [
+      "28",
+      "30",
+      "16"
+    ],
+    [
+      "28",
+      "30",
+      "16"
+    ],
+    [
+      "28",
+      "30",
+      "16"
+    ],
+    [
+      "28",
+      "30",
+      "16"
+    ]
+  ],
+  "text": [
+    {
+      "row": 9,
+      "col": 6,
+      "text": "CHAMPIONSHIP SERIES",
+      "palette": 3
+    },
+    {
+      "row": 21,
+      "col": 8,
+      "text": "32 TEAM EDITION",
+      "palette": 0
+    },
+    {
+      "row": 23,
+      "col": 7,
+      "text": "PUSH START BUTTON",
+      "palette": 3
+    },
+    {
+      "row": 25,
+      "col": 5,
+      "text": "1990 SNK CORP. OF AMERICA",
+      "palette": 0
+    },
+    {
+      "row": 26,
+      "col": 6,
+      "text": "LICENSED BY NINTENDO",
+      "palette": 0
+    },
+    {
+      "row": 27,
+      "col": 8,
+      "text": "OF AMERICA INC.",
+      "palette": 0
+    }
+  ]
+}

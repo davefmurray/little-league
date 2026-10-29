@@ -1,0 +1,85 @@
+{
+  "range": "7760-777F",
+  "frames": 66378,
+  "events": [
+    {
+      "pc": "$8224",
+      "address": "$7761",
+      "value": "0x34"
+    },
+    {
+      "pc": "$8232",
+      "address": "$7760",
+      "value": "0xFF"
+    },
+    {
+      "pc": "$8235",
+      "address": "$7761",
+      "value": "0x34"
+    },
+    {
+      "pc": "$824F",
+      "address": "$7760",
+      "value": "0xFF"
+    },
+    {
+      "pc": "$8252",
+      "address": "$7761",
+      "value": "0x34"
+    },
+    {
+      "pc": "$8257",
+      "address": "$7760",
+      "value": "0xFF"
+    },
+    {
+      "pc": "$825E",
+      "address": "$7761",
+      "value": "0x34"
+    },
+    {
+      "pc": "$8254",
+      "address": "$7760",
+      "value": "0xFF"
+    },
+    {
+      "pc": "$8257",
+      "address": "$7761",
+      "value": "0x34"
+    },
+    {
+      "pc": "$8261",
+      "address": "$7760",
+      "value": "0xFF"
+    },
+    {
+      "pc": "$8267",
+      "address": "$7761",
+      "value": "0x34"
+    },
+    {
+      "pc": "$8277",
+      "address": "$7761",
+      "value": "0x34"
+    }
+  ],
+  "allowed_pcs": [
+    "8224",
+    "8232",
+    "8235",
+    "823A",
+    "8243",
+    "8249",
+    "824F",
+    "8252",
+    "8254",
+    "8257",
+    "825E",
+    "8261",
+    "8267",
+    "8277"
+  ],
+  "limit": "Scripted frame/input calls only; event PCs do not identify the PRG bank.",
+  "rom_sha256": "8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c",
+  "status": "passed"
+}

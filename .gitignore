@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 build/
 *.nes
+*.state
 .railway-home/
 .gh-home/
 .DS_Store

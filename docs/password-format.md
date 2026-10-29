@@ -1,4 +1,9 @@
-# 32-team password format v1
+# 32-team passwords: v1 and v2
+
+New random series use [v2](draw32.md#frozen-draw-and-password-contract),
+which also saves a 14-bit draw seed. Existing v1 codes retain their original
+order and encode byte for byte. The v1 layout below remains supported. Both
+versions use the same keyboard, alphabet, whitening and CRC.
 
 A password restores the selected seed, completed matches, winners and all
 32 CPU ownership bits. It uses the existing 22-symbol input and display

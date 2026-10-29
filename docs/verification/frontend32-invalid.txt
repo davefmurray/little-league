@@ -1,0 +1,5 @@
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=4660 played=24 results=00555555 mask=7FFFFFFF invalid=True
+corrupt password rejected on the original entry screen
+error dismissal, keyboard rewind and corrected password restore pass
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/invalid-v2.png

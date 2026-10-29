@@ -1,0 +1,5 @@
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+Mapper report: 90022 frames, 9885056 writes; no misaligned serial writes.
+CHR19 never mapped through CHR0; all three CHR1 mappings end at stock $C146.
+Title/Exhibition/attract/CONTINUE tour exits successfully.
+New-series and restore/LIST WRAM reports both have status passed.

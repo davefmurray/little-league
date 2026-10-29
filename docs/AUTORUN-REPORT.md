@@ -7345,3 +7345,44 @@ tests the identical ROM. Physical hardware, a second emulator engine and
 a clean bootstrap from the original ROM alone remain unvalidated.
 See docs/menuart32.md and docs/verification/menuart32-* for commands,
 logs, captures and limits.
+
+
+## Round 288: random draws, shared picker and title artwork
+
+Accepted final SHA 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c.
+Two designs and an independent cross-judge selected the native-mode adapters,
+14-bit saved draw and title-only replacement. Grok was unavailable. A duplicate
+suspended-series snapshot was rejected after actual title-return tests showed
+that ordinary navigation does not call the reset routine that clears the marker.
+
+Sequence Work into Verifiable Units shaped three pinned stages: draw32, pick32,
+title32. They change 317, 721 and 4,584 bytes respectively, with no fixed-bank
+change. The 22-symbol v2 code saves the draw; legacy seed zero emits exact v1.
+The new title uses 201 tiles in CHR17, retaining original music and attract.
+
+All three CPU suites pass, including exhaustive draw/capture checks, correct-CRC
+invalid forms, exact high-team roster caches and input routes, full old/new
+picker exit parity, pxl regeneration and title/attract parity. Independent review
+found no ROM correctness blocker. It found output paths that could overwrite
+title assets or verify.sh. Root added recursive source and alias protection and
+CLI regressions. ROM bytes remained unchanged; dedicated CPU logs postdate fixes.
+
+The source pipeline reproduces the final SHA. The combined gate passes stock6
+and random31, champion07, every game-over1 and stackFF. Eighteen typed v1/v2
+checkpoints restore, and sixteen following SPEED games finish. SPEED forces both
+sides to CPU; separate full 1P/2P/WATCH Exhibition probes use controller input.
+The 2P driver pitches with the fielding port and leaves batting idle; its game
+reaches the stock terminal tie. All32 Analysis screens preserve an active series.
+
+The full Exhibition/title/attract/demo/CONTINUE tour preserves the exact heap,
+seed, masks, markers and password. Its first 20000-frame demo budget was too
+short; the final unchanged-ROM run uses a 240000-frame limit and passes.
+The mapper trace covers90022 frames/9885056 writes without serial misalignment.
+New-series and restore/LIST traces confine every observed7760-777F access to the
+two owned seed bytes and known instruction sites. Startup and direct CPU calls
+are excluded; PC watches alone do not identify the mapped bank.
+
+See docs/draw32.md, docs/pick32.md and docs/title32.md for commands and evidence.
+Physical hardware, a second emulator and original-ROM-only bootstrap remain
+outside these claims. The generated title JSON retains guarded stock glyph bytes;
+the review's reference-only asset-format suggestion is deferred.

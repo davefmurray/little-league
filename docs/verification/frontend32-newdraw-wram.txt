@@ -1,0 +1,8 @@
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=watch matches=1 winner=live-score require_complete=True check_stack=True team=31
+loaded build/title32.nes, selected team 1F
+match 00: stack $FF OK
+match 00: 1F v 14 -> $7720=1F (live 1F/14, score 7-5, game-over 1) OK  index=01
+slots: 1f 14 09 0d 18 17 06 12 02 01 0c 1a 1b 11 07 0a 1c 03 19 08 16 15 00 05 04 0e 1e 13 0b 10 0f 1d 1f ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
+draw WRAM: 12 accesses at owned sites over 66378 frames

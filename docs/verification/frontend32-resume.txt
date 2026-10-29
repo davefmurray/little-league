@@ -1,0 +1,225 @@
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 0 --menu continue --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k00.png --state-path docs/verification/frontend32/resume/d0000-k00.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=0 played=0 results=00000000 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k00.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k00.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k00.state
+match 00: stack $FF OK
+match 00: 1F v 00 -> $7720=1F (live 00/1F, score 0-7, game-over 1) OK  index=01
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 1 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k01.png --state-path docs/verification/frontend32/resume/d0000-k01.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=0 played=1 results=00000001 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k01.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k01.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k01.state
+match 01: stack $FF OK
+match 01: 01 v 02 -> $7721=01 (live 02/01, score 0-4, game-over 1) OK  index=02
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 15 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k15.png --state-path docs/verification/frontend32/resume/d0000-k15.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=0 played=15 results=00005555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k15.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k15.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k15.state
+match 15: stack $FF OK
+match 15: 1D v 1E -> $772F=1D (live 1E/1D, score 1-2, game-over 1) OK  index=10
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 04 05 08 09 0c 0d 10 11 14 15 18 19 1c 1d ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 16 --menu continue --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k16.png --state-path docs/verification/frontend32/resume/d0000-k16.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=0 played=16 results=00005555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k16.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k16.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k16.state
+match 16: stack $FF OK
+match 16: 00 v 01 -> $7730=00 (live 00/01, score 2-1, game-over 1) OK  index=11
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 04 05 08 09 0c 0d 10 11 14 15 18 19 1c 1d 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 23 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k23.png --state-path docs/verification/frontend32/resume/d0000-k23.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=0 played=23 results=00555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k23.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k23.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k23.state
+match 23: stack $FF OK
+match 23: 1C v 1D -> $7737=1C (live 1C/1D, score 3-2, game-over 1) OK  index=18
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 04 05 08 09 0c 0d 10 11 14 15 18 19 1c 1d 01 04 09 0c 11 14 19 1c ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 27 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k27.png --state-path docs/verification/frontend32/resume/d0000-k27.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=0 played=27 results=05555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k27.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k27.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k27.state
+match 27: stack $FF OK
+match 27: 19 v 1C -> $773B=1C (live 1C/19, score 4-0, game-over 1) OK  index=1C
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 04 05 08 09 0c 0d 10 11 14 15 18 19 1c 1d 01 04 09 0c 11 14 19 1c 04 09 14 1c ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 29 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k29.png --state-path docs/verification/frontend32/resume/d0000-k29.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=0 played=29 results=15555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k29.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k29.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k29.state
+match 29: stack $FF OK
+match 29: 14 v 19 -> $773D=19 (live 14/19, score 0-3, game-over 1) OK  index=1E
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 04 05 08 09 0c 0d 10 11 14 15 18 19 1c 1d 01 04 09 0c 11 14 19 1c 04 09 14 19 09 19 ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 30 --menu continue --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k30.png --state-path docs/verification/frontend32/resume/d0000-k30.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=0 played=30 results=15555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k30.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d0000-k30.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d0000-k30.state
+match 30: stack $FF OK
+match 30: 09 v 14 -> $773E=09 (live 14/09, score 1-3, game-over 1) OK  index=1F
+slots: 1f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 00 01 04 05 08 09 0c 0d 10 11 14 15 18 19 1c 1d 01 04 09 0c 11 14 19 1c 04 09 14 19 09 14 09
+champion slot 62 ($773E) = 09
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 0 --played 31 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d0000-k31.png --state-path docs/verification/frontend32/resume/d0000-k31.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=0 played=31 results=55555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+completed tournament A returns to title without launching match 31
+CONTINUE reopens the completed bracket; B returns to title
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d0000-k31.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 0 --menu continue --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k00.png --state-path docs/verification/frontend32/resume/d1234-k00.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=4660 played=0 results=00000000 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k00.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k00.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k00.state
+match 00: stack $FF OK
+match 00: 1F v 16 -> $7720=1F (live 1F/16, score 9-3, game-over 1) OK  index=01
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 1f ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 1 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k01.png --state-path docs/verification/frontend32/resume/d1234-k01.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=4660 played=1 results=00000001 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k01.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k01.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k01.state
+match 01: stack $FF OK
+match 01: 18 v 08 -> $7721=08 (live 18/08, score 1-7, game-over 1) OK  index=02
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 08 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 15 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k15.png --state-path docs/verification/frontend32/resume/d1234-k15.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=4660 played=15 results=00005555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k15.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k15.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k15.state
+match 15: stack $FF OK
+match 15: 04 v 05 -> $772F=05 (live 04/05, score 0-1, game-over 1) OK  index=10
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 05 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 16 --menu continue --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k16.png --state-path docs/verification/frontend32/resume/d1234-k16.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=4660 played=16 results=00005555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k16.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k16.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k16.state
+match 16: stack $FF OK
+match 16: 16 v 18 -> $7730=18 (live 16/18, score 4-6, game-over 1) OK  index=11
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 04 18 ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 23 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k23.png --state-path docs/verification/frontend32/resume/d1234-k23.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=4660 played=23 results=00555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k23.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k23.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k23.state
+match 23: stack $FF OK
+match 23: 1E v 04 -> $7737=04 (live 1E/04, score 0-1, game-over 1) OK  index=18
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 04 18 0a 0d 10 03 1c 0b 04 ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 27 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k27.png --state-path docs/verification/frontend32/resume/d1234-k27.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=4660 played=27 results=05555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k27.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k27.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k27.state
+match 27: stack $FF OK
+match 27: 0B v 1E -> $773B=0B (live 1E/0B, score 0-3, game-over 1) OK  index=1C
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 04 18 0a 0d 10 03 1c 0b 1e 0a 0d 1c 0b ff ff ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 29 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k29.png --state-path docs/verification/frontend32/resume/d1234-k29.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=4660 played=29 results=15555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k29.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k29.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k29.state
+match 29: stack $FF OK
+match 29: 1C v 0B -> $773D=1C (live 1C/0B, score 3-2, game-over 1) OK  index=1E
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 04 18 0a 0d 10 03 1c 0b 1e 0a 0d 1c 0b 0d 1c ff
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 30 --menu continue --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k30.png --state-path docs/verification/frontend32/resume/d1234-k30.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=continue team=31 draw-seed=4660 played=30 results=15555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k30.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/soak_bracket.py --rom build/title32.nes --bracket-state docs/verification/frontend32/resume/d1234-k30.state --matches 1 --winner live-score --require-complete --check-stack --mode speed --session frontend-resume
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/title32.nes, bracket state docs/verification/frontend32/resume/d1234-k30.state
+match 30: stack $FF OK
+match 30: 0D v 1C -> $773E=1C (live 1C/0D, score 2-1, game-over 1) OK  index=1F
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 04 18 0a 0d 10 03 1c 0b 1e 0a 0d 1c 0b 0d 1c 1c
+champion slot 62 ($773E) = 1C
+saved state soak-final and /tmp/soak-final.png
++ /Users/dfm/GitHub/nesdav/little-league/.venv/bin/python -B tools/probe_password_ui.py --rom build/title32.nes --seed 31 --draw-seed 4660 --played 31 --menu list --session frontend-resume --shot docs/verification/frontend32/resume/d1234-k31.png --state-path docs/verification/frontend32/resume/d1234-k31.state
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only menu=list team=31 draw-seed=4660 played=31 results=55555555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+completed tournament A returns to title without launching match 31
+CONTINUE reopens the completed bracket; B returns to title
+screenshot /Users/dfm/GitHub/nesdav/little-league/docs/verification/frontend32/resume/d1234-k31.png
+PASS: all 18 v1/v2 restore checkpoints and all 16 subsequent SPEED games

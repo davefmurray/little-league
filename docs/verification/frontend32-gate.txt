@@ -1,0 +1,287 @@
+check_build OK: d043ecdfc46c4d50c509db30f757425759a556dec3258be462fa9b3d81091ec1 (393232 bytes, mapper 1)
+test_assembler: indexed and indirect zero-page loop plus forward jump OK
+test_bracket32: 31 records, rounds 16/8/4/2/1, champion 62, table round-trip OK
+test_roster32: fixture round-trip + edit + attribute/bench + show32 + rominfo OK
+wrote build/gameplay32.nes: deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
+lineups: 32 teams x 2 sides x stock/varied rows, repeated copies, scores and $09 OK
+pitcher: stock $AD5C reaches $AD63 nine times, attributes, $E8 and return stack OK
+rows: empty text emits no row or PPU writes; populated producer/consumer output OK
+launch: $FF90 resets SP to FF for seven starting stacks across 31 launches OK
+builder: exact five changed ranges, deterministic output, bad inputs and path aliases rejected OK
+test_gameplay32: OK deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
+wrote build/cpu32.nes: 338c1cc9bf80f6b77f441b472e91fd7536223d0b1b129fc8b7307ccb6f006327
+old-ROM negative control rejected manager styles/pointers: (16, 0, 'manager style', 114)
+old-ROM negative control rejected relief-player IDs: (16, 0, 0, 'invalid player', 32)
+old-ROM negative control rejected full CPU substitution queue: (16, 0, 0, (0, 0), 32)
+managers: 32 teams x 2 sides x 2 relief counts x leading/trailing, valid pointers and thresholds OK
+relievers: 32 teams x 2 sides x 2 selections, player IDs 0..14 and stock choices OK
+threshold decisions: all teams/sides, exact boundaries, stamina increment and occupied-base increment OK
+queues: 32 teams x 2 sides x counts 0..3 x all 16 used-status pairs, bounded returns and valid queues OK
+stock parity: teams 0..15 have identical RAM, registers, writes and instruction traces on every queue case
+entry guards: already-queued and human-controlled teams return without substitutions OK
+fresh pitchers: all starters and high-team P1/P2/P3 retain fatigue checks and are not immediately relieved OK
+random-roster-flags negative control rejected fresh pitcher: (16, 0, 0, 'skipped fatigue checks')
+active relief specialists: stock $ABF4 swaps players 1/2 into pitching on both sides using only 18 lineup bytes OK
+old-ROM negative control rejected runtime cache: (16, 0)
+runtime cache: all32 x both sides, bounded 15-player/trailer copy, low pointers, flags, stamina, pitcher records and actual starter initialization OK
+cache-only negative control rejected starter lineup: (16, 0, 'starting pitcher', 3)
+builder: exactly 218 changed bytes, stock tables and old batting-bias reads preserved, mismatches and input aliases rejected OK
+test_cpu32: OK 338c1cc9bf80f6b77f441b472e91fd7536223d0b1b129fc8b7307ccb6f006327
+wrote build/teamtables32.nes: 775595bef3506de25f704fe0530f6833d8ce0541155110920e739f19425cd006
+unpatched negative control rejected high bonus: (16, 0, 0, 'upper bonus')
+unpatched negative control rejected high ownership read: (16, 0, 0, '0x9cb2', 128, 'ownership state')
+unpatched negative control rejected high ownership write: (16, 0, 0, '0x9f41', 128, 'ownership state')
+unpatched negative control rejected bank 0 high batting bias: (16, 0, 10, (0, 0), 2, 0, 0, 0, 0, 0, 0, 0, 2)
+unpatched negative control rejected bank 1 high batting bias: (16, 0, 10, (0, 0), 2, 0, 0, 0, 0, 0, 0, 0, 2)
+unpatched negative control rejected bank 3 high batting bias: (16, 0, 10, (0, 0), 2, 0, 0, 0, 0, 0, 0, 0, 2)
+unpatched negative control rejected bank 5 high batting bias: (16, 0, 10, (0, 0), 2, 0, 0, 0, 0, 0, 0, 0, 2)
+builder: exact 274-byte change set, original tables/results preserved, immutable input, header/hash/expected-byte/reservation/alias guards and CLI output OK
+bonuses: 32 teams x 2 sides x 16 counters; both saturating helpers at every input 0..15; low-team RAM/register/flag/stack parity; bounded reads OK
+batting: 465408 cases across banks 0/1/3/5, all32/both sides, every RNG seed and threshold 0..8, signed edges, situational branches, early returns, low parity and bounded reads OK
+ownership: all32/both sides x clear/set/alternating/16 single-bit masks; reader and human/CPU writer; exact low RAM/register/flag/stack/write parity; no high-team mask writes OK
+routing: all 1024 team pairs x 20 masks x both batting sides x controller inversion; $9CAC ownership, $9C1A swap block through $9C39, $C585 CPU filtering, low parity; stock result mask execution OK
+teamtables32 passed: 775595bef3506de25f704fe0530f6833d8ce0541155110920e739f19425cd006
+wrote build/roles32.nes: ddb83443653af408926d98843709e7831fed8fabd40f5e762db655c9a868431b
+old flag negative control rejected menu classification: (17, 0, 5, 0)
+cache: all32/both slots, 303 writes to 288 addresses, canaries, low pointers and AB22 state OK
+menu: all480 high-team player/side cases classify declared pitchers through bank1 A125 and A1D3 OK
+fresh pitchers: all starters and high-team P1/P2/P3 retain fatigue checks and are not immediately relieved OK
+pinch run/hit: 2304 cases preserve decisions, exact writes/registers and low RAM; 130 valid bench queues OK
+builder: pinned output, only58 helper bytes changed, immutable input and alias guards OK
+roles32 passed: ddb83443653af408926d98843709e7831fed8fabd40f5e762db655c9a868431b
+wrote build/results32.nes: 9a3a5d4fe17f69bfe926af07de9a6309240eb5c60d693be8ce0a966b29454d9b
+old winner negative control: swapped live sides incorrectly credit team15 instead of team0
+old gate negative control: unfinished game reaches winner entry
+completion gate: exhibitions and unfinished games retain bank4; completed championship games select bank11
+ongoing games: 1152 cases match the stock box-score handler exactly
+winners: 9920 cases cover all teams, match positions, side swaps and ties; completed brackets stay unchanged
+held-A negative control launches immediately; fixed bracket waits for release and a new press
+builder: 98 changed bytes within existing result routines
+CLI: input aliases rejected and output matches guarded build
+results32 passed: 9a3a5d4fe17f69bfe926af07de9a6309240eb5c60d693be8ce0a966b29454d9b
+wrote build/control32.nes: a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
+negative controls: results32 forces high teams CPU, inherits stray team9 human, and reseeds to15
+entry: title queues $12, bridge serially maps bank10, legacy scene13 VIEW reader absent
+commit: all32 x four prior masks initialize exactly one human, bounded writes and balanced stack
+selector: serial pads select all32, held keys ignored, OAM hidden, no debug stores or new B exit
+seed once: all32 reset VIEW, set active marker, seed once; real $AAFB wipe and two full redraws preserve heap
+handoff: real $4016 serial regression reproduces results32 exit on poll10 with A down; control32 waits to poll15 release
+ownership: 31744 setups, 5888 exact low-team/all-CPU-high parity cases, 3968 restored-mask setups
+routing: 7936 real $C585 cases route port1 in both halves and home/away layouts; COM toggle lasts one match
+results preserved: six gate cases, 1152 exact stock continuations, 9920 live-side winner cases
+builder: exactly 1929 changed bytes, 85 outside bank10; source assets match, guards and aliases rejected
+control32 CPU checks passed: a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
+test_cli (__main__.HostTests.test_cli) ... ok
+test_crc_and_design_examples (__main__.HostTests.test_crc_and_design_examples) ... ok
+test_host_boundaries (__main__.HostTests.test_host_boundaries) ... ok
+test_reserved_and_future_result_bits_with_valid_crc (__main__.HostTests.test_reserved_and_future_result_bits_with_valid_crc) ... ok
+test_round_trips_and_all_corruptions (__main__.HostTests.test_round_trips_and_all_corruptions) ... host: 128 states, 87296 substitutions, 2524 adjacent swaps
+ok
+test_stock_format_is_rejected (__main__.HostTests.test_stock_format_is_rejected) ... ok
+test_all_substitutions_and_adjacent_swaps (__main__.CpuTests.test_all_substitutions_and_adjacent_swaps) ... ok
+test_decode_restore_encode_chain (__main__.CpuTests.test_decode_restore_encode_chain) ... ok
+test_encode_decode_model_parity (__main__.CpuTests.test_encode_decode_model_parity) ... ok
+test_input_bytes_and_unfilled_slots (__main__.CpuTests.test_input_bytes_and_unfilled_slots) ... ok
+test_restore_real_seeder_all_seeds_and_played (__main__.CpuTests.test_restore_real_seeder_all_seeds_and_played) ... ok
+test_segments_match_source_and_fit (__main__.CpuTests.test_segments_match_source_and_fit) ... ok
+test_semantic_forgeries_with_valid_crc (__main__.CpuTests.test_semantic_forgeries_with_valid_crc) ... ok
+test_stock_codec_byte_parity_and_rejection (__main__.CpuTests.test_stock_codec_byte_parity_and_rejection) ... stock: 64 byte-identical encodes and decodes; aliases, corruption parity and duplicate rejection
+ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 10.667s
+
+OK
+CPU cases: {'decode': 2050, 'encode': 160, 'restore': 1056}; maximum cycles: {'decode': 25869, 'encode': 27211, 'restore': 5926}; each below 29781
+wrote build/password32.nes: 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
+hooks: 36 display/decode/restore round trips across real MMC1 bank changes
+invalid input: 66 malformed, corrupt and stock passwords return to the stock error path
+mode guards: display, LIST and CONTINUE require both active-series state and the 32-team marker
+view: held A ignored, fresh A/B exits after release, completed tournaments cannot launch
+ownership: 902 changed bytes inside guarded ranges; stock codecs preserved
+output guards: source code, input, hard/symbolic aliases and copied earlier ROMs are protected
+password32 SHA256 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
+wrote build/teamnames32.nes: 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c (700 bytes changed)
+base 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
+candidate 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+execution guard: both misaligned ending probes fail before entering PPU mirror space
+ownership: exactly 700 changed bytes within manifest; header, CHR, low names/flags, CONTINUE and bias preserved
+input guards: pinned hash, size/header and manifest overlap, length, bank bounds and preimages enforced
+metadata: 37 invalid records rejected; 2400 CPU cases at name lengths 1/11/12/13/14 and code lengths 2/3
+output guards: input, original ROM, metadata, Python, symbolic/hard aliases, 11 pinned hashes and 10 real ROM copies protected
+CLI: source-relative metadata, deterministic rebuilds and rejected writes verified from another working directory
+oracle: 1845 reader/team/side/opponent cases, 0 failures
+parity: 3600 low-team cases compared on full machine state
+writes: high-team RAM and I/O writes are within the low-team write set
+readbank matchup: bank1 $9180-$BDBF ['full', 'stockfull']
+readbank pregame: bank1 $B2F6-$BDBE ['full', 'longptr', 'stocklong']
+readbank order: bank1 $BEAE-$BFFB ['short', 'shortptr']
+readbank field_hud: bank1 $936E-$BE3F ['codes', 'stockcodes']
+readbank box_score: bank1 $936E-$BE3F ['codes', 'stockcodes']
+readbank team_select: bank1 $BDB0-$BDBF ['full']
+readbank power_analysis: bank1 $BDB0-$BDBF ['full']
+readbank ending_short: bank1 $BEAE-$BFFB ['short', 'shortptr']
+readbank ending_full: bank1 $BDB0-$BDBF ['full']
+negative: base ROM high-team oracle failures per reader: {'matchup': 16, 'pregame': 16, 'order': 16, 'field_hud': 16, 'box_score': 16, 'team_select': 16, 'power_analysis': 16, 'ending_short': 16, 'ending_full': 16}
+teamnames32 SHA256 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+PASS (12.6s)
+wrote build/visualtables32.nes: cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780 (133 bytes changed)
+input 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c
+candidate cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780
+negative input: 15/15 later labels wrong; high flags visible/out of bounds [16, 16]; high palettes wrong/out of bounds 16/16
+ownership: exact manifest covers 133 changed bytes in five named ranges; bank7, fixed padding, CHR/art, original palettes/pointer and prior-stage reservations preserved
+builder guards: exact input/header/size, reader/table/blank preimages, named reservations, overlaps and incomplete manifests rejected
+output/CLI guards: original/source/data/Python, symbolic/hard aliases, 12 prior hashes and 10 real copies protected; deterministic build and exact JSON manifest from another cwd
+consumer audit: eight live palette calls covered; two text-literal matches and two unchanged bank7 duplicates identified; flag consumers cover selector, analysis, matchup and both endings
+flags: 1312 cases, both entry contracts, exact low parity, 36/48-byte hidden footprints including OAM wrap and low-to-high redraws; high paths read no flag data
+flag callers: 160 selector/analysis/ending cases; both matchup sides covered by the round matrix
+palettes: 1280 pointer/register/bank cases and 1152 actual consumer cases; all eight calls covered, expected donor colors and reads bounded to $FAC0-$FAEF; exact low parity
+matchup parity: 1056 exact live machine-state comparisons, including all 16 stock label indices and both mode guards
+rounds: 2028 full matchup executions, all 32 teams/both sides/all 31 positions; text and actual two-row font tiles correct; $0746 never written
+round write bounds: new VRAM cells confined to the 14-column label; RAM writes stay within the stock set, dead stack and text buffer
+visualtables32 SHA256 cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780
+PASS (26.0s)
+wrote build/menuart32.nes: bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3 (9115 bytes changed)
+input cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780
+candidate bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+converter: deterministic, committed JSON current; 221 tiles (37 referenced stock glyphs, none committed), 35 free; 12 bad inputs rejected; pxl re-render not run (no --pxl)
+builder: 9115 changed bytes inside 9 whole reservations; fixed bank, banks 0-9 and 12-15, header and every CHR bank but $19 identical; 43 stock dependency, hook, reservation, CHR $19, font and table guards each reject a one-bit drift; bad manifests and stale assets rejected
+output guards: builder and converter refuse input ROMs, copies, nested PNGs, source and symbolic/hard aliases; normal ROM/JSON outputs pass; deterministic CLI build and manifest from another cwd
+RAM audit: no stock instruction addresses $07F3 or $07F4; only the two menu banks do
+entry paths: result@6, result@30, password@17, list@12, list@31, continue@23, continue@0 each draw the oracle bracket from the real heap and exit to $FF90 with the old ROM's state; held entry buttons and their release ignored in both menus
+heap bounds: 68 poisoned heaps (stale valid winners, out-of-range ids, $07FC up to $FF) render only slots below 32+min($07FC,31); slot 63 never read; every data read inside its table; control: dropping the bound shows stale winners
+audio: 600 idle selector frames tick once each and equal the stock tick's APU writes; song $06 never re-queued through moves, commit, handoff, bracket and launch; $36/$35 on moves/confirm; 1 untimed frame(s) at the handoff; result jingle replaced once. Controls: old bracket 0 ticks in 120 frames; unguarded queue restarts; $2D=0 double-ticks
+vblank: worst selector frame ends its PPU work 1162 cycles after vblank start (a full 36-byte panel update, OAM DMA 514 cycles), bracket 721, budget 2273; controls: uncharged DMA reads 648, a 6x update lands late
+PRG RAM and mapper: 315 menu PRG RAM reads all under CHR (0,1); no NMI split a mapper write; every MMC1 load completes on a stock routine's fifth write; controls: CHR $19 before the heap copy caught, old bracket leaves MMC1 serial count 1 at $8680
+zero page: 400 frames of ticks and NMIs write nothing in $00-$0F
+selector sync: 26 frames through six moves show the cursor on the team the panel names
+renders: 10 ROM-executed frames equal the converter oracle; PNGs in build/menu32-rom; control: one flipped map byte in either screen is caught
+selection: all 32 teams chosen by serial controller input reach $FF90 through the stock commit, seed and launch with the old ROM's exact game RAM, PRG RAM, mapper and stack state (65s)
+menuart32 SHA256 bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+PASS (108.0s)
+wrote build/draw32.nes: b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541 (317 bytes changed)
+input bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3
+candidate b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541
+host draw: xorshift16 period 65535; seed 0 equals the stock seeder for all 32 teams; 6 golden draws; 16383 distinct draws for teams 0 and 31 (control: 8-bit seeds give 255); all 65536 timing pairs reach every seed 4-8 times; first opponent counts 474-610 over the family
+host codec: 408 states round trip (206 v1 byte-identical to password32, 202 v2 rejected by password32); 6 golden codes with case, space and alias input; 27 correct-CRC invalid forms and 8184 one-symbol substitutions rejected
+CLI: password32v2 encode/decode take explicit --team and --draw-seed; password32 --seed still means the selected team; draw32 prints the order
+builder: 317 changed bytes inside 6 whole reservations; banks 0-10 and 13-15, header and CHR identical; 15 dependency, digest, hook and reservation guards each reject a one-bit drift; bad manifests rejected; v1 codec labels match password32_6502
+output guards: deterministic CLI build and manifest from another directory; 16 protected targets refused (inputs, renamed copy, sources, nested PNG, symbolic and hard links); a bad input keeps the output
+RAM audit: 15 new $7760/$7761 operands, all inside the bank-11 draw and bank-12 codec code; the 16 base matches are bank-0 table bytes
+6502 draw: dr_rng equals xorshift16 for all 65535 states; 16415 draws (every seed, every team at seed 0) equal the host; 813-10082 cycles, mean 10018; writes only $7700-$771F, $00-$08 and stack, never $34 or the seed; capture equals the host for all 65536 timing pairs; restore_draw copies the decoded seed and draws
+CPU codec: 408 codes (202 v2) decode like the host; menuart32 rejects all 202 v2 codes and keeps every v1 code; 27 correct-CRC invalid forms rejected with heap, seed, markers and masks unchanged (the stock bridge then clears only $07ED); 8184 substitutions rejected; 408 display buffers equal the host with no PRG RAM writes; 120 bridge decode -> restore -> encode cycles reproduce heap, markers, seed and the typed code, writing only heap and seed. Controls: restore-call heap WRONG/code WRONG; encode-call heap ok/code WRONG; no gate rejects v2
+title tail: v1 and v2 series (draw seeds 0, $1234, $3FFF) survive the real post-game $B63D, title init, START on either controller, mode-menu init and CONTINUE into bank 11 with heap, seed, markers and masks unchanged; the displayed codes are 4995FEC5ESTVP6KM5YCNYM, 4T06FEC5ESTVP6KM5TPUF0, 7D97FEC5ESTVP6KM54DA0M; RESET's $CD20/$CD5C never ran. Control: a direct $CD5C call clears $07ED
+draw32 SHA256 b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541
+PASS (82.7s)
+wrote build/pick32.nes: 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa (721 bytes changed)
+input b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541
+candidate 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa
+builder: 721 changed bytes inside 5 whole reservations; banks 0, 3-9 and 11-15, header and CHR identical; 34 dependency, digest, hook and reservation guards each reject a one-bit drift; bad manifests rejected; reused helpers, card origin and cursor tile equal menuart32's generated labels and assets; a header needing glyph '!' is rejected
+output guards: deterministic CLI build and manifest from another directory; 16 protected targets refused (inputs, renamed copy, sources, nested PNG, symbolic and hard links); a bad input keeps the output
+picker units: a second pick equal to the first is refused for all 32 teams with no game-state write; controller 1 and 2 reads and the held-button latch on both ports; 8 mode headers queued at $2068
+title tail: v1 and v2 series survive post-game, title, START on either controller, mode menu and CONTINUE (40CKT8YCSUT8XWB4HWCWDR, 74CMT8YCSUT8XWB4H2D3JR)
+championship: team 20 committed through $9620; draw seed 1FEB from $33=7F $07F3=2B; heap equals the host draw (first opponent 22); only team 20 human; $07ED first set by the commit at bank 11 $86E7; every $7760/$7761 access comes from the bank-11 draw with CHR latches below $10
+cancel: fresh boot START NEW SERIES then B keeps $07ED=00; CONTINUE opens password entry (scene 19)
+control without the bank-1 patch: START NEW SERIES sets $07ED=12 and after B, CONTINUE enters scene 13/03 in bank 5
+active series with draw seeds 0, $1234 and $3FFF: START NEW SERIES, move to team 31, B, then CONTINUE reaches the bank-11 bracket with heap, seed, markers and masks unchanged and zero $7760/$7761 writes
+exhibition 1P: picks (20, 31) on controllers (0, 0); $04EB/$04EC 00/80; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1160 of 2273 cycles
+exhibition 1P: picks (16, 3) on controllers (0, 0); $04EB/$04EC 00/80; $04E2=0 over a stale 1, series intact; exact roster caches and pointers; $C585 routes both sides through swaps; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1160 of 2273 cycles
+exhibition 2P: picks (3, 22) on controllers (0, 1); $04EB/$04EC 00/00; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; controller 1 cannot steer, pick or go back on side 2; controller 2 can; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1162 of 2273 cycles
+exhibition WATCH: picks (30, 29) on controllers (0, 0); $04EB/$04EC 80/80; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1162 of 2273 cycles
+exhibition 2P: picks (31, 0) on controllers (0, 1); $04EB/$04EC 00/00; $04E2=0; exact roster caches and pointers; $C585 routes both sides through swaps; controller 1 cannot steer, pick or go back on side 2; controller 2 can; picker never writes $06E0, $BD or ownership; scene $11 reached; busiest vblank 1162 of 2273 cycles
+exhibition rules: the same team is refused as the second pick; B while choosing the second team returns to the first with the cursor on it; B again reaches the mode menu
+analysis: 27 and 31 viewed; ratings B reopens the picker on the viewed team; B reaches the mode menu; active series intact
+exit parity: 100 RAM bytes differ at scene $10; through scenes $11 and $0F the only ones read before rewritten are audio state, $33, $047D, $049D/$049E and the cache inputs $07FD/$07FE (11 bytes)
+pick32 SHA256 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa
+PASS (213.0s)
+checked /Users/dfm/GitHub/nesdav/little-league/data/title32/titleassets.json: 201 tiles used, 55 free, sha256 908a4f7c407afa976d0070d59f71ddb6f2f21d8112cf0d57344474cc302b8833
+wrote build/title32.nes: 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c (4584 bytes changed)
+input 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa
+candidate 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+converter: deterministic; committed JSON current (201 tiles, 26 stock glyphs); 8 bad inputs rejected; pxl re-render not run (no --pxl)
+converter CLI: --out and --preview from another directory; --check passes current and fails stale JSON; 11 protected targets refused as --out or --preview (ROM, nested PNGs, source, layout, lock, data, links), and the assets as --preview
+builder: 4584 changed bytes inside 6 whole reservations; banks 1-15, header and every CHR bank but $17 identical; 16 dependency, digest, hook, reservation and pinned stock CHR $17 guards each reject a one-bit drift; bad manifests and 9 malformed or foreign assets rejected
+output guards: deterministic CLI build and manifest from another directory; 18 protected targets refused (inputs, renamed copy, sources, assets, nested PNGs, symbolic and hard links); a bad input keeps the output
+title tail: v1 and v2 series survive post-game, the new title draw, START on either controller, mode menu and CONTINUE, with displayed codes 4995FEC5ESTVP6KM5YCNYM, 4T06FEC5ESTVP6KM5TPUF0, 7D97FEC5ESTVP6KM54DA0M
+runtime: frame 120 shows the converted title from CHR $17 with its palette and song $04 and no late VRAM writes (control: the stock title differs); START on controller 1 or 2 reaches the mode menu with song $06 (frames 66, 66); attract phases 0-3 start at frames 306, 726, 1210, 1513 and demo scene $08 at 1815, at most 2 frames from the stock title (307, 727, 1211, 1514; 1817); cutscene phases 0-2 show the stock screens and CHR; phase 3 redraws the new title
+title32 SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+PASS (70.2s)
+ROM SHA256 d043ecdfc46c4d50c509db30f757425759a556dec3258be462fa9b3d81091ec1
+mode=speed matches=6 winner=score require_complete=False check_stack=False team=None
+loaded build/direct31.nes, navigated to CONTINUE/END
+match 00: 0F v 00 -> $7720=0F (score 1-0) OK  index=01
+match 01: 01 v 02 -> $7721=01 (score 1-0) OK  index=02
+match 02: 03 v 04 -> $7722=04 (score 0-1) OK  index=03
+match 03: 05 v 06 -> $7723=05 (score 1-0) OK  index=04
+match 04: 07 v 08 -> $7724=07 (score 3-0) OK  index=05
+match 05: 09 v 0A -> $7725=09 (score 3-0) OK  index=06
+slots: 0f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 0f 01 04 05 07 09 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+mode=speed matches=31 winner=live-score require_complete=True check_stack=True team=31
+loaded build/title32.nes, selected team 1F
+match 00: stack $FF OK
+match 00: 1F v 0C -> $7720=1F (live 1F/0C, score 6-2, game-over 1) OK  index=01
+match 01: stack $FF OK
+match 01: 17 v 00 -> $7721=17 (live 17/00, score 2-0, game-over 1) OK  index=02
+match 02: stack $FF OK
+match 02: 13 v 0E -> $7722=13 (live 0E/13, score 1-2, game-over 1) OK  index=03
+match 03: stack $FF OK
+match 03: 06 v 15 -> $7723=06 (live 15/06, score 0-1, game-over 1) OK  index=04
+match 04: stack $FF OK
+match 04: 01 v 04 -> $7724=01 (live 04/01, score 0-1, game-over 1) OK  index=05
+match 05: stack $FF OK
+match 05: 0A v 1B -> $7725=1B (live 0A/1B, score 0-3, game-over 1) OK  index=06
+match 06: stack $FF OK
+match 06: 1C v 19 -> $7726=19 (live 19/1C, score 5-2, game-over 1) OK  index=07
+match 07: stack $FF OK
+match 07: 09 v 11 -> $7727=11 (live 09/11, score 0-1, game-over 1) OK  index=08
+match 08: stack $FF OK
+match 08: 16 v 08 -> $7728=08 (live 16/08, score 1-2, game-over 1) OK  index=09
+match 09: stack $FF OK
+match 09: 0B v 03 -> $7729=03 (live 03/0B, score 1-0, game-over 1) OK  index=0A
+match 10: stack $FF OK
+match 10: 05 v 12 -> $772A=12 (live 05/12, score 0-1, game-over 1) OK  index=0B
+match 11: stack $FF OK
+match 11: 1D v 0F -> $772B=0F (live 0F/1D, score 1-0, game-over 1) OK  index=0C
+match 12: stack $FF OK
+match 12: 10 v 0D -> $772C=10 (live 0D/10, score 1-4, game-over 1) OK  index=0D
+match 13: stack $FF OK
+match 13: 14 v 02 -> $772D=02 (live 02/14, score 5-1, game-over 1) OK  index=0E
+match 14: stack $FF OK
+match 14: 1E v 1A -> $772E=1E (live 1E/1A, score 2-0, game-over 1) OK  index=0F
+match 15: stack $FF OK
+match 15: 18 v 07 -> $772F=07 (live 07/18, score 9-2, game-over 1) OK  index=10
+match 16: stack $FF OK
+match 16: 1F v 17 -> $7730=17 (live 17/1F, score 5-2, game-over 1) OK  index=11
+match 17: stack $FF OK
+match 17: 13 v 06 -> $7731=06 (live 13/06, score 0-2, game-over 1) OK  index=12
+match 18: stack $FF OK
+match 18: 01 v 1B -> $7732=1B (live 1B/01, score 1-0, game-over 1) OK  index=13
+match 19: stack $FF OK
+match 19: 19 v 11 -> $7733=19 (live 11/19, score 2-3, game-over 1) OK  index=14
+match 20: stack $FF OK
+match 20: 08 v 03 -> $7734=08 (live 08/03, score 4-0, game-over 1) OK  index=15
+match 21: stack $FF OK
+match 21: 12 v 0F -> $7735=12 (live 12/0F, score 1-0, game-over 1) OK  index=16
+match 22: stack $FF OK
+match 22: 10 v 02 -> $7736=02 (live 02/10, score 4-2, game-over 1) OK  index=17
+match 23: stack $FF OK
+match 23: 1E v 07 -> $7737=07 (live 07/1E, score 4-0, game-over 1) OK  index=18
+match 24: stack $FF OK
+match 24: 17 v 06 -> $7738=06 (live 17/06, score 0-1, game-over 1) OK  index=19
+match 25: stack $FF OK
+match 25: 1B v 19 -> $7739=1B (live 19/1B, score 0-7, game-over 1) OK  index=1A
+match 26: stack $FF OK
+match 26: 08 v 12 -> $773A=12 (live 12/08, score 1-0, game-over 1) OK  index=1B
+match 27: stack $FF OK
+match 27: 02 v 07 -> $773B=07 (live 07/02, score 10-0, game-over 1) OK  index=1C
+match 28: stack $FF OK
+match 28: 06 v 1B -> $773C=1B (live 06/1B, score 0-1, game-over 1) OK  index=1D
+match 29: stack $FF OK
+match 29: 12 v 07 -> $773D=07 (live 07/12, score 3-0, game-over 1) OK  index=1E
+match 30: stack $FF OK
+match 30: 1B v 07 -> $773E=07 (live 07/1B, score 10-1, game-over 1) OK  index=1F
+slots: 1f 0c 17 00 13 0e 06 15 01 04 0a 1b 1c 19 09 11 16 08 0b 03 05 12 1d 0f 10 0d 14 02 1e 1a 18 07 1f 17 13 06 01 1b 19 11 08 03 12 0f 10 02 1e 07 17 06 1b 19 08 12 02 07 06 1b 12 07 1b 07 07
+champion slot 62 ($773E) = 07
+saved state soak-final and /tmp/soak-final.png

@@ -1,0 +1,9 @@
+ROM SHA256 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c
+controller-only tour=exhibition submode=1p complete=True password=4995FEC5ESTVP6KM5YCNYM
+password restored through keyboard; matchup B preserved series
+exhibition submode=0 teams=(31, 30): ports, duplicate refusal, B back, cache and series pass
+field half=0 teams=1f1e scores=0000
+field half=1 teams=1f1e scores=0000
+exhibition completed game-over=01 scores=000a
+exhibition title return preserves heap, draw seed, progress, markers and ownership
+CONTINUE launches preserved pair 180a and exports the exact restored password

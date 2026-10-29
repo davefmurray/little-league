@@ -1,0 +1,6 @@
+{
+  "rom_sha256": "8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c",
+  "tour": "analysis",
+  "input": "controller-only",
+  "status": "passed"
+}

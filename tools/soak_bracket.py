@@ -120,7 +120,8 @@ def open_selector(team, rom_path=None):
     press("a", 10)
     step(60)
     entry = Path(rom_path).read_bytes()[0x28010:0x28013] if rom_path is not None else b""
-    grid = len(entry) == 3 and entry[0] == 0x4C and 0xA000 <= int.from_bytes(entry[1:], "little") < 0xA400
+    grid = len(entry) == 3 and entry[0] == 0x4C and (
+        0xA000 <= int.from_bytes(entry[1:], "little") < 0xA400 or entry == bytes.fromhex("4C 00 B4"))
     moves = (["down"] * (team >> 3) + ["right"] * (team & 7) if grid else
              ["right"] * ((team // 8) * 4 + team % 4) + (["down"] if team % 8 >= 4 else []))
     for button in moves:
@@ -173,10 +174,10 @@ def main():
     romdev.call("loadMedia", {"platform": "nes",
                               "path": os.path.abspath(args.rom)})
     if args.bracket_state:
-        romdev.call("state", {"op": "load", "path": args.bracket_state})
+        romdev.call("state", {"op": "load", "path": os.path.abspath(args.bracket_state)})
         print(f"loaded {args.rom}, bracket state {args.bracket_state}")
     elif args.state:
-        romdev.call("state", {"op": "load", "path": args.state})
+        romdev.call("state", {"op": "load", "path": os.path.abspath(args.state)})
         print(f"loaded {args.rom}, state {args.state}")
     elif args.team is not None:
         navigate_selector(args.team, args.rom)
