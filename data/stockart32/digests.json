@@ -1,0 +1,47 @@
+{
+ "format": "stockart32-digests/1",
+ "sources": {
+  "art/stockart32/PXL.json": "fb381192fce88cc0d29aff13cfb0cc0bd91ffe285048a466a1b11c85ee4ad9be",
+  "art/stockart32/characters.json": "8cccea0200ebe9277f3e0e60467af6fccebc49cfe345ecf30c6c2505f5dbf5ca",
+  "art/stockart32/mode/layout.json": "ce13dfecad1ea905b318cdec2be1d37dadcf18dbedf466a8dfdc080e896ac243",
+  "art/stockart32/mode/mode32.px.js": "2c314d7609592976181cde1eee4f764192d5d68c13c2cbff8bfe0603286c08c2",
+  "art/stockart32/score/layout.json": "021c7abb48699b4ed3ea49af1f23e453aebd3aa40a0019f6708a1b3c4f2b6841",
+  "art/stockart32/score/score32.px.js": "e871ca7431e36f4235c2e00e2eef88104ee7f66a176b5de392c7bf38797f5782"
+ },
+ "roms": {
+  "base": "2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a",
+  "font": "7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9"
+ },
+ "pins": {
+  "intro script, origins, map and selector pointers $B1B7-$B211": "6124b68ced644bca4128461dac98ebbebb09a9e1929253396c6df0355b8fc10d",
+  "intro tile maps $B212-$B3D1": "e9725e5aa1200f0ba2b8bd71eee3b1c7533ec126aede1a59b1ba0199d4c99fee",
+  "intro sprite palette selectors $B3D2-$B441": "4ee8b9c27c92ec2c4b969c30415b59c7a618701bbe13e4c3a17ff3f54c0fe782",
+  "intro OAM writer $AEE6-$AF68": "7954a0ac7a6d08542dd0a76189077311c81388e72f4c09150698bef1858803c8",
+  "intro CHR selects $AD34-$AD3B": "e10b83263f0edd2d706d4a372c3f1667b3a8e99f126b5dc7ab45cdab72d4e873",
+  "intro palette records by sub-scene $ADD2-$ADDD": "6ad8411f4178b8bb93df8a28323b9b9c9823c227eff2bff80c5f509751e12ff0",
+  "sprite palette record $8E, fixed $FA60-$FA6F": "99d90b3940c518e0bd7a2fd28d81d7eff3a69aca0f3364c3c8e0ba72a3bd1c61",
+  "stands palette record $15, fixed $F930-$F93F": "1a800560229f6a56568e17de50cdb2f423f870b7b0f2e9ddf17f084ed6612f63",
+  "CHR $14 intro sprites": "2dea85c47810d1ccb6c686e1a29dd9828765386b692faafb341e3cee40179f8e",
+  "CHR $10 stands crowd": "e7075fe93e716a01b2ca9a19c048b2965820493813d12aada74d264b88dc58e8"
+ },
+ "outputs": {
+  "mode-preview.png": "e950de68fa2ac765400792e1d81efbe93dfd472de814aa3fa54fb5aef3ce41bc",
+  "mode/out/scenes/mode.png": "9cf72358e1374a32c444243e369e37682763c707437e30ccea3363dc8b62d033",
+  "modeassets.json": "183838c6f41d3c1498649989555734c9471b7a76bd73def79821f6d510c6afc8",
+  "parts/batter.png": "f991ee13d87332bb8963f643a30367ba375d7890901625b8a315b364be8561a4",
+  "parts/cheer.png": "0e8f42700fc1e292f3897cf0e76e606e4a87c0f2267f3c88121f35ca750a3d8d",
+  "parts/crowd-mix.png": "32fbbf2f08e6748341df93fc76cfb339ff0d4535a7e70f2de7216ab5b1fddfa2",
+  "parts/crowd-red.png": "1d7237916cc8a009e5268eddf2d9827d51a0ce584c65583c13cfe854c670a327",
+  "parts/glove.png": "70257809a4767e66dccb1a499bfc60b15a9b13ca1dcdb541644ddfda204caf70",
+  "parts/pair.png": "a8c73eb5b6ed4a09f506a5a4eccba9c3a62b6744936a3d5349dc917b4587ec2f",
+  "provenance.json": "b7e6b406cda656d1685aaf5f27955d83122488b9ed2c15a3dd595511bf7f0647",
+  "score-preview.png": "fb1468074a7a6211fdca34a4d553e0e81ad3aaadbae5087560c1efa4ebf182a2",
+  "score/out/scenes/score.png": "d4df23898e8dc43c28dd78939cc45546bc30b5ae63feadd7da6173711239d22d",
+  "score/out/sprites/big.png": "e927f151bb70a702fa599c66df435451d7fcfd4411bbda703574c83202732154",
+  "score/out/sprites/head.png": "4598f674baaf29b04e756be7c631dc6e6f4132f80899e096b15e12da0845b879",
+  "score/out/sprites/narrow.png": "70f6aedaf73c62b56c114cce80868b18828c4a2ea72c6afb1ed8a64a3aa67b64",
+  "score/out/sprites/sep.png": "a431d3f1204d0a8b3435fd1ae44dea593ae55de45b734fe0bbe536e52d109e25",
+  "scoreassets.json": "58138e21eae046831b233c53ea32d44da1b629c348dd89a83c34df81a1f8a8f7"
+ },
+ "rom": "a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55"
+}

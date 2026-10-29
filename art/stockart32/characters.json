@@ -1,0 +1,246 @@
+{
+ "format": "stockchars/1",
+ "about": "Stock Little League characters as references into ROM bytes, never pixel data. tools/stockart32_source.py pins every byte range read and tools/stockart32_parts.py defines each field. Crops index the 64x64 intro panel; seeds, boxes, faces and ink_keep points are in crop space. A reference names the screenshot a ROM decode was matched against; regeneration never reads it.",
+ "characters": [
+  {
+   "id": "glove",
+   "source": {"kind": "intro-panel", "panel": 0},
+   "crop": [8, 0, 40, 64],
+   "seeds": [
+    {"at": [0, 0], "through": ["2C", "20"], "why": "sky and clouds"},
+    {"at": [0, 63], "through": ["17", "20"], "why": "infield dirt and the white baseline"},
+    {
+     "at": [32, 31],
+     "through": ["2C"],
+     "why": "sky between the gloved arm and the body, closed off by the fence"
+    }
+   ],
+   "specks": [{"box": [0, 32, 40, 16], "colors": ["2C"], "size": 2, "why": "chain-link fence dither"}],
+   "faces": [[19, 9, 13, 15]],
+   "ink": "0C",
+   "colors": {"20": "38", "05": "12", "36": "38", "17": "17", "2C": "12"},
+   "recolor_why": "P3 blue/cream/brown in every cell: cyan jersey to blue, the helmet's red T to blue, its pink stripe to cream",
+   "target": {"screen": "score", "palette": 3},
+   "mask_sha256": "511fa5169c283752203fbeffa16bb34a8bd5fe55ef54cbd31c80412f417bb16a",
+   "reference": {
+    "capture": "intro-glove",
+    "sha256": "79a8267408f27e11d2ef6cdaed3af70dc6178f4a449e04cab9ff4f46e0048480",
+    "crop": [32, 153, 64, 64],
+    "matched": "0 of 4096 pixels differ against the ROM decode of the whole panel"
+   }
+  },
+  {
+   "id": "batter",
+   "source": {"kind": "intro-panel", "panel": 1},
+   "crop": [0, 0, 56, 64],
+   "seeds": [{"at": [0, 63], "through": ["17"], "why": "home-plate dirt"}],
+   "specks": [{"box": [0, 0, 56, 52], "colors": ["2C"], "size": 2, "why": "backstop fence dither"}],
+   "drop": [[48, 0, 8, 64]],
+   "drop_why": "the catcher at the panel's right edge",
+   "scenery_colors": ["2C"],
+   "ink_grow": true,
+   "ink_keep": [
+     [24, 8], [25, 8], [26, 8], [27, 8], [28, 8], [29, 8], [32, 8], [33, 8], [34, 8], [35, 8], [36, 8], [23, 9],
+     [24, 9], [25, 9], [26, 9], [27, 9], [28, 9], [29, 9], [30, 9], [31, 9], [32, 9], [33, 9], [34, 9], [35, 9],
+     [36, 9], [37, 9], [24, 10], [25, 10], [26, 10], [27, 10], [28, 10], [29, 10], [30, 10], [31, 10], [32, 10],
+     [33, 10], [34, 10], [35, 10], [36, 10], [37, 10], [38, 10], [25, 11], [26, 11], [27, 11], [28, 11],
+     [29, 11], [30, 11], [31, 11], [32, 11], [33, 11], [34, 11], [35, 11], [36, 11], [37, 11], [26, 12],
+     [27, 12], [31, 12], [32, 12], [33, 12], [34, 12], [35, 12], [36, 12], [37, 12], [38, 12], [25, 13],
+     [26, 13], [32, 13], [33, 13], [34, 13], [35, 13], [36, 13], [37, 13], [26, 14], [28, 14], [33, 14],
+     [34, 14], [35, 14], [36, 14], [37, 14], [38, 14], [25, 15], [26, 15], [27, 15], [29, 15], [34, 15],
+     [35, 15], [36, 15], [37, 15], [26, 16], [27, 16], [28, 16], [29, 16], [33, 16], [34, 16], [35, 16],
+     [36, 16], [25, 17], [26, 17], [27, 17], [33, 17], [34, 17], [35, 17], [36, 17], [37, 17], [26, 18],
+     [27, 18], [28, 18], [29, 18], [30, 18], [31, 18], [32, 18], [33, 18], [34, 18], [35, 18], [36, 18]
+   ],
+   "ink_keep_why": "Reviewed source-zero head boundary inside the original cyan fence edge, rows8..18. These are retained source backdrop pixels, not newly drawn colors or anatomy.",
+   "faces": [[26, 11, 10, 11]],
+   "ink": "0C",
+   "colors": {"20": "38", "05": "16", "36": "36", "17": "36"},
+   "recolor_why": "P2 red/cream/skin in every cell: the orange bat $17 becomes skin $36, a light wooden bat",
+   "target": {"screen": "score", "palette": 2},
+   "mask_sha256": "1fde254cbc566384e3810c351b7d4326515d31ad72856ccdd0d76c8aa61e6c43",
+   "reference": {
+    "capture": "intro-batter",
+    "sha256": "154efce958ddd1414f8780da0aa3f890135320906f408663d8eb44dbe4901a90",
+    "crop": [112, 153, 64, 64],
+    "matched": "0 of 4096 pixels differ against the ROM decode of the whole panel"
+   }
+  },
+  {
+   "id": "cheer",
+   "source": {"kind": "intro-panel", "panel": 4},
+   "crop": [8, 0, 48, 64],
+   "seeds": [
+    {"at": [8, 0], "through": ["2C", "20"], "why": "sky and clouds"},
+    {"at": [40, 33], "through": ["2C"], "why": "sky closed off by her right pom-pom and a neighbour's"},
+    {"at": [0, 63], "through": ["20", "2C", "05"], "why": "bleacher dither"}
+   ],
+   "specks": [{"box": [0, 42, 48, 22], "colors": ["20", "2C", "05"], "size": 2, "why": "bleacher dither"}],
+   "scenery_colors": ["2C"],
+   "faces": [[22, 15, 15, 13]],
+   "ink": "0C",
+   "colors": {"20": "38", "05": "16", "36": "36", "17": "16"},
+   "recolor_why": "P2 red/cream/skin in every cell: orange-brown hair $17 becomes the nearest P2 hue, red $16",
+   "target": {"screen": "mode", "palette": 2},
+   "mask_sha256": "4a9c0053f11751214f4f1a271373cd00f3f1b8fb6093ea1ccd195ccbb809fef4",
+   "reference": {
+    "capture": "intro-running",
+    "sha256": "7b5a6c59c0836ec4a0f85d763331ae40ea2d7d58ca87bc98b493f95f8895471f",
+    "crop": [64, 153, 64, 64],
+    "matched": "0 of 4096 pixels differ against the ROM decode of the whole panel"
+   }
+  },
+  {
+   "id": "pair",
+   "source": {"kind": "intro-panel", "panel": 6},
+   "crop": [0, 0, 64, 64],
+   "seeds": [
+    {"at": [0, 0], "through": ["2C"], "why": "sky left of the boys"},
+    {"at": [63, 30], "through": ["2C"], "why": "sky right of the boys"},
+    {"at": [34, 12], "through": ["2C"], "why": "sky between the caps"},
+    {
+     "at": [17, 0],
+     "through": ["20", "2C"],
+     "box": [0, 0, 54, 16],
+     "why": "clouds, kept to the sky band beside and above both caps: at (39,27) the sky touches a white shoulder with no outline"
+    }
+   ],
+   "specks": [
+    {"box": [0, 32, 64, 32], "colors": ["2C"], "size": 2, "why": "fence dither behind both kids"},
+    {
+     "box": [24, 30, 34, 34],
+     "colors": ["2C"],
+     "size": 7,
+     "why": "background seen through gaps between the boys' arms and shirts, edged by white without an outline"
+    }
+   ],
+   "drop": [[0, 47, 10, 17], [54, 55, 10, 9], [55, 0, 9, 18]],
+   "drop_why": "caps of two more kids cut by the panel's bottom corners; upper-right raised hand belongs to a clipped neighbor, with no retained arm connection",
+   "ink_keep": [[17, 23], [53, 26]],
+   "ink_keep_why": "Source-zero dark brim/face and cheek pixels, confirmed in the original composition; preserve them over the cream wall.",
+   "faces": [[12, 20, 17, 15], [38, 18, 18, 14]],
+   "ink": "0C",
+   "colors": {"20": "38", "05": "16", "36": "36", "2C": "16"},
+   "recolor_why": "P2 red/cream/skin in every cell: the left boy's cyan jersey and brim become red. His face cell holds skin, cream cap, cyan brim and a red mouth at every alignment, so keeping cyan would need a fourth color.",
+   "target": {"screen": "mode", "palette": 2},
+   "mask_sha256": "416ee5c8f90bc48716312e5e557031149e11ba6431446bf08a65259b633d706c",
+   "reference": {
+    "capture": "intro-pair",
+    "sha256": "2b7627aaaf8b77bd2373d176d820a60c0abebee2a38b2e87c28b866d402d678c",
+    "crop": [32, 153, 64, 64],
+    "matched": "0 of 4096 pixels differ against the ROM decode of the whole panel"
+   }
+  }
+ ],
+ "crowds": [
+  {
+   "id": "crowd-red",
+   "source": {
+    "kind": "stands-block",
+    "metatiles": {
+     "A": {"tiles": ["40", "41", "42", "43"], "palette": 1},
+     "B": {"tiles": ["58", "59", "5A", "5B"], "palette": 0},
+     "C": {"tiles": ["60", "61", "62", "63"], "palette": 0}
+    },
+    "rows": [["Br", "Ar", "Br", "Br", "Ar"], ["Br", "Br", "Ar", "Cr", "Ar"]]
+   },
+   "shirts": {"r": {"30": "38", "36": "36", "1C": "16", "15": "16"}},
+   "ink": "0C",
+   "target": {"screen": "score", "palettes": {"r": 2}},
+   "arrangement_why": "Metatile order observed in the crowd-lineup capture, nametable rows 2-5, columns 0-9; the PRG table that lays out the field stands was not found. Every tile id and color comes from CHR $10 and palette record $15.",
+   "reference": {
+    "capture": "crowd-lineup",
+    "sha256": "7c9301c04278422ddda781d81d0d969b5ee5c0cacd731e65104770711a4289a1",
+    "crop": [0, 8, 80, 32],
+    "matched": "0 of 2560 pixels differ against the ROM decode of this block"
+   }
+  },
+  {
+   "id": "crowd-mix",
+   "source": {
+    "kind": "stands-block",
+    "metatiles": {
+     "A": {"tiles": ["40", "41", "42", "43"], "palette": 1},
+     "B": {"tiles": ["58", "59", "5A", "5B"], "palette": 0},
+     "C": {"tiles": ["60", "61", "62", "63"], "palette": 0}
+    },
+    "rows": [["Bb", "Ar", "Bb", "Bb", "Ar"], ["Bb", "Bb", "Ar", "Cb", "Ar"]]
+   },
+   "shirts": {
+    "r": {"30": "38", "36": "36", "1C": "16", "15": "16"},
+    "b": {"30": "38", "36": "36", "1C": "12", "15": "12"}
+   },
+   "ink": "0C",
+   "target": {"screen": "mode", "palettes": {"r": 2, "b": 3}},
+   "arrangement_why": "Metatile order observed in the crowd-lineup capture, nametable rows 2-5, columns 0-9; the PRG table that lays out the field stands was not found. Every tile id and color comes from CHR $10 and palette record $15. Teal-shirted metatiles (record $15 palette 0) become blue, magenta ones (palette 1) red, keeping the stock alternation.",
+   "reference": {
+    "capture": "crowd-lineup",
+    "sha256": "7c9301c04278422ddda781d81d0d969b5ee5c0cacd731e65104770711a4289a1",
+    "crop": [0, 8, 80, 32],
+    "matched": "0 of 2560 pixels differ against the ROM decode of this block"
+   }
+  }
+ ],
+ "placements": [
+  {"part": "batter", "screen": "score", "at": [20, 160]},
+  {"part": "glove", "screen": "score", "at": [196, 160]},
+  {
+   "part": "crowd-red",
+   "screen": "score",
+   "at": [0, 160],
+   "visible": [0, 160, 16, 32],
+   "why": "the batter's dugout covers the rest"
+  },
+  {"part": "crowd-red", "screen": "score", "at": [80, 160]},
+  {
+   "part": "crowd-red",
+   "screen": "score",
+   "at": [160, 160],
+   "visible": [160, 160, 32, 32],
+   "why": "the players' tunnel covers the rest"
+  },
+  {"part": "crowd-red", "screen": "score", "at": [240, 160]},
+  {
+   "part": "crowd-mix",
+   "screen": "mode",
+   "at": [0, 64],
+   "area": [0, 0, 32, 32],
+   "visible": [0, 65, 32, 31],
+   "why": "the stands' cream rail covers line 64"
+  },
+  {
+   "part": "crowd-mix",
+   "screen": "mode",
+   "at": [0, 96],
+   "area": [0, 0, 32, 32],
+   "visible": [0, 96, 32, 24],
+   "why": "the ledge covers lines 120-127"
+  },
+  {
+   "part": "crowd-mix",
+   "screen": "mode",
+   "at": [224, 64],
+   "area": [48, 0, 32, 32],
+   "visible": [224, 65, 32, 31],
+   "why": "the stands' cream rail covers line 64"
+  },
+  {
+   "part": "crowd-mix",
+   "screen": "mode",
+   "at": [224, 96],
+   "area": [48, 0, 32, 32],
+   "visible": [224, 96, 32, 24],
+   "why": "the ledge covers lines 120-127"
+  },
+  {"part": "crowd-mix", "screen": "mode", "at": [16, 160], "area": [0, 0, 48, 32]},
+  {"part": "crowd-mix", "screen": "mode", "at": [192, 160], "area": [32, 0, 48, 32]},
+  {
+   "part": "pair",
+   "screen": "mode",
+   "at": [120, 156],
+   "visible": [120, 156, 64, 44],
+   "why": "the ticket counter covers the panel edge that cuts their legs, from line 200"
+  },
+  {"part": "cheer", "screen": "mode", "at": [68, 160]}
+ ]
+}

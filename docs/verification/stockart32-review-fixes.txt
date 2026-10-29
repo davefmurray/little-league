@@ -1,0 +1,3 @@
+crowd targets: incompatible shirts sharing a palette are refused in both insertion orders
+manifest: stockchars/1 parses into 4 characters, 2 crowds and 14 placements; 63 malformed manifests (format, keys, path-safe and unique ids, source kinds and panels, crops on the grid and in bounds, color types and ranges, seeds, specks, drops, faces, ink points, digests, targets, metatiles, rows, placements, unplaced parts) and broken JSON refused before any pixel is cut; 9 pixel-level errors refused (seed on figure pixels, ink_keep on ink, unmapped color, removed reviewed ink, the wider hand box, target palettes and backdrop ink)
+PASS: 46 screenshot/audio/input collisions refused before emulator dispatch; fresh destinations accepted

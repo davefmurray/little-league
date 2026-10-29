@@ -1,0 +1,31 @@
+{
+  "format": "modeart32-layout/1",
+  "backdrop": "0C",
+  "palettes": [["21", "38", "28"], ["21", "38", "1A"], ["16", "38", "36"], ["12", "38", "36"]],
+  "sprite_palettes": [["17", "28", "16"], ["17", "28", "16"], ["17", "28", "16"], ["17", "28", "16"]],
+  "cursor": {"dx": -20, "dy": -5},
+  "menus": {
+    "main": {
+      "items": [{"col": 8, "row": 7, "text": "CHAMPIONSHIP SERIES"},
+                {"col": 8, "row": 10, "text": "EXHIBITION MODE"},
+                {"col": 8, "row": 13, "text": "POWER ANALYSIS"}],
+      "text": []
+    },
+    "championship": {
+      "items": [{"col": 8, "row": 7, "text": "CONTINUE PLAY"},
+                {"col": 8, "row": 10, "text": "LIST OF TEAMS"},
+                {"col": 8, "row": 13, "text": "START NEW SERIES"}],
+      "text": []
+    },
+    "exhibition": {
+      "items": [{"col": 11, "row": 7, "text": "1P"},
+                {"col": 11, "row": 10, "text": "2P"},
+                {"col": 11, "row": 13, "text": "WATCH GAME"}],
+      "text": []
+    }
+  },
+  "item_palette": 0,
+  "static_text": [{"col": 9, "row": 3, "text": "LITTLE", "palette": 0},
+                  {"col": 17, "row": 3, "text": "LEAGUE", "palette": 0},
+                  {"col": 12, "row": 4, "text": "BASEBALL", "palette": 0}]
+}

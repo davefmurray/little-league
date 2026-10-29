@@ -1,0 +1,21 @@
+ROM SHA256 a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55; WATCH 31/30, played boards plus explicit RAM edge states
+exhibition submode=2 teams=[31, 30]: ports, duplicate refusal, B back, cache and series pass
+played-half-1: half=1 teams=1f1e runs=(0, 0) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+planted-half-14: half=14 teams=001f runs=(16, 18) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+planted-half-15: half=15 teams=011e runs=(17, 19) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+planted-half-28: half=28 teams=021d runs=(18, 20) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+planted-half-29: half=29 teams=031c runs=(19, 21) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+planted-half-36: half=36 teams=041b runs=(20, 22) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-2: half=2 teams=1f1e runs=(0, 0) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-3: half=3 teams=1f1e runs=(0, 0) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-4: half=4 teams=1f1e runs=(0, 0) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-5: half=5 teams=1f1e runs=(0, 0) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-6: half=6 teams=1f1e runs=(0, 1) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-7: half=7 teams=1f1e runs=(0, 1) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-8: half=8 teams=1f1e runs=(0, 3) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-9: half=9 teams=1f1e runs=(0, 3) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-10: half=10 teams=1f1e runs=(0, 3) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-11: half=11 teams=1f1e runs=(4, 3) game-over=0; exact 1024-byte board, palette, CHR05/18 and OAM
+played-half-12: half=12 teams=1f1e runs=(4, 6) game-over=1; exact 1024-byte board, palette, CHR05/18 and OAM
+PASS: played Exhibition final and title return
+MMC1 trace: 72964 frames, 8969157 writes; docs/verification/stockart32-score-mapper.json

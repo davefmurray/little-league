@@ -7459,3 +7459,19 @@ pxl catalog page are pushed to AWESOME-NESDEV at `408bac9`. The 79-line
 entry point routes to conversion, integration and worked-example references.
 The skill validator passes, documented pxl commands run on an original
 scratch scene, and every new external link returns HTTP 200.
+
+
+## Original-character ballpark screens accepted
+
+The stockart32 stage replaces the mode menu and scoreboard people with the
+original intro characters and stands crowd. It changes 4,634 bytes in six
+existing data regions and no executable bytes. Mode uses 186 tiles; score
+uses 237. Source references, masks and pxl composition are tracked, while
+stock-derived PNGs and asset blobs are generated under build/.
+
+The final ROM is a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55.
+Source regeneration, independent reviews, full CPU checks, both-controller
+menu tour, played WATCH 4-6 and stock-six/full-31 gates pass. All tournament
+matches report stack FF and game-over 1, champion07. Post-review tooling
+fixes preserve all art and ROM bytes. See docs/stockart32.md and its linked
+evidence for scope, exact commands and remaining limitations.

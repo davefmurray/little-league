@@ -1,0 +1,42 @@
+ROM SHA256 a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55; controller-only menu tour
+p1-main-0: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p1-main-1: exact screen and palette, CHR06/1B, ball 1, song06, guards clear
+p1-main-2: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p1-main-down-wrap: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p1-main-up-wrap: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p1-championship-0: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p1-championship-1: exact screen and palette, CHR06/1B, ball 1, song06, guards clear
+p1-championship-2: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p1-championship-down-wrap: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p1-championship-up-wrap: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p1-championship-back: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p1-exhibition-0: exact screen and palette, CHR06/1B, ball 3, song06, guards clear
+p1-exhibition-1: exact screen and palette, CHR06/1B, ball 4, song06, guards clear
+p1-exhibition-2: exact screen and palette, CHR06/1B, ball 5, song06, guards clear
+p1-exhibition-down-wrap: exact screen and palette, CHR06/1B, ball 3, song06, guards clear
+p1-exhibition-up-wrap: exact screen and palette, CHR06/1B, ball 5, song06, guards clear
+p1-exhibition-back: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p1-main-b: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-main-0: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-main-1: exact screen and palette, CHR06/1B, ball 1, song06, guards clear
+p2-main-2: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p2-main-down-wrap: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-main-up-wrap: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p2-championship-0: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-championship-1: exact screen and palette, CHR06/1B, ball 1, song06, guards clear
+p2-championship-2: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p2-championship-down-wrap: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-championship-up-wrap: exact screen and palette, CHR06/1B, ball 2, song06, guards clear
+p2-championship-back: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-exhibition-0: exact screen and palette, CHR06/1B, ball 3, song06, guards clear
+p2-exhibition-1: exact screen and palette, CHR06/1B, ball 4, song06, guards clear
+p2-exhibition-2: exact screen and palette, CHR06/1B, ball 5, song06, guards clear
+p2-exhibition-down-wrap: exact screen and palette, CHR06/1B, ball 3, song06, guards clear
+p2-exhibition-up-wrap: exact screen and palette, CHR06/1B, ball 5, song06, guards clear
+p2-exhibition-back: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+p2-main-b: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+menu audio: 183 APU transitions across 180 frames
+analysis-return: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+password-return: exact screen and palette, CHR06/1B, ball 0, song06, guards clear
+PASS: controller password EXIT and Analysis return restore the exact menu
+MMC1 trace: 2356 frames, 57939 writes; docs/verification/stockart32-mode-mapper.json

@@ -56,39 +56,39 @@ is in **[docs/game-writeup.md](docs/game-writeup.md)**.
 
 ## 32-team edition
 
-[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-5/little-league-32-team.nes)
-or open the [release and screenshots](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-5).
+[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-6/little-league-32-team.nes)
+or open the [release and screenshots](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-6).
 
 - **Random tournaments:** choose any of 32 teams. Your team plays first; the
   other teams are shuffled once. Passwords save the draw and progress.
 - **One team picker:** the flag grid serves Championship, Exhibition
   (1P, 2P and WATCH) and Power Analysis. In 2P, controller 2 chooses the opponent.
 - **New title and menus:** NES pixel art, a full bracket tree, and stock menu
-  music. The sunny ballpark mode menu adds families, players and a ticket
-  queue. The title retains its original music and attract sequence.
+  music. The sunny ballpark mode menu reuses the original intro characters
+  and crowd. The title retains its original music and attract sequence.
 - **New scoreboard:** cream and gold score panels, a sunny ballpark crowd,
-  and the original score/stat rules, including extra innings.
+  original game characters, and the original score/stat rules, including extra innings.
 - **Resume:** existing 32-team v1 passwords still work. Random tournaments use
   v2 codes; original 16-team game passwords are not supported.
 - **Gameplay:** completed-game results, high-team names, pitchers and roster
   caches are covered by CPU tests and emulator tournament runs.
 
 <p align="center">
-  <img src="docs/verification/scoreart32/played-half-1.png" alt="New ballpark scoreboard" width="512">
+  <img src="https://github.com/davefmurray/little-league/releases/download/32-team-preview-6/scoreboard.png" alt="New ballpark scoreboard" width="512">
 </p>
 <p align="center">
-  <img src="docs/verification/modeart32/main.png" alt="Sunny ballpark mode menu with families, players and a ticket queue" width="512">
+  <img src="https://github.com/davefmurray/little-league/releases/download/32-team-preview-6/mode-menu.png" alt="Sunny ballpark mode menu with original game characters" width="512">
 </p>
 <p align="center">
   <img src="docs/verification/frontend32/exhibition-2p/exhibition-1-second-pick.png" alt="Shared 32-team Exhibition picker" width="512">
 </p>
 
-The final build is `build/scoreart32.nes`. It passes the baseline six-game and
+The final build is `build/stockart32.nes`. It passes the baseline six-game and
 random 31-match emulator gates, plus a played WATCH Exhibition with checked
 scoreboards. Earlier modeart32 checks cover 2P completion, 1P setup and human
 field entry; full 1P completion was tested on title32.
 SPEED soaks force CPU ownership; the separate controller probes do not.
-See [scoreboard evidence and limits](docs/scoreart32.md).
+See [original-character art evidence and limits](docs/stockart32.md).
 
 Physical hardware and a second emulator implementation remain unvalidated.
 High-team uniforms reuse stock presets, gameplay flags are omitted, and the

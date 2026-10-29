@@ -4,8 +4,8 @@ Start with [32-team-status.md](32-team-status.md),
 [backlog.json](backlog.json) and [TODO-NEXT.md](../TODO-NEXT.md).
 The old launch investigation is preserved in git history.
 
-The accepted candidate is `build/scoreart32.nes`, SHA-256
-`2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a`.
+The accepted candidate is `build/stockart32.nes`, SHA-256
+`a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55`.
 The source pipeline reproduces it from the existing
 `build/direct20-names.nes` bootstrap artifact. The original-ROM-only
 bootstrap is not yet reproducible from committed scripts alone.
@@ -15,7 +15,8 @@ bootstrap is not yet reproducible from committed scripts alone.
 The software backlog is complete. `python3 tools/backlog.py pick` reports
 no ready tasks. The final front-end stages are documented in
 [draw32.md](draw32.md), [pick32.md](pick32.md), [title32.md](title32.md)
-[modeart32.md](modeart32.md) and [scoreart32.md](scoreart32.md), with source, CPU, controller and
+[modeart32.md](modeart32.md), [scoreart32.md](scoreart32.md) and
+[stockart32.md](stockart32.md), with source, CPU, controller and
 stock-six/full-31 gate evidence. Root owns romdev sessions; any future
 parallel workers must use isolated CPU tests.
 
@@ -48,6 +49,10 @@ through stock home/away swaps, rather than assume the human is side 0.
 - Scoreboard art owns CHR `$05` and bank 4 `$B800-$BCFF` as detailed
   in scoreart32.md. Preserve runtime glyph IDs, moved row tables, both
   vblank waits and the measured 41,436-cycle draw interval.
+- Original-character art replaces only six data regions already owned by
+  modeart32 and scoreart32. Keep source masks, source pins and glyph/palette
+  guards. Stock-derived images are generated under build/; commit references
+  and digest expectations.
 - Title art owns CHR `$17`; selector/bracket art owns CHR `$19`.
   Ballpark mode art owns CHR `$06` and bank 13 `$9000-$9FFF`. Its matching
   bank-switch pads at `$9432` in banks 1 and 13 must remain identical.

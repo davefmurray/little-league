@@ -5,11 +5,12 @@ the one blocked item in [docs/backlog.json](docs/backlog.json). It requires
 an external console/flash-cart setup and independent emulator applications.
 See [hardware-sound.md](docs/hardware-sound.md) for the matrix.
 
-The accepted source pipeline produces `build/scoreart32.nes`, SHA-256
-`2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a`.
+The accepted source pipeline produces `build/stockart32.nes`, SHA-256
+`a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55`.
 The new stages add repeatable random draws, v2 passwords, a shared picker
 for Exhibition and Power Analysis, title artwork and the colorful ballpark
-mode menu with people and a matching scoreboard. See [scoreart32](docs/scoreart32.md)
+mode menu and matching scoreboard with original game characters and crowd.
+See [stockart32](docs/stockart32.md)
 for final-stage evidence. The reusable [pxl/NES screen-art skill](https://github.com/davefmurray/AWESOME-NESDEV/tree/main/skills/nes-pxl-screen-art)
 is published in AWESOME-NESDEV (commit `408bac9`).
 The source rebuild, CPU suites and stock-six/random-full-31 gate pass. Controller checks cover

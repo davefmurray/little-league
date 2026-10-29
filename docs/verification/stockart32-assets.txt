@@ -1,0 +1,4 @@
+checked: all 17 outputs and the ROM match data/stockart32/digests.json; nothing written
+  parts: glove 40x64, batter 56x64, cheer 48x64, pair 64x64, crowd-red 80x32, crowd-mix 80x32
+  score: 237 tiles (78 glyphs, 159 art, 19 free); mode: 186 tiles (24 font, 162 art, 70 free)
+  stockart32 ROM a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55 from scoreart32 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a: 4634 bytes changed

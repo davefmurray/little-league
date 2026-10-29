@@ -1,0 +1,19 @@
+{
+  "art/stockart32/PXL.json": "fb381192fce88cc0d29aff13cfb0cc0bd91ffe285048a466a1b11c85ee4ad9be",
+  "art/stockart32/characters.json": "8cccea0200ebe9277f3e0e60467af6fccebc49cfe345ecf30c6c2505f5dbf5ca",
+  "art/stockart32/mode/layout.json": "ce13dfecad1ea905b318cdec2be1d37dadcf18dbedf466a8dfdc080e896ac243",
+  "art/stockart32/mode/mode32.px.js": "2c314d7609592976181cde1eee4f764192d5d68c13c2cbff8bfe0603286c08c2",
+  "art/stockart32/score/layout.json": "021c7abb48699b4ed3ea49af1f23e453aebd3aa40a0019f6708a1b3c4f2b6841",
+  "art/stockart32/score/score32.px.js": "e871ca7431e36f4235c2e00e2eef88104ee7f66a176b5de392c7bf38797f5782",
+  "data/stockart32/digests.json": "071afecfd3ea2364cc65bd07dbd64c3271b1b4ca1f1091fcfae4a73d707ae4e5",
+  "tools/build_32team_full.py": "ef09f0c5c4b7763103cdc65f669ab3a131af2e25982b52b3e24437ef2261c665",
+  "tools/build_stockart32.py": "7449137ae2b712faf63c8d0686ef433229eabe87f4e1edf1ce562addb7dc0b9a",
+  "tools/probe_stockart32.py": "02c3fadb2f37646586b8f79c900e903644ebb8211d14445c6669652b7aea12a5",
+  "tools/stockart32_convert.py": "628d804998c01120189b9f0abf16551e8277f4b1c02f3009c3375f1105bb5ded",
+  "tools/stockart32_parts.py": "db247ee7466ff0054a9979eb080f58e3cb84c63d953318e6c5051fee8b1f4584",
+  "tools/stockart32_source.py": "baa9c629b1190488aea13af6c562842f24af4d4ccdb2b2196b8ada8f01623fc0",
+  "tools/test_stockart32.py": "f0524263433bff0b36d638fd60495459668d0c37b32f5e375bcf757d3c4c66b1",
+  "tools/test_stockart32_probe.py": "4df3fb1de0300a258b57adffd319e1f66b6b0264ea39470b73b9b9e97f161ab0",
+  "tools/verify.sh": "dd30fd8e6c14fbb6bf5621f77ea25c04bf9e866e727986354a73fa162ed1c6aa",
+  "build/stockart32.nes": "a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55"
+}

@@ -1,0 +1,18 @@
+{
+  "format": "scoreart32-layout/2",
+  "backdrop": "0C",
+  "palettes": [["21", "38", "28"], ["21", "38", "1A"], ["16", "38", "36"], ["12", "38", "17"]],
+  "sprite_palettes": [["38", "28", "16"], ["38", "28", "16"], ["38", "28", "16"], ["38", "28", "16"]],
+  "text": [
+    {"x": 72, "y": 24, "text": "LITTLE", "font": "menu", "color": "38"},
+    {"x": 136, "y": 24, "text": "LEAGUE", "font": "menu", "color": "38"},
+    {"x": 96, "y": 32, "text": "BASEBALL", "font": "menu", "color": "38"},
+    {"x": 84, "y": 114, "text": "AB", "font": "mini", "color": "28"},
+    {"x": 107, "y": 114, "text": "HIT", "font": "mini", "color": "28"},
+    {"x": 132, "y": 114, "text": "HR", "font": "mini", "color": "28"},
+    {"x": 159, "y": 114, "text": "K", "font": "mini", "color": "28"},
+    {"x": 180, "y": 114, "text": "BB", "font": "mini", "color": "28"},
+    {"x": 203, "y": 114, "text": "SAC", "font": "mini", "color": "28"},
+    {"x": 228, "y": 114, "text": "DP", "font": "mini", "color": "28"}
+  ]
+}

@@ -590,6 +590,20 @@
       "attempts": 1,
       "evidence": "2ae1a7ab: source, final CPU with pxl, played WATCH, planted extra innings, mapper/attract/Analysis tours, stock6/full31; independent review resolved. See docs/scoreart32.md.",
       "last_commit": "93bf9d4"
+    },
+    {
+      "id": "stock-character-art32",
+      "title": "Reuse original characters and crowd in the new ballpark screens",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "score-art32"
+      ],
+      "next": "Accepted; preserve ROM source pins, selected masks and runtime guards.",
+      "verify": "source pixel provenance, independent readback, guards, menu and played WATCH probes, stock6/full31",
+      "attempts": 1,
+      "evidence": "a5bf74ee: source and all17 assets reproduced; full CPU, both reviews, exact menu tour, WATCH 4-6, mapper traces and stock6/full31 champion07 pass. Review tool fixes pass; docs/stockart32.md.",
+      "last_commit": ""
     }
   ]
 }

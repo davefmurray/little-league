@@ -32,6 +32,7 @@ PICK_OUT = os.path.join(ROOT, "build/pick32.nes")
 TITLE_OUT = os.path.join(ROOT, "build/title32.nes")
 MODE_OUT = os.path.join(ROOT, "build/modeart32.nes")
 SCORE_OUT = os.path.join(ROOT, "build/scoreart32.nes")
+STOCKART_OUT = os.path.join(ROOT, "build/stockart32.nes")
 
 
 def run(script, *args):
@@ -73,7 +74,10 @@ def main():
     run("build_title32.py", PICK_OUT, "-o", TITLE_OUT)
     run("build_modeart32.py", TITLE_OUT, "-o", MODE_OUT)
     run("build_scoreart32.py", MODE_OUT, "-o", SCORE_OUT)
-    print(f"wrote {SCORE_OUT}; baseline preserved at {OUT}")
+    run("stockart32_convert.py", "--rom", SCORE_OUT, "--font-rom", MODE_OUT,
+        "--pxl", os.path.join(ROOT, "build/vendor/claude-pxl"))
+    run("build_stockart32.py", SCORE_OUT, "-o", STOCKART_OUT)
+    print(f"wrote {STOCKART_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":
