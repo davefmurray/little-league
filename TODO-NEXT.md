@@ -10,8 +10,8 @@ The accepted source pipeline produces `build/scoreart32.nes`, SHA-256
 The new stages add repeatable random draws, v2 passwords, a shared picker
 for Exhibition and Power Analysis, title artwork and the colorful ballpark
 mode menu with people and a matching scoreboard. See [scoreart32](docs/scoreart32.md)
-for final-stage evidence. The reusable pxl/NES skill for AWESOME-NESDEV is the
-remaining requested documentation follow-up.
+for final-stage evidence. The reusable [pxl/NES screen-art skill](https://github.com/davefmurray/AWESOME-NESDEV/tree/main/skills/nes-pxl-screen-art)
+is published in AWESOME-NESDEV (commit `408bac9`).
 The source rebuild, CPU suites and stock-six/random-full-31 gate pass. Controller checks cover
 all 32 Analysis teams, both input ports and password resume. Final modeart32
 completes 2P and WATCH exhibitions; its 1P coverage is setup and human field

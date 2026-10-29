@@ -7453,3 +7453,9 @@ SPEED forces CPU ownership. Physical hardware remains unvalidated.
 
 Evidence and exact contracts are in docs/scoreart32.md. The user's follow-up
 is to publish the reusable pxl/NES screen-art skill in AWESOME-NESDEV.
+
+The requested follow-up is complete: [nes-pxl-screen-art](https://github.com/davefmurray/AWESOME-NESDEV/tree/main/skills/nes-pxl-screen-art) and its
+pxl catalog page are pushed to AWESOME-NESDEV at `408bac9`. The 79-line
+entry point routes to conversion, integration and worked-example references.
+The skill validator passes, documented pxl commands run on an original
+scratch scene, and every new external link returns HTTP 200.

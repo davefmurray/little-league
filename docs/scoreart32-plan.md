@@ -71,3 +71,7 @@ Add the skill and relevant catalog/documentation links to
 <https://github.com/davefmurray/AWESOME-NESDEV>, validate the package, and
 commit and push that repository. The user explicitly requested this
 follow-up and push. Complete scoreboard acceptance first.
+
+Completed: the skill and tool catalog entry are pushed to AWESOME-NESDEV
+in commit `408bac9`. Skill validation, pxl command smoke checks and all new
+external links pass. No ROM or game assets were added to that repository.

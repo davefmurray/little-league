@@ -98,3 +98,6 @@ Stock drops hundreds from counters and always displays E as zero; this art
 stage preserves those rules. The championship result gate returns directly
 to the bracket, so its final box score is not held on screen. Physical
 hardware and a second emulator remain unverified.
+
+The reusable [NES pxl screen-art skill](https://github.com/davefmurray/AWESOME-NESDEV/tree/main/skills/nes-pxl-screen-art) packages this workflow,
+with separate conversion/integration references and a worked example.
