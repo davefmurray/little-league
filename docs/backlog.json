@@ -562,6 +562,20 @@
       "attempts": 1,
       "evidence": "8f4a14a3: pinned pxl regeneration, CPU boot/attract parity, both START ports, full attract/demo return, aligned 90022-frame mapper trace; docs/title32.md",
       "last_commit": "7853d0d0668352b9798f3535ef457fc282787a91"
+    },
+    {
+      "id": "mode-art32",
+      "title": "Colorful ballpark mode menu with people",
+      "priority": "P1",
+      "status": "active",
+      "depends_on": [
+        "title-art32"
+      ],
+      "next": "Complete runtime gates and independent review, then publish",
+      "verify": "pxl regeneration, exact CPU menus and exits, real-core menu/input/mapper/audio checks, stock6/full31",
+      "attempts": 1,
+      "evidence": "Source build and menu tour pass on 7624f8f8; docs/modeart32.md",
+      "last_commit": ""
     }
   ]
 }

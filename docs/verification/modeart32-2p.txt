@@ -1,0 +1,45 @@
+ROM SHA256 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+controller-only tour=exhibition submode=2p complete=True attract=False password=4995FEC5ESTVP6KM5YCNYM
+password restored through keyboard; matchup B preserved series
+2P side 2 ignores controller 1 movement and confirmation
+exhibition submode=1 teams=[31, 30]: ports, duplicate refusal, B back, cache and series pass
+2P completion driver pitches from the fielding port and leaves the batting port idle
+field half=0 teams=1f1e scores=0000
+field half=1 teams=1f1e scores=0000
+field half=2 teams=1f1e scores=0000
+field half=3 teams=1f1e scores=0000
+field half=4 teams=1f1e scores=0000
+field half=5 teams=1f1e scores=0000
+field half=6 teams=1f1e scores=0000
+field half=7 teams=1f1e scores=0000
+field half=8 teams=1f1e scores=0000
+field half=9 teams=1f1e scores=0000
+field half=10 teams=1f1e scores=0000
+field half=11 teams=1f1e scores=0000
+field half=12 teams=1f1e scores=0000
+field half=13 teams=1f1e scores=0000
+field half=14 teams=1f1e scores=0000
+field half=15 teams=1f1e scores=0000
+field half=16 teams=1f1e scores=0000
+field half=17 teams=1f1e scores=0000
+field half=18 teams=1f1e scores=0000
+field half=19 teams=1f1e scores=0000
+field half=20 teams=1f1e scores=0000
+field half=21 teams=1f1e scores=0000
+field half=22 teams=1f1e scores=0000
+field half=23 teams=1f1e scores=0000
+field half=24 teams=1f1e scores=0000
+field half=25 teams=1f1e scores=0000
+field half=26 teams=1f1e scores=0000
+field half=27 teams=1f1e scores=0000
+field half=28 teams=1f1e scores=0000
+field half=29 teams=1f1e scores=0000
+field half=30 teams=1f1e scores=0000
+field half=31 teams=1f1e scores=0000
+field half=32 teams=1f1e scores=0000
+field half=33 teams=1f1e scores=0000
+field half=34 teams=1f1e scores=0000
+field half=35 teams=1f1e scores=0000
+exhibition completed game-over=02 scores=0000
+exhibition title return preserves heap, draw seed, progress, markers and ownership
+CONTINUE launches preserved pair 180a and exports the exact restored password

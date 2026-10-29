@@ -1,0 +1,4 @@
+ROM SHA256 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+controller-only tour=exhibition submode=1p complete=False attract=False password=4995FEC5ESTVP6KM5YCNYM
+password restored through keyboard; matchup B preserved series
+exhibition submode=0 teams=[31, 30]: ports, duplicate refusal, B back, cache and series pass

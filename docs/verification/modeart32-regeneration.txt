@@ -1,0 +1,7 @@
+Negative control: before the explicit-output fix, the new missing-PNG regression failed: install_pngs accepted bad input.
+modeart32_convert: output aliases protected input /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmpzrjlwnal/title32.nes
+modeart32_convert: output aliases protected input /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmpzrjlwnal/title32.nes
+modeart32_convert: output aliases protected input /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmpzrjlwnal/out/sprites/dad.png
+modeart32_convert: output aliases protected input /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmpzrjlwnal/out/sprites/dad.png
+PNG regeneration: 12 symbolic/hard aliases rejected before any persistent copy; atomic replacement leaves unrelated linked inodes intact; missing PNG collisions rejected for JSON and preview; real --pxl CLI alias and collision regressions pass
+Independent scratch subprocess check: --out and --preview exact missing-PNG collisions both exit 2; all 236 project file hashes unchanged in each case.

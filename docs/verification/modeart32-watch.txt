@@ -1,0 +1,21 @@
+ROM SHA256 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+controller-only tour=exhibition submode=watch complete=True attract=True password=4995FEC5ESTVP6KM5YCNYM
+password restored through keyboard; matchup B preserved series
+exhibition submode=2 teams=[31, 30]: ports, duplicate refusal, B back, cache and series pass
+field half=0 teams=1e1f scores=0000
+field half=1 teams=1e1f scores=0000
+field half=2 teams=1e1f scores=0002
+field half=3 teams=1e1f scores=0002
+field half=4 teams=1e1f scores=0002
+field half=5 teams=1e1f scores=0002
+field half=6 teams=1e1f scores=0002
+field half=7 teams=1e1f scores=0102
+field half=8 teams=1e1f scores=0102
+field half=9 teams=1e1f scores=0302
+field half=10 teams=1e1f scores=0302
+field half=11 teams=1e1f scores=0302
+exhibition completed game-over=01 scores=0302
+exhibition title return preserves heap, draw seed, progress, markers and ownership
+attract and demo round trip preserves the suspended series
+CONTINUE launches preserved pair 180a and exports the exact restored password
+MMC1 trace: 95811 frames, 11273206 writes; docs/verification/modeart32-watch-mapper.json

@@ -1,0 +1,67 @@
+ROM SHA256 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+controller-only tour=exhibition submode=1p complete=True attract=False password=4995FEC5ESTVP6KM5YCNYM
+password restored through keyboard; matchup B preserved series
+exhibition submode=0 teams=[31, 30]: ports, duplicate refusal, B back, cache and series pass
+field half=0 teams=1e1f scores=0000
+field half=1 teams=1e1f scores=0500
+field half=2 teams=1e1f scores=0500
+MMC1 trace: 462338 frames, 68202174 writes; docs/verification/modeart32-1p-mapper.json
+Traceback (most recent call last):
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 128, in <module>
+    args.report.write_text(json.dumps(report, indent=2) + "\n")
+    ^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 117, in main
+    if "--rom" in args.arguments:
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "tools/probe_frontend32.py", line 275, in <module>
+    main()
+    ~~~~^^
+  File "tools/probe_frontend32.py", line 265, in main
+    exhibition(args.rom, out, ('1p', '2p', 'watch').index(args.submode), args.teams, args.password, args.complete, args.attract)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tools/probe_frontend32.py", line 171, in exhibition
+    step(500 if submode == 2 else 100)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/soak_bracket.py", line 34, in step
+    romdev.call("frame", {"op": "step", "count": n})
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 86, in dispatch
+    if name == "frame" and payload.get("op") == "step":
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 40, in step
+    frame=0, holdFrames=count)]
+    ^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/romdev.py", line 44, in call
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1362, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1337, in do_open
+    r = h.getresponse()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1478, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 343, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 304, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+KeyboardInterrupt

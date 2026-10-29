@@ -5,14 +5,16 @@ the one blocked item in [docs/backlog.json](docs/backlog.json). It requires
 an external console/flash-cart setup and independent emulator applications.
 See [hardware-sound.md](docs/hardware-sound.md) for the matrix.
 
-The accepted source pipeline produces `build/title32.nes`, SHA-256
-`8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c`.
+The accepted source pipeline produces `build/modeart32.nes`, SHA-256
+`7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9`.
 The new stages add repeatable random draws, v2 passwords, a shared picker
-for Exhibition and Power Analysis, and title artwork. The source rebuild,
-CPU suites and stock-six/random-full-31 gate pass. Controller checks cover
-all 32 Analysis teams, both input ports, 1P/2P/WATCH exhibitions and v1/v2
-resume. Independent review found no ROM correctness blocker; output guard
-findings are fixed and covered by CLI regressions.
+for Exhibition and Power Analysis, title artwork and the colorful ballpark
+mode menu with people. See [modeart32](docs/modeart32.md) for the final stage.
+The source rebuild, CPU suites and stock-six/random-full-31 gate pass. Controller checks cover
+all 32 Analysis teams, both input ports and password resume. Final modeart32
+completes 2P and WATCH exhibitions; its 1P coverage is setup and human field
+entry. Full 1P completion belongs to the earlier title32 stage. Independent
+review found no ROM correctness blocker; output guard findings are fixed and covered by CLI regressions.
 
 Known limitations remain explicit. High gameplay flags remain omitted;
 high uniforms reuse stock presets; selector flags are simplified to

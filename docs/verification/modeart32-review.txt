@@ -1,0 +1,42 @@
+modeart32 review and resolution
+ROM SHA256: 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+
+Both independent reviewers approve the ROM. Their full reports are
+modeart32-review-sol.md and modeart32-review-opus.md. They independently
+checked code, pixels, NMI behavior, original exits and series preservation.
+They did not run the emulator; runtime evidence is root-owned.
+
+The original converter copied generated PNGs through hardlinks and symlinks,
+which could overwrite a protected ROM. Root changed installation to preflight
+all destinations and atomically replace each intended PNG. A fresh safety
+review independently confirmed 16 real CLI and 16 helper alias rejections,
+normal regeneration and unrelated linked-inode preservation.
+
+That safety review (modeart32-review-guards.md) found one remaining collision:
+an initially missing PNG could exactly equal the explicit JSON or preview
+output. The self-path exemption incorrectly covered explicit outputs as well
+as the intended art entry. Root reproduced it with a failing regression, then
+restricted the exemption to replaceable art entries. Protected ROM/source/data
+and explicit outputs never receive the exemption. Two scratch-checkout real
+subprocesses rejected --out and --preview collisions with all 236 file hashes
+unchanged. The committed test also checks both options through real pxl.
+This final small fix was verified by root, not independently re-reviewed.
+
+Final regression log: modeart32-regeneration.txt.
+Final full suite with pinned pxl: modeart32-cpu.txt.
+The combined gate's CPU section predates tooling corrections but exercises the
+same ROM. Its stock-six and final-ROM full-31 pass, champion 07. The source
+pipeline reproduces the same SHA. No additional gameplay soak was needed
+for Python output-path changes.
+
+Other review corrections: converter tests use the supplied ROM path; real-core
+menu probes assert palette RAM as well as names, CHR and OAM; mapper reports
+stamp the command, ROM hash and untraced audio/initialization limits. Removed
+a test-only label helper and narrowed the static bank-selection claim.
+
+Remaining nonblocking limits: CPU PPU/NMI timing is approximate; injection is
+not exhaustive over timing phases. The shared tile overflow error still names
+CHR19 rather than this stage's CHR06. Exact runtime screenshots and palette
+checks cover this art; physical hardware and another emulator do not. The
+1P A-only fielding driver was stopped on a loose ball and is not a completion
+pass. Final 2P and WATCH games complete and preserve suspended series.

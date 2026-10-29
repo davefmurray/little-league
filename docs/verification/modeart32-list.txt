@@ -1,0 +1,7 @@
+ROM SHA256 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+controller-only menu=continue team=31 draw-seed=4660 played=15 results=00005555 mask=7FFFFFFF invalid=False
+restored heap, match index and all 32 ownership bits; held END press did not launch
+actual password display and launched matchup match restored state
+active LIST OF TEAMS preserves heap and match index
+B returns to title; CONTINUE preserves the bracket and launches its actual next pair
+screenshot /Users/dfm/GitHub/nesdav/little-league/build/modeart32-ui/list.png

@@ -18,7 +18,7 @@ existing CHR bank $17, leaving 55 free. Menu CHR $19 is unchanged.
 .venv/bin/python tools/probe_frontend32.py --rom build/title32.nes --output build/title-ui --tour title
 ```
 
-The source pipeline's final ROM is `build/title32.nes`, SHA-256
+This stage produces `build/title32.nes`, SHA-256
 `8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c`.
 It changes 4,584 bytes from pick32. The guarded title hook at bank 0 $AC5A
 serves both initial entry and attract redraw. Code and data occupy bank 0
@@ -63,3 +63,5 @@ CHR `$17` is used for the title. Startup before loadMedia returns is excluded.
 ```sh
 .venv/bin/python tools/probe_menu_chr.py --report build/frontend-chr.json   tools/probe_frontend32.py --rom build/title32.nes --output build/frontend-attract   --tour exhibition --submode watch --complete --attract   --password 4995FEC5ESTVP6KM5YCNYM --session frontend-attract
 ```
+
+The source pipeline now adds [modeart32](modeart32.md) after this frozen stage.

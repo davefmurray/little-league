@@ -1,0 +1,1 @@
+converter: deterministic; committed JSON current (254 tiles, 24 stock glyphs, 3 text rows); 26 bad layouts or PNGs rejected, each for its own reason; per-menu text inside a shared row shows only in its menu (championship); pinned pxl reproduces all 12 committed PNGs

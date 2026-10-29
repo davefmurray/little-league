@@ -1,0 +1,73 @@
+{
+  "frames": 2356,
+  "mapper_writes": 57939,
+  "chr0": {
+    "00": 2,
+    "12": 240,
+    "1B": 2030
+  },
+  "chr1": {
+    "01": 4,
+    "06": 1717,
+    "17": 240,
+    "18": 313,
+    "19": 2
+  },
+  "sources": {
+    "$C12E:CHR0:00": 2,
+    "$C12E:CHR0:12": 240,
+    "$C12E:CHR0:1B": 2030,
+    "$C146:CHR1:01": 4,
+    "$C146:CHR1:06": 1717,
+    "$C146:CHR1:17": 240,
+    "$C146:CHR1:18": 313,
+    "$C146:CHR1:19": 2
+  },
+  "requests": [
+    {
+      "00": 2,
+      "12": 240,
+      "1B": 2030
+    },
+    {
+      "01": 4,
+      "06": 1717,
+      "17": 240,
+      "18": 313,
+      "19": 2
+    }
+  ],
+  "prg": {
+    "00": 2838,
+    "01": 3612,
+    "02": 5,
+    "03": 245,
+    "04": 77,
+    "05": 2,
+    "0A": 185,
+    "0D": 73
+  },
+  "mode_contexts": {
+    "01>06:reg3:0D": 4,
+    "06>07:reg2:06": 78,
+    "06>07:reg3:0D": 2,
+    "07>07:reg2:06": 1595,
+    "07>07:reg3:0D": 63,
+    "07>0c:reg2:06": 3,
+    "07>18:reg2:06": 3,
+    "0c>07:reg2:06": 37,
+    "0c>07:reg3:0D": 2,
+    "0c>0c:reg2:06": 1,
+    "19>07:reg3:0D": 2
+  },
+  "misaligned": [],
+  "limit": "Only frame steps and input presses in this scripted tour are traced; loadMedia startup, audioDebug advancement and direct CPU calls are excluded. Mode contexts sample scene before/after each window of up to 40 frames, not at each write.",
+  "command": [
+    "tools/probe_modeart32.py",
+    "--rom",
+    "build/modeart32.nes",
+    "--output",
+    "build/modeart32-ui"
+  ],
+  "rom_sha256": "7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9"
+}

@@ -7386,3 +7386,40 @@ See docs/draw32.md, docs/pick32.md and docs/title32.md for commands and evidence
 Physical hardware, a second emulator and original-ROM-only bootstrap remain
 outside these claims. The generated title JSON retains guarded stock glyph bytes;
 the review's reference-only asset-format suggestion is deferred.
+
+
+## Round 289: colorful ballpark mode menu
+
+Accepted ROM SHA 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9.
+The user rejected the sparse draft and selected the sunny-ballpark concept.
+The final scene includes sky, brick arches, crowds, families, players, a ticket
+queue and a popcorn vendor. All three mode menus share it. The pxl source,
+12 rendered PNGs and validated asset JSON reproduce 254 of 256 CHR06 tiles.
+
+Two designs and a cross-judge selected the bank-13 draw adapter. The stage
+changes 4,652 bytes in seven guarded regions, retaining stock menu inputs,
+mode dispatch, NMI audio and sprites. No persistent series RAM is allocated.
+Both independent reviewers approve the ROM. Their tool review reproduced a
+PNG hardlink overwrite. Root added batch preflight and atomic replacement;
+a follow-up found an initially missing PNG could equal the explicit JSON or
+preview output. New regressions reproduce that failure and reject both cases
+before any persistent write. Root fixed this small follow-up without another
+delegation. ROM and assets remain byte-identical.
+
+Prove It Works drove tests through the actual converter CLI, built ROM and
+emulator. The final CPU suite covers menu overlays, all nine exits, series
+preservation, sound parity, 148 injected NMIs and ten negative controls. Real
+menu probes compare palettes, nametables, CHR and cursor sprites; both START
+ports, B, wrapping and returns pass. The source rebuild and stock-six/full-31
+gate pass, champion07, every game-over1 and stackFF. SPEED forces CPU ownership.
+
+Full 2P and WATCH exhibitions preserve the suspended tournament through title
+and CONTINUE; WATCH includes the original attract/demo cycle. All32 Analysis
+screens, typed password re-entry, LIST/CONTINUE and a human team31 field probe
+pass. The 1P A-only driver stopped on a loose ball in half-inning2, so only 1P
+setup and human-field entry are claimed on this ROM. The 95811-frame WATCH
+mapper census records11273206 writes with no serial misalignment; scene
+contexts are sampled windows, not exact per-write scene attribution.
+
+See docs/modeart32.md and its verification links for commands, reviews and
+captures. Physical hardware and a second emulator remain unvalidated.
