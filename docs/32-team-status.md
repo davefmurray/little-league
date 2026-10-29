@@ -1,13 +1,14 @@
 # 32-team ROM status
 
-The current source pipeline produces `build/modeart32.nes`, SHA-256
-`7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9`.
+The current source pipeline produces `build/scoreart32.nes`, SHA-256
+`2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a`.
 It supports 32-team selection, human ownership, completed-game bracket
 progression, password resume, real high-team names and correct matchup
 round labels, a shared flag-grid picker, bracket tree and stock menu music.
 The new title preserves the attract sequence. New championships shuffle once
 and save their draw in v2 passwords. The mode menu shows the selected sunny
-ballpark scene with families, players and a ticket queue.
+ballpark scene with families, players and a ticket queue. The scoreboard now
+uses the same style while preserving score and statistic rules.
 All software backlog tasks are accepted. Physical hardware and a second
 emulator implementation remain unvalidated.
 
@@ -19,12 +20,13 @@ emulator implementation remain unvalidated.
 | Completed games | All 31 matches advance on game-over and credit live teams after side swaps. Ties use the first bracket team, tested only in the CPU harness. |
 | Passwords | The existing 22-symbol keyboard restores seed, results, match index and the 32-bit CPU mask. Eighteen v1/v2 checkpoints and sixteen subsequent games pass. Old 16-team passwords are rejected. |
 | LIST and CONTINUE | Active LIST shows the seeded 32-team grid. CONTINUE opens the bracket. Finished tournaments return safely to the title. The grid does not mark eliminated teams. |
-| Tournament gates | Final mode-art ROM passes stock-six/random-full-31 SPEED and a controller-only WATCH game. Control32 separately passes 31 WATCH games. SPEED forces CPU ownership on field entry; WATCH uses menu toggles. |
+| Tournament gates | Final scoreboard ROM passes stock-six/random-full-31 SPEED and a controller-only WATCH game. Control32 separately passes 31 WATCH games. SPEED forces CPU ownership on field entry; WATCH uses menu toggles. |
 | Display labels | Full high-team names and canonical HUD codes pass CPU and controller checks. Low-team output is unchanged. |
 | Visual tables | All five matchup labels pass controller checks. High-team gameplay flags are omitted, and high uniforms use declared stock presets. Shared reads are bounded. |
 | Menus and music | The 32-team selector has simplified flags, full names and regions. The bracket shows advancement and the next matchup. Stock song06 advances in both menus; exact CPU APU traces and emulator activity checks pass. |
 | Shared picker and title | The title32 stage passes all 32 Analysis choices and full high-team 1P/2P/WATCH exhibitions. Original title music, both START ports and attract redraw are checked. See [picker](pick32.md) and [title](title32.md). |
 | Ballpark mode menu | All three menus match the assets in the emulator, including palettes and cursor sprites. Stock exits and audio remain. Final-ROM 2P and WATCH exhibitions complete; 1P has setup and human-field evidence, not a completed game. See [modeart32](modeart32.md). |
+| Ballpark scoreboard | Stock score/stat writers draw cream and gold numbers over a sunny crowd scene. CPU parity, played WATCH boards, extra-inning fixtures and the final tournament gate pass. See [scoreart32](scoreart32.md). |
 | Random draw | Selected team plays first; 14-bit draw seed saved in v2. Legacy v1 retains ascending order. See [draw contract and resume matrix](draw32.md). |
 | Hardware and sound | Audio captures are available; physical hardware and a second emulator remain unvalidated. Savestates do not prove battery-backed persistence. |
 
@@ -41,7 +43,7 @@ ROM at the repository root for stock checks, then run:
 ```
 
 The source chain retains pinned intermediate ROMs. `build/` is ignored by
-git. The final stage is `modeart32.nes`; `direct31.nes` remains the frozen
+git. The final stage is `scoreart32.nes`; `direct31.nes` remains the frozen
 regression baseline.
 
 ## Evidence
@@ -52,7 +54,7 @@ regression baseline.
 - [Password integration](password32.md) includes exact resume commands;
   [format](password-format.md) documents the codec.
 - [Real gameplay names](teamnames32.md), [visual-table repairs](visualtables32.md),
-  [menu art and music](menuart32.md), [final combined gate](verification/modeart32-gate.txt) and
+  [menu art and music](menuart32.md), [final combined gate](verification/scoreart32-gate.txt) and
   [controller-only WATCH tournament](verification/control32-watch.txt).
 - [Backlog](backlog.json) is the task authority.
   [Decision trail](decisions.tsv) records accepted designs.

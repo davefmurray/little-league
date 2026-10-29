@@ -5,11 +5,13 @@ the one blocked item in [docs/backlog.json](docs/backlog.json). It requires
 an external console/flash-cart setup and independent emulator applications.
 See [hardware-sound.md](docs/hardware-sound.md) for the matrix.
 
-The accepted source pipeline produces `build/modeart32.nes`, SHA-256
-`7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9`.
+The accepted source pipeline produces `build/scoreart32.nes`, SHA-256
+`2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a`.
 The new stages add repeatable random draws, v2 passwords, a shared picker
 for Exhibition and Power Analysis, title artwork and the colorful ballpark
-mode menu with people. See [modeart32](docs/modeart32.md) for the final stage.
+mode menu with people and a matching scoreboard. See [scoreart32](docs/scoreart32.md)
+for final-stage evidence. The reusable pxl/NES skill for AWESOME-NESDEV is the
+remaining requested documentation follow-up.
 The source rebuild, CPU suites and stock-six/random-full-31 gate pass. Controller checks cover
 all 32 Analysis teams, both input ports and password resume. Final modeart32
 completes 2P and WATCH exhibitions; its 1P coverage is setup and human field

@@ -1,0 +1,40 @@
+input 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9
+assets f593b17dcc9a9b5c3c1c81da1be8d2419982f4183f387ae79b4e8b09cdbe0d01
+candidate 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a
+asset boundary: the JSON round-trips; 41 malformed records (format, keys, sizes, hex, counts, source pins, palettes, glyph ink and uniqueness, padding, art-tile uniqueness, blank writer and name cells, the $E8 blank, palette 0 under the writer, bits below the screen) refused at load with their own error before any ROM byte is built; direct bad fields refused
+converter: deterministic; scoreassets.json current; palette, CHR, nametable and attributes equal the frozen art lane's bytes (254 tiles, 176 art, 2 free); all 248 plain cells use $E8 although $5E are blank too; 30 bad layouts, PNGs and sprites rejected, each for its own reason; another ROM refused; pinned pxl reproduces all 11 PNGs, twice
+converter CLI (temporary checkout): --out and --preview from another directory; --check passes current JSON and refuses stale or missing JSON, --check --preview and another ROM, writing nothing; 30 protected targets refused as --out and as --preview with every file, inode, mode and time unchanged (inputs, a renamed input, verify.sh, tools, art sources and PNGs, data, docs, earlier art, links, and files not yet created inside the art directory); --out equal to --preview and a preview over the canonical JSON refused; a link to the canonical JSON is replaced, not written through; a canonical path resolving onto another data file refused
+builder CLI (temporary checkout): deterministic build and manifest from another directory; 55 protected targets refused (input, renamed copy, tools, assets, art, PNGs, verify.sh, data, docs, earlier art, symbolic and hard links); a bad input keeps the previous output; an output inside the art directory, a malformed --assets and an output over --assets refused; --assets builds the pinned ROM
+PNG regeneration: 14 symbolic and hard aliases of inputs, sources, data, outputs and an earlier PNG refused before any copy; a missing PNG chosen as the JSON or preview output refused without creating it; atomic replacement of all 11 PNGs leaves an unrelated linked inode intact; real --pxl CLI in a temporary checkout: hard and symbolic PNG aliases of the ROM refused with nothing written; a missing PNG as --out or --preview refused; regeneration from another directory reproduces every PNG and the JSON; --check --pxl writes nothing and refuses an edited PNG, an extra PNG and another pxl commit
+protected names: the original ROM and 18 earlier-stage ROM paths are refused as builder and converter outputs; build/scoreart32.nes stays writable
+builder: 4712 changed bytes inside 9 whole reservations (hook $B3C0-$B3D3, header, line, statistic and name rows, $B800 code, $B880 palette, $B900 screen, CHR $05); every other PRG bank, bank 14, the fixed bank, CHR $18 and the header identical; 36 dependency, digest and reservation guards each reject a one-bit drift; bad manifests rejected; the stock CHR $05 load is gone and the new draw is the only new CHR $05 selection; no bank-14 selection
+timing: stock and candidate both take 2 vblank waits and 41436 CPU cycles from the second wait's return to the writer at $B3D4 at vblank phases 0, 997, 14900, 29779 (NMIs excluded); with NMIs masked an independent opcode-cost sum agrees; the copy alone costs 14424, so DELAY 27012 pays the difference
+samples: 9 shown boards (top of the 1st, mid 4th, final, X, walk-off, ten-run rule, two-digit, 9th, 15th, called tie) hold the rules' values and the asset background, attributes, palette and CHR $05 bytes, with BG CHR $05 and sprite CHR $18 mapped, the moved name sprites uploaded and no late VRAM writes
+boards: 409 drawn boards (128 values, 41 halves, 240 random) cover 256 R/H/statistic values, 256 line-score bytes including X and walk-off marks, halves 1-41 on all three header pages and 64 side/team pairs; on the candidate every writer cell is the stock rules at the moved rows and every other cell and attribute is the asset; on stock the same rules hold at the stock rows; name sprites are stock's, moved only by the row shift
+RAM: in 9 samples the draw's 477 writes stay inside $00/$01, $25, $2C, $32, $AD, $0195-$01B5 and stack pushes; through $B3F2 the candidate's game-code writes are a subset of stock's plus loader scratch; RAM outside scratch, the audio driver's writes and the OAM page equals stock except $06B4, the last name's Y; WRAM equals stock
+  flow live, the jingle ends: scene writes $0B@3 -> $02@341; 360 frames and 2383 APU writes equal
+  flow live, A taps, both sides CPU: scene writes $0B@4 -> $02@32; 80 frames and 591 APU writes equal
+  flow live, A held from the board on controller 1, both CPU: scene writes $0B@4 -> $02@4; 60 frames and 435 APU writes equal
+  flow live, A held on controller 1, batting side human: scene writes $0B@4 -> $02@4; 60 frames and 435 APU writes equal
+  flow live, A held on controller 2, fielding side human: scene writes $0B@4 -> $02@4; 60 frames and 435 APU writes equal
+  flow live, A held since the field plus B SELECT START: the jingle decides: scene writes $0B@3 -> $02@341; 360 frames and 2383 APU writes equal
+  flow Championship final through the results gate: scene writes $0B@3 (bank 11 bracket); 80 frames and 583 APU writes equal
+  flow quiet final, A taps: scene writes $0B@3 -> $00@3 -> $01@6; 80 frames and 532 APU writes equal
+  flow called tie, Championship: scene writes $0B@3 (bank 11 bracket); 80 frames and 583 APU writes equal
+  flow attract demo past its inning limit: scene writes $0B@3 -> $00@341 -> $01@344; 360 frames and 2368 APU writes equal
+  flow half-zero entry bypasses the board: scene writes $02@0; 30 frames and 223 APU writes equal
+  flow Exhibition final, A taps after the jingle: scene writes $0B@3 -> $00@416 -> $01@419; 600 frames and 3465 APU writes equal
+  flow called tie, Exhibition, A taps after the jingle: scene writes $0B@3 -> $00@416 -> $01@419; 600 frames and 3465 APU writes equal
+flows: 13 exits match stock frame for frame: scene writes, sound requests, per-frame scene, PRG bank, song and rendering, and every APU write; 15 vblank-phase and song variants match too
+NMI injection: one NMI before each of the 40 hook and draw instructions leaves the same nametable, palette, CHR, OAM and scene, with $2C and $2D released and bank 4 mapped (CPU model)
+  negative control no busy wait: rejected (scenes differ from stock at entry 0: [(4, 11), (32, 2)] vs [(3, 11), (3, 2)])
+  negative control no busy wait: cycle budget: rejected (waits/cycles 2/14424)
+  negative control one vblank wait: rejected (waits/cycles 1/None)
+  negative control stock rows: rejected (writer cells [(9, 8), (11, 8), (13, 8), (15, 8)] differ from the stock rules)
+  negative control stock name rows: rejected (name sprites differ from stock's moved labels at OAM byte 4)
+  negative control no CHR $05 select: rejected (([24, 22], '0x90'))
+  negative control no palette request: rejected (palette 0000000000000000000000000000000000000000000000000000000000000000)
+  negative control stock CHR $05: rejected (CHR $05)
+negative controls: all 8 detected by the same checks the candidate passes
+scoreart32 SHA256 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a
+PASS (227.7s)

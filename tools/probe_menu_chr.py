@@ -15,7 +15,7 @@ import romdev
 
 
 class MapperTrace:
-    def __init__(self, call, mode_context=False):
+    def __init__(self, call, mode_context=False, context_chr=6, context_prg=13):
         self.call = call
         self.shift = self.bits = self.frames = self.writes = 0
         self.banks = (Counter(), Counter())
@@ -23,6 +23,7 @@ class MapperTrace:
         self.requests = (Counter(), Counter())
         self.misaligned = []
         self.mode_context = mode_context
+        self.context_chr, self.context_prg = context_chr, context_prg
         self.prg = Counter()
         self.contexts = Counter()
 
@@ -68,8 +69,8 @@ class MapperTrace:
                         self.sources[f"{event['pc']}:CHR{register - 1}:{self.shift:02X}"] += 1
                     if register == 3:
                         self.prg[self.shift] += 1
-                    if self.mode_context and ((register in (1, 2) and self.shift == 6)
-                                              or (register == 3 and self.shift & 15 == 13)):
+                    if self.mode_context and ((register in (1, 2) and self.shift == self.context_chr)
+                                              or (register == 3 and self.shift & 15 == self.context_prg)):
                         self.contexts[f"{before}>{after}:reg{register}:{self.shift:02X}"] += 1
                     self.shift = self.bits = 0
             self.frames += count
@@ -97,6 +98,7 @@ class MapperTrace:
                     requests=[{f"{k:02X}": v for k, v in sorted(c.items())} for c in self.requests],
                     prg={f"{k:02X}": v for k, v in sorted(self.prg.items())},
                     mode_contexts=dict(sorted(self.contexts.items())),
+                    context_targets=dict(chr=self.context_chr, prg=self.context_prg),
                     misaligned=self.misaligned,
                     limit="Only frame steps and input presses in this scripted tour are traced; loadMedia startup, "
                           "audioDebug advancement and direct CPU calls are excluded. "
@@ -108,7 +110,9 @@ def main():
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--forbid-menu-bank", action="store_true")
     parser.add_argument("--mode-context", action="store_true",
-                        help="record scene-window contexts for CHR06 and PRG13 selections")
+                        help="record scene-window contexts for the selected CHR/PRG banks")
+    parser.add_argument("--context-chr", type=lambda s: int(s, 0), default=6)
+    parser.add_argument("--context-prg", type=lambda s: int(s, 0), default=13)
     parser.add_argument("script", type=Path)
     parser.add_argument("arguments", nargs=argparse.REMAINDER)
     args = parser.parse_args()
@@ -119,7 +123,7 @@ def main():
     rom_hash = None
     if rom_args.rom:
         rom_hash = hashlib.sha256(rom_args.rom.read_bytes()).hexdigest()
-    trace = MapperTrace(romdev.call, args.mode_context)
+    trace = MapperTrace(romdev.call, args.mode_context, args.context_chr, args.context_prg)
     romdev.call = trace.dispatch
     sys.argv = invocation
     try:

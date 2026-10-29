@@ -49,10 +49,15 @@ python3 tools/check_build.py build/direct31.nes
 .venv/bin/python tools/build_modeart32.py build/title32.nes -o build/modeart32.nes
 .venv/bin/python tools/test_modeart32.py build/title32.nes --candidate build/modeart32.nes
 
+.venv/bin/python tools/scoreart32_convert.py --rom build/modeart32.nes --check
+.venv/bin/python tools/build_scoreart32.py build/modeart32.nes -o build/scoreart32.nes
+.venv/bin/python tools/test_scoreart32.py build/modeart32.nes --candidate build/scoreart32.nes
+.venv/bin/python tools/test_scoreart32_probe.py
+
 if [ "${1:-}" = "--with-soak" ]; then
   timeout 300 python3 tools/soak_bracket.py \
     --rom build/direct31.nes --matches 6 --winner score --mode speed --session verify-stock
   timeout 300 python3 tools/soak_bracket.py \
-    --rom build/modeart32.nes --team 31 --matches 31 --winner live-score --require-complete --mode speed \
+    --rom build/scoreart32.nes --team 31 --matches 31 --winner live-score --require-complete --mode speed \
     --check-stack --session verify-gameplay
 fi

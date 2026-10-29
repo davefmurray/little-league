@@ -7423,3 +7423,33 @@ contexts are sampled windows, not exact per-write scene attribution.
 
 See docs/modeart32.md and its verification links for commands, reviews and
 captures. Physical hardware and a second emulator remain unvalidated.
+
+## Round 290: sunny ballpark scoreboard
+
+Accepted scoreart32 `2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a`.
+Two designs and a cross-judge selected layout B with local bank-4 storage.
+The stage changes 4,712 bytes in bank4 and CHR05. It keeps the original score,
+statistic, input and audio writers. Art uses 254 tiles, including 78 reserved
+runtime glyph IDs; shared CHR18 is unchanged.
+
+The board moves by component: line scores one row, stats three rows. A crowd
+band contains families, players and the popcorn vendor. Both stock waits and
+41,436 cycles before the score writer remain; a faster draw changed input and
+music timing in the rejected prototype. Tests compare those timelines.
+
+The final suite covers 409 boards, byte-valued counters, extra innings,
+13 exits, 15 phase/song variants, 40 NMI positions and eight negative controls.
+Independent review rebuilt the exact ROM and found a screenshot-path alias
+bug in the probe. Root fixed it before emulator dispatch, added 37 collision
+checks, corrected malformed-font validation and removed an inaccurate comment.
+The final pxl/CPU rerun passes without changing ROM bytes.
+
+Real-core WATCH finishes 3-0; every board matches score RAM, full nametable,
+attributes, palette and OAM. Five extra-inning cases are planted, not played.
+A separate 72,964-frame mapper tour finishes 4-6, with no misaligned serial
+writes. All32 Analysis and attract/demo-entry tours pass. The integrated
+stock-six/full31 gate exits 0, champion07, game-over1 and stackFF throughout.
+SPEED forces CPU ownership. Physical hardware remains unvalidated.
+
+Evidence and exact contracts are in docs/scoreart32.md. The user's follow-up
+is to publish the reusable pxl/NES screen-art skill in AWESOME-NESDEV.

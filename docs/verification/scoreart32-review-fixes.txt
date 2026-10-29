@@ -1,0 +1,1 @@
+PASS: 37 screenshot aliases refused before emulator dispatch; new destinations accepted; four malformed font types refused

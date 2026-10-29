@@ -1,0 +1,37 @@
+ROM SHA256 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a
+controller-only tour=analysis submode=watch complete=False attract=False password=4995FEC5ESTVP6KM5YCNYM
+password restored through keyboard; matchup B preserved series
+analysis 00: selected, details, B return, cursor and series preserved
+analysis 01: selected, details, B return, cursor and series preserved
+analysis 02: selected, details, B return, cursor and series preserved
+analysis 03: selected, details, B return, cursor and series preserved
+analysis 04: selected, details, B return, cursor and series preserved
+analysis 05: selected, details, B return, cursor and series preserved
+analysis 06: selected, details, B return, cursor and series preserved
+analysis 07: selected, details, B return, cursor and series preserved
+analysis 08: selected, details, B return, cursor and series preserved
+analysis 09: selected, details, B return, cursor and series preserved
+analysis 0A: selected, details, B return, cursor and series preserved
+analysis 0B: selected, details, B return, cursor and series preserved
+analysis 0C: selected, details, B return, cursor and series preserved
+analysis 0D: selected, details, B return, cursor and series preserved
+analysis 0E: selected, details, B return, cursor and series preserved
+analysis 0F: selected, details, B return, cursor and series preserved
+analysis 10: selected, details, B return, cursor and series preserved
+analysis 11: selected, details, B return, cursor and series preserved
+analysis 12: selected, details, B return, cursor and series preserved
+analysis 13: selected, details, B return, cursor and series preserved
+analysis 14: selected, details, B return, cursor and series preserved
+analysis 15: selected, details, B return, cursor and series preserved
+analysis 16: selected, details, B return, cursor and series preserved
+analysis 17: selected, details, B return, cursor and series preserved
+analysis 18: selected, details, B return, cursor and series preserved
+analysis 19: selected, details, B return, cursor and series preserved
+analysis 1A: selected, details, B return, cursor and series preserved
+analysis 1B: selected, details, B return, cursor and series preserved
+analysis 1C: selected, details, B return, cursor and series preserved
+analysis 1D: selected, details, B return, cursor and series preserved
+analysis 1E: selected, details, B return, cursor and series preserved
+analysis 1F: selected, details, B return, cursor and series preserved
+analysis B returns to mode menu with NMI guards clear
+MMC1 trace: 7073 frames, 182348 writes; docs/verification/scoreart32-analysis-mapper.json

@@ -1,0 +1,74 @@
+{
+  "frames": 7073,
+  "mapper_writes": 182348,
+  "chr0": {
+    "00": 34,
+    "12": 120,
+    "1B": 8217
+  },
+  "chr1": {
+    "01": 68,
+    "06": 211,
+    "17": 120,
+    "18": 8006,
+    "19": 34
+  },
+  "sources": {
+    "$C12E:CHR0:00": 34,
+    "$C12E:CHR0:12": 120,
+    "$C12E:CHR0:1B": 8217,
+    "$C146:CHR1:01": 68,
+    "$C146:CHR1:06": 211,
+    "$C146:CHR1:17": 120,
+    "$C146:CHR1:18": 8006,
+    "$C146:CHR1:19": 34
+  },
+  "requests": [
+    {
+      "00": 34,
+      "12": 120,
+      "1B": 8217
+    },
+    {
+      "01": 68,
+      "06": 211,
+      "17": 120,
+      "18": 8006,
+      "19": 34
+    }
+  ],
+  "prg": {
+    "00": 7281,
+    "01": 1543,
+    "02": 36,
+    "03": 7839,
+    "04": 361,
+    "05": 165,
+    "08": 1,
+    "0A": 2294,
+    "0B": 73,
+    "0C": 4,
+    "0D": 15
+  },
+  "mode_contexts": {},
+  "context_targets": {
+    "chr": 5,
+    "prg": 14
+  },
+  "misaligned": [],
+  "limit": "Only frame steps and input presses in this scripted tour are traced; loadMedia startup, audioDebug advancement and direct CPU calls are excluded. Mode contexts sample scene before/after each window of up to 40 frames, not at each write.",
+  "command": [
+    "tools/probe_frontend32.py",
+    "--rom",
+    "build/scoreart32.nes",
+    "--output",
+    "build/scoreart32-analysis",
+    "--tour",
+    "analysis",
+    "--password",
+    "4995FEC5ESTVP6KM5YCNYM",
+    "--session",
+    "scoreart32-analysis"
+  ],
+  "rom_sha256": "2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a"
+}

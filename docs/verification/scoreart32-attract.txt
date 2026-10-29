@@ -1,0 +1,13 @@
+ROM SHA256 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a
+controller-only tour=title submode=watch complete=False attract=False password=None
+title: CHR17, song04, 71 APU transitions in 120 frames
+attract redraw uses CHR17 and enters demo
+START port 1 after 120 frames: mode menu and song06
+START port 2 after 120 frames: mode menu and song06
+START port 1 after 400 frames: mode menu and song06
+START port 2 after 400 frames: mode menu and song06
+START port 1 after 1000 frames: mode menu and song06
+START port 2 after 1000 frames: mode menu and song06
+START port 1 after 1550 frames: mode menu and song06
+START port 2 after 1550 frames: mode menu and song06
+MMC1 trace: 8344 frames, 208320 writes; docs/verification/scoreart32-attract-mapper.json

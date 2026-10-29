@@ -31,6 +31,7 @@ DRAW_OUT = os.path.join(ROOT, "build/draw32.nes")
 PICK_OUT = os.path.join(ROOT, "build/pick32.nes")
 TITLE_OUT = os.path.join(ROOT, "build/title32.nes")
 MODE_OUT = os.path.join(ROOT, "build/modeart32.nes")
+SCORE_OUT = os.path.join(ROOT, "build/scoreart32.nes")
 
 
 def run(script, *args):
@@ -71,7 +72,8 @@ def main():
     run("build_pick32.py", DRAW_OUT, "-o", PICK_OUT)
     run("build_title32.py", PICK_OUT, "-o", TITLE_OUT)
     run("build_modeart32.py", TITLE_OUT, "-o", MODE_OUT)
-    print(f"wrote {MODE_OUT}; baseline preserved at {OUT}")
+    run("build_scoreart32.py", MODE_OUT, "-o", SCORE_OUT)
+    print(f"wrote {SCORE_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":

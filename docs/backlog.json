@@ -576,6 +576,20 @@
       "attempts": 1,
       "evidence": "modeart32 7624f8f8: source rebuild, final CPU with pxl, stock6/full31, exact emulator menus/palettes, full 2P/WATCH and password/Analysis checks; independent ROM reviews approve, output findings fixed. See docs/modeart32.md and docs/verification/modeart32-review.txt.",
       "last_commit": "f995350"
+    },
+    {
+      "id": "score-art32",
+      "title": "Colorful ballpark scoreboard with preserved scoring",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "mode-art32"
+      ],
+      "next": "Accepted; physical hardware and second emulator remain external.",
+      "verify": "pxl regeneration, stock score/exit/audio parity, played boards, mapper census, stock6/full31",
+      "attempts": 1,
+      "evidence": "2ae1a7ab: source, final CPU with pxl, played WATCH, planted extra innings, mapper/attract/Analysis tours, stock6/full31; independent review resolved. See docs/scoreart32.md.",
+      "last_commit": ""
     }
   ]
 }
