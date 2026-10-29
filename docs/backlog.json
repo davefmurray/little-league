@@ -567,15 +567,15 @@
       "id": "mode-art32",
       "title": "Colorful ballpark mode menu with people",
       "priority": "P1",
-      "status": "active",
+      "status": "done",
       "depends_on": [
         "title-art32"
       ],
-      "next": "Complete runtime gates and independent review, then publish",
+      "next": "Accepted; physical hardware and second-emulator validation remain external.",
       "verify": "pxl regeneration, exact CPU menus and exits, real-core menu/input/mapper/audio checks, stock6/full31",
       "attempts": 1,
-      "evidence": "Source build and menu tour pass on 7624f8f8; docs/modeart32.md",
-      "last_commit": ""
+      "evidence": "modeart32 7624f8f8: source rebuild, final CPU with pxl, stock6/full31, exact emulator menus/palettes, full 2P/WATCH and password/Analysis checks; independent ROM reviews approve, output findings fixed. See docs/modeart32.md and docs/verification/modeart32-review.txt.",
+      "last_commit": "f995350"
     }
   ]
 }
