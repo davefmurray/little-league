@@ -520,6 +520,48 @@
       "attempts": 1,
       "evidence": "bcb7fcdc: 32 controller selections, stock song06 activity, high-team human field, typed password/list/finished transitions, WATCH1, mapper trace and stock6/full31 pass. Independent assembly review found no blocker; both output-protection findings fixed and tested without ROM drift. See docs/menuart32.md.",
       "last_commit": "3435849"
+    },
+    {
+      "id": "random-draw32",
+      "title": "Repeatable random championship draws and v2 passwords",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "menu-art-music"
+      ],
+      "next": "Accepted; preserve frozen v2 layout and draw together",
+      "verify": "v1/v2 resume checkpoints, exact CPU draw/codec, random full31, independent review",
+      "attempts": 1,
+      "evidence": "8f4a14a3: exhaustive CPU draw/codec, 18 v1/v2 restores and 16 following games, random full31, WRAM traces; docs/draw32.md and docs/verification/frontend32-*.txt",
+      "last_commit": "7853d0d0668352b9798f3535ef457fc282787a91"
+    },
+    {
+      "id": "shared-picker32",
+      "title": "Use the flag grid in Exhibition and Power Analysis",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "random-draw32"
+      ],
+      "next": "Accepted; 2P second choice uses controller 2",
+      "verify": "all32 analysis, both ports, duplicate/back rules, full high-team 1P/2P/WATCH and suspended-series preservation",
+      "attempts": 1,
+      "evidence": "8f4a14a3: full CPU exit parity, all32 Analysis, complete high-team 1P/2P/WATCH and exact suspended-series CONTINUE; docs/pick32.md",
+      "last_commit": "7853d0d0668352b9798f3535ef457fc282787a91"
+    },
+    {
+      "id": "title-art32",
+      "title": "Replace title art while preserving music and attract",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "shared-picker32"
+      ],
+      "next": "Accepted; hardware and second emulator remain external",
+      "verify": "pxl regeneration, CPU boot/attract parity, controller START on both pads, CHR/audio trace",
+      "attempts": 1,
+      "evidence": "8f4a14a3: pinned pxl regeneration, CPU boot/attract parity, both START ports, full attract/demo return, aligned 90022-frame mapper trace; docs/title32.md",
+      "last_commit": "7853d0d0668352b9798f3535ef457fc282787a91"
     }
   ]
 }
