@@ -603,7 +603,7 @@
       "verify": "source pixel provenance, independent readback, guards, menu and played WATCH probes, stock6/full31",
       "attempts": 1,
       "evidence": "a5bf74ee: source and all17 assets reproduced; full CPU, both reviews, exact menu tour, WATCH 4-6, mapper traces and stock6/full31 champion07 pass. Review tool fixes pass; docs/stockart32.md.",
-      "last_commit": ""
+      "last_commit": "fa7aa97"
     }
   ]
 }
