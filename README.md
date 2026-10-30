@@ -48,7 +48,7 @@ is in **[docs/game-writeup.md](docs/game-writeup.md)**.
 
 | | |
 |---|---|
-| **Browser editor** | Edit all 16 teams, names, ratings, skill and stats; export a patched ROM or JSON. No build step, no dependencies. |
+| **Browser editor** | Edit the 32-team Preview 8 rosters or the original 16 teams: player names, skill, stats and team ratings; export an edited ROM or JSON. No build step, no dependencies. |
 | **CLI roster tool** | `tools/roster.py` — `show`, `extract`, `apply`, `patch`; extract → apply is byte-identical on an untouched ROM. |
 | **Data map** | Every roster, lineup, pitcher, name, flag and rating table, with CPU and file offsets. |
 | **ROM analysis** | `tools/rominfo.py` (banks, CRCs, vectors, strings) and `tools/trace.py` (6502 trace from RESET). |
@@ -108,39 +108,51 @@ existing `direct20-names.nes` bootstrap artifact.
 See [status and build commands](docs/32-team-status.md),
 [random draws and passwords](docs/draw32.md), [picker controls](docs/pick32.md),
 [title artwork](docs/title32.md), and [menu art/music](docs/menuart32.md).
-The hosted editor defaults to the stock 16-team demo; load a 32-team ROM or
-use its Data menu for the extended data.
+The hosted editor opens on the Preview 8 roster. Download the ROM above, then
+open it in the editor to export an edited copy; see the
+[editor contract](docs/editor32.md).
 
 ---
 
 ## Browser editor
 
-**Hosted:** <https://little-league-production.up.railway.app> — load your own ROM in
-the browser; the hosted copy does not serve one.
+**Hosted:** <https://little-league-production.up.railway.app>. The page opens on
+the Preview 8 roster. **Get Preview 8** downloads the ROM from the release;
+**Open ROM** then reads it in the browser. Nothing is uploaded, and the site
+never serves a ROM.
 
 ```sh
 python3 tools/serve.py
 # http://127.0.0.1:8080
 ```
 
-Drop a `.nes` file anywhere on the page, or put your dump in the repo root and
-click **Repo ROM**. Pick a team, edit, then **Export ROM** to download a patched
-copy. **Data → Export JSON** saves a roster you can re-import later.
+Open a `.nes` file or drop it anywhere on the page. Pick a team, edit, then
+**Export ROM** to download an edited copy. **Data → Export JSON** saves a
+roster you can import later, and the Data menu switches to the original
+16-team roster.
 
-- **Team** — 14-char display name, scoreboard name (width-limited by the ROM),
-  four 1–4 power ratings.
-- **Players** — 6-char name, SKILL 1–5, batting/pitching nibbles, speed.
-- **Pitchers** are marked with a red `P`; their three records per team live in the
-  trailer after the roster.
-- **Safety** — appearance bytes are preserved, names and widths validated, and
-  the leave-page guard catches unsaved edits.
+- **ROMs** — the 32-team Preview 8 release and the original US ROM, plus copies
+  this editor exported. Other files are refused.
+- **Players** — 6-character names, SKILL 1–5, batting and pitching (0–15
+  each) and speed (0–15) for players 1–15 on every team.
+- **Teams** — four 1–4 Power Analysis ratings. On the 16-team ROM the team and
+  scoreboard names are editable within their stored widths. Preview 8 names,
+  codes and regions are read-only because the menus and bracket art use them.
+- **Stored records** — Preview 8 teams 17–32 store 20 players, but the game
+  loads 15, so players 16–20 are shown read-only.
+- **Pitchers** are marked with a red `P`; the three pitcher records per team are
+  not edited.
+- **Safety** — export writes only the fields you changed and reopens the copy
+  to check it. Opening another file asks before replacing unsaved edits.
 
-The editor parses and patches the ROM **in the browser**. Nothing is uploaded.
-The server only hands out `web/` (and, on loopback only, `/rom`).
+The editor reads and writes the ROM **in the browser**. The server only serves
+`web/` (and, on loopback only, `/rom` for local tools; the editor does not use
+it). [docs/editor32.md](docs/editor32.md) has the full contract.
 
-Verified: `applyRom` round-trips the untouched ROM byte-identically, a browser
-edit changes only the intended bytes, and the browser export matches the Node
-import of `web/rom.js` byte-for-byte.
+Tests: `node --test tools/test_web_rom.mjs tools/test_web_app.mjs` runs on
+synthetic ROM images. Set `ROSTER_ROM32` and `ROSTER_ROM16` to add the
+real-ROM cases, and run `tools/test_web32_runtime.py` for the CPU checks on an
+exported Preview 8 copy.
 
 ---
 
@@ -171,7 +183,7 @@ python3 -m venv .venv && .venv/bin/pip install py65
 
 The base ROM is not included. The reference dump has MD5
 `cd724fd557d323ce7fefe8a82ddf8337`; the tools check the iNES header and refuse
-trainer ROMs, and the editor warns if team 1 is not `JAPAN`.
+trainer ROMs, and the editor refuses files other than the two supported ROMs.
 
 ---
 

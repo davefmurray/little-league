@@ -20,16 +20,19 @@
   </div>
 
   <div class="top-actions">
-    <span id="statusChip" class="chip" data-mode="demo">DEMO DATA</span>
-    <button id="loadBtn" class="btn">Load ROM</button>
-    <button id="repoBtn" class="btn ghost" title="Load the ROM found in the repo root">Repo ROM</button>
+    <span id="statusChip" class="chip" data-mode="preview">LOADING</span>
+    <a id="getRomLink" class="btn ghost" target="_blank" rel="noopener"
+       href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes"
+       title="Download the 32-team Preview 8 ROM from the project's GitHub release">Get Preview 8</a>
+    <button id="openBtn" class="btn" title="Open a ROM from this device. It is read in the browser, never uploaded.">Open ROM</button>
     <button id="exportRomBtn" class="btn primary" disabled>Export ROM</button>
     <div class="menu">
       <button id="moreBtn" class="btn ghost" aria-haspopup="true" aria-expanded="false">Data ▾</button>
       <div id="moreMenu" class="menu-list" hidden>
-        <button id="exportJsonBtn">Export JSON</button>
+        <button id="exportJsonBtn" disabled>Export JSON</button>
         <button id="importJsonBtn">Import JSON</button>
-        <button id="load32Btn">Load 32-team demo</button>
+        <button id="preview32Btn">Preview 8 roster</button>
+        <button id="preview16Btn">16-team US roster</button>
         <button id="revertBtn" disabled>Revert changes</button>
       </div>
     </div>
@@ -63,13 +66,13 @@
   <p class="hero-credit">Title screen and box art © SNK / Little League Baseball, Inc. — used for identification and commentary.</p>
 </section>
 
-<div id="banner" class="banner" hidden></div>
+<div id="banner" class="banner" role="status" hidden></div>
 
 <main id="editor-app">
   <aside class="sidebar">
     <div class="side-head">
       <span>Teams</span>
-      <span class="count">16</span>
+      <span class="count" id="teamCount">0</span>
     </div>
     <div id="teamList" class="team-list" role="list"></div>
   </aside>
@@ -77,7 +80,7 @@
   <section id="editor" class="editor">
     <div id="emptyState" class="empty">
       <h2>No roster loaded</h2>
-      <p>Drop a <code>.nes</code> file here, or load the ROM from the repo root.</p>
+      <p>Open a ROM, or drop a <code>.nes</code> ROM or roster <code>.json</code> anywhere on the page.</p>
     </div>
 
     <div id="teamPanel" hidden>
@@ -87,16 +90,21 @@
           <h2 id="teamTitle">JAPAN</h2>
           <span class="short-preview" id="shortPreview">JAPAN</span>
         </div>
-        <div class="team-fields">
+        <div class="team-fields" id="identityEdit">
           <label>
             <span>Team name <em>14 max</em></span>
-            <input id="teamName" maxlength="14" spellcheck="false" autocomplete="off">
+            <input id="teamName" data-text="name" maxlength="14" spellcheck="false" autocomplete="off">
           </label>
           <label>
             <span>Scoreboard <em id="shortLimit">10 max</em></span>
-            <input id="shortName" spellcheck="false" autocomplete="off">
+            <input id="shortName" data-text="shortName" spellcheck="false" autocomplete="off">
           </label>
+          <p class="field-note">These edit the main team-name and scoreboard tables. A few screens keep their own copy of the original name.</p>
         </div>
+        <p class="identity-note" id="identityNote" hidden>
+          Team names, codes and regions are drawn into this build's menus and bracket art,
+          so Roster Lab keeps them as built.
+        </p>
       </div>
 
       <div class="ratings" id="ratings"></div>
@@ -104,7 +112,7 @@
       <div class="roster-head">
         <h3>Roster</h3>
         <div class="roster-actions">
-          <span class="hint">15 slots · 6-char names · RGB nibbles 0–15</span>
+          <span class="hint" id="rosterHint"></span>
           <button id="resetTeamBtn" class="btn tiny ghost">Reset team</button>
         </div>
       </div>
@@ -124,20 +132,44 @@
           <tbody id="playerBody"></tbody>
         </table>
       </div>
+
+      <details class="stored" id="storedBox" hidden>
+        <summary>Stored, unused by this ROM <em id="storedCount">5 players</em></summary>
+        <p class="stored-note">
+          The game loads players 1–15 for every team. These records stay in the file exactly as built,
+          so they are shown here read-only.
+        </p>
+        <div class="table-wrap">
+          <table class="players stored-table">
+            <thead>
+              <tr>
+                <th class="slot">#</th>
+                <th>Name</th>
+                <th>Skill</th>
+                <th>Batting</th>
+                <th>Pitching</th>
+                <th>Speed</th>
+              </tr>
+            </thead>
+            <tbody id="storedBody"></tbody>
+          </table>
+        </div>
+      </details>
     </div>
   </section>
 </main>
 
 <footer class="foot">
   <p>
-    <strong>SKILL</strong> is the card rating (byte 11). <strong>BATTING</strong> and
-    <strong>PITCHING</strong> are the two nibbles of byte 9. <strong>SPEED</strong> is the
-    low nibble of byte 10, which the game copies into its baserunning variable.
+    <strong>SKILL</strong> is the 1–5 rating on each player card. <strong>BATTING</strong> and
+    <strong>PITCHING</strong> are two 0–15 ratings that share one byte. <strong>SPEED</strong>
+    is the 0–15 value the game copies into its baserunning variable.
   </p>
   <p class="muted">
-    A red <strong>P</strong> marks a pitcher slot. All other bytes are preserved from the
-    source record — export only changes names, ratings, skill and the three stats, and is
-    otherwise byte-identical to the loaded ROM.
+    Roster Lab opens the original 16-team US ROM and the 32-team Preview 8 ROM, including copies it
+    exported. Export writes only the names, skills, stats and team ratings you changed; every other
+    byte is copied from your file. A red <strong>P</strong> marks a player linked to one of the
+    team's three pitcher records, which this editor does not change.
   </p>
   <p class="muted">
     Source, data map and the full game write-up:
@@ -154,6 +186,15 @@
 </div>
 
 <div id="toasts" class="toasts" aria-live="polite"></div>
+
+<dialog id="replaceDialog" class="confirm" aria-labelledby="replaceTitle">
+  <h2 id="replaceTitle">Replace unsaved edits?</h2>
+  <p id="replaceText"></p>
+  <div class="confirm-actions">
+    <button id="keepBtn" class="btn" autofocus>Keep editing</button>
+    <button id="replaceBtn" class="btn primary">Replace</button>
+  </div>
+</dialog>
 
 <input id="romInput" type="file" accept=".nes,application/octet-stream" hidden>
 <input id="jsonInput" type="file" accept=".json,application/json" hidden>

@@ -1,0 +1,13 @@
+{
+  "web/app.js": "4b5744fc66f60876943c2ca5054cc4b85775f40bc28763203735d47dfb5e2703",
+  "web/rom.js": "7620f44197174bdbef5e5da6a02a132ab59bb72ae44596f3f9c7890bca834acd",
+  "web/index.html": "c7731751bac79972fe864466e277678c01104a8984c2171c318b60841ffd7502",
+  "web/styles.css": "e29bae488bbb31d09b91ed8b194f11d1f9f4408caabf67a92f0c4ba9bc55cf33",
+  "tools/test_web_rom.mjs": "36b88206868fa69e7692b19a407b7a538c27a736236dc4ebb27e760c657cd2a1",
+  "tools/test_web_app.mjs": "2131525be0f0d193ce76938d8def3c8c42e0d12e7a6a2b42539e9d6dc438a36f",
+  "tools/web_dom_stub.mjs": "3d1612c21601afa7e040a6ba807b7ed3d4b6331f4cba12ecd78d4b266e475940",
+  "tools/web_fixtures.mjs": "00ed11690bb70f8d636b4a7bb4833afba12dc9003655c7d5be0b63007201bd81",
+  "tools/web32_export.mjs": "5e5232713b0eda2579a251b5f22ad905fdc051fb668108d7b4a921b140c1d37f",
+  "tools/test_web32_runtime.py": "58b5ba96318a1e1f19d58e129c805b30d0e68ec18e4291e8d1fb2c3d43c68fc7",
+  ".github/workflows/ci.yml": "c782652c767abae9f1504bb5b1b66359fffb5c9ea46f388d6390e2bbab8d379d"
+}

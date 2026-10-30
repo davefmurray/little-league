@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "target": "source.nes",
+      "exit": 1
+    },
+    {
+      "target": "existing.nes",
+      "exit": 1
+    },
+    {
+      "target": "linked.nes",
+      "exit": 1
+    },
+    {
+      "target": "hard.nes",
+      "exit": 1
+    },
+    {
+      "target": "new.nes",
+      "exit": 0
+    }
+  ],
+  "source_unchanged": true,
+  "existing_evidence_unchanged": true
+}

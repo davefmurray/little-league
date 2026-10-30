@@ -1,8 +1,14 @@
-> **Correction:** see `docs/datacrystal-rom-map.md` for the authoritative,
-> ROM-verified map. Team bases are not uniformly `0x120` (Puerto Rico and Mexico
-> differ). Team colours are **two 16-byte tables** at `$FAC0`/`$FAD0` — the
-> llbcs.py 3-byte model was wrong. Flags start at `$976A`; `$975A` is lineup
-> tail, not a flag table.
+> **Correction:** see `docs/datacrystal-rom-map.md` for the ROM-verified map.
+> Team bases are uniformly `$8420 + $120 × team` (file `0x10430 + 0x120 × team`),
+> as `tools/llbcs_map.py` `TEAM_BASES` lists; that map's Puerto Rico row
+> miscomputed the base as `0x10F50`, and `0x10F70` is the uniform base. Team
+> colours are **two 16-byte tables** at `$FAC0`/`$FAD0` — the llbcs.py 3-byte
+> model was wrong. Flags start at `$976A`; `$975A` is lineup tail, not a flag
+> table.
+>
+> This page describes the original 16-team ROM. The 32-team Preview 8 layout
+> (15 players for teams 0–15, 20 stored and 15 loaded for teams 16–31, ratings
+> at bank 3 `$BC80`) is in [editor32.md](editor32.md).
 
 # Roster and team data format
 

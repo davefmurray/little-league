@@ -1,0 +1,12 @@
+exported /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmp3n8bvnqs/web-export.nes: 4426 bytes differ from build/homerunart32.nes
+export: 480 active players and 128 live ratings changed; every other bit matches the source
+original:
+cache: all32/both slots, 303 writes to 288 addresses, canaries, low pointers and AB22 state OK
+menu: all480 high-team player/side cases classify declared pitchers through bank1 A125 and A1D3 OK
+ratings: all 128 $AFE2 reads and all 32 $BD30 numeral calls see the live table
+web export:
+cache: all32/both slots, 303 writes to 288 addresses, canaries, low pointers and AB22 state OK
+menu: all480 high-team player/side cases classify declared pitchers through bank1 A125 and A1D3 OK
+ratings: all 128 $AFE2 reads and all 32 $BD30 numeral calls see the live table
+cache: edited names reach $7800 for teams 16-31; stored players 16-20 are skipped
+source ROM unchanged; the edited export was written only to a temporary directory

@@ -58,11 +58,12 @@ jobs:
           doc = json.load(open("/tmp/roster32.json"))
           assert len(doc["teams"]) == 32
           for t in doc["teams"]:
-              assert len(t["players"]) == 20, (t["name"], len(t["players"]))
+              stored = 15 if t["id"] < 16 else 20
+              assert len(t["players"]) == stored, (t["name"], len(t["players"]))
               for p in t["players"]:
                   assert len(p["attrs"]) == 10
                   assert len(p["name"]) <= 6
-          print("roster32.json OK: 32 x 20")
+          print("roster32.json OK: teams 0-15 x 15, teams 16-31 x 20")
           PY
 
       - name: Verify 32-team password model
@@ -82,3 +83,7 @@ jobs:
         run: |
           node --check web/app.js
           node --check web/rom.js
+
+      # CI has no ROM, so the real-ROM cases in test_web_rom.mjs report as skipped.
+      - name: Test the browser editor
+        run: node --test --test-timeout=60000 tools/test_web_rom.mjs tools/test_web_app.mjs

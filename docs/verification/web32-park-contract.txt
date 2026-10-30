@@ -1,0 +1,10 @@
+✔ Preview 8: JSON must not manufacture raw skill 7 on a loaded baseline of 2 (24.366417ms)
+✔ stock16: JSON must not manufacture raw skill 7 on a loaded baseline of 2 (10.952917ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.747667

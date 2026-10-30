@@ -1,0 +1,78 @@
+✔ boots into the Preview 8 roster with honest counts and no ROM claims (43.151625ms)
+✔ an original ROM opens, exports unchanged, and edits touch only their bytes (76.593541ms)
+✔ an edited copy opens with an honest label (23.5495ms)
+✔ the stored skill of 7 survives until someone picks a skill on purpose (55.940709ms)
+✔ a slow boot preview never replaces a ROM opened first, and its failure stays quiet (23.313333ms)
+✔ a failed startup leaves an empty state that can open a ROM (11.715042ms)
+✔ switching sessions asks even when the new roster equals the dirty draft (45.762542ms)
+✔ the newest file wins when reads finish backwards (15.43475ms)
+✔ the newest file wins when hashing finishes backwards (19.491167ms)
+✔ a stale load cannot take over the newer load's replace prompt (25.07025ms)
+✔ a failed newest load keeps the session, and an older load cannot land after it (19.481041ms)
+✔ edits made while a file loads are protected by an explicit choice (30.140209ms)
+✔ a replace answer only applies to its own load and current edits (24.246375ms)
+✔ JSON without a ROM stays a draft; opening a ROM needs an explicit re-import (43.526917ms)
+✔ a 16-team file switches the preview, but cannot land on an open Preview 8 ROM (21.965791ms)
+✔ imports keep the ROM as the baseline for Reset team and Revert (53.227791ms)
+✔ re-importing your own JSON keeps dirty state and export bytes (66.765666ms)
+✔ imports that change read-only data are refused without touching the session (24.805667ms)
+✔ an old 32-team export loses only its blank padding, with a notice (15.990833ms)
+✔ 16-team names edit within their stored widths (30.255042ms)
+✔ switching rosters with unsaved edits asks first (10.494542ms)
+✔ the page links the pinned release and ships no ROM (0.846375ms)
+✔ synthetic Preview 8: admits the file and reads every stored record (22.433916ms)
+✔ synthetic Preview 8: an unchanged export and JSON round trip are byte-identical (36.596458ms)
+✔ synthetic Preview 8: each editable field writes only its own bits on every active player (93.40075ms)
+✔ synthetic Preview 8: single edits land on the right team block (48.610625ms)
+✔ synthetic Preview 8: an export that does not read back as the draft is refused (10.922833ms)
+✔ synthetic Preview 8: read-only bits and records refuse to change (27.040042ms)
+✔ synthetic Preview 8: field values outside the game's ranges are refused (11.933542ms)
+✔ synthetic Preview 8: the source skill exception survives and can be edited deliberately (24.911375ms)
+✔ synthetic Preview 8: files with changes outside the editable fields are refused (105.368ms)
+✔ synthetic Preview 8: roster files keep or refuse data without guessing (12.705584ms)
+✔ synthetic Preview 8: legacy 32-team files drop only the old blank padding (7.621792ms)
+✔ synthetic 16-team: admits the file and reads every stored record (7.604084ms)
+✔ synthetic 16-team: an unchanged export and JSON round trip are byte-identical (12.089792ms)
+✔ synthetic 16-team: each editable field writes only its own bits on every active player (51.505666ms)
+✔ synthetic 16-team: single edits land on the right team block (12.192791ms)
+✔ synthetic 16-team: an export that does not read back as the draft is refused (6.051791ms)
+✔ synthetic 16-team: read-only bits and records refuse to change (6.432875ms)
+✔ synthetic 16-team: field values outside the game's ranges are refused (5.553666ms)
+✔ synthetic 16-team: the source skill exception survives and can be edited deliberately (15.11675ms)
+✔ synthetic 16-team: files with changes outside the editable fields are refused (52.640167ms)
+✔ synthetic 16-team: team and scoreboard names stay inside their stored widths (12.642291ms)
+✔ synthetic 16-team: roster files keep or refuse data without guessing (6.849709ms)
+﹣ real Preview 8: admits the file and reads every stored record (0.177834ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: an unchanged export and JSON round trip are byte-identical (0.034ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: each editable field writes only its own bits on every active player (0.023792ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: single edits land on the right team block (0.021583ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: an export that does not read back as the draft is refused (0.023208ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: read-only bits and records refuse to change (0.019958ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: field values outside the game's ranges are refused (0.04325ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: the source skill exception survives and can be edited deliberately (0.021958ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: files with changes outside the editable fields are refused (0.067292ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: roster files keep or refuse data without guessing (0.033166ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real Preview 8: legacy 32-team files drop only the old blank padding (0.0235ms) # set ROSTER_ROM32 to run against the real ROM
+﹣ real 16-team US: admits the file and reads every stored record (0.113291ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: an unchanged export and JSON round trip are byte-identical (0.040666ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: each editable field writes only its own bits on every active player (0.12975ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: single edits land on the right team block (0.021458ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: an export that does not read back as the draft is refused (0.019333ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: read-only bits and records refuse to change (0.0185ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: field values outside the game's ranges are refused (0.3615ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: the source skill exception survives and can be edited deliberately (0.027375ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: files with changes outside the editable fields are refused (0.019958ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: team and scoreboard names stay inside their stored widths (0.095292ms) # set ROSTER_ROM16 to run against the real ROM
+﹣ real 16-team US: roster files keep or refuse data without guessing (0.028167ms) # set ROSTER_ROM16 to run against the real ROM
+✔ bundled previews read as their profiles with honest counts (3.2915ms)
+✔ the shipped profiles pin two layouts and nothing else (0.083459ms)
+✔ a page without WebCrypto refuses ROMs instead of skipping the check (10.086292ms)
+﹣ real ROMs: digests recompute independently and previews equal the ROMs (0.041292ms) # set ROSTER_ROM32 to run against the real ROM
+ℹ tests 70
+ℹ suites 0
+ℹ pass 47
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 23
+ℹ todo 0
+ℹ duration_ms 775.179375
