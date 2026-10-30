@@ -182,10 +182,8 @@ def protected_paths(source, inputs=()):
 
 def refuse_tracked(output):
     """Inside the repository a generated file belongs under build/, even one that does not exist yet."""
-    for place in {Path(os.path.abspath(output)), Path(output).resolve()}:
-        if (place == ROOT or ROOT in place.parents) and not (place == BUILD or BUILD in place.parents):
-            raise ValueError(f"output aliases protected repository path {place}; generated files belong under "
-                             f"{BUILD}")
+    if score_stage.is_inside(output, ROOT) and not score_stage.is_inside(output, BUILD):
+        raise ValueError(f"output aliases protected repository path {output}; generated files belong under {BUILD}")
 
 
 def protect_output(source, output, inputs=()):

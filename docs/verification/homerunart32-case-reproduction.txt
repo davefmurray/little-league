@@ -1,0 +1,6 @@
+REPRODUCED accepted protected case alias: /Users/dfm/GitHub/nesdav/LITTLE-LEAGUE/art/homerunart32/guard-probe-must-not-be-created.nes
+REPRODUCED accepted protected case alias: /Users/dfm/GitHub/nesdav/LITTLE-LEAGUE/data/homerunart32/guard-probe-must-not-be-created.nes
+REPRODUCED accepted protected case alias: /Users/dfm/GitHub/nesdav/LITTLE-LEAGUE/build/vendor/guard-probe-must-not-be-created.nes
+REPRODUCED accepted protected case alias: /Users/dfm/GitHub/nesdav/LITTLE-LEAGUE/build/homerunart32-design/guard-probe-must-not-be-created.nes
+REPRODUCED accepted protected case alias: /Users/dfm/GitHub/nesdav/LITTLE-LEAGUE/build/homerunart32-fixtures/guard-probe-must-not-be-created.nes
+Read-only guard calls; no protected output was written.

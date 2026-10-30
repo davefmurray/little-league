@@ -1,0 +1,2 @@
+PASS planted stock championship ending census [(27, 0, 24), (27, 1, 24), (27, 2, 16), (27, 3, 24)]
+PASS attract census

@@ -6,7 +6,7 @@ tools with a verified round trip, and a long-form **[history and technical
 companion](docs/game-writeup.md)**.
 
 <p align="center">
-  <img src="https://github.com/davefmurray/little-league/releases/download/32-team-preview-7/power-analysis.png" alt="Baseball-marker Power Analysis card" width="512">
+  <img src="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/home-run.png" alt="HOME RUN ballpark celebration" width="512">
 </p>
 <p align="center">
   <img src="docs/editor.png" alt="Roster Lab editing the Japan roster" width="900">
@@ -59,8 +59,8 @@ is in **[docs/game-writeup.md](docs/game-writeup.md)**.
 
 ## 32-team edition
 
-[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-7/little-league-32-team.nes)
-or open the [release and screenshots](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-7).
+[Download the current ROM](https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes)
+or open the [release and screenshots](https://github.com/davefmurray/little-league/releases/tag/32-team-preview-8).
 
 - **Random tournaments:** choose any of 32 teams. Your team plays first; the
   other teams are shuffled once. Passwords save the draw and progress.
@@ -73,6 +73,9 @@ or open the [release and screenshots](https://github.com/davefmurray/little-leag
   original game characters, and the original score/stat rules, including extra innings.
 - **Power Analysis:** a matching team card with four labeled ratings, animated
   baseball markers and original game characters. All 32 teams are supported.
+- **HOME RUN:** a matching ballpark celebration with original characters. The
+  pair and batter stay still while the cheerleader, crowd and marquee animate.
+  Scoring, music and cutscene timing retain their original code.
 - **Resume:** existing 32-team v1 passwords still work. Random tournaments use
   v2 codes; original 16-team game passwords are not supported.
 - **Gameplay:** completed-game results, high-team names, pitchers and roster
@@ -88,13 +91,14 @@ or open the [release and screenshots](https://github.com/davefmurray/little-leag
   <img src="docs/verification/frontend32/exhibition-2p/exhibition-1-second-pick.png" alt="Shared 32-team Exhibition picker" width="512">
 </p>
 
-The final build is `build/analysisart32.nes`. It passes the baseline six-game
-and random 31-match emulator gates, all 32 Power Analysis cards and returns,
-and a resumed game after Analysis. Earlier stockart32 checks cover a played
-WATCH Exhibition with checked scoreboards; modeart32 covers 2P completion,
-1P setup and human field entry. Full 1P completion was tested on title32.
-SPEED soaks force CPU ownership; the separate controller probes do not.
-See [Power Analysis evidence and limits](docs/analysisart32.md).
+The final build is `build/homerunart32.nes`. It passes the baseline six-game
+and random 31-match emulator gates. A played three-run homer and planted
+grand-slam and walk-off cases match the previous ROM in scoring, pitcher
+statistics, timing and digital audio. Shared ending graphics remain intact.
+Earlier stages separately cover all 32 Analysis cards, a resumed game after
+Analysis, WATCH and 2P completion, and 1P setup. Full 1P completion was tested
+on title32. SPEED soaks force CPU ownership; controller probes do not.
+See [HOME RUN evidence and limits](docs/homerunart32.md).
 
 Physical hardware and a second emulator implementation remain unvalidated.
 High-team uniforms reuse stock presets, gameplay flags are omitted, and the

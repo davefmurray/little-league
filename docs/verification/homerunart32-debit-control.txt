@@ -1,0 +1,1 @@
+PASS removed pitcher debit rejected by independent oracle: ('scoring', 0, 0, 0): observed {'side': 0, 'runs': 1, 'score': [11, 20], 'over': False, 'debits': {}}, the rules give {'side': 0, 'runs': 1, 'score': [11, 20], 'over': False, 'debits': {1940: 1}}

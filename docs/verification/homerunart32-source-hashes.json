@@ -1,0 +1,21 @@
+{
+  "art/homerunart32/PXL.json": "99b734ce2d3d050ab8e1826027c59aebd7fb85dcad8d70382dd7d7a727327f1b",
+  "art/homerunart32/cast.json": "f2e01955d317781465b440b8311b5b5c92c5837a82456fe32ba26ce44b21f722",
+  "art/homerunart32/homerun32.px.js": "4ca207dfdd8621503a53a2f0765a579f33d22a024f7a9094644e37cefe6c9105",
+  "art/homerunart32/layout.json": "90257827c76bb36171d93b09c08add82b51c8e6f89ed054e8e71bb2fc3ebecd0",
+  "data/homerunart32/digests.json": "5e3eb3ec1ac14fd6f7fbd60f2db41a6f44b4b286422529aba600993e1d955168",
+  "tools/build_32team_full.py": "22ae21ed8b9eee60ca337f58a230baf485379ac9e4dffedc5b787b1f0821162e",
+  "tools/build_homerunart32.py": "085254600e9f1a9cefda69614d53ca0c59e024e79e7096918f80c600cc73b485",
+  "tools/build_scoreart32.py": "c7a7c5849f7de665d6d09b9e7077fb9a10cd134e437baa37c1f8faf0434fc401",
+  "tools/build_stockart32.py": "2416f3cfeb88896069f7f58b88a2a56ad65d5ec9bf40d960117dbda4126f35da",
+  "tools/homerunart32_assets.py": "0b649855805ab96f78c399a18f69a7da0f1615c318ca85bab9ab53806f570ae8",
+  "tools/homerunart32_convert.py": "f46db1b8fb3e23d73ce97672cbbf96d1f14558b69ba5799418c9ec6d7a4556b6",
+  "tools/homerunart32_fixtures.py": "88bcbf3a4d2a40fed1acbbfc1486c07be71650f40edb41f247efbed7ffdfb58b",
+  "tools/homerunart32_machine.py": "fcfe1f0985657062d089b01e1aed3f77a2bcfc09336dfe2242ad7a1c6184c86a",
+  "tools/homerunart32_readers.py": "bc6775ed5d0cda83ffe01342dad5e3f3f10d3c450c6cbf88beed56aa643763f2",
+  "tools/probe_homerunart32.py": "1b5eb7b488fc34437436711e4f7aefc8e2f7323fc319c72b1577bcbcc8a0a6cc",
+  "tools/test_homerunart32.py": "07764a345f9d8c300cfeea5dd16c64380be5e60c9ae01e2489625f4edc372dba",
+  "tools/test_homerunart32_probe.py": "a318f5af6abbd81f887891afa0df5fdcacb08327b279e84f7b24bc8f8f8b57fe",
+  "tools/test_homerunart32_safety.py": "56162f55a159d7608db4a7fed8b80939d420b51fb761cc545e404d688c7e9a2d",
+  "tools/verify.sh": "cc6c956c36cb8299ac01fa7a591de2bfb2a79819873982411e6e3a740471a677"
+}

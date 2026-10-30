@@ -1,0 +1,5 @@
+exhibition submode=2 teams=(11, 29): ports, duplicate refusal, B back, cache and series pass
+natural-0: PASS 3 runs; scores, pitcher debits, pixels and return
+planted-grand-slam: PASS 4 runs; scores, pitcher debits, pixels and return
+planted-walkoff-grand-slam: PASS 4 runs; scores, pitcher debits, pixels and return
+PASS home-run real-core tour

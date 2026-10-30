@@ -1,0 +1,54 @@
+{
+  "frames": 740,
+  "mapper_writes": 29525,
+  "chr0": {
+    "0D": 532,
+    "18": 201
+  },
+  "chr1": {
+    "02": 59,
+    "04": 241,
+    "05": 201,
+    "15": 232
+  },
+  "sources": {
+    "$C12E:CHR0:0D": 532,
+    "$C12E:CHR0:18": 201,
+    "$C146:CHR1:02": 59,
+    "$C146:CHR1:04": 241,
+    "$C146:CHR1:05": 201,
+    "$C146:CHR1:15": 232
+  },
+  "requests": [
+    {
+      "0D": 532,
+      "18": 201
+    },
+    {
+      "02": 59,
+      "04": 241,
+      "05": 201,
+      "15": 232
+    }
+  ],
+  "prg": {
+    "00": 799,
+    "01": 10,
+    "02": 301,
+    "03": 60,
+    "04": 421,
+    "05": 593,
+    "06": 2255
+  },
+  "mode_contexts": {
+    "05>05:reg2:15": 232
+  },
+  "context_targets": {
+    "chr": 21,
+    "prg": 14
+  },
+  "misaligned": [],
+  "limit": "740 frames from fence; setup and audio replay are untraced.",
+  "rom_sha256": "a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b",
+  "case": "planted-walkoff-grand-slam"
+}

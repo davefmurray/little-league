@@ -1,0 +1,2 @@
+PASS: planted runners debit pitcher 0; walk-off credits the home side
+PASS: 23 output refusals before emulator dispatch; fresh destinations accepted

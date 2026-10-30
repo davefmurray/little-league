@@ -4,8 +4,8 @@ Start with [32-team-status.md](32-team-status.md),
 [backlog.json](backlog.json) and [TODO-NEXT.md](../TODO-NEXT.md).
 The old launch investigation is preserved in git history.
 
-The accepted candidate is `build/analysisart32.nes`, SHA-256
-`1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e`.
+The accepted candidate is `build/homerunart32.nes`, SHA-256
+`a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b`.
 The source pipeline reproduces it from the existing
 `build/direct20-names.nes` bootstrap artifact. The original-ROM-only
 bootstrap is not yet reproducible from committed scripts alone.
@@ -16,7 +16,8 @@ The software backlog is complete. `python3 tools/backlog.py pick` reports
 no ready tasks. The final front-end stages are documented in
 [draw32.md](draw32.md), [pick32.md](pick32.md), [title32.md](title32.md)
 [modeart32.md](modeart32.md), [scoreart32.md](scoreart32.md) and
-[stockart32.md](stockart32.md) and [analysisart32.md](analysisart32.md),
+[stockart32.md](stockart32.md), [analysisart32.md](analysisart32.md) and
+[homerunart32.md](homerunart32.md),
 with source, CPU, controller and
 stock-six/full-31 gate evidence. Root owns romdev sessions; any future
 parallel workers must use isolated CPU tests.
@@ -29,7 +30,7 @@ Do not mark that task complete from emulator or savestate evidence.
 Names, all 32 human selections, completed-game bracket advancement,
 password restore, LIST and CONTINUE have committed builders and tests.
 See the linked status document for each stage and its limitations.
-The final Power Analysis ROM passes stock-six/random-full-31 SPEED gates. Control32 also
+The final HOME RUN ROM passes stock-six/random-full-31 SPEED gates. Control32 also
 passes a full controller-only WATCH tournament. SPEED writes CPU control
 flags on field entry; it does not prove human gameplay.
 
@@ -57,6 +58,10 @@ through stock home/away swaps, rather than assume the human is side 0.
 - Power Analysis adds CHR `$06` tiles `$BA-$FF`, bank-3 hooks/pad and
   bank-13 `$A000-$A4FF` plus `$BD20-$BD2F`. Preserve mode tiles `$00-$B9`,
   stock CHR `$18`, sprite-0 timing and the original ratings table. See analysisart32.md.
+- HOME RUN art owns CHR `$04/$15`, map `$24`, palette record `$0E` and 115
+  unshared metatile ids in set `$15`. Keep the 105 VICTORY/split-screen ids
+  intact. Pair and batter must be identical in both frames. Changing the input
+  pin requires a new shared-reader audit; the static scans are not complete.
 - Title art owns CHR `$17`; selector/bracket art owns CHR `$19`.
   Ballpark mode art owns CHR `$06` and bank 13 `$9000-$9FFF`. Its matching
   bank-switch pads at `$9432` in banks 1 and 13 must remain identical.

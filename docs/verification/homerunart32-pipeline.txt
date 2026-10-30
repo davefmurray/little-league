@@ -1,0 +1,66 @@
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step1.nes: ratings table $BC80, reader -> $BC80
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step2.nes: lineups $FD80 (32 x 9), reader -> $FD80
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step3.nes: round label routine $8440, strings $84A0
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step4.nes: header -> $2068, title -> $2088
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step5.nes: bracket codes 0-31 at bank11 $B000
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step6.nes: bracket nametable clear at $FED0
+wrote /Users/dfm/GitHub/nesdav/little-league/build/_32full/step7.nes: header space at $B21A, title tail space at $0333
+wrote /Users/dfm/GitHub/nesdav/little-league/build/direct31.nes: real ids + MMC1-reset roster cache
+wrote /Users/dfm/GitHub/nesdav/little-league/build/gameplay32.nes: deff2f62ab1dff112726846d12aed08b3d6e7fdbb39b7e5ae1d8fbca4b0a1b89
+wrote /Users/dfm/GitHub/nesdav/little-league/build/cpu32.nes: 338c1cc9bf80f6b77f441b472e91fd7536223d0b1b129fc8b7307ccb6f006327
+wrote /Users/dfm/GitHub/nesdav/little-league/build/teamtables32.nes: 775595bef3506de25f704fe0530f6833d8ce0541155110920e739f19425cd006
+wrote /Users/dfm/GitHub/nesdav/little-league/build/roles32.nes: ddb83443653af408926d98843709e7831fed8fabd40f5e762db655c9a868431b
+wrote /Users/dfm/GitHub/nesdav/little-league/build/results32.nes: 9a3a5d4fe17f69bfe926af07de9a6309240eb5c60d693be8ce0a966b29454d9b
+wrote /Users/dfm/GitHub/nesdav/little-league/build/control32.nes: a1caf9a28e750a777343f2bdbd5c02987a03ccac0f58b6257e62dbee0faf30a8
+wrote /Users/dfm/GitHub/nesdav/little-league/build/password32.nes: 978abc4227eac24d0c779ea3fbbdfdc42c89ca0a1fcce350cff6db44501da34a
+wrote /Users/dfm/GitHub/nesdav/little-league/build/teamnames32.nes: 5998632da930ec063ea3029320a2b5d901043baa662add8adb8d14b809633f5c (700 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/visualtables32.nes: cf4f1126a4afde0cd04bd13f06ebbea2867029cba78cedb3944ee7b15d582780 (133 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/menuart32.nes: bcb7fcdc2c1decd47de2f3504c8c81d907a3d195629a1526ff4b0e919a89f2a3 (9115 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/draw32.nes: b263bd4906b70d2fa0ba807e83296f721787b346df33dc3fc0d69dc7da7d4541 (317 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/pick32.nes: 8fb36a7b6f3fea03ec9b4bc76dce24141e7dc6522a0675a64b5d7b9135ac8cfa (721 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/title32.nes: 8f4a14a34e4daad9b45e31bf633005d855912cb12ecbcdcdf2192d3ff4b9696c (4584 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/modeart32.nes: 7624f8f8ceb676926b90f773f062f2f4cf1796e8bbc17889bf2964ece76ccbd9 (4652 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/scoreart32.nes: 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a (4712 bytes changed)
+wrote /Users/dfm/GitHub/nesdav/little-league/build/stockart32: 17 outputs matching data/stockart32/digests.json
+  parts: glove 40x64, batter 56x64, cheer 48x64, pair 64x64, crowd-red 80x32, crowd-mix 80x32
+  score: 237 tiles (78 glyphs, 159 art, 19 free); mode: 186 tiles (24 font, 162 art, 70 free)
+  stockart32 ROM a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55 from scoreart32 2ae1a7ab2f75aeea4287943ba8153ab0ee0cc188a3d9a67f64bf7398f9e3360a: 4634 bytes changed
+wrote /Users/dfm/GitHub/nesdav/little-league/build/stockart32.nes: a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55 (4634 bytes changed); matches data/stockart32/digests.json
+wrote /Users/dfm/GitHub/nesdav/little-league/build/analysisart32: 8 outputs matching data/analysisart32/digests.json
+  CHR $06: 11 new tiles ($BA $BB $BC $BD $BE $BF $C0 $C1 $C2 $C3 $E0), 59 free; 491 lower cells reuse stockart32 mode patterns, 256 title cells use CHR $18
+  analysisart32 ROM 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e from stockart32 a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55: 1524 bytes changed
+wrote /Users/dfm/GitHub/nesdav/little-league/build/analysisart32.nes: 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e (1524 bytes changed in 9 regions); matches data/analysisart32/digests.json
+wrote /Users/dfm/GitHub/nesdav/little-league/build/homerunart32: 10 outputs matching data/homerunart32/digests.json
+  223/256 tile pairs (119 animated), 115 metatiles; still: pair 1621 px, batter 803 px
+  homerunart32 ROM a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b from analysisart32 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e: 8275 bytes changed
+wrote /Users/dfm/GitHub/nesdav/little-league/build/homerunart32.nes: a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b (8275 bytes changed in 464 regions); matches data/homerunart32/digests.json
++ .venv/bin/python tools/build_ratings32.py build/direct20-names.nes -o build/_32full/step1.nes
++ .venv/bin/python tools/build_lineups32.py build/_32full/step1.nes -o build/_32full/step2.nes
++ .venv/bin/python tools/build_round_labels.py build/_32full/step2.nes -o build/_32full/step3.nes
++ .venv/bin/python tools/build_top_row.py build/_32full/step3.nes -o build/_32full/step4.nes
++ .venv/bin/python tools/build_bracket_codes32.py build/_32full/step4.nes -o build/_32full/step5.nes
++ .venv/bin/python tools/build_bracket_clear.py build/_32full/step5.nes -o build/_32full/step6.nes
++ .venv/bin/python tools/build_bracket_layout.py build/_32full/step6.nes -o build/_32full/step7.nes
++ .venv/bin/python tools/build_roster_cache.py build/_32full/step7.nes -o build/direct31.nes
++ .venv/bin/python tools/build_gameplay32.py build/direct31.nes -o build/gameplay32.nes
++ .venv/bin/python tools/build_cpu32.py build/gameplay32.nes -o build/cpu32.nes
++ .venv/bin/python tools/build_teamtables32.py build/cpu32.nes -o build/teamtables32.nes
++ .venv/bin/python tools/build_roles32.py build/teamtables32.nes -o build/roles32.nes
++ .venv/bin/python tools/build_results32.py build/roles32.nes -o build/results32.nes
++ .venv/bin/python tools/build_control32.py build/results32.nes -o build/control32.nes
++ .venv/bin/python tools/build_passwordrom32.py build/control32.nes -o build/password32.nes
++ .venv/bin/python tools/build_teamnames32.py build/password32.nes -o build/teamnames32.nes
++ .venv/bin/python tools/build_visualtables32.py build/teamnames32.nes -o build/visualtables32.nes
++ .venv/bin/python tools/build_menuart32.py build/visualtables32.nes -o build/menuart32.nes
++ .venv/bin/python tools/build_draw32.py build/menuart32.nes -o build/draw32.nes
++ .venv/bin/python tools/build_pick32.py build/draw32.nes -o build/pick32.nes
++ .venv/bin/python tools/build_title32.py build/pick32.nes -o build/title32.nes
++ .venv/bin/python tools/build_modeart32.py build/title32.nes -o build/modeart32.nes
++ .venv/bin/python tools/build_scoreart32.py build/modeart32.nes -o build/scoreart32.nes
++ .venv/bin/python tools/stockart32_convert.py --rom build/scoreart32.nes --font-rom build/modeart32.nes --pxl build/vendor/claude-pxl
++ .venv/bin/python tools/build_stockart32.py build/scoreart32.nes -o build/stockart32.nes
++ .venv/bin/python tools/analysisart32_convert.py --rom build/stockart32.nes --pxl build/vendor/claude-pxl
++ .venv/bin/python tools/build_analysisart32.py build/stockart32.nes -o build/analysisart32.nes
++ .venv/bin/python tools/homerunart32_convert.py --rom build/analysisart32.nes --pxl build/vendor/claude-pxl
++ .venv/bin/python tools/build_homerunart32.py build/analysisart32.nes -o build/homerunart32.nes
+wrote /Users/dfm/GitHub/nesdav/little-league/build/homerunart32.nes; baseline preserved at /Users/dfm/GitHub/nesdav/little-league/build/direct31.nes

@@ -241,12 +241,32 @@ def protected_paths(source, art=ART):
             *prior_paths(source), *(ROOT / "tools").rglob("*"), *(ROOT / "docs").rglob("*"), *Path(art).rglob("*")]
 
 
-def refuse_inside(output, directory):
-    """No output may land in the art directory, even as a file that does not exist yet."""
+def is_inside(output, directory):
+    """Compare existing directory identities; reserve missing roots across case/Unicode spellings."""
+    import unicodedata
+
     output, directory = Path(output), Path(directory)
     places = {Path(os.path.abspath(output)), output.resolve()}
     roots = {Path(os.path.abspath(directory)), directory.resolve()}
     if any(place == root or root in place.parents for place in places for root in roots):
+        return True
+    for root in roots:
+        if root.exists():
+            for place in places:
+                if any(parent.exists() and parent.samefile(root) for parent in (place, *place.parents)):
+                    return True
+        else:
+            reserved = tuple(unicodedata.normalize('NFC', p).casefold() for p in root.parts)
+            for place in places:
+                parts = tuple(unicodedata.normalize('NFC', p).casefold() for p in place.parts)
+                if parts[:len(reserved)] == reserved:
+                    return True
+    return False
+
+
+def refuse_inside(output, directory):
+    """No output may land in a protected directory, including through filesystem aliases."""
+    if is_inside(output, directory):
         raise ValueError(f"output aliases protected input art directory {directory}")
 
 

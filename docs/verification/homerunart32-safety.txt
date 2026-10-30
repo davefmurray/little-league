@@ -1,0 +1,6 @@
+homerunart32_fixtures: output aliases protected input /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmp1onrhee2/cache/solo_29-11_top_1st.pkl
+PASS 17 cache refusals, real CLI rejection, owned-cache updates and malformed-cache misses
+PASS sweep stops after 3001 elapsed frames even with zero shown frames
+PASS 40 case/Unicode alias refusals across builder, converter, probe and cache; files unchanged
+PASS verify-only rejects VICTORY corruption with genuine or tampered installed assets
+PASS animation requires four captures of both frames, including under python -O

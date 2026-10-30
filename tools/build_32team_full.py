@@ -34,6 +34,7 @@ MODE_OUT = os.path.join(ROOT, "build/modeart32.nes")
 SCORE_OUT = os.path.join(ROOT, "build/scoreart32.nes")
 STOCKART_OUT = os.path.join(ROOT, "build/stockart32.nes")
 ANALYSIS_OUT = os.path.join(ROOT, "build/analysisart32.nes")
+HOMERUN_OUT = os.path.join(ROOT, "build/homerunart32.nes")
 
 
 def run(script, *args):
@@ -81,7 +82,10 @@ def main():
     run("analysisart32_convert.py", "--rom", STOCKART_OUT,
         "--pxl", os.path.join(ROOT, "build/vendor/claude-pxl"))
     run("build_analysisart32.py", STOCKART_OUT, "-o", ANALYSIS_OUT)
-    print(f"wrote {ANALYSIS_OUT}; baseline preserved at {OUT}")
+    run("homerunart32_convert.py", "--rom", ANALYSIS_OUT,
+        "--pxl", os.path.join(ROOT, "build/vendor/claude-pxl"))
+    run("build_homerunart32.py", ANALYSIS_OUT, "-o", HOMERUN_OUT)
+    print(f"wrote {HOMERUN_OUT}; baseline preserved at {OUT}")
 
 
 if __name__ == "__main__":

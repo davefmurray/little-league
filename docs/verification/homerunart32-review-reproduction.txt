@@ -1,0 +1,7 @@
+fixtures: playing 11-29 to frame 9230, 29-11 to frame 3760 from RESET (not cached)
+solo 29-11 top 1st: frame 3749 B6F8, half 0, side 0, slots [0, 255, 255, 255], score [0, 0], pickle 104488b35040
+two-run 11-29 bottom 1st: frame 9165 B6F8, half 0, side 0, slots [0, 255, 255, 255], score [0, 0], pickle 104488b35040
+state 2 11-29 bottom 1st: frame 9225 D755, half 0, side 0, slots [0, 255, 255, 255], score [0, 0], pickle 104488b35040
+3 fixtures in /var/folders/_n/r_npgnzx3_d7gw_v5l5n4s6r0000gn/T/tmpcp3clx21/cache
+REPRODUCED frozen CLI overwrites input and unrelated provenance. Only costly game generation was replaced; parsing, guards and writes were real.
+REPRODUCED frozen sweep needs external stop at 3002 frames with no visible frames. This is a deterministic loop-progress stand-in, not an emulator run.

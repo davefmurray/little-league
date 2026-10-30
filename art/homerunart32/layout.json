@@ -1,0 +1,12 @@
+{
+ "format": "homerunart32-layout/1",
+ "about": "The HOME RUN celebration's conversion contract. The stock scene 5 state 3 shows frame a with CHR1 $04 and frame b with CHR1 $15, flipping every 8 frames; both frames share map $24, its attributes and background palette record $0E. Each 16x16 cell takes the first palette below that holds every non-backdrop color the cell uses in either frame, so the order is part of the contract.",
+ "scenes": {"a": "homerun_a", "b": "homerun_b"},
+ "backdrop": "0C",
+ "palettes": [
+  ["21", "38", "28"],
+  ["21", "38", "1A"],
+  ["16", "38", "36"],
+  ["12", "38", "36"]
+ ]
+}

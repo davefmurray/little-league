@@ -1,0 +1,73 @@
+{
+  "rom_sha256": "a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b",
+  "cases": [
+    {
+      "label": "natural-0",
+      "expected_runs": 3,
+      "score_before": [
+        0,
+        0
+      ],
+      "score_after": [
+        3,
+        0
+      ],
+      "game_over": 0,
+      "end_scene": 3,
+      "pitcher_debits": {
+        "1940": 3
+      },
+      "pixel_checks": 4,
+      "frames_seen": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "label": "planted-grand-slam",
+      "expected_runs": 4,
+      "score_before": [
+        0,
+        0
+      ],
+      "score_after": [
+        4,
+        0
+      ],
+      "game_over": 0,
+      "end_scene": 3,
+      "pitcher_debits": {
+        "1940": 4
+      },
+      "pixel_checks": 4,
+      "frames_seen": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "label": "planted-walkoff-grand-slam",
+      "expected_runs": 4,
+      "score_before": [
+        3,
+        2
+      ],
+      "score_after": [
+        3,
+        6
+      ],
+      "game_over": 1,
+      "end_scene": 11,
+      "pitcher_debits": {
+        "1939": 4
+      },
+      "pixel_checks": 4,
+      "frames_seen": [
+        "a",
+        "b"
+      ]
+    }
+  ],
+  "audio_sha256": "31ad23fa9cf1df193ebbb26272844eaa46cba48948a9e4d3cfcb338038e1a3ff",
+  "limits": "NTSC emulator, no hardware/PAL claim. Grand slams and walk-off are planted."
+}

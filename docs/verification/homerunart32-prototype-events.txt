@@ -1,0 +1,5 @@
+exhibition submode=2 teams=(11, 29): ports, duplicate refusal, B back, cache and series pass
+natural-0 PASS 3 runs [0, 0] -> [3, 0] scene 0x3
+planted-grand-slam PASS 4 runs [0, 0] -> [4, 0] scene 0x3
+planted-walkoff-grand-slam PASS 4 runs [3, 2] -> [3, 6] scene 0xb
+PASS all event captures

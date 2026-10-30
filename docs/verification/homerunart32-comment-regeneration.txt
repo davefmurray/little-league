@@ -1,0 +1,4 @@
+wrote /Users/dfm/GitHub/nesdav/little-league/build/homerunart32: 10 outputs recorded in data/homerunart32/digests.json
+  223/256 tile pairs (119 animated), 115 metatiles; still: pair 1621 px, batter 803 px
+  homerunart32 ROM a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b from analysisart32 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e: 8275 bytes changed
+wrote /Users/dfm/GitHub/nesdav/little-league/build/homerunart32.nes: a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b (8275 bytes changed in 464 regions); matches data/homerunart32/digests.json

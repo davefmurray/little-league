@@ -1,0 +1,315 @@
+     stock 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e  candidate a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b
+     29 replays in 311 s
+     -- solo 29-11 top 1st: played solo home run, team 11 batting
+PASS solo 29-11 top 1st: state1-done at frame/cycle (3808, 113425300) (stock (3808, 113425300))
+PASS solo 29-11 top 1st: state2 at frame/cycle (3809, 113438225) (stock (3809, 113438225))
+PASS solo 29-11 top 1st: state3 at frame/cycle (3812, 113538599) (stock (3812, 113538599))
+PASS solo 29-11 top 1st: exit at frame/cycle (4280, 127464165) (stock (4280, 127464165))
+PASS solo 29-11 top 1st: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS solo 29-11 top 1st: WRAM (series heap, seed, rosters) identical at exit and end
+PASS solo 29-11 top 1st: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS solo 29-11 top 1st: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS solo 29-11 top 1st: 5001 APU writes identical (song $0A and SFX)
+PASS solo 29-11 top 1st: 1 runs scored for side 0 (expected 1)
+PASS solo 29-11 top 1st: HR stat +1 for the batting side only
+PASS solo 29-11 top 1st: HIT stat +1 for the batting side
+PASS solo 29-11 top 1st: game-over flag 0 (expected 0)
+PASS solo 29-11 top 1st: exit path field-init at (4281, 127493155)
+PASS solo 29-11 top 1st: scene $03 240 frames after the exit (stock $03)
+PASS solo 29-11 top 1st: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS solo 29-11 top 1st: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS solo 29-11 top 1st: VRAM $2000-$23FF equals the converter's nametable and attributes on all 467 shown frames
+PASS solo 29-11 top 1st: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS solo 29-11 top 1st: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS solo 29-11 top 1st: 467 cutscene frames shown, same count as stock (no pacing change)
+     -- two-run 11-29 bot 1st: played two-run home run, team 11 batting
+PASS two-run 11-29 bot 1st: state1-done at frame/cycle (9224, 274720847) (stock (9224, 274720847))
+PASS two-run 11-29 bot 1st: state2 at frame/cycle (9225, 274729418) (stock (9225, 274729418))
+PASS two-run 11-29 bot 1st: state3 at frame/cycle (9228, 274829792) (stock (9228, 274829792))
+PASS two-run 11-29 bot 1st: exit at frame/cycle (9697, 288785135) (stock (9697, 288785135))
+PASS two-run 11-29 bot 1st: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS two-run 11-29 bot 1st: WRAM (series heap, seed, rosters) identical at exit and end
+PASS two-run 11-29 bot 1st: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS two-run 11-29 bot 1st: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS two-run 11-29 bot 1st: 4941 APU writes identical (song $0A and SFX)
+PASS two-run 11-29 bot 1st: 2 runs scored for side 1 (expected 2)
+PASS two-run 11-29 bot 1st: HR stat +1 for the batting side only
+PASS two-run 11-29 bot 1st: HIT stat +1 for the batting side
+PASS two-run 11-29 bot 1st: game-over flag 0 (expected 0)
+PASS two-run 11-29 bot 1st: exit path field-init at (9698, 288814126)
+PASS two-run 11-29 bot 1st: scene $03 240 frames after the exit (stock $03)
+PASS two-run 11-29 bot 1st: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS two-run 11-29 bot 1st: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS two-run 11-29 bot 1st: VRAM $2000-$23FF equals the converter's nametable and attributes on all 468 shown frames
+PASS two-run 11-29 bot 1st: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS two-run 11-29 bot 1st: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS two-run 11-29 bot 1st: 468 cutscene frames shown, same count as stock (no pacing change)
+     -- solo 8-30 bot 2nd: played solo, team 8
+PASS solo 8-30 bot 2nd: state1-done at frame/cycle (16944, 504624461) (stock (16944, 504624461))
+PASS solo 8-30 bot 2nd: state2 at frame/cycle (16945, 504634873) (stock (16945, 504634873))
+PASS solo 8-30 bot 2nd: state3 at frame/cycle (16948, 504735247) (stock (16948, 504735247))
+PASS solo 8-30 bot 2nd: exit at frame/cycle (17416, 518660818) (stock (17416, 518660818))
+PASS solo 8-30 bot 2nd: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS solo 8-30 bot 2nd: WRAM (series heap, seed, rosters) identical at exit and end
+PASS solo 8-30 bot 2nd: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS solo 8-30 bot 2nd: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS solo 8-30 bot 2nd: 4920 APU writes identical (song $0A and SFX)
+PASS solo 8-30 bot 2nd: 1 runs scored for side 1 (expected 1)
+PASS solo 8-30 bot 2nd: HR stat +1 for the batting side only
+PASS solo 8-30 bot 2nd: HIT stat +1 for the batting side
+PASS solo 8-30 bot 2nd: game-over flag 0 (expected 0)
+PASS solo 8-30 bot 2nd: exit path field-init at (17417, 518689801)
+PASS solo 8-30 bot 2nd: scene $03 240 frames after the exit (stock $03)
+PASS solo 8-30 bot 2nd: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS solo 8-30 bot 2nd: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS solo 8-30 bot 2nd: VRAM $2000-$23FF equals the converter's nametable and attributes on all 467 shown frames
+PASS solo 8-30 bot 2nd: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS solo 8-30 bot 2nd: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS solo 8-30 bot 2nd: 467 cutscene frames shown, same count as stock (no pacing change)
+     -- solo 18-20 bot 4th: played solo, team 18
+PASS solo 18-20 bot 4th: state1-done at frame/cycle (31800, 947042587) (stock (31800, 947042587))
+PASS solo 18-20 bot 4th: state2 at frame/cycle (31801, 947053986) (stock (31801, 947053986))
+PASS solo 18-20 bot 4th: state3 at frame/cycle (31804, 947154360) (stock (31804, 947154360))
+PASS solo 18-20 bot 4th: exit at frame/cycle (32272, 961079921) (stock (32272, 961079921))
+PASS solo 18-20 bot 4th: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS solo 18-20 bot 4th: WRAM (series heap, seed, rosters) identical at exit and end
+PASS solo 18-20 bot 4th: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS solo 18-20 bot 4th: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS solo 18-20 bot 4th: 4961 APU writes identical (song $0A and SFX)
+PASS solo 18-20 bot 4th: 1 runs scored for side 1 (expected 1)
+PASS solo 18-20 bot 4th: HR stat +1 for the batting side only
+PASS solo 18-20 bot 4th: HIT stat +1 for the batting side
+PASS solo 18-20 bot 4th: game-over flag 0 (expected 0)
+PASS solo 18-20 bot 4th: exit path field-init at (32273, 961108911)
+PASS solo 18-20 bot 4th: scene $03 240 frames after the exit (stock $03)
+PASS solo 18-20 bot 4th: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS solo 18-20 bot 4th: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS solo 18-20 bot 4th: VRAM $2000-$23FF equals the converter's nametable and attributes on all 467 shown frames
+PASS solo 18-20 bot 4th: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS solo 18-20 bot 4th: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS solo 18-20 bot 4th: 467 cutscene frames shown, same count as stock (no pacing change)
+     -- solo 20-18 top 5th: played solo, team 20
+PASS solo 20-18 top 5th: state1-done at frame/cycle (37623, 1120452808) (stock (37623, 1120452808))
+PASS solo 20-18 top 5th: state2 at frame/cycle (37624, 1120465838) (stock (37624, 1120465838))
+PASS solo 20-18 top 5th: state3 at frame/cycle (37627, 1120566212) (stock (37627, 1120566212))
+PASS solo 20-18 top 5th: exit at frame/cycle (38095, 1134491773) (stock (38095, 1134491773))
+PASS solo 20-18 top 5th: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS solo 20-18 top 5th: WRAM (series heap, seed, rosters) identical at exit and end
+PASS solo 20-18 top 5th: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS solo 20-18 top 5th: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS solo 20-18 top 5th: 5000 APU writes identical (song $0A and SFX)
+PASS solo 20-18 top 5th: 1 runs scored for side 0 (expected 1)
+PASS solo 20-18 top 5th: HR stat +1 for the batting side only
+PASS solo 20-18 top 5th: HIT stat +1 for the batting side
+PASS solo 20-18 top 5th: game-over flag 0 (expected 0)
+PASS solo 20-18 top 5th: exit path field-init at (38096, 1134520764)
+PASS solo 20-18 top 5th: scene $03 240 frames after the exit (stock $03)
+PASS solo 20-18 top 5th: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS solo 20-18 top 5th: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS solo 20-18 top 5th: VRAM $2000-$23FF equals the converter's nametable and attributes on all 467 shown frames
+PASS solo 20-18 top 5th: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS solo 20-18 top 5th: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS solo 20-18 top 5th: 467 cutscene frames shown, same count as stock (no pacing change)
+     -- two-run 30-8 top 6th: played two-run home run, team 30, runner slot value 3
+PASS two-run 30-8 top 6th: state1-done at frame/cycle (48135, 1433505452) (stock (48135, 1433505452))
+PASS two-run 30-8 top 6th: state2 at frame/cycle (48136, 1433518454) (stock (48136, 1433518454))
+PASS two-run 30-8 top 6th: state3 at frame/cycle (48139, 1433618828) (stock (48139, 1433618828))
+PASS two-run 30-8 top 6th: exit at frame/cycle (48608, 1447574174) (stock (48608, 1447574174))
+PASS two-run 30-8 top 6th: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS two-run 30-8 top 6th: WRAM (series heap, seed, rosters) identical at exit and end
+PASS two-run 30-8 top 6th: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS two-run 30-8 top 6th: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS two-run 30-8 top 6th: 5029 APU writes identical (song $0A and SFX)
+PASS two-run 30-8 top 6th: 2 runs scored for side 0 (expected 2)
+PASS two-run 30-8 top 6th: HR stat +1 for the batting side only
+PASS two-run 30-8 top 6th: HIT stat +1 for the batting side
+PASS two-run 30-8 top 6th: game-over flag 0 (expected 0)
+PASS two-run 30-8 top 6th: exit path field-init at (48609, 1447603157)
+PASS two-run 30-8 top 6th: scene $03 240 frames after the exit (stock $03)
+PASS two-run 30-8 top 6th: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS two-run 30-8 top 6th: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS two-run 30-8 top 6th: VRAM $2000-$23FF equals the converter's nametable and attributes on all 468 shown frames
+PASS two-run 30-8 top 6th: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS two-run 30-8 top 6th: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS two-run 30-8 top 6th: 468 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED three-run: two runners active ($055F/$0560 = 0)
+PASS PLANTED three-run: state1-done at frame/cycle (9224, 274719210) (stock (9224, 274719210))
+PASS PLANTED three-run: state2 at frame/cycle (9225, 274730645) (stock (9225, 274730645))
+PASS PLANTED three-run: state3 at frame/cycle (9228, 274829787) (stock (9228, 274829787))
+PASS PLANTED three-run: exit at frame/cycle (9698, 288814915) (stock (9698, 288814915))
+PASS PLANTED three-run: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED three-run: WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED three-run: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS PLANTED three-run: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED three-run: 4962 APU writes identical (song $0A and SFX)
+PASS PLANTED three-run: 3 runs scored for side 1 (expected 3)
+PASS PLANTED three-run: HR stat +1 for the batting side only
+PASS PLANTED three-run: HIT stat +1 for the batting side
+PASS PLANTED three-run: game-over flag 0 (expected 0)
+PASS PLANTED three-run: exit path field-init at (9699, 288843906)
+PASS PLANTED three-run: scene $03 240 frames after the exit (stock $03)
+PASS PLANTED three-run: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED three-run: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED three-run: VRAM $2000-$23FF equals the converter's nametable and attributes on all 469 shown frames
+PASS PLANTED three-run: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED three-run: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED three-run: 469 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED grand slam: bases loaded ($055F-$0561 = 0)
+PASS PLANTED grand slam: state1-done at frame/cycle (9224, 274719779) (stock (9224, 274719779))
+PASS PLANTED grand slam: state2 at frame/cycle (9225, 274729003) (stock (9225, 274729003))
+PASS PLANTED grand slam: state3 at frame/cycle (9228, 274829790) (stock (9228, 274829790))
+PASS PLANTED grand slam: exit at frame/cycle (9699, 288844695) (stock (9699, 288844695))
+PASS PLANTED grand slam: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED grand slam: WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED grand slam: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS PLANTED grand slam: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED grand slam: 4983 APU writes identical (song $0A and SFX)
+PASS PLANTED grand slam: 4 runs scored for side 1 (expected 4)
+PASS PLANTED grand slam: HR stat +1 for the batting side only
+PASS PLANTED grand slam: HIT stat +1 for the batting side
+PASS PLANTED grand slam: game-over flag 0 (expected 0)
+PASS PLANTED grand slam: exit path field-init at (9700, 288873686)
+PASS PLANTED grand slam: scene $03 240 frames after the exit (stock $03)
+PASS PLANTED grand slam: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED grand slam: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED grand slam: VRAM $2000-$23FF equals the converter's nametable and attributes on all 470 shown frames
+PASS PLANTED grand slam: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED grand slam: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED grand slam: 470 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED walk-off bottom 6th: half $0B, away 3 home 2, two-run homer
+PASS PLANTED walk-off bottom 6th: state1-done at frame/cycle (9224, 274720847) (stock (9224, 274720847))
+PASS PLANTED walk-off bottom 6th: state2 at frame/cycle (9225, 274729418) (stock (9225, 274729418))
+PASS PLANTED walk-off bottom 6th: state3 at frame/cycle (9228, 274829792) (stock (9228, 274829792))
+PASS PLANTED walk-off bottom 6th: exit at frame/cycle (9697, 288785135) (stock (9697, 288785135))
+PASS PLANTED walk-off bottom 6th: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED walk-off bottom 6th: WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED walk-off bottom 6th: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 120 stale buffer bytes differ)
+PASS PLANTED walk-off bottom 6th: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED walk-off bottom 6th: 4992 APU writes identical (song $0A and SFX)
+PASS PLANTED walk-off bottom 6th: 2 runs scored for side 1 (expected 2)
+PASS PLANTED walk-off bottom 6th: HR stat +1 for the batting side only
+PASS PLANTED walk-off bottom 6th: HIT stat +1 for the batting side
+PASS PLANTED walk-off bottom 6th: game-over flag 1 (expected 1)
+PASS PLANTED walk-off bottom 6th: exit path scene9 at (9697, 288785201)
+PASS PLANTED walk-off bottom 6th: scene $0B 240 frames after the exit (stock $0B)
+PASS PLANTED walk-off bottom 6th: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED walk-off bottom 6th: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED walk-off bottom 6th: VRAM $2000-$23FF equals the converter's nametable and attributes on all 468 shown frames
+PASS PLANTED walk-off bottom 6th: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED walk-off bottom 6th: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED walk-off bottom 6th: 468 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED walk-off grand slam 8th (extra): half $0F, away 5 home 2, bases loaded
+PASS PLANTED walk-off grand slam 8th (extra): state1-done at frame/cycle (9224, 274719779) (stock (9224, 274719779))
+PASS PLANTED walk-off grand slam 8th (extra): state2 at frame/cycle (9225, 274729003) (stock (9225, 274729003))
+PASS PLANTED walk-off grand slam 8th (extra): state3 at frame/cycle (9228, 274829790) (stock (9228, 274829790))
+PASS PLANTED walk-off grand slam 8th (extra): exit at frame/cycle (9699, 288844695) (stock (9699, 288844695))
+PASS PLANTED walk-off grand slam 8th (extra): game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED walk-off grand slam 8th (extra): WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED walk-off grand slam 8th (extra): RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 120 stale buffer bytes differ)
+PASS PLANTED walk-off grand slam 8th (extra): no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED walk-off grand slam 8th (extra): 5034 APU writes identical (song $0A and SFX)
+PASS PLANTED walk-off grand slam 8th (extra): 4 runs scored for side 1 (expected 4)
+PASS PLANTED walk-off grand slam 8th (extra): HR stat +1 for the batting side only
+PASS PLANTED walk-off grand slam 8th (extra): HIT stat +1 for the batting side
+PASS PLANTED walk-off grand slam 8th (extra): game-over flag 1 (expected 1)
+PASS PLANTED walk-off grand slam 8th (extra): exit path scene9 at (9699, 288844761)
+PASS PLANTED walk-off grand slam 8th (extra): scene $0B 240 frames after the exit (stock $0B)
+PASS PLANTED walk-off grand slam 8th (extra): state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED walk-off grand slam 8th (extra): every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED walk-off grand slam 8th (extra): VRAM $2000-$23FF equals the converter's nametable and attributes on all 470 shown frames
+PASS PLANTED walk-off grand slam 8th (extra): background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED walk-off grand slam 8th (extra): PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED walk-off grand slam 8th (extra): 470 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED ten-run rule bot 2nd: half 3, away 0 home 8, two-run homer
+PASS PLANTED ten-run rule bot 2nd: state1-done at frame/cycle (9224, 274720847) (stock (9224, 274720847))
+PASS PLANTED ten-run rule bot 2nd: state2 at frame/cycle (9225, 274729418) (stock (9225, 274729418))
+PASS PLANTED ten-run rule bot 2nd: state3 at frame/cycle (9228, 274829792) (stock (9228, 274829792))
+PASS PLANTED ten-run rule bot 2nd: exit at frame/cycle (9697, 288785135) (stock (9697, 288785135))
+PASS PLANTED ten-run rule bot 2nd: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED ten-run rule bot 2nd: WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED ten-run rule bot 2nd: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 120 stale buffer bytes differ)
+PASS PLANTED ten-run rule bot 2nd: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED ten-run rule bot 2nd: 4992 APU writes identical (song $0A and SFX)
+PASS PLANTED ten-run rule bot 2nd: 2 runs scored for side 1 (expected 2)
+PASS PLANTED ten-run rule bot 2nd: HR stat +1 for the batting side only
+PASS PLANTED ten-run rule bot 2nd: HIT stat +1 for the batting side
+PASS PLANTED ten-run rule bot 2nd: game-over flag 1 (expected 1)
+PASS PLANTED ten-run rule bot 2nd: exit path scene9 at (9697, 288785201)
+PASS PLANTED ten-run rule bot 2nd: scene $0B 240 frames after the exit (stock $0B)
+PASS PLANTED ten-run rule bot 2nd: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED ten-run rule bot 2nd: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED ten-run rule bot 2nd: VRAM $2000-$23FF equals the converter's nametable and attributes on all 468 shown frames
+PASS PLANTED ten-run rule bot 2nd: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED ten-run rule bot 2nd: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED ten-run rule bot 2nd: 468 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED championship series: active v2 series, $04E2 = 1
+PASS PLANTED championship series: state1-done at frame/cycle (3808, 113425300) (stock (3808, 113425300))
+PASS PLANTED championship series: state2 at frame/cycle (3809, 113438225) (stock (3809, 113438225))
+PASS PLANTED championship series: state3 at frame/cycle (3812, 113538599) (stock (3812, 113538599))
+PASS PLANTED championship series: exit at frame/cycle (4280, 127464165) (stock (4280, 127464165))
+PASS PLANTED championship series: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED championship series: WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED championship series: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS PLANTED championship series: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED championship series: 5001 APU writes identical (song $0A and SFX)
+PASS PLANTED championship series: 1 runs scored for side 0 (expected 1)
+PASS PLANTED championship series: HR stat +1 for the batting side only
+PASS PLANTED championship series: HIT stat +1 for the batting side
+PASS PLANTED championship series: game-over flag 0 (expected 0)
+PASS PLANTED championship series: exit path field-init at (4281, 127493155)
+PASS PLANTED championship series: scene $03 240 frames after the exit (stock $03)
+PASS PLANTED championship series: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED championship series: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED championship series: VRAM $2000-$23FF equals the converter's nametable and attributes on all 467 shown frames
+PASS PLANTED championship series: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED championship series: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED championship series: 467 cutscene frames shown, same count as stock (no pacing change)
+     -- PLANTED buttons mashed: A/B/START/SELECT alternate on both pads
+PASS PLANTED buttons mashed: state1-done at frame/cycle (3808, 113425291) (stock (3808, 113425291))
+PASS PLANTED buttons mashed: state2 at frame/cycle (3809, 113438221) (stock (3809, 113438221))
+PASS PLANTED buttons mashed: state3 at frame/cycle (3812, 113538584) (stock (3812, 113538584))
+PASS PLANTED buttons mashed: exit at frame/cycle (4280, 127464152) (stock (4280, 127464152))
+PASS PLANTED buttons mashed: game RAM identical at the cutscene exit (0 differing outside cutscene scratch: [])
+PASS PLANTED buttons mashed: WRAM (series heap, seed, rosters) identical at exit and end
+PASS PLANTED buttons mashed: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (0 differ; 0 stale buffer bytes differ)
+PASS PLANTED buttons mashed: no code reads a loader-buffer byte after the exit before rewriting it (stock 0, candidate 0 reads)
+PASS PLANTED buttons mashed: 5821 APU writes identical (song $0A and SFX)
+PASS PLANTED buttons mashed: 1 runs scored for side 0 (expected 1)
+PASS PLANTED buttons mashed: HR stat +1 for the batting side only
+PASS PLANTED buttons mashed: HIT stat +1 for the batting side
+PASS PLANTED buttons mashed: game-over flag 0 (expected 0)
+PASS PLANTED buttons mashed: exit path field-init at (4281, 127493138)
+PASS PLANTED buttons mashed: scene $0F 240 frames after the exit (stock $0F)
+PASS PLANTED buttons mashed: state 3 shows CHR1 $04 and $15 only ([4, 21])
+PASS PLANTED buttons mashed: every inner flip run lasts 8 frames (59 runs, inner [8])
+PASS PLANTED buttons mashed: VRAM $2000-$23FF equals the converter's nametable and attributes on all 467 shown frames
+PASS PLANTED buttons mashed: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS PLANTED buttons mashed: PPUCTRL keeps BG at $1000, sprites at $0000
+PASS PLANTED buttons mashed: 467 cutscene frames shown, same count as stock (no pacing change)
+     -- negative controls: each must fail the named check
+PASS NEG HR stat not counted: detected by 5 check(s)
+       fails: NEG HR stat not counted: state2 at frame/cycle (9225, 274729415) (stock (9225, 274729418))
+       fails: NEG HR stat not counted: state3 at frame/cycle (9228, 274829789) (stock (9228, 274829792))
+       fails: NEG HR stat not counted: game RAM identical at the cutscene exit (1 differing outside cutscene scratch: [('0x73d', 1, 0)])
+       fails: NEG HR stat not counted: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (1 differ; 0 stale buffer bytes differ)
+       fails: NEG HR stat not counted: HR stat +1 for the batting side only
+PASS NEG cutscene cut short: detected by 7 check(s)
+       fails: NEG cutscene cut short: exit at frame/cycle (9228, 274829799) (stock (9697, 288785135))
+       fails: NEG cutscene cut short: game RAM identical at the cutscene exit (51 differing outside cutscene scratch: [('0x33', 242, 29), ('0xdb', 8, 64), ('0xf1', 1, 0), ('0xf2', 1, 0)])
+       fails: NEG cutscene cut short: RAM identical 240 frames after the exit outside the loader buffers $0100-$017F/$0340-$035F (49 differ; 0 stale buffer bytes differ)
+       fails: NEG cutscene cut short: 1994 APU writes identical (song $0A and SFX)
+       fails: NEG cutscene cut short: exit path field-init at (9229, 274848623)
+       fails: NEG cutscene cut short: state 3 shows CHR1 $04 and $15 only ([])
+       fails: NEG cutscene cut short: every inner flip run lasts 8 frames (0 runs, inner [])
+PASS NEG stock ROM as candidate: detected by 2 check(s)
+       fails: NEG stock ROM as candidate: VRAM $2000-$23FF equals the converter's nametable and attributes on all 468 shown frames
+       fails: NEG stock ROM as candidate: background palette RAM equals record $0E (0c 21 38 28 0c 21 38 1a 0c 16 38 36 0c 12 38 36) on all shown frames
+PASS teams 0-31 planted at $04EF (and 31-n at $04F0): all 32 cutscenes exit on frame [9697] with identical frame sequences (468 shown frames) equal to the converter's assets
+PASS played ball over the fence after touching play (11-29 bot 3rd, $048E bit 5 set): no cutscene and no HR stat in either ROM; RAM, WRAM and 3879 APU writes identical over 600 frames
+PASS played ball over the fence after touching play (29-11 top 3rd, $048E bit 5 set): no cutscene and no HR stat in either ROM; RAM, WRAM and 3847 APU writes identical over 600 frames
+PASS played ball over the fence after touching play (30-8 top 2nd, $048E bit 5 set): no cutscene and no HR stat in either ROM; RAM, WRAM and 3796 APU writes identical over 600 frames
+PASS pixel oracle: CPU-model frame 9230 (CHR1 $04) equals pxl render A pixel for pixel (diff bbox None)
+PASS negative control: the stock ROM's frame 9230 differs from render A (bbox (0, 0, 256, 240))
+PASS pixel oracle: CPU-model frame 9237 (CHR1 $15) equals pxl render B pixel for pixel (diff bbox None)
+PASS negative control: the stock ROM's frame 9237 differs from render B (bbox (0, 0, 256, 240))
+     done in 595 s; 0 failure(s)

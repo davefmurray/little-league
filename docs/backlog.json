@@ -618,6 +618,20 @@
       "attempts": 1,
       "evidence": "1e524b53: full CPU with pxl, all32 real-core tour, 27 exact phase frames, mapper/audio, post-analysis 7-3 and stock6/full31 champion07 pass. Both reviews found no ROM defect; CLI guard fixes covered separately. See docs/analysisart32.md.",
       "last_commit": "4b40395"
+    },
+    {
+      "id": "homerun-art32",
+      "title": "Ballpark HOME RUN celebration with stationary players",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "analysis-art32"
+      ],
+      "next": "Accepted; preserve stationary players, shared-screen ids and exact input/output pins.",
+      "verify": "exact selected ROM, source/mask/reader guards, scoring/audio/exit parity, real-core multi-run and planted walk-off, shared-screen census, stock6/full31",
+      "attempts": 1,
+      "evidence": "a66add03: final source rebuild, full 19-section CPU suite with fresh WATCH fixtures, both reviews resolved, paired real-core events/audio, shared-screen census, v1/v2 resume and stock6/full31 champion07 pass. Tool fixes have cache/case/Unicode/verification regressions. See docs/homerunart32.md.",
+      "last_commit": ""
     }
   ]
 }

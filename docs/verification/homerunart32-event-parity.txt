@@ -1,0 +1,7 @@
+PASS natural-0 scores, pitcher debits, both animation frames, game-over, return, and every captured state
+PASS planted-grand-slam scores, pitcher debits, both animation frames, game-over, return, and every captured state
+PASS planted-walkoff-grand-slam scores, pitcher debits, both animation frames, game-over, return, and every captured state
+PASS 2220 frame records match; 600-frame WAV SHA256 31ad23fa9cf1df193ebbb26272844eaa46cba48948a9e4d3cfcb338038e1a3ff
+Input 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e
+Candidate a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b
+Grand slams and walk-off are planted at a played fence event. No hardware/PAL or listening claim.

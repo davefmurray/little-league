@@ -1,0 +1,22 @@
+PASS builder reproduces the prototype a66add03e811bbeb… from the pinned input
+PASS budgets: 223/256 tile pairs, 115/151 free metatile ids
+PASS a truncated input is refused
+PASS a one-bit drift in scene 5 state table $D74A-$D754 is refused even with a matching input hash
+PASS a one-bit drift in scene 5 state 2 $D755-$D77A is refused even with a matching input hash
+PASS a one-bit drift in scene 5 state 3 $D77B-$D794 is refused even with a matching input hash
+PASS a one-bit drift in palette loader $C1A4-$C1E4 is refused even with a matching input hash
+PASS a one-bit drift in palette pointer $FFF0 is refused even with a matching input hash
+PASS a one-bit drift in screen loader $C5C4-$C6C0 is refused even with a matching input hash
+PASS a one-bit drift in metatile-set entry $15 at $FB05 is refused even with a matching input hash
+PASS a one-bit drift in map entry $24 at $FB35 is refused even with a matching input hash
+PASS a one-bit drift in NMI CHR apply $CE45-$CE52 is refused even with a matching input hash
+PASS an asset redefining protected metatile $00 (used by the split-screen map) is refused
+PASS a CHR $04 image that differs from assets.json is refused
+PASS VICTORY (set $15, map $2A) decodes identically
+PASS split screen (set $15, map $33) map decodes identically
+PASS every PRG byte outside bank 1 data and palette record $0E is identical
+PASS the stock loader's decode of map $24 through set $15 equals the converter's nametable (independent decoder)
+PASS negative control: changing VICTORY metatile $89 changes the VICTORY decode
+PASS a fresh pinned pxl render converts to the recorded assets
+PASS negative control: a noise frame overflows the tile-pair or metatile budget and is refused
+PASS negative control: a 16x16 cell needing red and green together is refused

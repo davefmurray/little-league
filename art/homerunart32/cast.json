@@ -1,0 +1,40 @@
+{
+ "format": "homerunart32-cast/1",
+ "about": "Who appears in the HOME RUN celebration and where, as references into ROM bytes, never pixels. Parts come from the approved stockart32 manifest with its reviewed masks; a pose reuses an approved character's rules on another intro panel, with its own reviewed mask and PNG digests. A placement lists the frames it appears in: one placement shared by both frames shows identical part pixels in a and b, so the pair and the batter stand completely still. visible is the screen rectangle whose part pixels stay uncovered.",
+ "approved": "art/stockart32/characters.json",
+ "poses": [
+  {
+   "id": "cheer-b",
+   "from": "cheer",
+   "panel": 5,
+   "drop": [[0, 0, 8, 11], [38, 0, 10, 10]],
+   "drop_why": "pom-poms of the two neighbours the 48-pixel crop cuts at the panel's top corners",
+   "mask_sha256": "b88111f1cdd2c16ecfe4db3d2e652451a99d92ea2097f3a544860cc26f291c4b",
+   "png_sha256": "f7008b62e938fc1b9f1acfaa13a547140d8bf7c45ae49960d54f8c6be0d948ed",
+   "why": "intro panels 4 and 5 are the two poses of the intro's own cheer animation; the approved cheer crop, seeds, specks and colors apply unchanged"
+  }
+ ],
+ "placements": [
+  {"part": "pair", "frames": "ab", "at": [20, 150], "visible": [20, 150, 64, 50],
+   "why": "the ticket counter covers the panel edge that cuts their legs, from line 200"},
+  {"part": "batter", "frames": "ab", "at": [176, 152]},
+  {"part": "cheer", "frames": "a", "at": [104, 156]},
+  {"part": "cheer-b", "frames": "b", "at": [104, 156]},
+  {"part": "crowd-red", "frames": "a", "at": [0, 104]},
+  {"part": "crowd-red", "frames": "a", "at": [80, 104]},
+  {"part": "crowd-red", "frames": "a", "at": [160, 104]},
+  {"part": "crowd-red", "frames": "a", "at": [240, 104]},
+  {"part": "crowd-red", "frames": "a", "at": [0, 136], "visible": [0, 136, 80, 16], "why": "the stands rail and the concourse cover lines 152-167"},
+  {"part": "crowd-red", "frames": "a", "at": [80, 136], "visible": [80, 136, 80, 16], "why": "the stands rail and the concourse cover lines 152-167"},
+  {"part": "crowd-red", "frames": "a", "at": [160, 136], "visible": [160, 136, 80, 16], "why": "the stands rail and the concourse cover lines 152-167"},
+  {"part": "crowd-red", "frames": "a", "at": [240, 136], "visible": [240, 136, 16, 16], "why": "the stands rail and the concourse cover lines 152-167"},
+  {"part": "crowd-red", "frames": "b", "at": [0, 102], "visible": [0, 104, 80, 30], "why": "the risen crowd's top two lines go behind the ledge"},
+  {"part": "crowd-red", "frames": "b", "at": [80, 102], "visible": [80, 104, 80, 30], "why": "the risen crowd's top two lines go behind the ledge"},
+  {"part": "crowd-red", "frames": "b", "at": [160, 102], "visible": [160, 104, 80, 30], "why": "the risen crowd's top two lines go behind the ledge"},
+  {"part": "crowd-red", "frames": "b", "at": [240, 102], "visible": [240, 104, 16, 30], "why": "the risen crowd's top two lines go behind the ledge"},
+  {"part": "crowd-red", "frames": "b", "at": [0, 134], "visible": [0, 134, 80, 18], "why": "the stands rail and the concourse cover lines 152-165"},
+  {"part": "crowd-red", "frames": "b", "at": [80, 134], "visible": [80, 134, 80, 18], "why": "the stands rail and the concourse cover lines 152-165"},
+  {"part": "crowd-red", "frames": "b", "at": [160, 134], "visible": [160, 134, 80, 18], "why": "the stands rail and the concourse cover lines 152-165"},
+  {"part": "crowd-red", "frames": "b", "at": [240, 134], "visible": [240, 134, 16, 18], "why": "the stands rail and the concourse cover lines 152-165"}
+ ]
+}

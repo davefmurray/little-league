@@ -5,17 +5,20 @@ the one blocked item in [docs/backlog.json](docs/backlog.json). It requires
 an external console/flash-cart setup and independent emulator applications.
 See [hardware-sound.md](docs/hardware-sound.md) for the matrix.
 
-The accepted source pipeline produces `build/analysisart32.nes`, SHA-256
-`1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e`.
+The accepted source pipeline produces `build/homerunart32.nes`, SHA-256
+`a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b`.
 The new stages add repeatable random draws, v2 passwords, a shared picker
 for Exhibition and Power Analysis, title artwork and the colorful ballpark
 mode menu, matching scoreboard and baseball-marker Power Analysis card
-with original game characters and crowd.
-See [analysisart32](docs/analysisart32.md)
+with original game characters and crowd. The HOME RUN celebration uses the
+same style, keeping the pair and batter still while the cheerleader, crowd
+and marquee animate.
+See [homerunart32](docs/homerunart32.md)
 for final-stage evidence. The reusable [pxl/NES screen-art skill](https://github.com/davefmurray/AWESOME-NESDEV/tree/main/skills/nes-pxl-screen-art)
 is published in AWESOME-NESDEV (commit `408bac9`).
 The source rebuild, CPU suites and stock-six/random-full-31 gate pass. Controller checks cover
-all 32 Analysis teams, both input ports and password resume. Final modeart32
+played home runs and both animation phases. Earlier stages cover all 32
+Analysis teams, both input ports and password resume. Final modeart32
 completes 2P and WATCH exhibitions; its 1P coverage is setup and human field
 entry. Full 1P completion belongs to the earlier title32 stage. Independent
 review found no ROM correctness blocker; output guard findings are fixed and covered by CLI regressions.
