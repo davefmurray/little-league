@@ -617,7 +617,7 @@
       "verify": "exact frozen B rebuild, all32 ratings and returns, entry/animation/split pixels, NMI/audio parity, safe outputs, post-analysis SPEED and stock6/full31",
       "attempts": 1,
       "evidence": "1e524b53: full CPU with pxl, all32 real-core tour, 27 exact phase frames, mapper/audio, post-analysis 7-3 and stock6/full31 champion07 pass. Both reviews found no ROM defect; CLI guard fixes covered separately. See docs/analysisart32.md.",
-      "last_commit": ""
+      "last_commit": "4b40395"
     }
   ]
 }
