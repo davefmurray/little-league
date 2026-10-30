@@ -1,0 +1,18 @@
+{
+ "format": "analysisart32-placements/1",
+ "about": "Where card32.px.js stamps the approved stockart32 parts and which of their pixels stay visible. The parts are regenerated from art/stockart32/characters.json with its reviewed masks and must equal the digests data/stockart32/digests.json records; their pixels are never tracked here. Every visible part pixel must show in the render and in the built ROM's own screen bytes.",
+ "manifest": "art/stockart32/characters.json",
+ "placements": [
+  {"part": "crowd-red", "area": [0, 0, 32, 32], "at": [0, 96], "visible": [0, 97, 32, 31],
+   "why": "the cream rail on row 96 tops the left stands"},
+  {"part": "crowd-red", "area": [0, 0, 32, 32], "at": [0, 128]},
+  {"part": "crowd-red", "area": [0, 0, 32, 32], "at": [0, 160]},
+  {"part": "crowd-red", "area": [48, 0, 32, 32], "at": [224, 96], "visible": [224, 97, 32, 31],
+   "why": "the cream rail on row 96 tops the right stands"},
+  {"part": "crowd-red", "area": [48, 0, 32, 32], "at": [224, 128]},
+  {"part": "crowd-red", "area": [48, 0, 32, 32], "at": [224, 160]},
+  {"part": "pair", "at": [56, 156], "visible": [56, 160, 64, 40],
+   "why": "the ticket counter hides the cropped lower edge from row 200; the card ledge covers rows 156-159, which the part leaves clear"},
+  {"part": "cheer", "at": [132, 160]}
+ ]
+}

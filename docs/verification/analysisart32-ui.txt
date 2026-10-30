@@ -1,0 +1,36 @@
+password restored through keyboard; matchup B preserved series
+ROM SHA256 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e; controller-only all32 and phase tour
+team 00: exact card pixels, names, ratings, flags, palette; return and series pass
+team 01: exact card pixels, names, ratings, flags, palette; return and series pass
+team 02: exact card pixels, names, ratings, flags, palette; return and series pass
+team 03: exact card pixels, names, ratings, flags, palette; return and series pass
+team 04: exact card pixels, names, ratings, flags, palette; return and series pass
+team 05: exact card pixels, names, ratings, flags, palette; return and series pass
+team 06: exact card pixels, names, ratings, flags, palette; return and series pass
+team 07: exact card pixels, names, ratings, flags, palette; return and series pass
+team 08: exact card pixels, names, ratings, flags, palette; return and series pass
+team 09: exact card pixels, names, ratings, flags, palette; return and series pass
+team 10: exact card pixels, names, ratings, flags, palette; return and series pass
+team 11: exact card pixels, names, ratings, flags, palette; return and series pass
+team 12: exact card pixels, names, ratings, flags, palette; return and series pass
+team 13: exact card pixels, names, ratings, flags, palette; return and series pass
+team 14: exact card pixels, names, ratings, flags, palette; return and series pass
+team 15: exact card pixels, names, ratings, flags, palette; return and series pass
+team 16: exact card pixels, names, ratings, flags, palette; return and series pass
+team 17: exact card pixels, names, ratings, flags, palette; return and series pass
+team 18: exact card pixels, names, ratings, flags, palette; return and series pass
+team 19: exact card pixels, names, ratings, flags, palette; return and series pass
+team 20: exact card pixels, names, ratings, flags, palette; return and series pass
+team 21: exact card pixels, names, ratings, flags, palette; return and series pass
+team 22: exact card pixels, names, ratings, flags, palette; return and series pass
+team 23: exact card pixels, names, ratings, flags, palette; return and series pass
+team 24: exact card pixels, names, ratings, flags, palette; return and series pass
+team 25: exact card pixels, names, ratings, flags, palette; return and series pass
+team 26: exact card pixels, names, ratings, flags, palette; return and series pass
+team 27: exact card pixels, names, ratings, flags, palette; return and series pass
+team 28: exact card pixels, names, ratings, flags, palette; return and series pass
+team 29: exact card pixels, names, ratings, flags, palette; return and series pass
+team 30: exact card pixels, names, ratings, flags, palette; return and series pass
+team 31: exact card pixels, names, ratings, flags, palette; return and series pass
+27 animation/entry/rest frames exact; 32 teams pass; resume state analysisart32-after-analysis
+MMC1 trace: 6467 frames, 158713 writes; docs/verification/analysisart32-mapper.json

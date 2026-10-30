@@ -1,0 +1,386 @@
+{
+  "kind": "CPU model with RESET-ancestry fixtures; not a PPU/hardware timing proof",
+  "cases": [
+    {
+      "team": 31,
+      "lead_cycles": 0,
+      "held_A": true,
+      "exit_key": "B",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 31,
+      "lead_cycles": 1,
+      "held_A": true,
+      "exit_key": "A",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 31,
+      "lead_cycles": 3700,
+      "held_A": true,
+      "exit_key": "B",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 31,
+      "lead_cycles": 7400,
+      "held_A": true,
+      "exit_key": "A",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 31,
+      "lead_cycles": 14800,
+      "held_A": true,
+      "exit_key": "B",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 31,
+      "lead_cycles": 22200,
+      "held_A": true,
+      "exit_key": "A",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 31,
+      "lead_cycles": 29000,
+      "held_A": true,
+      "exit_key": "B",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          3,
+          4,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 0,
+      "lead_cycles": 0,
+      "held_A": false,
+      "exit_key": "B",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          1,
+          3,
+          2,
+          3
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 5,
+      "lead_cycles": 0,
+      "held_A": false,
+      "exit_key": "A",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          4,
+          4,
+          4
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 13,
+      "lead_cycles": 0,
+      "held_A": false,
+      "exit_key": "A",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 18,
+      "lead_cycles": 0,
+      "held_A": false,
+      "exit_key": "B",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          4,
+          3,
+          1,
+          2
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    },
+    {
+      "team": 27,
+      "lead_cycles": 0,
+      "held_A": false,
+      "exit_key": "A",
+      "parity": {
+        "scene15_frame": true,
+        "animation_states": true,
+        "frame_APU": true
+      },
+      "stock_draw_frames": 2,
+      "B_draw_frames": 2,
+      "settled": {
+        "guards": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sp": 253,
+        "prg": 3,
+        "values": [
+          3,
+          2,
+          4,
+          4
+        ]
+      },
+      "APU_writes": 735,
+      "partial_NMI_positions": []
+    }
+  ],
+  "split_chr1_commits": 1200,
+  "split_cycle_offset_range": [
+    9868.0,
+    9873.5
+  ],
+  "split_approx_visible_line_range": [
+    66.81524926686217,
+    66.86363636363636
+  ]
+}

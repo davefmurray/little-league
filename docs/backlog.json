@@ -604,6 +604,20 @@
       "attempts": 1,
       "evidence": "a5bf74ee: source and all17 assets reproduced; full CPU, both reviews, exact menu tour, WATCH 4-6, mapper traces and stock6/full31 champion07 pass. Review tool fixes pass; docs/stockart32.md.",
       "last_commit": "fa7aa97"
+    },
+    {
+      "id": "analysis-art32",
+      "title": "Replace Power Analysis radar with the selected baseball-marker card",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": [
+        "stock-character-art32"
+      ],
+      "next": "Accepted; preserve selected composition, split timing, shared CHR tiles and stock ratings.",
+      "verify": "exact frozen B rebuild, all32 ratings and returns, entry/animation/split pixels, NMI/audio parity, safe outputs, post-analysis SPEED and stock6/full31",
+      "attempts": 1,
+      "evidence": "1e524b53: full CPU with pxl, all32 real-core tour, 27 exact phase frames, mapper/audio, post-analysis 7-3 and stock6/full31 champion07 pass. Both reviews found no ROM defect; CLI guard fixes covered separately. See docs/analysisart32.md.",
+      "last_commit": ""
     }
   ]
 }

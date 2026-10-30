@@ -1,0 +1,21 @@
+{
+  "rom_sha256": "1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e",
+  "sha256": {
+    "art/analysisart32/PXL.json": "a04d73870e9b679f78f546acc9c4142d328262d07a46b83e04a54fbaf4f4a5fa",
+    "art/analysisart32/card32.px.js": "f30ec0442f859a09cede493ed6ff01dc72a1facfd6bdec947cbe53a5cd58cbc3",
+    "art/analysisart32/layout.json": "bd0c636420ac4486ce44929e174ca8dd84d82258e7071c6b31f6a64d3a583201",
+    "art/analysisart32/placements.json": "c9ce3e1c3b17f3f821aab1b26661ef87657d71e03b4118ed2998458ad4b8b0f6",
+    "data/analysisart32/digests.json": "99f8581d467edf55669f6c387681d78ce4179176ab3ae260de0738d1881606dc",
+    "tools/analysisart32_assets.py": "f8b9d3994dfab2eb96d92a2379a09062e61873df564a98d0d63a7a89e4a15ded",
+    "tools/analysisart32_convert.py": "433d6e4a0075eed1f610f44765e380af3341125fd1f434a269fb1cbb6f4901f7",
+    "tools/analysisart32_machine.py": "f5a22bd7ad61eef1c8793276f522d04354d99b875d0d4010dfed570065663782",
+    "tools/build_32team_full.py": "b16624c7cfce4e5622811077f5081d0a69012c36c619bf5073ad110217fd4d9e",
+    "tools/build_analysisart32.py": "4bc65eb974d6eaebeb5a71a7672e59e250b7739a4a6967f7012934301e04aa3e",
+    "tools/probe_analysisart32.py": "42fabe01bc5be6aefb6aa537315f3c7f1110b22a39fec8e04c89ae86842c4d32",
+    "tools/soak_bracket.py": "1bb6d6dbe6aa6db64d5d86429b26792f8cbe0359b167a57454e636708cfc4411",
+    "tools/test_analysisart32.py": "dd6f5d567622cbcf3f75e97c1fa9fa0b71cef9ae470611dc118877aba994bb28",
+    "tools/test_analysisart32_probe.py": "b44da0a6de5451b9fa4cda400f7f95340716b4f06d2c926e16778309e0657ce1",
+    "tools/test_soak_lineup.py": "2337049f02ff0c707c1cb83b464f3fd22407c213a61618a568fe7fa7e38c1386",
+    "tools/verify.sh": "f112dbf4546cd50b7a118f8b46e80575d0e0bcfbbeeaf88cea7a8bcd8ceb9d55"
+  }
+}

@@ -1,0 +1,43 @@
+convert CLI (scratch checkout): --check regenerates and writes nothing; a run from another directory installs exactly the registered outputs and a repeat rewrites nothing; 29 hostile outputs and both linked registries are refused before any write with every file unchanged; failing sources, pins, parts, masks and inputs are refused unchanged; --record accepts an art edit, the builder follows it, and recording the restored art gives back the tracked registry
+  refused --out in tracked art: output aliases protected repository path <tmp>/analysisart32-test-xr828sni/repo/art/analysisart32/generated/an
+  refused --out in data: output aliases protected repository path <tmp>/analysisart32-test-xr828sni/repo/data/analysisart32/generated/a
+  refused --out as the registry's directory: output aliases protected repository path <tmp>/analysisart32-test-xr828sni/repo/data/analysisart32/analysisass
+  refused --out in tools: output aliases protected repository path <tmp>/analysisart32-test-xr828sni/repo/tools/generated/analysisassets
+  refused --out as docs: output aliases protected repository path <tmp>/analysisart32-test-xr828sni/repo/docs/analysisassets.json; gene
+  refused --out as the repository: output aliases protected repository path <tmp>/analysisart32-test-xr828sni/repo/analysisassets.json; generated
+  refused --out inside an earlier stage's outputs: output aliases protected input art directory <tmp>/analysisart32-test-xr828sni/repo/build/stockart32
+  refused --out inside root's design evidence: output aliases protected input art directory <tmp>/analysisart32-test-xr828sni/repo/build/analysisart32-design
+  refused --out linked into tracked art: output aliases protected location: <tmp>/analysisart32-test-xr828sni/elsewhere/linked-art is a link or not a d
+  refused --out under a link into tracked art: output aliases protected location through the linked ancestor <tmp>/analysisart32-test-xr828sni/elsewhere/link
+  refused --out as a linked directory: output aliases protected location: <tmp>/analysisart32-test-xr828sni/elsewhere/linked-out is a link or not a d
+  refused --out missing beneath a linked ancestor: output aliases protected location through the linked ancestor <tmp>/analysisart32-test-xr828sni/elsewhere/link
+  refused --out existing beneath a linked ancestor: output aliases protected location through the linked ancestor <tmp>/analysisart32-test-xr828sni/elsewhere/link
+  refused --out holding another file: <tmp>/analysisart32-test-xr828sni/elsewhere/stray holds files this run does not write: notes.txt
+  refused --out as a file: output aliases protected location: <tmp>/analysisart32-test-xr828sni/elsewhere/plain-file is a link or not a d
+  refused --out as build/: <tmp>/analysisart32-test-xr828sni/repo/build holds files this run does not write: analysisart32
+  refused a linked parts directory: output aliases protected location through the linked directory <tmp>/analysisart32-test-xr828sni/elsewhere/lin
+  refused a planned render under a linked directory: output aliases protected location through the linked directory <tmp>/analysisart32-test-xr828sni/elsewhere/lin
+  refused a planned render directory that is a file: output aliases protected location: <tmp>/analysisart32-test-xr828sni/elsewhere/render-file/render is not a dir
+  refused the asset JSON as a symlink to the input ROM: output aliases protected input <tmp>/analysisart32-test-xr828sni/repo/build/stockart32.nes
+  refused the asset JSON as a hardlink to the input ROM: output aliases protected input <tmp>/analysisart32-test-xr828sni/repo/build/stockart32.nes
+  refused provenance as a hardlink to placements.json: output aliases protected input <tmp>/analysisart32-test-xr828sni/repo/art/analysisart32/placements.json
+  refused a part as a symlink to the registry: output aliases protected input <tmp>/analysisart32-test-xr828sni/repo/data/analysisart32/digests.json
+  refused the preview as a directory: output aliases protected file: <tmp>/analysisart32-test-xr828sni/elsewhere/preview-dir/preview.png is a link o
+  refused provenance as a FIFO: output aliases protected file: <tmp>/analysisart32-test-xr828sni/elsewhere/fifo/provenance.json is a link or n
+  refused a planned PNG name in another case: output aliases protected output: PREVIEW.png folds onto a planned name
+  refused a parts directory in another case: output aliases protected output: Parts folds onto a planned name
+  refused --out inside the pxl checkout: output aliases protected input art directory <tmp>/analysisart32-test-xr828sni/elsewhere/fake-pxl
+  refused --check with --record: error: --check writes nothing; drop --record
+  refused a symlinked registry under --record: output aliases protected file through the link <tmp>/analysisart32-test-xr828sni/repo/data/analysisart32/diges
+  refused a hardlinked registry under --record: output aliases protected file: <tmp>/analysisart32-test-xr828sni/repo/data/analysisart32/digests.json is linke
+  refused socket columns +1 in the layout: the render has no empty ball socket at stats row 11, socket column 17 (pixel 138,88); card32.px.js and layout.
+  refused the pair moved in placements.json: placement of pair at [57, 156]: 543 of 1323 visible part pixels differ in the render, first at (108, 168)
+  refused broken pxl source: pxl could not build card/card32.px.js: error: card32.px.js:136: Unexpected identifier 'is'
+  refused an unsupported layout color: layout palettes[2][2]: unsupported NES color $0D
+  refused another pxl commit: pxl checkout is at 3bc816cb15a14592e0dc062ee98013637d399457, not the pinned 0000000000000000000000000000000000
+  refused an art edit without --record: the regenerated art differs from data/analysisart32/digests.json in outputs analysisassets.json, outputs previ
+  refused an art edit under --check: the regenerated art differs from data/analysisart32/digests.json in outputs analysisassets.json, outputs previ
+  refused an unapproved pair part: part pair differs from the approved stockart32 part in data/stockart32/digests.json
+  refused the pair without its reviewed ink: part pair: the cut silhouette differs from the reviewed mask_sha256
+  refused a drifted CHR $14 input: --rom must be the pinned stockart32 input
+PASS: full converter CLI, new missing/existing ancestor-link refusals, fresh output, --check and --record

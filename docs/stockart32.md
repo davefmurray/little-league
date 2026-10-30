@@ -46,8 +46,8 @@ change requires `--record`, which updates the registry after validation.
 The renderer commit and toolchain are pinned. PNG-encoder changes can
 invalidate digests even if pixels remain identical.
 
-The full source pipeline now ends at this stage. Earlier builders and
-accepted hashes remain reproducible.
+The source pipeline follows this stage with [analysisart32](analysisart32.md).
+Earlier builders and accepted hashes remain reproducible.
 
 ## Owned regions
 

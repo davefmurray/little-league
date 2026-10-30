@@ -1,0 +1,89 @@
+{
+  "frames": 368496,
+  "mapper_writes": 25787402,
+  "chr0": {
+    "08": 4402,
+    "09": 369876,
+    "0A": 359118,
+    "0B": 400,
+    "18": 1214,
+    "1B": 353,
+    "1D": 965
+  },
+  "chr1": {
+    "00": 366900,
+    "01": 1,
+    "05": 251,
+    "18": 1316,
+    "1A": 965
+  },
+  "sources": {
+    "$C12E:CHR0:08": 4402,
+    "$C12E:CHR0:09": 369876,
+    "$C12E:CHR0:0A": 359118,
+    "$C12E:CHR0:0B": 400,
+    "$C12E:CHR0:18": 1214,
+    "$C12E:CHR0:1B": 353,
+    "$C12E:CHR0:1D": 965,
+    "$C146:CHR1:00": 366900,
+    "$C146:CHR1:01": 1,
+    "$C146:CHR1:05": 251,
+    "$C146:CHR1:18": 1316,
+    "$C146:CHR1:1A": 965
+  },
+  "requests": [
+    {
+      "08": 4402,
+      "09": 369876,
+      "0A": 359118,
+      "0B": 400,
+      "18": 1214,
+      "1B": 353,
+      "1D": 965
+    },
+    {
+      "00": 366900,
+      "01": 1,
+      "05": 251,
+      "18": 1316,
+      "1A": 965
+    }
+  ],
+  "prg": {
+    "00": 1101506,
+    "01": 369219,
+    "02": 15,
+    "03": 12050,
+    "04": 362757,
+    "05": 363218,
+    "06": 1842947,
+    "08": 1,
+    "0B": 4,
+    "0C": 2
+  },
+  "mode_contexts": {},
+  "context_targets": {
+    "chr": 6,
+    "prg": 13
+  },
+  "misaligned": [],
+  "limit": "Only frame steps and input presses in this scripted tour are traced; loadMedia startup, audioDebug advancement and direct CPU calls are excluded. Mode contexts sample scene before/after each window of up to 40 frames, not at each write.",
+  "command": [
+    "tools/soak_bracket.py",
+    "--rom",
+    "build/analysisart32.nes",
+    "--bracket-state",
+    "build/analysisart32-after-analysis.state",
+    "--matches",
+    "1",
+    "--winner",
+    "live-score",
+    "--require-complete",
+    "--mode",
+    "watch",
+    "--check-stack",
+    "--session",
+    "analysisart32-after-analysis"
+  ],
+  "rom_sha256": "1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e"
+}

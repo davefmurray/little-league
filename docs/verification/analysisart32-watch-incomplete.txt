@@ -1,0 +1,65 @@
+ROM SHA256 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e
+mode=watch matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/analysisart32.nes, bracket state build/analysisart32-after-analysis.state
+match 24: stack $FF OK
+MMC1 trace: 368496 frames, 25787402 writes; docs/verification/analysisart32-after-analysis-mapper.json
+Traceback (most recent call last):
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 142, in <module>
+    main()
+    ~~~~^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 130, in main
+    runpy.run_path(str(args.script), run_name="__main__")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "tools/soak_bracket.py", line 300, in <module>
+    main()
+    ~~~~^^
+  File "tools/soak_bracket.py", line 235, in main
+    wait_for(lambda: rd_sys(0x07FC)[0] == m + 1, 400000, 500,
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             f"match {m} result", on_scene=handle_watch_scene)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tools/soak_bracket.py", line 48, in wait_for
+    step(chunk)
+    ~~~~^^^^^^^
+  File "tools/soak_bracket.py", line 34, in step
+    romdev.call("frame", {"op": "step", "count": n})
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 88, in dispatch
+    return self.step(payload.get("count", 1))
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/probe_menu_chr.py", line 42, in step
+    result = self.call("watch", args)
+  File "/Users/dfm/GitHub/nesdav/little-league/tools/romdev.py", line 44, in call
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1362, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1337, in do_open
+    r = h.getresponse()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1478, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 343, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 304, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+KeyboardInterrupt

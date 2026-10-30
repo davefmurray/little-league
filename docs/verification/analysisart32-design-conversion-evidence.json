@@ -1,0 +1,88 @@
+{
+  "parts": {
+    "pair": "a8c73eb5b6ed4a09f506a5a4eccba9c3a62b6744936a3d5349dc917b4587ec2f",
+    "cheer": "0e8f42700fc1e292f3897cf0e76e606e4a87c0f2267f3c88121f35ca750a3d8d",
+    "crowd-red": "1d7237916cc8a009e5268eddf2d9827d51a0ce584c65583c13cfe854c670a327"
+  },
+  "pxl_commit": "3bc816cb15a14592e0dc062ee98013637d399457",
+  "node": "v26.7.0",
+  "deterministic_outputs": {
+    "scenes/board.png": "3dc8c52ddcad12bdbe180d438c311359ae8689776f8e604cea3c089559943568"
+  },
+  "ROM_sha256": "1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e",
+  "mode_used_IDs": {
+    "count": 186,
+    "min": 0,
+    "max": 185
+  },
+  "negative_controls": [
+    {
+      "case": "before-byte drift 15:CD8C",
+      "rejected": true,
+      "reason": "NMI short path stores $2C in $04E6 $CD8A: unexpected stock bytes"
+    },
+    {
+      "case": "before-byte drift 15:CC20",
+      "rejected": true,
+      "reason": "main loop consumes $04E6 $CC14: unexpected stock bytes"
+    },
+    {
+      "case": "before-byte drift 15:C14E",
+      "rejected": true,
+      "reason": "PRG writer $C14C: unexpected stock bytes"
+    },
+    {
+      "case": "before-byte drift 3:AFE3",
+      "rejected": true,
+      "reason": "stepper $AFCC: unexpected stock bytes"
+    },
+    {
+      "case": "before-byte drift 13:BD20",
+      "rejected": true,
+      "reason": "bank 13 pad $BD20-$BD2F is not free in the input"
+    },
+    {
+      "case": "before-byte drift chr:18000",
+      "rejected": true,
+      "reason": "CHR $18 name font: unexpected bytes"
+    },
+    {
+      "case": "rating 0",
+      "rejected": true,
+      "reason": "team 0 rating (0, 3, 2, 3) is outside 1..4"
+    },
+    {
+      "case": "rating 5",
+      "rejected": true,
+      "reason": "team 0 rating (5, 3, 2, 3) is outside 1..4"
+    },
+    {
+      "case": "split contrast pixel",
+      "rejected": true,
+      "reason": "cell row 8 col 12: split row needs a pattern identical in both banks"
+    },
+    {
+      "case": "nonblank name row",
+      "rejected": true,
+      "reason": "cell row 3 col 15: name rows must be blank navy; the stock writer fills them"
+    },
+    {
+      "case": "nonblank label",
+      "rejected": true,
+      "reason": "cell row 11 col 6: text/dynamic cell is not blank in the art"
+    },
+    {
+      "case": "attribute conflict",
+      "rejected": true,
+      "reason": "16x16 cell rows 10-11 cols 0-1: #3CBEFF #DB2800 #FFE7A2 fits no allowed palette []"
+    }
+  ],
+  "malformed_asset_low_ID": {
+    "accepted": false,
+    "exception": "chr06-free: unexpected hook bytes"
+  },
+  "misaligned_socket_layout": {
+    "builder_accepted": true,
+    "ROM_changed": true
+  }
+}

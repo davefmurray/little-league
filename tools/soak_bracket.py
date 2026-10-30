@@ -34,8 +34,8 @@ def step(n):
     romdev.call("frame", {"op": "step", "count": n})
 
 
-def press(button, frames=2):
-    romdev.call("input", {"op": "press", "button": button, "frames": frames})
+def press(button, frames=2, port=0):
+    romdev.call("input", {"op": "press", "button": button, "frames": frames, "port": port})
 
 
 def wait_for(pred, max_frames, chunk=250, label="", on_scene=None):
@@ -58,17 +58,19 @@ def leave_lineup():
     The high-team path ($06E1=1) opens the change-orders editor as a
     multi-page menu and B steps back two states at a time ($BA -= 2).
     The old B -> A alternation re-entered the editor: B backed out one
-    page, A selected the highlighted item again.  Press B until the
-    scene changes (or six tries), then A confirms END if still on 0F.
+    page, A selected the highlighted item again. Try controller 1, then
+    controller 2: B until the scene changes (or six tries), then A if on 0F.
     """
-    for _ in range(6):
-        if rd_sys(0x047B)[0] != 0x0F:
-            return
-        press("b", 2)
-        step(15)
-    if rd_sys(0x047B)[0] == 0x0F:
-        press("a", 2)
-        step(30)
+    # A restored CPU mask can leave the second team's editor on controller 2.
+    for port in (0, 1):
+        for _ in range(6):
+            if rd_sys(0x047B)[0] != 0x0F:
+                return
+            press("b", 2, port)
+            step(15)
+        if rd_sys(0x047B)[0] == 0x0F:
+            press("a", 2, port)
+            step(30)
 
 
 def leave_lineup_top():

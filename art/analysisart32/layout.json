@@ -1,0 +1,33 @@
+{
+ "format": "analysisart32-layout/1",
+ "about": "The Power Analysis card's one geometry contract. Each stat row holds its label, four ball sockets and its digit; the converter checks that card32.px.js draws a socket at every stats row by socket column and nowhere else, and the builder generates the bank-3 ball rows, ball columns and digit addresses from the same rows. Rows 0-7 are the CHR $18 title band, row 8 the split strip and rows 9-29 CHR $06.",
+ "scene": "card",
+ "backdrop": "0C",
+ "palettes": [
+  ["21", "38", "28"],
+  ["21", "38", "1A"],
+  ["16", "38", "36"],
+  ["38", "28", "21"]
+ ],
+ "title": {
+  "palette": 3,
+  "split_row": 8,
+  "name_rows": [2, 3, 4, 5],
+  "rail_rows": [1, 6],
+  "split_ids": ["20", "E0"]
+ },
+ "reserve": {"E0": "solid3"},
+ "attr_hints": [{"row": 8, "palette": 3}],
+ "glyphs": ["3", "4", "K"],
+ "stats": [
+  {"stat": "BATTING", "row": 11, "label_col": 6, "digit_col": 25},
+  {"stat": "RUNNING", "row": 13, "label_col": 6, "digit_col": 25},
+  {"stat": "PITCHING", "row": 15, "label_col": 6, "digit_col": 25},
+  {"stat": "DEFENSE", "row": 17, "label_col": 6, "digit_col": 25}
+ ],
+ "sockets": {"cols": [16, 18, 20, 22], "color": "28"},
+ "text": [{"row": 26, "col": 26, "text": "BACK"}],
+ "ball": {"tile": "61", "sprite_palette": 1, "colors": ["0F", "16", "38"]},
+ "flag": {"y": 19},
+ "pace_nmis": 2
+}

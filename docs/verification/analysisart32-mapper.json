@@ -1,0 +1,88 @@
+{
+  "frames": 6467,
+  "mapper_writes": 158713,
+  "chr0": {
+    "00": 35,
+    "12": 120,
+    "1B": 6948
+  },
+  "chr1": {
+    "01": 69,
+    "06": 3352,
+    "17": 120,
+    "18": 3596,
+    "19": 35
+  },
+  "sources": {
+    "$C12E:CHR0:00": 35,
+    "$C12E:CHR0:12": 120,
+    "$C12E:CHR0:1B": 6948,
+    "$C146:CHR1:01": 69,
+    "$C146:CHR1:06": 3352,
+    "$C146:CHR1:17": 120,
+    "$C146:CHR1:18": 3596,
+    "$C146:CHR1:19": 35
+  },
+  "requests": [
+    {
+      "00": 35,
+      "12": 120,
+      "1B": 6948
+    },
+    {
+      "01": 69,
+      "06": 3352,
+      "17": 120,
+      "18": 3596,
+      "19": 35
+    }
+  ],
+  "prg": {
+    "00": 6674,
+    "01": 1573,
+    "02": 36,
+    "03": 6248,
+    "04": 140,
+    "05": 165,
+    "08": 1,
+    "0A": 2230,
+    "0B": 134,
+    "0C": 4,
+    "0D": 214
+  },
+  "mode_contexts": {
+    "01>06:reg3:0D": 2,
+    "06>07:reg2:06": 58,
+    "06>07:reg3:0D": 2,
+    "07>07:reg2:06": 174,
+    "07>07:reg3:0D": 14,
+    "07>0c:reg2:06": 3,
+    "07>18:reg2:06": 3,
+    "0c>07:reg2:06": 37,
+    "0c>07:reg3:0D": 2,
+    "0c>0c:reg2:06": 1,
+    "0c>15:reg2:06": 1044,
+    "0c>15:reg3:0D": 174,
+    "13>06:reg3:0D": 2,
+    "14>14:reg3:0D": 15,
+    "14>15:reg3:0D": 3,
+    "15>0c:reg2:06": 64,
+    "15>15:reg2:06": 1968
+  },
+  "context_targets": {
+    "chr": 6,
+    "prg": 13
+  },
+  "misaligned": [],
+  "limit": "Only frame steps and input presses in this scripted tour are traced; loadMedia startup, audioDebug advancement and direct CPU calls are excluded. Mode contexts sample scene before/after each window of up to 40 frames, not at each write.",
+  "command": [
+    "tools/probe_analysisart32.py",
+    "--rom",
+    "build/analysisart32.nes",
+    "--output",
+    "build/analysisart32-runtime",
+    "--session",
+    "analysisart32-final"
+  ],
+  "rom_sha256": "1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e"
+}

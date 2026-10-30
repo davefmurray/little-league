@@ -1,0 +1,5 @@
+ROM SHA256 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/analysisart32.nes, bracket state build/analysisart32-after-analysis.state
+match 24: stack $FF OK
+timeout waiting for match 24 result after 400000 frames

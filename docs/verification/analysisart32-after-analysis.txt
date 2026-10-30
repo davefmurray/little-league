@@ -1,0 +1,7 @@
+ROM SHA256 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e
+mode=speed matches=1 winner=live-score require_complete=True check_stack=True team=None
+loaded build/analysisart32.nes, bracket state build/analysisart32-after-analysis.state
+match 24: stack $FF OK
+match 24: 18 v 0A -> $7738=18 (live 18/0A, score 7-3, game-over 1) OK  index=19
+slots: 1f 16 18 08 09 0a 06 0c 11 07 0d 1b 01 10 15 1d 02 0e 03 17 12 1c 19 14 1a 0f 0b 00 13 1e 04 05 16 18 0a 06 07 0d 10 15 0e 03 1c 19 0f 0b 1e 04 18 0a 0d 10 03 1c 0b 1e 18 ff ff ff ff ff ff
+saved state soak-final and /tmp/soak-final.png

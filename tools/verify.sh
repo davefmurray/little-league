@@ -59,10 +59,16 @@ python3 tools/check_build.py build/direct31.nes
 .venv/bin/python -B tools/test_stockart32.py --pxl build/vendor/claude-pxl --candidate build/stockart32.nes
 .venv/bin/python -B tools/test_stockart32_probe.py
 
+.venv/bin/python -B tools/analysisart32_convert.py --rom build/stockart32.nes --pxl build/vendor/claude-pxl
+.venv/bin/python -B tools/build_analysisart32.py build/stockart32.nes -o build/analysisart32.nes
+.venv/bin/python -B tools/test_analysisart32.py build/stockart32.nes --candidate build/analysisart32.nes --pxl build/vendor/claude-pxl
+.venv/bin/python -B tools/test_analysisart32_probe.py
+.venv/bin/python -B tools/test_soak_lineup.py
+
 if [ "${1:-}" = "--with-soak" ]; then
   timeout 300 python3 tools/soak_bracket.py \
     --rom build/direct31.nes --matches 6 --winner score --mode speed --session verify-stock
   timeout 300 python3 tools/soak_bracket.py \
-    --rom build/stockart32.nes --team 31 --matches 31 --winner live-score --require-complete --mode speed \
+    --rom build/analysisart32.nes --team 31 --matches 31 --winner live-score --require-complete --mode speed \
     --check-stack --session verify-gameplay
 fi

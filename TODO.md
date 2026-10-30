@@ -1,6 +1,9 @@
 # Little League hack — living TODO
 
-**Last updated:** commit `fe69d44` (MMC1 skill)
+**Current accepted status:** [32-team status](docs/32-team-status.md).
+Power Analysis now uses the selected baseball-marker card; source, CPU,
+all-32-team controller checks and stock-six/full-31 gates pass.
+The older planning snapshot below is retained as history.
 **Target:** 32 teams × 20 players, 32-team tournament, emulator-first,
 MMC1 / 256 KiB PRG / 128 KiB CHR.
 

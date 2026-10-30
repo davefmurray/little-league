@@ -1,0 +1,301 @@
+[
+  {
+    "site": "home pad",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 3,
+      "exec_bank": 3,
+      "pc": "BD20",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "first bank switch before shadow",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 3,
+      "exec_bank": 15,
+      "pc": "C14E",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "first switch after shadow before guard",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 13,
+      "exec_bank": 15,
+      "pc": "C150",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "first switch midserial",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 13,
+      "exec_bank": 15,
+      "pc": "C156",
+      "serial_count": 1,
+      "guard2D": 1,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "far pad resume",
+    "fired": {
+      "physical_bank": 13,
+      "logical_bank": 13,
+      "exec_bank": 13,
+      "pc": "BD26",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "far code entry",
+    "fired": {
+      "physical_bank": 13,
+      "logical_bank": 13,
+      "exec_bank": 13,
+      "pc": "A460",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "flag hop",
+    "fired": {
+      "physical_bank": 13,
+      "logical_bank": 13,
+      "exec_bank": 15,
+      "pc": "C14E",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "flag restore",
+    "fired": {
+      "physical_bank": 4,
+      "logical_bank": 4,
+      "exec_bank": 15,
+      "pc": "C14E",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "name hop",
+    "fired": {
+      "physical_bank": 13,
+      "logical_bank": 13,
+      "exec_bank": 15,
+      "pc": "C14E",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "far-to-home switch",
+    "fired": {
+      "physical_bank": 13,
+      "logical_bank": 13,
+      "exec_bank": 15,
+      "pc": "C14E",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "home pad RTS",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 3,
+      "exec_bank": 3,
+      "pc": "BD2F",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "numerals",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 3,
+      "exec_bank": 3,
+      "pc": "BD30",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 1
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  },
+  {
+    "site": "balls",
+    "fired": {
+      "physical_bank": 3,
+      "logical_bank": 3,
+      "exec_bank": 3,
+      "pc": "BD70",
+      "serial_count": 0,
+      "guard2D": 0,
+      "guard2C": 0
+    },
+    "matches_uninjected": true,
+    "SP": 253,
+    "PRG": 3,
+    "mapper_count": 0,
+    "guards": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "series_intact": true
+  }
+]

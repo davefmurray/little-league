@@ -1,0 +1,54 @@
+{
+ "format": "analysisart32-digests/1",
+ "sources": {
+  "art/analysisart32/PXL.json": "a04d73870e9b679f78f546acc9c4142d328262d07a46b83e04a54fbaf4f4a5fa",
+  "art/analysisart32/card32.px.js": "f30ec0442f859a09cede493ed6ff01dc72a1facfd6bdec947cbe53a5cd58cbc3",
+  "art/analysisart32/layout.json": "bd0c636420ac4486ce44929e174ca8dd84d82258e7071c6b31f6a64d3a583201",
+  "art/analysisart32/placements.json": "c9ce3e1c3b17f3f821aab1b26661ef87657d71e03b4118ed2998458ad4b8b0f6",
+  "art/stockart32/characters.json": "8cccea0200ebe9277f3e0e60467af6fccebc49cfe345ecf30c6c2505f5dbf5ca"
+ },
+ "roms": {
+  "base": "a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55"
+ },
+ "pins": {
+  "intro script, origins, map and selector pointers $B1B7-$B211": "6124b68ced644bca4128461dac98ebbebb09a9e1929253396c6df0355b8fc10d",
+  "intro tile maps $B212-$B3D1": "e9725e5aa1200f0ba2b8bd71eee3b1c7533ec126aede1a59b1ba0199d4c99fee",
+  "intro sprite palette selectors $B3D2-$B441": "4ee8b9c27c92ec2c4b969c30415b59c7a618701bbe13e4c3a17ff3f54c0fe782",
+  "intro OAM writer $AEE6-$AF68": "7954a0ac7a6d08542dd0a76189077311c81388e72f4c09150698bef1858803c8",
+  "intro CHR selects $AD34-$AD3B": "e10b83263f0edd2d706d4a372c3f1667b3a8e99f126b5dc7ab45cdab72d4e873",
+  "intro palette records by sub-scene $ADD2-$ADDD": "6ad8411f4178b8bb93df8a28323b9b9c9823c227eff2bff80c5f509751e12ff0",
+  "sprite palette record $8E, fixed $FA60-$FA6F": "99d90b3940c518e0bd7a2fd28d81d7eff3a69aca0f3364c3c8e0ba72a3bd1c61",
+  "stands palette record $15, fixed $F930-$F93F": "1a800560229f6a56568e17de50cdb2f423f870b7b0f2e9ddf17f084ed6612f63",
+  "CHR $14 intro sprites": "2dea85c47810d1ccb6c686e1a29dd9828765386b692faafb341e3cee40179f8e",
+  "CHR $10 stands crowd": "e7075fe93e716a01b2ca9a19c048b2965820493813d12aada74d264b88dc58e8",
+  "fixed bank $C000-$FFFF": "c38587dc7ee5601a742bf1da30453fc06b303946a39d4d6d398128ac4c5aabb9",
+  "CHR $00 font": "771012bc129730fbef4c9bd840bf68f91329d625bfde1f75c0a5940400d2ea32",
+  "CHR $18 name font": "8a058223e5f2c3ab5579395148463c000a5ac93d4eed6f014ba1507dbf56e769",
+  "CHR $1B sprites, flags and ball": "330afeaa1a18c62cbb0fe1bd39101da67efac96812a43109449737dc1301b5bb",
+  "CHR $06 $00-$B9 stockart32 mode tiles": "74377907abad07a7fe53ee2740b200c135f177d49bb8d2993ede674cf61af73f",
+  "bank 13 $8000-$9FFF modeart32 and stockart32 mode screen, pad, code and run lists": "80caac1ce8f2d71327ecbd02b83fc62eb772ffab6f66e279313710fa6a470ae1",
+  "bank 13 $A500-$BD1F": "2cd95b9ebb221ae57aa4f429222e176a8b25ae0f8864c8ad4b661eab684353fc",
+  "bank 13 $BD30-$BFFF": "c7cb2daf2491b13bc4e1340b99b7750d6e75e766e2639c4737880e0186cc295a",
+  "bank 3 $8000-$AF7F up to the scene $14 prologue's end": "1027beea6340b8aea6162ca499bbf156174295ca66e1a7ba3629b9975055bd10",
+  "bank 3 $AF92-$AF9A scene $14 tail": "4d271f1883332eae21c444783b9d30a02ffae8e1cc4833700d3a966d58408ff6",
+  "bank 3 $AFA0-$AFB8 scene $15 loop": "03807ce1df3b57550e00bbb2596d22475991f6cf0c59161ed0661d7fd07e5793",
+  "bank 3 $AFBC-$BD1F exit, stepper, stock chart, labels, ratings and batting bias": "8e3514d2f956d636359c5de5bd68d5aa176e58aa590e30623d8d76a0fc44e19c",
+  "bank 3 $BDB8-$BFFF": "4df8f8601e1388630f7d2aa31218823a7d8aedc7d349c319bb15f3378a5f2d7e",
+  "bank 1 team name records $9180-$927F": "d3128a095bfce53661a98f01cfd4226d92dc60ea0a416f9e43873f192fd75aa5",
+  "bank 1 team name records $BCC0-$BDBF": "5baef784eeb778e021d617514a5766e249b9e00ebb9bc51da0fbf9b85d4be5a6",
+  "bank 4 name font tables $8000-$83FF": "26bd3455657fe1777bcc0aaa2955b38bd3fa27ce3e1ba51b05d8db6a6ed4167e",
+  "bank 4 flag pointers and sprites $975A-$9889": "6a079f153b780ac5947e58234e7b249fa1b2eed269cef210bad4cc73403fba62",
+  "bank 4 flag writer $9B00-$9B27": "216986224f61ee509a75e3f2b718251ffc32be04cd1e2a3e838844b21e23d1e1"
+ },
+ "outputs": {
+  "analysisassets.json": "52e008cb6495ed11792d95201fe5e1931625f1d5aaec1d2ebed5c0d067ccee85",
+  "parts/cheer.png": "0e8f42700fc1e292f3897cf0e76e606e4a87c0f2267f3c88121f35ca750a3d8d",
+  "parts/crowd-red.png": "1d7237916cc8a009e5268eddf2d9827d51a0ce584c65583c13cfe854c670a327",
+  "parts/pair.png": "a8c73eb5b6ed4a09f506a5a4eccba9c3a62b6744936a3d5349dc917b4587ec2f",
+  "preview.png": "0cf547b301c55d27ce3b77c1f134355808a17c35254bce1c3a7195831c81624d",
+  "provenance.json": "1385c721f91bdd868a8f04fa34a9589416c7ec74eaeab159affba13439c0cb78",
+  "render/scenes/card.png": "3dc8c52ddcad12bdbe180d438c311359ae8689776f8e604cea3c089559943568",
+  "teams.png": "eb1fe75a4b15e0a20e467035692f070ac47d13902678f53c116d27665b1abe2f"
+ },
+ "rom": "1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e"
+}

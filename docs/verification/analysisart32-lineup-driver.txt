@@ -1,0 +1,1 @@
+PASS: controller 1 and 2 lineup confirmation; no input after scene exit

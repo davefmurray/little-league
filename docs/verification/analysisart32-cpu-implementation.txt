@@ -1,0 +1,123 @@
+inputs: stockart32 a5bf74ee453bee21afcf0b92696aaebfc013905a53921206fe7614321311cb55, candidate build/analysisart32.nes
+layout: analysisart32-layout/1 parses; 40 malformed layouts (keys, colors, palettes, split row other than 8, name and rail rows, split and reserve ids, hints, glyphs, missing, unknown, duplicate and reordered stats, rows on the split, cells off the screen, socket count, order and repeats, text, label, digit and socket overlaps, ball palette 0 or 4, flag row, pacing) and broken JSON are refused
+  (layout boundary: 0.0s)
+placements: 8 stamps parse; 9 malformed placement records are refused
+  (placement boundary: 0.0s)
+ratings: stored order BATTING, RUNNING, PITCHING, DEFENSE derived independently from the chart directions $B1CA/$B1CE and the label list $B1FB (BATTING $214D, RUNNING $2243, PITCHING $232C, DEFENSE $2257) agrees with the model; all 128 values are 1..4, team 31 3,3,4,2, team 13 1,1,1,1; ratings 0 and 5, swapped directions and a moved reader are refused
+  (ratings: 0.0s)
+regeneration: two in-process runs (four pinned pxl renders) agree on all 8 outputs and the ROM; the registry is current, canonical and path-free; the render is the frozen scene 3dc8c52ddcad; the ROM is the selected card 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e
+  (regeneration: 5.7s)
+installed: build/analysisart32 holds exactly the registered outputs
+  (installed outputs: 0.0s)
+candidate: 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e is the deterministic build and the selected card
+  (candidate: 0.0s)
+parts: cheer, crowd-red and pair regenerate from art/stockart32/characters.json equal to the approved data/stockart32/digests.json PNGs, with their reviewed masks; every visible part pixel shows its color in the built ROM's own screen, CHR and palette bytes (crowd-red 6080, pair 1323, cheer 852); the counter and ledge really occlude the pair, and all 3 reviewed face boxes stay visible
+  (parts and placements: 1.2s)
+provenance: 152 part cells name the CHR tile, offset and digest, the map byte, the selector byte and bit shift, the palette record and an unflipped priority attribute that the ROM holds; 151 destination tiles of 8 placements name the ROM's tile id, pattern digest and palette, and their 8255 part pixels decode from those ROM tiles to the part's colors; the socket, digit and title records equal the ROM's tables
+  (provenance: 0.0s)
+converter controls (pinned render, tracked layout; 8255 visible part pixels traced in the render):
+  refused a title cell that is no CHR $18 pattern: cell row 7 col 12: the pattern is not in CHR $18; the title band cannot add tiles
+  refused a cream pixel on the split row: cell row 8 col 12: the split row needs a pattern identical in CHR $18 and CHR $06
+  refused ink in a label cell: cell row 11 col 6: a lettered or digit cell must be blank in the art
+  refused ink in a digit cell: cell row 11 col 25: a lettered or digit cell must be blank in the art
+  refused ink on a name row: cell row 3 col 15: name rows must be blank; the stock writer prints there
+  refused red in a sky and gold cell: 16x16 cell rows 10-11 cols 0-1: #3CBEFF #DB2800 #FFE7A2 fits no allowed palette []
+  refused a tile budget overflow: CHR $06 is full at cell row 26 col 0: all 70 free ids are used
+  refused a missing socket: the render has no empty ball socket at stats row 11, socket column 16 (pixel 130,88); card
+  refused an extra socket: the nametable must hold the socket tile exactly at the 16 socket cells, not at 17 cells
+  refused every socket drawn 8 px right: the render has no empty ball socket at stats row 11, socket column 16 (pixel 130,88); card
+  refused socket columns +1 in the layout only: the render has no empty ball socket at stats row 11, socket column 17 (pixel 138,88); card
+  refused stat rows one lower in the layout only: cell row 18 col 6: a lettered or digit cell must be blank in the art
+  refused a glyph CHR $00 leaves blank: glyph 'Q': CHR $00 $51 is blank, not a glyph
+  refused a glyph the mode font already has: glyph '1' is already CHR $06 $31; drop it from the layout glyphs
+  refused a letter neither font has: CHR $06 has no stock glyph for 'K'; add it to the layout glyphs
+  refused the pair stamped 1 px right: placement of pair at [57, 156]: 543 of 1323 visible part pixels differ
+  refused the pair's counter rows counted visible: placement of pair at [56, 156]: 158 of 1534 visible part pixels differ
+  refused the whole pair counted visible: placement of pair at [56, 156]: 492 of 2158 visible part pixels differ
+  (converter controls: 2.4s)
+assets: analysisassets/1 round-trips; 25 malformed records (keys, sizes, palettes, low, blank or repeated new tiles, glyph and digit ids, stat order and rows, socket count, columns and cells, label, digit, name-row, split-row and undefined ids, title palette, ball palette, flag row, pacing, text overlap) are refused by the model; 6 self-consistent assets the input ROM contradicts (glyph, socket and split patterns, the ball on a flag palette, a repeated mode pattern, another ball sprite) are refused by the builder
+  (asset boundary: 0.0s)
+stage: build_rom is pure and gives the candidate; the nine regions are the judged reservation (2594 bytes claimed); exactly 1524 bytes change (init-hook 18, init-tail 5, state1-draw 2, home-pad 16, home-code 123, far-screen 1008, far-code 227, far-pad 16, chr06-new 109); header, size, every other PRG and CHR bank, CHR $06 $00-$B9, the ratings and batting bias and bank 13 $8000-$9FFF are unchanged; new CHR $06 tiles $BA $BB $BC $BD $BE $BF $C0 $C1 $C2 $C3 $E0 leave 59 blank; the before/after manifest is exact; 59 one-bit drifts (every dependency, digest and region, the NMI latch store and consumer, $C14E, the reader, a flag pointer and attribute, the ball tile, a mode tile, the pads, a rating), ratings 0 and 5 without the ratings pin, another ROM, wrong sizes, 7 tampered change manifests, unequal pads and card or bank-3 code overflowing its region are refused
+  (stage: 2.4s)
+split: stock sprite 0 40 FE 20 F8 first hits opaque CHR $18 at [(254, 65), (254, 66)] (x < 255) on row 8, whose ids $E0 are identical in CHR $18 and CHR $06; the 16 flags use sprite palettes [0, 2, 3], so the ball's palette 1 is unshared
+title band: the uploaded rows 0-7 are the accepted template (sky $E0, rails $E9 on rows 1 and 6, blank name rows, palette 3), and the pinned render's rows 0-63 decode to exactly those CHR $18 patterns
+mode screen: its nametable, font glyphs and all three menus' run lists use exactly CHR $06 $00-$B9, read from the ROM and from the approved build/stockart32/modeassets.json alike
+leave state: the card leaves $26 = $06; the NMI reads $26 only at $CE40 behind $047A bit 1, and every CHR preset 0-8 that sets the bit also rewrites $26 (literal and instruction-context scans found no other setter; computed paths are not proven)
+  (static: 0.0s)
+builder CLI (scratch checkout): the same ROM and manifest from another directory; 40 protected targets refused (input, renamed copy, tools, art, data, docs, both registries, the asset file, earlier evidence, symbolic and hard links); a bad input keeps the previous output; the canonical build is the selected card; refused with nothing written: error: <tmp>/analysisart32-test-8nbofb17/elsewhere/assets/analysisassets.json differs from data/analysisart32/; error: output aliases protected input art directory <tmp>/analysisart32-test-8nbofb17/repo/build/analysisart32; error: output aliases protected input art directory <tmp>/analysisart32-test-8nbofb17/repo/build/stockart32; error: output aliases protected input art directory <tmp>/analysisart32-test-8nbofb17/repo/build/analysisart32; error: [Errno 2] No such file or directory: '<tmp>/analysisart32-test-8nbofb17/elsewhere/missing/analysisasset; error: the built ROM 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e differs from data/analys
+  (builder CLI: 19.5s)
+test CLI: tools/test_analysisart32.py --verify-only exits 1 for $26 left at $18: exit 1 (FAIL team 31: CHR shadows 1b1b1818, split mode 06, sprite 0 40fe20f8; the card k); ball columns +8 px, tables generated from the shifted layout: exit 1 (FAIL team  5: ball sprites at [(136, 88), (136, 104), (136, 120), (136, 136)] si); ball rows reversed: exit 1 (FAIL team 31: BATTING shows balls on sockets [0, 1], rating 3 fills the first 3); and exits 0 for the selected card
+  (test CLI: 86.6s)
+convert CLI (scratch checkout): --check regenerates and writes nothing; a run from another directory installs exactly the registered outputs and a repeat rewrites nothing; 27 hostile outputs and both linked registries are refused before any write with every file unchanged; failing sources, pins, parts, masks and inputs are refused unchanged; --record accepts an art edit, the builder follows it, and recording the restored art gives back the tracked registry
+  refused --out in tracked art: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/art/analysisart32/generated/an
+  refused --out in data: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/data/analysisart32/generated/a
+  refused --out as the registry's directory: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/data/analysisart32/analysisass
+  refused --out in tools: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/tools/generated/analysisassets
+  refused --out as docs: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/docs/analysisassets.json; gene
+  refused --out as the repository: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/analysisassets.json; generated
+  refused --out inside an earlier stage's outputs: output aliases protected input art directory <tmp>/analysisart32-test-8nbofb17/repo/build/stockart32
+  refused --out inside root's design evidence: output aliases protected input art directory <tmp>/analysisart32-test-8nbofb17/repo/build/analysisart32-design
+  refused --out linked into tracked art: output aliases protected location: <tmp>/analysisart32-test-8nbofb17/elsewhere/linked-art is a link or not a d
+  refused --out under a link into tracked art: output aliases protected repository path <tmp>/analysisart32-test-8nbofb17/repo/art/analysisart32/generated/an
+  refused --out as a linked directory: output aliases protected location: <tmp>/analysisart32-test-8nbofb17/elsewhere/linked-out is a link or not a d
+  refused --out holding another file: <tmp>/analysisart32-test-8nbofb17/elsewhere/stray holds files this run does not write: notes.txt
+  refused --out as a file: output aliases protected location: <tmp>/analysisart32-test-8nbofb17/elsewhere/plain-file is a link or not a d
+  refused --out as build/: <tmp>/analysisart32-test-8nbofb17/repo/build holds files this run does not write: analysisart32
+  refused a linked parts directory: output aliases protected location through the linked directory <tmp>/analysisart32-test-8nbofb17/elsewhere/lin
+  refused a planned render under a linked directory: output aliases protected location through the linked directory <tmp>/analysisart32-test-8nbofb17/elsewhere/lin
+  refused a planned render directory that is a file: output aliases protected location: <tmp>/analysisart32-test-8nbofb17/elsewhere/render-file/render is not a dir
+  refused the asset JSON as a symlink to the input ROM: output aliases protected input <tmp>/analysisart32-test-8nbofb17/repo/build/stockart32.nes
+  refused the asset JSON as a hardlink to the input ROM: output aliases protected input <tmp>/analysisart32-test-8nbofb17/repo/build/stockart32.nes
+  refused provenance as a hardlink to placements.json: output aliases protected input <tmp>/analysisart32-test-8nbofb17/repo/art/analysisart32/placements.json
+  refused a part as a symlink to the registry: output aliases protected input <tmp>/analysisart32-test-8nbofb17/repo/data/analysisart32/digests.json
+  refused the preview as a directory: output aliases protected file: <tmp>/analysisart32-test-8nbofb17/elsewhere/preview-dir/preview.png is a link o
+  refused provenance as a FIFO: output aliases protected file: <tmp>/analysisart32-test-8nbofb17/elsewhere/fifo/provenance.json is a link or n
+  refused a planned PNG name in another case: output aliases protected output: PREVIEW.png folds onto a planned name
+  refused a parts directory in another case: output aliases protected output: Parts folds onto a planned name
+  refused --out inside the pxl checkout: output aliases protected input art directory <tmp>/analysisart32-test-8nbofb17/elsewhere/fake-pxl
+  refused --check with --record: error: --check writes nothing; drop --record
+  refused a symlinked registry under --record: output aliases protected file through the link <tmp>/analysisart32-test-8nbofb17/repo/data/analysisart32/diges
+  refused a hardlinked registry under --record: output aliases protected file: <tmp>/analysisart32-test-8nbofb17/repo/data/analysisart32/digests.json is linke
+  refused socket columns +1 in the layout: the render has no empty ball socket at stats row 11, socket column 17 (pixel 138,88); card32.px.js and layout.
+  refused the pair moved in placements.json: placement of pair at [57, 156]: 543 of 1323 visible part pixels differ in the render, first at (108, 168)
+  refused broken pxl source: pxl could not build card/card32.px.js: error: card32.px.js:136: Unexpected identifier 'is'
+  refused an unsupported layout color: layout palettes[2][2]: unsupported NES color $0D
+  refused another pxl commit: pxl checkout is at 3bc816cb15a14592e0dc062ee98013637d399457, not the pinned 0000000000000000000000000000000000
+  refused an art edit without --record: the regenerated art differs from data/analysisart32/digests.json in outputs analysisassets.json, outputs previ
+  refused an art edit under --check: the regenerated art differs from data/analysisart32/digests.json in outputs analysisassets.json, outputs previ
+  refused an unapproved pair part: part pair differs from the approved stockart32 part in data/stockart32/digests.json
+  refused the pair without its reviewed ink: part pair: the cut silhouette differs from the reviewed mask_sha256
+  refused a drifted CHR $14 input: --rom must be the pinned stockart32 input
+  (convert CLI: 111.3s)
+negative candidates (the same oracle, in process): every known-bad ROM fails it
+  $26 left at $18: 8 problems, e.g. team 31: CHR shadows 1b1b1818, split mode 06, sprite 0 40fe20f8; the card keeps stock sprite 0 a
+  ball columns +8 px, tables generated from the shifted layout: 12 problems, e.g. team  5: ball sprites at [(136, 88), (136, 104), (136, 120), (136, 136)] sit on no socket
+  ball rows reversed: 5 problems, e.g. team 31: BATTING shows balls on sockets [0, 1], rating 3 fills the first 3
+  digit addresses permuted: 4 problems, e.g. team 31: PITCHING digits [], expected 4 right of its sockets
+  every name at the stock column $2068: 2 problems, e.g. team  0: the name and flag center at x 107.0, not within 4 px of 127.5
+  no pacing: the $04E6 clears removed: 4 problems, e.g. team 31: the init releases 0 frames after its vblank, stock 2
+  the unmodified input ROM: 9 problems, e.g. team  0: CHR shadows 1b1b1818, split mode 06, sprite 0 40fe20f8; the card keeps stock sprite 0 a
+  (negative candidates: 2.3s)
+tours: 32 controller-driven visits from RESET (4 tours, exits alternating A and B) match stockart32 frame for frame: per-frame scene, state and $BC-$BF, the handler timeline, release [2] frames after the prologue's vblank, every APU write, the $35 confirm, the return to the same picker cell, the active v2 series heap, seed, markers and mask, the picker and mode menu after the card (but $26), and RAM and WRAM after the return outside the reviewed scratch list
+cards: on every visit the four stock labels and 'BACK' are CHR $00 glyphs on blank render cells inside the 224-line crop; the rest of rows 9-29 equals the pinned render pixel for pixel; each label row holds 4 sockets found in the decoded background; the rating's balls fill its first sockets and its digit shows the rating; every count-up frame shows exactly $BC-$BF balls; all 16 sockets hold a ball on some visit; the title band is the stock writer's cells inside its writes and the accepted template outside; the flag is the stock writer's nine sprites; name and flag center within 4 px; shadows 1B 1B 18 06, split mode $06, sprite 0 40 FE 20 F8; CHR1 loads $18 then $06 each frame, inside the split row
+  (runtime: 3.0s)
+timing: 12 RESET-ancestry fixtures (team 31 at vblank leads [0, 1, 3700, 7400, 14800, 22200, 29000] cycles with A held from entry, other teams at lead 0) match stockart32's scene-$15 frame, release frame, handler timeline and every frame-stamped APU write through the return; held A never exits early; $2C $2D $AC $32 clear, PRG 3 physical and logical, MMC1 serial count 0 and SP $FD before the exit; 1248 CHR1 $06 loads land on model lines 66.82-66.87
+  (timing: 0.0s)
+NMI injection: 182 extra NMIs (the hop pads, card entry, numerals and balls, every bank switch's $27 store, guard and serial bits, sampled init and ball instructions) each settle to the uninjected screen, SP, physical and logical PRG, MMC1 shift and count, control and CHR, guards $2C $2D $AC $32 and the active series (final-state robustness, not transient-frame or audio parity)
+  team 0: 130 NMIs at 40 sites, 49 with logical $27 ahead of the physical bank, 33 mid-serial
+  team 31: 52 NMIs at 29 sites, 12 with logical $27 ahead of the physical bank, 8 mid-serial
+  (NMI injection: 0.0s)
+protected screens: title, mode menu, Championship submenu, Exhibition submenu, picker equal stockart32 in VRAM, palette, OAM, CHR, PPU control, shadows and split mode; after a card visit, picker after analysis, mode menu after analysis, A after analysis, then B, DOWN, A after analysis, then B, DOWN, A again after analysis equal it but for the $26 shadow; series intact
+  (protected screens: 0.0s)
+earlier mode suite: all 9 mode-menu exits give stockart32's scenes, mode and ownership bytes and sound requests; idle APU writes and press sounds equal stockart32 (test_modeart32's own scene_run and test_audio)
+  (earlier mode: 16.5s)
+earlier pick suite: analysis: 27 and 31 viewed; ratings B reopens the picker on the viewed team; B reaches the mode menu; active series intact (test_pick32.flow_analysis)
+  (earlier pick: 0.0s)
+earlier score suite: 13 scoreboard exits match stockart32 frame for frame (scene writes, sound requests, per-frame scene, bank, song, rendering and every APU write; test_scoreart32.flow_check)
+  (earlier score: 0.0s)
+audio: 1109 APU writes over 180 idle frames equal stock exactly (aligned frames); confirm, move and back presses queue stock's $35/$36 requests; one audio tick on each of 152 consecutive frames through every switch
+limits: CPU model only. Sprite-0 hit is manufactured from the beam position and OAM; PPU fetch timing, open bus, real MMC1 write timing and the analog picture are not modelled; audio is compared as APU register writes. Root's real-core phase, split-seam, mapper-census and audio probes, the 224-line capture review and the stock-six and 31-game tournament gates remain open.
+analysisart32 SHA256 1e524b53946ac45f1560c1908659c3a44c0f10088205403f6e79ae5033fcb94e
+PASS (23 sections, 251.3s)
+PYTHONDONTWRITEBYTECODE=1  -B tools/test_analysisart32.py build/stockart32.ne  1239.40s user 68.73s system 519% cpu 4:11.62 total
+exit 0
