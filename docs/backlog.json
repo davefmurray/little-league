@@ -631,7 +631,7 @@
       "verify": "exact selected ROM, source/mask/reader guards, scoring/audio/exit parity, real-core multi-run and planted walk-off, shared-screen census, stock6/full31",
       "attempts": 1,
       "evidence": "a66add03: final source rebuild, full 19-section CPU suite with fresh WATCH fixtures, both reviews resolved, paired real-core events/audio, shared-screen census, v1/v2 resume and stock6/full31 champion07 pass. Tool fixes have cache/case/Unicode/verification regressions. See docs/homerunart32.md.",
-      "last_commit": ""
+      "last_commit": "b3104ca23c09349905d9c6183703685e88f440df"
     }
   ]
 }
