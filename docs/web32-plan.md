@@ -102,4 +102,13 @@ ask even for an equal roster, legacy empty scoreboard names retain the baseline,
 and startup failure displays NO ROSTER. The shared prompt checks staleness before
 asking. Tests cover cancellation without losing a restoration, startup recovery,
 and legacy empty names versus deliberate version-2 empties. No broad refactor was
-needed for the optional comment/API nits. Deployment remains the next step.
+needed for the optional comment/API nits. Deployment and production acceptance are complete below.
+
+## Published result
+
+Commit `a801529` is deployed successfully on Railway; CI passed. The hosted
+browser opens all32, produces a byte-identical untouched download, exports only
+the seven expected bytes for the production edit fixture, and reopens the edited
+copy with its name and live rating intact. The public host returns 404 for `/rom`.
+The production acceptance record identifies the deployment and hashes. No ROM,
+screenshot fixture or binary download was committed.

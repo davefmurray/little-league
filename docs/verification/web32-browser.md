@@ -2,8 +2,8 @@
 
 Root tested the integrated change in T3's Chromium browser against the local
 Python host at `http://127.0.0.1:8098/` on 2026-10-30. These are browser tests,
-separate from the DOM-stub and CPU-model tests. Production acceptance follows
-the reviewed source push.
+separate from the DOM-stub and CPU-model tests. Production acceptance below
+was completed after the reviewed source push.
 
 ## Baseline failure
 
@@ -54,3 +54,29 @@ Railway's deployed commit was `4a889a720cee7bdf8d98c9ef64bb29e92609c34e`.
 Downloaded files were copied into `build/web32-acceptance/` before closing the
 browser tab. They are not committed. These checks do not claim physical-phone,
 Safari, Firefox or gameplay-emulator acceptance.
+
+## Production acceptance
+
+Railway deployment `d66862eb-0932-45c2-a66f-2178e6662e2c` reached SUCCESS for
+commit `a80152958ca5963316fbeff0c00f5e6f40fadb30` on 2026-10-30.
+[CI passed](https://github.com/davefmurray/little-league/actions/runs/41137578359).
+Root then tested `https://little-league-production.up.railway.app/` in the
+same real browser. The live app.js and rom.js hashes equal the recorded final
+source hashes. Health returned 200 and public `/rom` returned 404.
+
+- The default page displayed Preview 8, 32 teams and 15 editable rows.
+- Opening the real Preview 8 ROM displayed ORIGINAL ROM and enabled export.
+- Its unchanged download equaled the input byte for byte, SHA-256
+  `a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b`.
+- Changed team 32 player 15 to LIVE32 and its batting rating to 4. The downloaded
+  ROM equaled an independent expected image. Exactly seven bytes differed,
+  `0xFD0C` and `0x22D80..0x22D85`. Its SHA-256 is
+  `87664f05ff0a62266a5ec82ab511a3fb78fd8666d0bf0c2727bcab34d306812e`.
+- Reopening that download asked before replacing the dirty session. Replace
+  produced EDITED ROM with all 32 teams, LIVE32 and rating 4 intact.
+- At 390 CSS pixels the document remained 390 pixels wide; unused-player rows
+  contained no editable controls.
+
+Downloads are retained only under ignored `build/web32-acceptance/`. The later
+acceptance-record commit changes documentation only; the tested web assets are
+unchanged.
