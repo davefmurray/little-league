@@ -4,12 +4,13 @@
 //   node --test tools/test_web_colors.mjs
 //   ROSTER_ROM32=build/homerunart32.nes \
 //   ROSTER_ROM16='Little League Baseball - Championship Series (USA).nes' \
-//   ROSTER_BATTER_JSON=/tmp/ll-webcolors-opus/proto-ui/batter.json node --test tools/test_web_colors.mjs
+//   ROSTER_BATTER_JSON=/tmp/roster-lab-comps/batter.json node --test tools/test_web_colors.mjs
 //
 // The real-ROM case is skipped, and reported as skipped, without the ROMs. It
 // renders the batter's palette roles from each ROM and compares their SHA-256
-// with the role map measured during design review (kept outside the repo; set
-// ROSTER_BATTER_JSON to compare against that file too). No pixels are stored here.
+// with the role map of the approved workspace design. That design's decode is
+// kept outside the repo; set ROSTER_BATTER_JSON to compare every pixel and the
+// palette record against it too. No pixels are stored here.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -21,8 +22,8 @@ import {
 
 const sha256 = (data) => createHash('sha256').update(data).digest('hex');
 const ROLES = { 1: 'k', 2: 'J', 3: 'C', 9: 'k', 10: 's', 11: 'H', 13: 'k', 14: 'w', 15: 'g' };
-/** SHA-256 of the reviewed batter role map's rows, each followed by a newline. */
-const BATTER_ROLE_MAP_SHA256 = '5d901be89b3575ffaddda28d91770e3ccc2e663162ff7da7f135f179b7a94ad7';
+/** SHA-256 of the approved batter role map's rows, each followed by a newline. */
+const BATTER_ROLE_MAP_SHA256 = 'd37bcdaa806348e5f01823271d5e9009e34d60034bbc6dbba746e90153517af9';
 const REAL = [
   ['ROSTER_ROM32', 'a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b'],
   ['ROSTER_ROM16', '58e038f10748b5531779a0b1fab07d1f5e3b8d7b0ca8b5f2a05cee42dfb8481e'],
@@ -103,9 +104,9 @@ test('the batter decodes sprites with flips and priority, and colors only its th
 
 const missing = REAL.map(([env]) => (!process.env[env] ? `set ${env}` : !existsSync(process.env[env]) ? `${env} does not exist` : null)).find(Boolean);
 
-test('real ROMs: the batter drawn from each ROM is the reviewed role map', { skip: missing }, () => {
-  const reviewed = process.env.ROSTER_BATTER_JSON && JSON.parse(readFileSync(process.env.ROSTER_BATTER_JSON, 'utf8')).rows;
-  if (reviewed) assert.equal(sha256(`${reviewed.join('\n')}\n`), BATTER_ROLE_MAP_SHA256, 'the reviewed file');
+test('real ROMs: the batter drawn from each ROM is the approved role map, without the field markers', { skip: missing }, () => {
+  const approved = process.env.ROSTER_BATTER_JSON && JSON.parse(readFileSync(process.env.ROSTER_BATTER_JSON, 'utf8'));
+  assert.ok(BATTER.sprites.every(([, , tile]) => tile !== 0xfd && tile !== 0xff), 'overlay tiles $FD and $FF are not batter sprites');
   for (const [env, sha] of REAL) {
     const rom = new Uint8Array(readFileSync(process.env[env]));
     assert.equal(sha256(rom), sha, `${env} is not the accepted ROM`);
@@ -113,7 +114,11 @@ test('real ROMs: the batter drawn from each ROM is the reviewed role map', { ski
     const rows = Array.from({ length: picture.height }, (_, y) =>
       Array.from(picture.pixels.subarray(y * picture.width, (y + 1) * picture.width), (e) => (e ? ROLES[e] ?? '?' : '.')).join(''));
     assert.equal(sha256(`${rows.join('\n')}\n`), BATTER_ROLE_MAP_SHA256, env);
-    if (reviewed) assert.deepEqual(rows, reviewed, env);
+    if (approved) {
+      assert.deepEqual([picture.width, picture.height], [approved.width, approved.height], env);
+      assert.deepEqual([...picture.pixels], approved.pixels, `${env} pixels match the approved decode`);
+      assert.deepEqual(picture.palette, approved.palette, `${env} palette record matches the approved decode`);
+    }
     assert.deepEqual([1, 9, 10, 13, 14, 15].map((e) => picture.palette[e]), [0x0f, 0x0f, 0x36, 0x0f, 0x30, 0x10],
       'outline, skin, bat white and gray from the field sprite palette');
   }

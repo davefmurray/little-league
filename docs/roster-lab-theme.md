@@ -1,3 +1,5 @@
+> Historical design. The current page follows [the team workspace](roster-workspace.md).
+
 # Roster Lab ballpark theme
 
 The browser editor uses the look of the Preview 8 mode menu: a sunny

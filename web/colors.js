@@ -57,11 +57,14 @@ export function parseColorCode(text) {
 }
 
 /**
- * Where the game draws the batter at the plate in the batting view: 26 8x8
+ * Where the game draws the batter at the plate in the batting view: 24 8x8
  * sprites from CHR 4K bank 8, as [x, y, tile, attributes] inside a 49x58 box,
  * in OAM order (earlier sprites draw on top). Numeric pose data only; every
  * pixel comes from the opened ROM. Measured on the repo's CPU/PPU model in an
- * Exhibition game, the same frame as the reviewed role map.
+ * Exhibition game. That frame also has tiles $FD at (12, 15) and $FF at
+ * (12, 41) in the next two OAM slots. They are field overlay markers that
+ * drew a black cross under the bat, not the character, so the pose leaves
+ * them out.
  */
 export const BATTER = Object.freeze({
   width: 49,
@@ -76,7 +79,6 @@ export const BATTER = Object.freeze({
     [41, 27, 0xa5, 0x43], [33, 27, 0xa6, 0x43], [41, 35, 0xa7, 0x43], [33, 35, 0xa8, 0x43],
     [36, 43, 0xa9, 0x43], [16, 16, 0xb3, 0x43], [8, 15, 0xb4, 0x43], [0, 15, 0xb5, 0x43],
     [37, 8, 0xaa, 0x42], [29, 8, 0xb6, 0x42], [21, 8, 0xb7, 0x42], [23, 16, 0xb8, 0x42],
-    [12, 15, 0xfd, 0x03], [12, 41, 0xff, 0x03],
   ].map((sprite) => Object.freeze(sprite))),
 });
 
