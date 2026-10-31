@@ -69,16 +69,14 @@ Matches our trailer model:
 - Byte 0 bit 7 = left hand; low nibble delivery; byte 1 stamina; byte 2
   quality/movement; byte 3 tune; byte 6 displayed pitch skill; byte 7 mult.
 
-## Team colours: llbcs.py's 3-byte model is WRONG
-
-DataCrystal and the ROM show **two 16-byte tables** at `0x1FAD0` and `0x1FAE0`
-(primary and secondary per team). The 3-byte grouping below mixes one team's
-secondary into the next team's primary; it is retained only as a record of the
-external tool's assumption.
+## Team colours: llbcs.py's 3-byte model is right
 
 At file **`0x1FAD0`** (CPU `$FAC0`), 16 entries × **3 bytes** = 48 bytes through
-`$FAEF`. The old docs treated `$FAC0` and `$FAD0` as separate 16-byte tables;
-`$FAD0` is simply the middle of the same table (team 5 onward).
+`$FAEF`. The game's palette routine at `$C6FE` points at `$FAC0 + 3 × team`.
+DataCrystal and this repo's older docs read the same bytes as two 16-byte tables
+at `0x1FAD0` and `0x1FAE0`; `$FAD0` is simply the middle of the one table (team
+5's jersey onward). The bytes are cap and trim, jersey and hair; see
+[roster-format.md](roster-format.md#team-colors).
 
 ```
 05 20 0F   Japan
@@ -100,4 +98,4 @@ File `0x116DA` (CPU `$96CA`), 9 bytes per team, contiguous. Matches our docs.
       `build_16x20.py`, and any editor offsets.
 - [ ] Resolve Puerto Rico's true base (`0x10F50` vs `0x10F70`).
 - [ ] Test byte 9/10 semantics in-game before changing the field map.
-- [ ] Fix the colour model to 16 × 3 bytes at `$FAC0`.
+- [x] Fix the colour model to 16 × 3 bytes at `$FAC0` (`roster.py` `uniform`).

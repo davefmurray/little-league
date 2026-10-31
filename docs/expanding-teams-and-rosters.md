@@ -44,7 +44,7 @@ Team block size for *N* players is `N * 16 + 48`:
 | Team short names | pointers `$9280`, `$9290` | two 8-entry tables | one 32-entry table, or four 8-entry tables |
 | Team ratings | `$B224` (bank 3) | 16 × 4 bytes | 128 B; the power-analysis routine at `$AFD4` indexes `team*4+3` |
 | Team flags | `$975A` (bank 4) | 16 tile IDs | 32 IDs + 16 new flag tiles |
-| Team colours | `$FAC0`, `$FAD0` (bank 7) | 16 + 16 palette bytes | 32 + 32 |
+| Team colours | `$FAC0` (fixed bank) | 16 three-byte records (cap and trim, jersey, hair), read through `$C6FE` | 32 × 3 = 96 B and a routine that indexes 32 teams; see [Roster Lab team colors](editor32.md#team-colors) |
 | Lineups | `$96CA` (bank 4) | 16 × 9 bytes | 32 × 9 = 288 B; `$AD44` computes `team*9` |
 | Team select grid | `$CB52` (bank 7) | 4 rows × 4 teams, flags drawn from `$975A,X` | 8×4 paged grid or a scrollable list; new cursor/selection code |
 | Team list bound | `$96CD` (bank 1) | `LDA #$0F; STA $CE` — max index 15 | set to `teams-1`; also check `$9BB3` (`LDA #$0F; STA $B1`) |

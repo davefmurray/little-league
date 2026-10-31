@@ -1,0 +1,8 @@
+L5: llbcs_map has one COLORS table; the docs drop the two-table color claims
+L1/L2 synthetic: extract writes uniform from 0x1FAD0 + 3t; apply writes only those bytes; an unchanged old two-color extract is a no-op and edited ones are refused, naming the teams
+L4 synthetic: CLI extract -> Roster Lab import/export -> CLI extract keeps every color; the CLI writes the same bytes
+L3 synthetic: a 32-team image extracts no colors, refuses uniform writes, never writes bank 7, and show32 prints --
+outputs: extract, patch and apply refuse to write over their inputs
+L1/L2/L4 real 16-team ROM: as above; team 5's jersey edit is exactly byte 0x1FAE0
+L3 real Preview 8: no colors extracted, uniform writes refused, no bank-7 writes; show32 prints the live shared records as built and each team's own record after Roster Lab's upgrade
+source ROMs unchanged

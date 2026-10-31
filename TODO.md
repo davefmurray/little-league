@@ -54,8 +54,9 @@ M3 logic port to bank 11.
       explicit `BASES16` table (mirrors `tools/llbcs_map.py`) used by
       `rosterOffset()`; stock round-trip is byte-identical, 32-team
       round-trip is exact on a build with the bank-9/names tables.
-- [x] **Fix colour model.** Two 16-byte tables at `$FAC0`/`$FAD0`; extracted
-      and applied in `roster.py`.
+- [x] **Fix colour model.** Sixteen three-byte records at `$FAC0` hold cap
+      and trim, jersey and hair. `roster.py` reads and writes `uniform` on
+      the 16-team ROM; Roster Lab supports independent colors on Preview 8.
 - [x] **Fix flag extraction.** Bank-4 offset table `$975A` + records `$976A`,
       CHR bank `$1B`; all 16 flags regenerate (`docs/flags-extracted.png`).
 - [x] **Fix lineup parser.** 9 packed-nibble bytes per team at `$96CA`; decoded

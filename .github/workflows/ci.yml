@@ -83,7 +83,14 @@ jobs:
         run: |
           node --check web/app.js
           node --check web/rom.js
+          node --check web/colors.js
 
-      # CI has no ROM, so the real-ROM cases in test_web_rom.mjs report as skipped.
+      # CI has no ROM, so the real-ROM cases in the editor, CLI and CPU tests report as skipped.
       - name: Test the browser editor
-        run: node --test --test-timeout=60000 tools/test_web_rom.mjs tools/test_web_app.mjs
+        run: node --test --test-timeout=60000 tools/test_web_rom.mjs tools/test_web_app.mjs tools/test_web_colors.mjs
+
+      - name: Test the roster CLI's team colors
+        run: python3 tools/test_roster.py
+
+      - name: Run the exported palette routine on the CPU model
+        run: python3 tools/test_colors32.py

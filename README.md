@@ -48,7 +48,7 @@ is in **[docs/game-writeup.md](docs/game-writeup.md)**.
 
 | | |
 |---|---|
-| **Browser editor** | Edit the 32-team Preview 8 rosters or the original 16 teams: player names, skill, stats and team ratings; export an edited ROM or JSON. No build step, no dependencies. |
+| **Browser editor** | Edit the 32-team Preview 8 rosters or the original 16 teams: player names, skill, stats, team ratings and team colors; export an edited ROM or JSON. No build step, no dependencies. |
 | **CLI roster tool** | `tools/roster.py` — `show`, `extract`, `apply`, `patch`; extract → apply is byte-identical on an untouched ROM. |
 | **Data map** | Every roster, lineup, pitcher, name, flag and rating table, with CPU and file offsets. |
 | **ROM analysis** | `tools/rominfo.py` (banks, CRCs, vectors, strings) and `tools/trace.py` (6502 trace from RESET). |
@@ -101,7 +101,8 @@ on title32. SPEED soaks force CPU ownership; controller probes do not.
 See [HOME RUN evidence and limits](docs/homerunart32.md).
 
 Physical hardware and a second emulator implementation remain unvalidated.
-High-team uniforms reuse stock presets, gameplay flags are omitted, and the
+High-team uniforms reuse stock presets (Roster Lab can give every team its own
+colors in an exported copy), gameplay flags are omitted, and the
 small selector flags are simplified. The source pipeline still needs the
 existing `direct20-names.nes` bootstrap artifact.
 
@@ -138,6 +139,10 @@ roster you can import later, and the Data menu switches to the original
 - **Teams** — four 1–4 Power Analysis ratings. On the 16-team ROM the team and
   scoreboard names are editable within their stored widths. Preview 8 names,
   codes and regions are read-only because the menus and bracket art use them.
+- **Team colors** — each team's cap and trim, jersey and hair, as NES color
+  codes, with a batter preview drawn from your ROM. Preview 8 shares one color
+  record between teams 1–16 and 17–32, so the first color export adds a small
+  table that gives all 32 teams their own colors.
 - **Stored records** — Preview 8 teams 17–32 store 20 players, but the game
   loads 15, so players 16–20 are shown read-only.
 - **Pitchers** are marked with a red `P`; the three pitcher records per team are
@@ -223,7 +228,7 @@ use it for layout, menus and crashes, not palette verification.
 | Team ratings | `0xF234` | 16 × 4 bars, values 1–4 |
 | Team names | `0x5190` | 16 × (14 chars + `FF FF`) |
 | Scoreboard names | `0x5290`, `0x52A0` | two 8-entry pointer tables |
-| Team colours | `0x1FAD0`, `0x1FAE0` | 16 bytes each |
+| Team colours | `0x1FAD0` | 16 × 3 bytes: cap and trim, jersey, hair |
 
 A player record is `name[6]` + ten attribute bytes. SKILL is byte 11; byte 12
 selects one of the team's three pitcher records. The POWER ANALYSIS bars are
@@ -244,10 +249,11 @@ web/                  browser editor (no build step)
   index.html          layout
   styles.css          scoreboard/field styling, responsive
   rom.js              iNES parser + patcher (DOM-free, Node-testable)
+  colors.js           NES swatch palette, color names, batter preview decoder
   app.js              state, rendering, import/export
   roster.json         preview data
 tools/
-  roster.py           CLI extract/apply/patch
+  roster.py           CLI extract/apply/patch (16-team colors as "uniform")
   expand_rom.py       PRG expansion with fixed-bank relocation
   build_16x20.py      first roster-expansion build (16 teams x 20 players)
   build_32x20.py      32-team bank-8 data + PRG-RAM cache

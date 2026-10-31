@@ -1,0 +1,7 @@
+synthetic: the editor's export changed only the 3 routine constants and the 96-byte table; 1728 direct calls: 32 cycles, pointer $F380 + 3(t & 31), A=$F3 X kept Y=0, flags as built, writes only $04/$05
+C1 census: 12 JSR $C6FE byte matches on Preview 8 and its exports, 10 on the 16-team ROM; the only JSR into the routine body is bank-1 menu text
+C2 consumers: 14760 runs over 5 images; all 8 live callers reached on each; values match the review's destination table (batting side $04ED owns field slot 2); reads stay in the two teams' records; $CE5E uploads carry the buffer
+C3 direct: 5184 calls; upgraded 32 cycles, pointer $F380 + 3(t & 31) for every id 0-255, A=$F3 X kept Y=0, flags equal the original's, writes only $04/$05, bank unchanged; original $FAC0 + 3(t & 15); 16-team 34 cycles
+C4 parity: 1116 consumer exits; registers, flags and cycles identical to the original, RAM differs only at $04/$05, same uploads and banks
+C5 bounds: $F379-$F3FF is $FF as built and only $F380-$F3DF changes; RNG $C46F gives 0-7 for every state; readers end at $F2C8/$F308/$F348/$F378; ids $2E-$30 and $94-$96 alias $FAC0 and none reads $F379-$F3FF; none of the 19 distinct immediate ids or the bank-5 id tables aliases
+source ROMs unchanged; exports were written only to a temporary directory

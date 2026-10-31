@@ -2,9 +2,9 @@
 > Team bases are uniformly `$8420 + $120 × team` (file `0x10430 + 0x120 × team`),
 > as `tools/llbcs_map.py` `TEAM_BASES` lists; that map's Puerto Rico row
 > miscomputed the base as `0x10F50`, and `0x10F70` is the uniform base. Team
-> colours are **two 16-byte tables** at `$FAC0`/`$FAD0` — the llbcs.py 3-byte
-> model was wrong. Flags start at `$976A`; `$975A` is lineup tail, not a flag
-> table.
+> colours are **16 three-byte records** at `$FAC0` (cap and trim, jersey, hair),
+> as llbcs.py had them; an earlier version of this note called them two 16-byte
+> tables. Flags start at `$976A`; `$975A` is lineup tail, not a flag table.
 >
 > This page describes the original 16-team ROM. The 32-team Preview 8 layout
 > (15 players for teams 0–15, 20 stored and 15 loaded for teams 16–31, ratings
@@ -24,8 +24,7 @@ touches the roster, so these file offsets are stable for this revision.
 | Player records | `$8420` | 4 | `0x10430` | 16 × 15 × 16 |
 | Lineups | `$96CA` | 4 | `0x116DA` | 16 × 9 |
 | Team flags | `$975A` | 4 | `0x1176A` | 16 |
-| Team colors | `$FAC0` | 7 | `0x1FAD0` | 16 |
-| Team colors (second set) | `$FAD0` | 7 | `0x1FAE0` | 16 |
+| Team colors (cap, jersey, hair) | `$FAC0` | 7 | `0x1FAD0` | 16 × 3 |
 
 Team order everywhere: **JAPAN, ARIZONA, PENNSYLVANIA, CHINESE TAIPEI, KOREA,
 NEW YORK, CALIFORNIA, TEXAS, HAWAII, SPAIN, PUERTORICO, MEXICO, CANADA, ITALY,
@@ -169,16 +168,52 @@ Positions use scorekeeping numbering: 1 pitcher, 2 catcher, 3 first, 4 second,
 
 ## Team colors
 
-Two 16-byte tables at `$FAC0` and `$FAD0`, one byte per team each, described by
-the community as the two uniform colours used on the field and in the bat-throw
-cutscene:
+Sixteen records of 3 bytes at `$FAC0` (fixed bank 7, file `0x1FAD0`-`0x1FAFF`),
+one per team in team order. The palette routine at `$C6FE` leaves a pointer to
+`$FAC0 + 3 × team` in `$04/$05`. Each byte is an NES color code, `$00`-`$3F`.
+
+| Byte | Roster Lab label | What it paints |
+|---|---|---|
+| 0 | Cap & trim | cap, helmet, socks and belt trim |
+| 1 | Jersey | the jersey |
+| 2 | Hair | the batter's hair while this team bats, and hair in ending scenes; while this team bats, the other team's pitcher shows a little of it too |
 
 ```
-$FAC0: 05 20 0f 26 20 38 02 22 38 1b 2b 0f 12 20 0f 15
-$FAD0: 11 38 11 15 38 00 10 38 14 12 0f 15 15 0f 15 25
+$FAC0: 05 20 0F  26 20 38  02 22 38  1B 2B 0F  12 20 0F  15 11 38  11 15 38  00 10 38
+$FAD8: 14 12 0F  15 15 0F  15 25 0F  05 26 0F  18 28 38  11 31 0F  09 27 38  0A 2B 38
 ```
 
-Exact palette interpretation is unverified.
+These are the game's presets, not claims about national colors. The two
+playing teams sit at `$04EF` (side 0) and `$04F0` (side 1). `$04ED` is the
+batting side and `$04EE` the fielding side; the game swaps them each
+half-inning. Eight live calls read the records, stage the colors in the RAM
+palette buffer at `$0195`, and ask the NMI upload at `$CE5E` to copy it to PPU
+`$3F00-$3F1F`:
+
+| Call | Team | Byte 0 | Byte 1 | Byte 2 |
+|---|---|---|---|---|
+| Pre-game card, bank 1 `$AF16` / `$AF24` | side 0 / side 1 | `$3F01` / `$3F02` | `$3F05` / `$3F09` | unused |
+| Ending stage 0, bank 5 `$AD6B` | side 0 | unused | `$3F07` | `$3F0B` |
+| Ending stage 1, bank 5 `$AD8A` | side 1 | unused | `$3F0B` | `$3F0F` |
+| Ending stage 2, bank 5 `$ADA2` | side 0 | unused | `$3F02` and `$3F06` | `$3F0E` |
+| Ending stage 3, bank 5 `$ADBD` | side 0 | `$3F13` | `$3F12` | unused |
+| Field setup, fixed `$D06D` | batting side | `$3F13` | `$3F12` | `$3F1B` |
+| Field setup, fixed `$D084` | fielding side | `$3F17` | `$3F16` | unused |
+
+The fielding team's byte 2 is unused on the field. Menus, the team picker,
+bracket, scoreboard, Power Analysis and HOME RUN art use their own palettes.
+The palette-set loader `$C1A4` can also address these bytes with set ids
+`$2E-$30` and `$94-$96`, but no caller passes those ids.
+
+`tools/roster.py` reads and writes the records as each team's
+`"uniform": {"cap": n, "jersey": n, "hair": n}`. Older versions exported a
+two-color `"colors"` object from a two-table reading of the same bytes, so
+team 0's `secondary` was really team 5's jersey. `apply` ignores such an
+object while it still matches the ROM and refuses edited values.
+
+Preview 8 keeps the same 16 records, and its routine reads team `t & 15`, so
+teams 17-32 wear the colors of teams 1-16. Roster Lab can give each team its
+own record; see [the editor contract](editor32.md#team-colors).
 
 ## Editing constraints
 

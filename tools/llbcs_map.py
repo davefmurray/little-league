@@ -26,8 +26,8 @@ PLAYERS = 15         # roster rows before the FF trailer
 TRAILER = 0xF0       # base + 0xF0 = FF row
 PITCHERS_AT = 0x18   # base + 0xF0 + 0x18 = first pitcher record
 
-COLOR_PRIMARY = 0xFAC0    # 16 bytes, one per team
-COLOR_SECONDARY = 0xFAD0  # 16 bytes, one per team
+COLORS = 0xFAC0           # fixed bank: 16 x 3 bytes (cap and trim, jersey, hair),
+                          # read by the palette routine at $FAC0 + 3*team
 LINEUPS = 0x96CA          # 16 x 9 packed-nibble bytes
 FLAGS = 0x976A            # 16 team flag records
 POWER = 0xB224            # 16 x 4 power-analysis values

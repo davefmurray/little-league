@@ -8,6 +8,14 @@ Data locations (CPU addresses in the bank where the game maps them):
   team ratings       bank 3  $B224   16 teams x 4 bytes (1-4), power analysis bars
   player records     bank 4  $8420   16 teams x 15 players x 16 bytes
                                      [0:6] name ASCII, [6:16] attributes
+  team colors        bank 7  $FAC0   16 teams x 3 bytes: cap and trim, jersey, hair
+                                     (NES color codes 0-63; JSON "uniform")
+
+Team colors are read and written only on the 16-team ROM. 32-team builds read
+their colors from other tables, so extract omits them, apply refuses them and
+show prints the colors the build's palette routine reads. Older versions of
+this tool exported a two-color "colors" object from a misread of the table;
+apply ignores it when it still matches the ROM and refuses edited values.
 
 Usage:
   python3 tools/roster.py show    ROM
@@ -18,10 +26,10 @@ Requires no third-party modules.
 """
 import argparse
 import json
+import os
 import sys
 
-from llbcs_map import (TEAM_BASES, COLOR_PRIMARY, COLOR_SECONDARY,
-                       LINEUPS, TRAILER, PITCHERS_AT)
+from llbcs_map import TEAM_BASES, COLORS, LINEUPS, TRAILER, PITCHERS_AT
 
 HEADER = 16
 BANK = 16384
@@ -45,6 +53,10 @@ ADDR = {
 }
 
 RATING_LABELS = ["BATTING", "RUNNING", "PITCHING", "DEFENSE"]
+
+UNIFORM_SLOTS = ("cap", "jersey", "hair")
+PALETTE = "nes-2c02-6bit-v1"
+OLD_SECONDARY = 0xFAD0
 
 
 def off(bank, cpu):
@@ -139,15 +151,27 @@ class Rom:
         self.put(3, 0xB224 + t * 4, bytes(values))
 
     # --- colours / lineup -----------------------------------------------
-    def colors(self, t):
-        return {
-            "primary": self.get(7, COLOR_PRIMARY + t, 1)[0],
-            "secondary": self.get(7, COLOR_SECONDARY + t, 1)[0],
-        }
+    def has_stock_colors(self):
+        """Bank 7 is the fixed bank, holding the live color records, only on the 8-bank 16-team ROM."""
+        return self.data[4] == 8
 
-    def set_colors(self, t, primary, secondary):
-        self.put(7, COLOR_PRIMARY + t, bytes([primary]))
-        self.put(7, COLOR_SECONDARY + t, bytes([secondary]))
+    def uniform(self, t):
+        if not self.has_stock_colors():
+            raise SystemExit(f"{self.path}: team colors are read only from the 16-team ROM")
+        return dict(zip(UNIFORM_SLOTS, self.get(7, COLORS + 3 * t, 3)))
+
+    def set_uniform(self, t, uniform, label):
+        if not self.has_stock_colors():
+            raise SystemExit(
+                f"{label}: this ROM has {self.data[4]} PRG banks, so its live team colors aren't the "
+                "16-team records this tool edits. Edit 32-team colors in Roster Lab; nothing was written.")
+        check_uniform(uniform, label)
+        self.put(7, COLORS + 3 * t, bytes(uniform[slot] for slot in UNIFORM_SLOTS))
+
+    def old_colors(self, t):
+        """The two bytes older versions exported as "colors": $FAC0 + t and $FAD0 + t of bank 7."""
+        return {"primary": self.get(7, COLORS + t, 1)[0],
+                "secondary": self.get(7, OLD_SECONDARY + t, 1)[0]}
 
     def lineup(self, t):
         raw = self.get(4, LINEUPS + t * 9, 9)
@@ -201,32 +225,67 @@ class Rom:
         self.put(4, base, name.ljust(NAME_LEN).encode("ascii") + bytes(attrs))
 
 
+def check_uniform(uniform, label):
+    """Exactly {cap, jersey, hair}, each a whole NES color code 0-63. Nothing is clamped."""
+    if not isinstance(uniform, dict) or set(uniform) != set(UNIFORM_SLOTS):
+        raise SystemExit(f"{label}: uniform must be an object with exactly cap, jersey and hair")
+    for slot in UNIFORM_SLOTS:
+        value = uniform[slot]
+        if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 63:
+            raise SystemExit(f"{label}: uniform {slot} must be a whole NES color code from 0 to 63, not {value!r}")
+
+
+def team_label(t, team):
+    name = team.get("name") if isinstance(team, dict) else None
+    return f"team {t} ({name})" if name else f"team {t}"
+
+
+def check_old_colors(rom, teams):
+    """Ignore an old extract's "colors" while they match the ROM; refuse edits, which aimed at the wrong bytes."""
+    edited = [t for t, team in enumerate(teams)
+              if team.get("colors") is not None and team["colors"] != rom.old_colors(t)]
+    if edited:
+        which = ", ".join(team_label(t, teams[t]) for t in edited)
+        if not rom.has_stock_colors():
+            raise SystemExit(
+                f"{which}: the old colors fields differ from this ROM. Delete them or restore their "
+                "extracted values, and edit 32-team colors in Roster Lab. Nothing was written.")
+        raise SystemExit(
+            f"{which}: the old \"colors\" fields differ from this ROM. Older roster.py versions read them "
+            "from the wrong bytes (team 0's \"secondary\" was team 5's jersey), so they can't be applied. Put "
+            "the colors you want in \"uniform\" as {\"cap\": n, \"jersey\": n, \"hair\": n} with codes 0-63, "
+            "and delete \"colors\" or restore its extracted values. Nothing was written.")
+
+
 def extract(rom):
     shorts = rom.short_names()
-    return {
-        "rom": rom.path,
-        "teams": [
-            {
-                "id": t,
-                "name": rom.team_names()[t],
-                "short_name": shorts[t]["name"].rstrip(),
-                "short_width": shorts[t]["width"],
-                "short_attr": shorts[t]["attr"],
-                "ratings": rom.ratings()[t],
-                "colors": rom.colors(t),
-                "lineup": rom.lineup(t),
-                "pitchers": rom.pitchers(t),
-                "players": rom.players(t),
-            }
-            for t in range(TEAMS)
-        ],
-    }
+    stock = rom.has_stock_colors()
+    doc = {"rom": rom.path, **({"palette": PALETTE} if stock else {})}
+    doc["teams"] = [
+        {
+            "id": t,
+            "name": rom.team_names()[t],
+            "short_name": shorts[t]["name"].rstrip(),
+            "short_width": shorts[t]["width"],
+            "short_attr": shorts[t]["attr"],
+            "ratings": rom.ratings()[t],
+            **({"uniform": rom.uniform(t)} if stock else {}),
+            "lineup": rom.lineup(t),
+            "pitchers": rom.pitchers(t),
+            "players": rom.players(t),
+        }
+        for t in range(TEAMS)
+    ]
+    return doc
 
 
 def apply(rom, doc):
     teams = doc["teams"]
     if len(teams) != TEAMS:
         raise SystemExit(f"expected {TEAMS} teams, found {len(teams)}")
+    if doc.get("palette", PALETTE) != PALETTE:
+        raise SystemExit(f"unknown team color palette {doc['palette']!r}; roster.py reads {PALETTE!r}")
+    check_old_colors(rom, teams)
     for t, team in enumerate(teams):
         if team.get("name") is not None:
             rom.set_team_name(t, team["name"])
@@ -234,8 +293,8 @@ def apply(rom, doc):
             rom.set_short_name(t, team["short_name"])
         if team.get("ratings") is not None:
             rom.set_ratings(t, team["ratings"])
-        if team.get("colors"):
-            rom.set_colors(t, team["colors"]["primary"], team["colors"]["secondary"])
+        if team.get("uniform") is not None:
+            rom.set_uniform(t, team["uniform"], team_label(t, team))
         if team.get("lineup"):
             rom.set_lineup(t, team["lineup"])
         if team.get("pitchers"):
@@ -253,6 +312,14 @@ FIXED_LINEUPS = HEADER + 15 * BANK + (0xFD80 - 0xC000)
 RATINGS32 = 0xBC80
 NAMES32 = 0xBCC0
 
+# Preview 8's palette routine at fixed $C6FE, as built (team t & 15 from $FAC0)
+# and after Roster Lab's own-colors upgrade (team t & 31 from $F380).
+FIXED32 = HEADER + 15 * BANK - 0xC000
+ROUTINE32 = FIXED32 + 0xC6FE
+ROUTINE32_SHARED = bytes.fromhex("b9ef04290f85050a650569c08504a000a9fa850560")
+ROUTINE32_OWN = bytes.fromhex("b9ef04291f85050a650569808504a000a9f3850560")
+OWN_COLORS32 = 0xF380
+
 
 def _printable(raw):
     return all(0x20 <= b < 0x7F for b in raw)
@@ -264,6 +331,24 @@ def is_32team(rom):
     if len(rom.data) < o + 6 or rom.data[4] < 16:
         return False
     return _printable(rom.data[o:o + 6])
+
+
+def live_colors32(rom, t):
+    """Team t's colors as a 32-team ROM's palette routine reads them, or None for a routine this tool doesn't know."""
+    if rom.data[4] != 16:
+        return None
+    routine = bytes(rom.data[ROUTINE32:ROUTINE32 + len(ROUTINE32_SHARED)])
+    if routine == ROUTINE32_SHARED:
+        at = FIXED32 + COLORS + 3 * (t & 15)
+    elif routine == ROUTINE32_OWN:
+        at = FIXED32 + OWN_COLORS32 + 3 * t
+    else:
+        return None
+    return bytes(rom.data[at:at + 3])
+
+
+def color_text(values):
+    return "c " + ("/".join(f"{v:02X}" for v in values) if values is not None else "--/--/--")
 
 
 def show32(rom):
@@ -289,12 +374,10 @@ def show32(rom):
                   .decode("ascii", "replace").rstrip() for p in range(20)]
         line = " ".join(f"{n:<6}" for n in ps)
 
+        cs = color_text(live_colors32(rom, t))
         if t < 16:
-            c = rom.colors(t)
             lu = "".join(f"{e['order']}{e['position']}" for e in rom.lineup(t))
-            cs = f"c {c['primary']:02X}/{c['secondary']:02X}"
         else:
-            cs = "c --/--"
             o = FIXED_LINEUPS + t * 9
             lu_raw = rom.data[o:o + 9]
             if all(1 <= (b & 0x0F) <= 9 and (b >> 4) <= 8 for b in lu_raw):
@@ -315,10 +398,10 @@ def show(rom):
         ps = rom.players(t)
         line = " ".join(f"{p['name']:<6}" for p in ps)
         r = ratings[t]
-        c = rom.colors(t)
+        cs = color_text(rom.uniform(t).values() if rom.has_stock_colors() else None)
         lu = "".join(f"{e['order']}{e['position']}" for e in rom.lineup(t))
         print(f"{t:2d} {names[t]:<16} {r[0]:3d} {r[1]:3d} {r[2]:3d} {r[3]:3d} "
-              f"c {c['primary']:02X}/{c['secondary']:02X}  lu {lu}  {line}")
+              f"{cs}  lu {lu}  {line}")
 
 
 def patch(rom, team, slot, name, skill, attrs):
@@ -340,6 +423,13 @@ def patch(rom, team, slot, name, skill, attrs):
     rom.set_player(team, slot, new_name, new_attrs)
     print(f"team {team} slot {slot}: {cur['name']!r} -> {new_name!r}, "
           f"skill {new_attrs[5] + 1}")
+
+
+def same_file(a, b):
+    try:
+        return os.path.samefile(a, b)
+    except OSError:
+        return False
 
 
 def main():
@@ -370,6 +460,10 @@ def main():
 
     args = ap.parse_args()
     rom = Rom(args.rom)
+    if args.cmd != "show":
+        guarded = [args.rom] + ([args.json] if args.cmd == "apply" else [])
+        if any(same_file(args.out, path) for path in guarded):
+            raise SystemExit(f"{args.out} is one of this command's inputs; write the output to a new file")
 
     if args.cmd == "show":
         show(rom)

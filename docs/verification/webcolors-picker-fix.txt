@@ -1,0 +1,41 @@
+✔ boots into the Preview 8 roster with honest counts and no ROM claims (25.698917ms)
+✔ an original ROM opens, exports unchanged, and edits touch only their bytes (97.800541ms)
+✔ an edited copy opens with an honest label (22.215833ms)
+✔ the stored skill of 7 survives until someone picks a skill on purpose (91.286916ms)
+✔ a slow boot preview never replaces a ROM opened first, and its failure stays quiet (19.874042ms)
+✔ a failed startup leaves an empty state that can open a ROM (17.016ms)
+✔ switching sessions asks even when the new roster equals the dirty draft (76.110333ms)
+✔ the newest file wins when reads finish backwards (16.371625ms)
+✔ the newest file wins when hashing finishes backwards (23.683583ms)
+✔ a stale load cannot take over the newer load's replace prompt (24.526ms)
+✔ a failed newest load keeps the session, and an older load cannot land after it (29.057916ms)
+✔ edits made while a file loads are protected by an explicit choice (34.444666ms)
+✔ a replace answer only applies to its own load and current edits (28.058292ms)
+✔ JSON without a ROM stays a draft; opening a ROM needs an explicit re-import (57.415792ms)
+✔ a 16-team file switches the preview, but cannot land on an open Preview 8 ROM (28.965125ms)
+✔ imports keep the ROM as the baseline for Reset team and Revert (78.001208ms)
+✔ re-importing your own JSON keeps dirty state and export bytes (107.793375ms)
+✔ imports that change read-only data are refused without touching the session (30.50425ms)
+✔ an old 32-team export loses only its blank padding, with a notice (18.252792ms)
+✔ 16-team names edit within their stored widths (30.298792ms)
+✔ switching rosters with unsaved edits asks first (9.004333ms)
+✔ the team colors card shows cap and trim, jersey and hair for both layouts (18.168542ms)
+✔ the basic picker is a 53-swatch radio group with arrows, Home, End, Enter and Escape (49.787083ms)
+✔ kept color edits announce once across Advanced, picker changes and team navigation (25.714209ms)
+✔ a stored code outside the basic grid stays the current choice and exports unchanged (111.901084ms)
+✔ advanced code entry takes exact decimal or $HH codes and notes below-black inline (65.654083ms)
+✔ the preview draws the batter from the open ROM, or a labeled illustration without one (39.614375ms)
+✔ the export note appears only while an export will give teams their own colors (174.4855ms)
+✔ the colors card adds its own styles and leaves the rating overflow repair alone (0.635542ms)
+✔ a roster file without colors keeps your color edits and says so (75.40175ms)
+✔ row Reset, Reset team and Revert return colors to the baseline across imports and exports (141.045917ms)
+✔ color edits made while a file loads keep the replace prompt honest (36.426416ms)
+✔ the page links the pinned release and ships no ROM (0.94175ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1690.842125

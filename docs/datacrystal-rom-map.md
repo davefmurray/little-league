@@ -79,18 +79,20 @@ Eight bytes:
 | 6 | printed pitcher Skill |
 | 7 | `00`/`02` multiplier suspected |
 
-## Team colours — two 16-byte tables
+## Team colours — 16 three-byte records
 
-DataCrystal: two colours per team at `0x1FAD0` and `0x1FAE0`.
+DataCrystal lists two colours per team at `0x1FAD0` and `0x1FAE0`. The ROM has
+one table instead: 16 records of 3 bytes at `0x1FAD0`-`0x1FAFF` (fixed bank,
+CPU `$FAC0`). The palette routine at `$C6FE` points at `$FAC0 + 3 × team`, so
+`0x1FAE0` is only team 5's jersey byte. The llbcs.py 3-byte grouping is right.
 
 ```
-0x1FAD0: 05 20 0F 26 20 38 02 22 38 1B 2B 0F 12 20 0F 15
-0x1FAE0: 11 38 11 15 38 00 10 38 14 12 0F 15 15 0F 15 25
+0x1FAD0: 05 20 0F  26 20 38  02 22 38  1B 2B 0F  12 20 0F  15 11 38 ...
+         Japan     Arizona   Penn.     C.Taipei  Korea     New York
 ```
 
-This is **two tables of 16**, not 16 × 3-byte entries. The llbcs.py 3-byte
-grouping is wrong: it mixes the secondary colour of one team with the primary of
-the next.
+Each record is cap and trim, jersey, hair. [roster-format.md](roster-format.md#team-colors)
+lists the eight readers and what each byte paints.
 
 ## Lineups
 
@@ -123,7 +125,7 @@ CPU `$B224` — matching our existing ratings table at `$B224`.
 ## What to fix in the repo
 
 - [x] `roster.py` / `build_16x20.py`: use `tools/llbcs_map.py` verified bases.
-- [x] Colour model: two 16-byte tables at `$FAC0`/`$FAD0`.
+- [x] Colour model: 16 three-byte records at `$FAC0` (cap and trim, jersey, hair); `roster.py` reads and writes them as `uniform`.
 - [ ] Player field map: power/speed/skill per above; re-test in-game.
 - [x] Flag pipeline: bank-4 `$975A`/`$976A`, CHR bank `$1B`; all 16 extract.
 - [x] Lineup parser: unpack nibbles (order/position); round-trip identical.
@@ -134,14 +136,14 @@ Two independent checks:
 
 1. **Round-trip:** `extract` → `apply` → `cmp` is byte-identical over the whole
    ROM for names, ratings, colours, lineups, and player rows.
-2. **Mutation:** change Japan player 0 to `TESTER`, primary colour `05`→`0F`,
+2. **Mutation:** change Japan player 0 to `TESTER`, cap colour `05`→`0F`,
    lineup byte `08`→`81`, batting rating `1`→`4`. The diff touches exactly:
 
 ```
 0x0F234  01 -> 04     ratings
 0x10430  55 4D 45 44 41 20 -> 54 45 53 54 45 52   UMEDA -> TESTER
 0x116DA  08 -> 81     lineup order/position
-0x1FAD0  05 -> 0F     primary colour
+0x1FAD0  05 -> 0F     Japan's cap colour
 ```
 
 Re-extracting the mutated ROM returns the new values.

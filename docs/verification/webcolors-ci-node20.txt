@@ -1,0 +1,685 @@
+TAP version 13
+# Subtest: boots into the Preview 8 roster with honest counts and no ROM claims
+ok 1 - boots into the Preview 8 roster with honest counts and no ROM claims
+  ---
+  duration_ms: 35.532167
+  ...
+# Subtest: an original ROM opens, exports unchanged, and edits touch only their bytes
+ok 2 - an original ROM opens, exports unchanged, and edits touch only their bytes
+  ---
+  duration_ms: 95.68975
+  ...
+# Subtest: an edited copy opens with an honest label
+ok 3 - an edited copy opens with an honest label
+  ---
+  duration_ms: 24.7105
+  ...
+# Subtest: the stored skill of 7 survives until someone picks a skill on purpose
+ok 4 - the stored skill of 7 survives until someone picks a skill on purpose
+  ---
+  duration_ms: 92.724834
+  ...
+# Subtest: a slow boot preview never replaces a ROM opened first, and its failure stays quiet
+ok 5 - a slow boot preview never replaces a ROM opened first, and its failure stays quiet
+  ---
+  duration_ms: 20.085417
+  ...
+# Subtest: a failed startup leaves an empty state that can open a ROM
+ok 6 - a failed startup leaves an empty state that can open a ROM
+  ---
+  duration_ms: 15.509083
+  ...
+# Subtest: switching sessions asks even when the new roster equals the dirty draft
+ok 7 - switching sessions asks even when the new roster equals the dirty draft
+  ---
+  duration_ms: 77.703375
+  ...
+# Subtest: the newest file wins when reads finish backwards
+ok 8 - the newest file wins when reads finish backwards
+  ---
+  duration_ms: 17.289875
+  ...
+# Subtest: the newest file wins when hashing finishes backwards
+ok 9 - the newest file wins when hashing finishes backwards
+  ---
+  duration_ms: 22.209208
+  ...
+# Subtest: a stale load cannot take over the newer load's replace prompt
+ok 10 - a stale load cannot take over the newer load's replace prompt
+  ---
+  duration_ms: 25.429292
+  ...
+# Subtest: a failed newest load keeps the session, and an older load cannot land after it
+ok 11 - a failed newest load keeps the session, and an older load cannot land after it
+  ---
+  duration_ms: 28.438583
+  ...
+# Subtest: edits made while a file loads are protected by an explicit choice
+ok 12 - edits made while a file loads are protected by an explicit choice
+  ---
+  duration_ms: 47.616541
+  ...
+# Subtest: a replace answer only applies to its own load and current edits
+ok 13 - a replace answer only applies to its own load and current edits
+  ---
+  duration_ms: 29.027708
+  ...
+# Subtest: JSON without a ROM stays a draft; opening a ROM needs an explicit re-import
+ok 14 - JSON without a ROM stays a draft; opening a ROM needs an explicit re-import
+  ---
+  duration_ms: 58.314083
+  ...
+# Subtest: a 16-team file switches the preview, but cannot land on an open Preview 8 ROM
+ok 15 - a 16-team file switches the preview, but cannot land on an open Preview 8 ROM
+  ---
+  duration_ms: 28.020542
+  ...
+# Subtest: imports keep the ROM as the baseline for Reset team and Revert
+ok 16 - imports keep the ROM as the baseline for Reset team and Revert
+  ---
+  duration_ms: 78.113416
+  ...
+# Subtest: re-importing your own JSON keeps dirty state and export bytes
+ok 17 - re-importing your own JSON keeps dirty state and export bytes
+  ---
+  duration_ms: 101.55575
+  ...
+# Subtest: imports that change read-only data are refused without touching the session
+ok 18 - imports that change read-only data are refused without touching the session
+  ---
+  duration_ms: 30.824708
+  ...
+# Subtest: an old 32-team export loses only its blank padding, with a notice
+ok 19 - an old 32-team export loses only its blank padding, with a notice
+  ---
+  duration_ms: 20.082584
+  ...
+# Subtest: 16-team names edit within their stored widths
+ok 20 - 16-team names edit within their stored widths
+  ---
+  duration_ms: 45.53825
+  ...
+# Subtest: switching rosters with unsaved edits asks first
+ok 21 - switching rosters with unsaved edits asks first
+  ---
+  duration_ms: 10.072792
+  ...
+# Subtest: the team colors card shows cap and trim, jersey and hair for both layouts
+ok 22 - the team colors card shows cap and trim, jersey and hair for both layouts
+  ---
+  duration_ms: 20.779625
+  ...
+# Subtest: the basic picker is a 53-swatch radio group with arrows, Home, End, Enter and Escape
+ok 23 - the basic picker is a 53-swatch radio group with arrows, Home, End, Enter and Escape
+  ---
+  duration_ms: 58.221209
+  ...
+# Subtest: kept color edits announce once across Advanced, picker changes and team navigation
+ok 24 - kept color edits announce once across Advanced, picker changes and team navigation
+  ---
+  duration_ms: 29.125708
+  ...
+# Subtest: a stored code outside the basic grid stays the current choice and exports unchanged
+ok 25 - a stored code outside the basic grid stays the current choice and exports unchanged
+  ---
+  duration_ms: 113.550792
+  ...
+# Subtest: advanced code entry takes exact decimal or $HH codes and notes below-black inline
+ok 26 - advanced code entry takes exact decimal or $HH codes and notes below-black inline
+  ---
+  duration_ms: 61.975
+  ...
+# Subtest: the preview draws the batter from the open ROM, or a labeled illustration without one
+ok 27 - the preview draws the batter from the open ROM, or a labeled illustration without one
+  ---
+  duration_ms: 38.526166
+  ...
+# Subtest: the export note appears only while an export will give teams their own colors
+ok 28 - the export note appears only while an export will give teams their own colors
+  ---
+  duration_ms: 177.813542
+  ...
+# Subtest: the colors card adds its own styles and leaves the rating overflow repair alone
+ok 29 - the colors card adds its own styles and leaves the rating overflow repair alone
+  ---
+  duration_ms: 0.451334
+  ...
+# Subtest: a roster file without colors keeps your color edits and says so
+ok 30 - a roster file without colors keeps your color edits and says so
+  ---
+  duration_ms: 76.975
+  ...
+# Subtest: row Reset, Reset team and Revert return colors to the baseline across imports and exports
+ok 31 - row Reset, Reset team and Revert return colors to the baseline across imports and exports
+  ---
+  duration_ms: 142.006917
+  ...
+# Subtest: color edits made while a file loads keep the replace prompt honest
+ok 32 - color edits made while a file loads keep the replace prompt honest
+  ---
+  duration_ms: 37.464166
+  ...
+# Subtest: the page links the pinned release and ships no ROM
+ok 33 - the page links the pinned release and ships no ROM
+  ---
+  duration_ms: 1.286792
+  ...
+# Subtest: swatch colors are the repo's FCEUX table, expanded the same way
+ok 34 - swatch colors are the repo's FCEUX table, expanded the same way
+  ---
+  duration_ms: 1.434667
+  ...
+# Subtest: every code has a name, and aliases say what they alias
+ok 35 - every code has a name, and aliases say what they alias
+  ---
+  duration_ms: 0.259584
+  ...
+# Subtest: the basic grid is 52 hues plus black $0F, with no alias or below-black code
+ok 36 - the basic grid is 52 hues plus black $0F, with no alias or below-black code
+  ---
+  duration_ms: 0.133
+  ...
+# Subtest: exact codes parse strictly: decimal or $HH from 0 to 63, nothing else
+ok 37 - exact codes parse strictly: decimal or $HH from 0 to 63, nothing else
+  ---
+  duration_ms: 0.284583
+  ...
+# Subtest: the batter decodes sprites with flips and priority, and colors only its three team slots
+ok 38 - the batter decodes sprites with flips and priority, and colors only its three team slots
+  ---
+  duration_ms: 0.579583
+  ...
+# Subtest: real ROMs: the batter drawn from each ROM is the reviewed role map
+ok 39 - real ROMs: the batter drawn from each ROM is the reviewed role map # SKIP set ROSTER_ROM32
+  ---
+  duration_ms: 0.0465
+  ...
+# Subtest: synthetic Preview 8: admits the file and reads every stored record
+ok 40 - synthetic Preview 8: admits the file and reads every stored record
+  ---
+  duration_ms: 27.039625
+  ...
+# Subtest: synthetic Preview 8: an unchanged export and JSON round trip are byte-identical
+ok 41 - synthetic Preview 8: an unchanged export and JSON round trip are byte-identical
+  ---
+  duration_ms: 48.765042
+  ...
+# Subtest: synthetic Preview 8: each editable field writes only its own bits on every active player
+ok 42 - synthetic Preview 8: each editable field writes only its own bits on every active player
+  ---
+  duration_ms: 169.01825
+  ...
+# Subtest: synthetic Preview 8: single edits land on the right team block
+ok 43 - synthetic Preview 8: single edits land on the right team block
+  ---
+  duration_ms: 87.793417
+  ...
+# Subtest: synthetic Preview 8: an export that does not read back as the draft is refused
+ok 44 - synthetic Preview 8: an export that does not read back as the draft is refused
+  ---
+  duration_ms: 22.330333
+  ...
+# Subtest: synthetic Preview 8: read-only bits and records refuse to change
+ok 45 - synthetic Preview 8: read-only bits and records refuse to change
+  ---
+  duration_ms: 21.716584
+  ...
+# Subtest: synthetic Preview 8: field values outside the game's ranges are refused
+ok 46 - synthetic Preview 8: field values outside the game's ranges are refused
+  ---
+  duration_ms: 11.934834
+  ...
+# Subtest: synthetic Preview 8: the source skill exception survives and can be edited deliberately
+ok 47 - synthetic Preview 8: the source skill exception survives and can be edited deliberately
+  ---
+  duration_ms: 49.463291
+  ...
+# Subtest: synthetic Preview 8: files with changes outside the editable fields are refused
+ok 48 - synthetic Preview 8: files with changes outside the editable fields are refused
+  ---
+  duration_ms: 182.357708
+  ...
+# Subtest: synthetic Preview 8: roster files keep or refuse data without guessing
+ok 49 - synthetic Preview 8: roster files keep or refuse data without guessing
+  ---
+  duration_ms: 15.41375
+  ...
+# Subtest: synthetic Preview 8: legacy 32-team files drop only the old blank padding
+ok 50 - synthetic Preview 8: legacy 32-team files drop only the old blank padding
+  ---
+  duration_ms: 10.524875
+  ...
+# Subtest: synthetic 16-team: admits the file and reads every stored record
+ok 51 - synthetic 16-team: admits the file and reads every stored record
+  ---
+  duration_ms: 5.977583
+  ...
+# Subtest: synthetic 16-team: an unchanged export and JSON round trip are byte-identical
+ok 52 - synthetic 16-team: an unchanged export and JSON round trip are byte-identical
+  ---
+  duration_ms: 16.479166
+  ...
+# Subtest: synthetic 16-team: each editable field writes only its own bits on every active player
+ok 53 - synthetic 16-team: each editable field writes only its own bits on every active player
+  ---
+  duration_ms: 65.865167
+  ...
+# Subtest: synthetic 16-team: single edits land on the right team block
+ok 54 - synthetic 16-team: single edits land on the right team block
+  ---
+  duration_ms: 15.43625
+  ...
+# Subtest: synthetic 16-team: an export that does not read back as the draft is refused
+ok 55 - synthetic 16-team: an export that does not read back as the draft is refused
+  ---
+  duration_ms: 8.8165
+  ...
+# Subtest: synthetic 16-team: read-only bits and records refuse to change
+ok 56 - synthetic 16-team: read-only bits and records refuse to change
+  ---
+  duration_ms: 6.30325
+  ...
+# Subtest: synthetic 16-team: field values outside the game's ranges are refused
+ok 57 - synthetic 16-team: field values outside the game's ranges are refused
+  ---
+  duration_ms: 4.734125
+  ...
+# Subtest: synthetic 16-team: the source skill exception survives and can be edited deliberately
+ok 58 - synthetic 16-team: the source skill exception survives and can be edited deliberately
+  ---
+  duration_ms: 19.957291
+  ...
+# Subtest: synthetic 16-team: files with changes outside the editable fields are refused
+ok 59 - synthetic 16-team: files with changes outside the editable fields are refused
+  ---
+  duration_ms: 43.007375
+  ...
+# Subtest: synthetic 16-team: team and scoreboard names stay inside their stored widths
+ok 60 - synthetic 16-team: team and scoreboard names stay inside their stored widths
+  ---
+  duration_ms: 14.670083
+  ...
+# Subtest: synthetic 16-team: roster files keep or refuse data without guessing
+ok 61 - synthetic 16-team: roster files keep or refuse data without guessing
+  ---
+  duration_ms: 5.258542
+  ...
+# Subtest: real Preview 8: admits the file and reads every stored record
+ok 62 - real Preview 8: admits the file and reads every stored record # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.084958
+  ...
+# Subtest: real Preview 8: an unchanged export and JSON round trip are byte-identical
+ok 63 - real Preview 8: an unchanged export and JSON round trip are byte-identical # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.026416
+  ...
+# Subtest: real Preview 8: each editable field writes only its own bits on every active player
+ok 64 - real Preview 8: each editable field writes only its own bits on every active player # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.0235
+  ...
+# Subtest: real Preview 8: single edits land on the right team block
+ok 65 - real Preview 8: single edits land on the right team block # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.022417
+  ...
+# Subtest: real Preview 8: an export that does not read back as the draft is refused
+ok 66 - real Preview 8: an export that does not read back as the draft is refused # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.020125
+  ...
+# Subtest: real Preview 8: read-only bits and records refuse to change
+ok 67 - real Preview 8: read-only bits and records refuse to change # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.021458
+  ...
+# Subtest: real Preview 8: field values outside the game's ranges are refused
+ok 68 - real Preview 8: field values outside the game's ranges are refused # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.019125
+  ...
+# Subtest: real Preview 8: the source skill exception survives and can be edited deliberately
+ok 69 - real Preview 8: the source skill exception survives and can be edited deliberately # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.0185
+  ...
+# Subtest: real Preview 8: files with changes outside the editable fields are refused
+ok 70 - real Preview 8: files with changes outside the editable fields are refused # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.016458
+  ...
+# Subtest: real Preview 8: roster files keep or refuse data without guessing
+ok 71 - real Preview 8: roster files keep or refuse data without guessing # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.119958
+  ...
+# Subtest: real Preview 8: legacy 32-team files drop only the old blank padding
+ok 72 - real Preview 8: legacy 32-team files drop only the old blank padding # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.099875
+  ...
+# Subtest: real 16-team US: admits the file and reads every stored record
+ok 73 - real 16-team US: admits the file and reads every stored record # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.019791
+  ...
+# Subtest: real 16-team US: an unchanged export and JSON round trip are byte-identical
+ok 74 - real 16-team US: an unchanged export and JSON round trip are byte-identical # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.017917
+  ...
+# Subtest: real 16-team US: each editable field writes only its own bits on every active player
+ok 75 - real 16-team US: each editable field writes only its own bits on every active player # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.017875
+  ...
+# Subtest: real 16-team US: single edits land on the right team block
+ok 76 - real 16-team US: single edits land on the right team block # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.017375
+  ...
+# Subtest: real 16-team US: an export that does not read back as the draft is refused
+ok 77 - real 16-team US: an export that does not read back as the draft is refused # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.0305
+  ...
+# Subtest: real 16-team US: read-only bits and records refuse to change
+ok 78 - real 16-team US: read-only bits and records refuse to change # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.015958
+  ...
+# Subtest: real 16-team US: field values outside the game's ranges are refused
+ok 79 - real 16-team US: field values outside the game's ranges are refused # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.015459
+  ...
+# Subtest: real 16-team US: the source skill exception survives and can be edited deliberately
+ok 80 - real 16-team US: the source skill exception survives and can be edited deliberately # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.016833
+  ...
+# Subtest: real 16-team US: files with changes outside the editable fields are refused
+ok 81 - real 16-team US: files with changes outside the editable fields are refused # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.016791
+  ...
+# Subtest: real 16-team US: team and scoreboard names stay inside their stored widths
+ok 82 - real 16-team US: team and scoreboard names stay inside their stored widths # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.016375
+  ...
+# Subtest: real 16-team US: roster files keep or refuse data without guessing
+ok 83 - real 16-team US: roster files keep or refuse data without guessing # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.021
+  ...
+# Subtest: synthetic Preview 8: team colors read from the variant's own records, one object per team
+ok 84 - synthetic Preview 8: team colors read from the variant's own records, one object per team
+  ---
+  duration_ms: 10.090292
+  ...
+# Subtest: synthetic Preview 8: ROMs exported before team colors open unchanged with their native colors
+ok 85 - synthetic Preview 8: ROMs exported before team colors open unchanged with their native colors
+  ---
+  duration_ms: 50.069083
+  ...
+# Subtest: synthetic Preview 8: a color edit on as-built Preview 8 adds exactly the 99-byte upgrade
+ok 86 - synthetic Preview 8: a color edit on as-built Preview 8 adds exactly the 99-byte upgrade
+  ---
+  duration_ms: 76.642375
+  ...
+# Subtest: synthetic Preview 8: restoring colors or editing only the roster never upgrades
+ok 87 - synthetic Preview 8: restoring colors or editing only the roster never upgrades
+  ---
+  duration_ms: 49.635042
+  ...
+# Subtest: synthetic Preview 8: an upgraded copy exports byte for byte, one slot at a time, and never downgrades
+ok 88 - synthetic Preview 8: an upgraded copy exports byte for byte, one slot at a time, and never downgrades
+  ---
+  duration_ms: 1686.698417
+  ...
+# Subtest: synthetic Preview 8: each team's colors land in its own record and its old partner keeps theirs
+ok 89 - synthetic Preview 8: each team's colors land in its own record and its old partner keeps theirs
+  ---
+  duration_ms: 1650.829458
+  ...
+# Subtest: synthetic Preview 8: an upgrade keeps roster edits already in the source
+ok 90 - synthetic Preview 8: an upgrade keeps roster edits already in the source
+  ---
+  duration_ms: 66.292167
+  ...
+# Subtest: synthetic Preview 8: code, table and spare-space bytes refuse admission in either variant
+ok 91 - synthetic Preview 8: code, table and spare-space bytes refuse admission in either variant
+  ---
+  duration_ms: 3199.559625
+  ...
+# Subtest: synthetic Preview 8: every code 0-63, black aliases and below-black round-trip exactly
+ok 92 - synthetic Preview 8: every code 0-63, black aliases and below-black round-trip exactly
+  ---
+  duration_ms: 59.392458
+  ...
+# Subtest: synthetic Preview 8: colors that aren't whole numbers 0-63 are refused, never clamped
+ok 93 - synthetic Preview 8: colors that aren't whole numbers 0-63 are refused, never clamped
+  ---
+  duration_ms: 16.914542
+  ...
+# Subtest: synthetic Preview 8: roster files carry every team's colors in version 3
+ok 94 - synthetic Preview 8: roster files carry every team's colors in version 3
+  ---
+  duration_ms: 15.498
+  ...
+# Subtest: synthetic Preview 8: files without team colors keep the draft's colors
+ok 95 - synthetic Preview 8: files without team colors keep the draft's colors
+  ---
+  duration_ms: 15.097791
+  ...
+# Subtest: synthetic Preview 8: the old two-color fields are ignored with a notice, never read
+ok 96 - synthetic Preview 8: the old two-color fields are ignored with a notice, never read
+  ---
+  duration_ms: 9.024
+  ...
+# Subtest: synthetic Preview 8: JSON provenance never chooses the ROM variant
+ok 97 - synthetic Preview 8: JSON provenance never chooses the ROM variant
+  ---
+  duration_ms: 42.253042
+  ...
+# Subtest: synthetic 16-team: team colors read from the variant's own records, one object per team
+ok 98 - synthetic 16-team: team colors read from the variant's own records, one object per team
+  ---
+  duration_ms: 2.9765
+  ...
+# Subtest: synthetic 16-team: ROMs exported before team colors open unchanged with their native colors
+ok 99 - synthetic 16-team: ROMs exported before team colors open unchanged with their native colors
+  ---
+  duration_ms: 19.765875
+  ...
+# Subtest: synthetic 16-team: each color byte writes in place, with no upgrade
+ok 100 - synthetic 16-team: each color byte writes in place, with no upgrade
+  ---
+  duration_ms: 382.060875
+  ...
+# Subtest: synthetic 16-team: every code 0-63, black aliases and below-black round-trip exactly
+ok 101 - synthetic 16-team: every code 0-63, black aliases and below-black round-trip exactly
+  ---
+  duration_ms: 34.669167
+  ...
+# Subtest: synthetic 16-team: colors that aren't whole numbers 0-63 are refused, never clamped
+ok 102 - synthetic 16-team: colors that aren't whole numbers 0-63 are refused, never clamped
+  ---
+  duration_ms: 6.100083
+  ...
+# Subtest: synthetic 16-team: roster files carry every team's colors in version 3
+ok 103 - synthetic 16-team: roster files carry every team's colors in version 3
+  ---
+  duration_ms: 5.968833
+  ...
+# Subtest: synthetic 16-team: files without team colors keep the draft's colors
+ok 104 - synthetic 16-team: files without team colors keep the draft's colors
+  ---
+  duration_ms: 5.87275
+  ...
+# Subtest: synthetic 16-team: the old two-color fields are ignored with a notice, never read
+ok 105 - synthetic 16-team: the old two-color fields are ignored with a notice, never read
+  ---
+  duration_ms: 5.174708
+  ...
+# Subtest: synthetic 16-team: JSON provenance never chooses the ROM variant
+ok 106 - synthetic 16-team: JSON provenance never chooses the ROM variant
+  ---
+  duration_ms: 13.755875
+  ...
+# Subtest: real Preview 8: team colors read from the variant's own records, one object per team
+ok 107 - real Preview 8: team colors read from the variant's own records, one object per team # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.103
+  ...
+# Subtest: real Preview 8: ROMs exported before team colors open unchanged with their native colors
+ok 108 - real Preview 8: ROMs exported before team colors open unchanged with their native colors # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.041084
+  ...
+# Subtest: real Preview 8: a color edit on as-built Preview 8 adds exactly the 99-byte upgrade
+ok 109 - real Preview 8: a color edit on as-built Preview 8 adds exactly the 99-byte upgrade # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.021375
+  ...
+# Subtest: real Preview 8: restoring colors or editing only the roster never upgrades
+ok 110 - real Preview 8: restoring colors or editing only the roster never upgrades # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.025958
+  ...
+# Subtest: real Preview 8: an upgraded copy exports byte for byte, one slot at a time, and never downgrades
+ok 111 - real Preview 8: an upgraded copy exports byte for byte, one slot at a time, and never downgrades # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.043875
+  ...
+# Subtest: real Preview 8: each team's colors land in its own record and its old partner keeps theirs
+ok 112 - real Preview 8: each team's colors land in its own record and its old partner keeps theirs # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.03
+  ...
+# Subtest: real Preview 8: an upgrade keeps roster edits already in the source
+ok 113 - real Preview 8: an upgrade keeps roster edits already in the source # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.021916
+  ...
+# Subtest: real Preview 8: code, table and spare-space bytes refuse admission in either variant
+ok 114 - real Preview 8: code, table and spare-space bytes refuse admission in either variant # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.02075
+  ...
+# Subtest: real Preview 8: every code 0-63, black aliases and below-black round-trip exactly
+ok 115 - real Preview 8: every code 0-63, black aliases and below-black round-trip exactly # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.017125
+  ...
+# Subtest: real Preview 8: colors that aren't whole numbers 0-63 are refused, never clamped
+ok 116 - real Preview 8: colors that aren't whole numbers 0-63 are refused, never clamped # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.026291
+  ...
+# Subtest: real Preview 8: roster files carry every team's colors in version 3
+ok 117 - real Preview 8: roster files carry every team's colors in version 3 # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.01775
+  ...
+# Subtest: real Preview 8: files without team colors keep the draft's colors
+ok 118 - real Preview 8: files without team colors keep the draft's colors # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.028833
+  ...
+# Subtest: real Preview 8: the old two-color fields are ignored with a notice, never read
+ok 119 - real Preview 8: the old two-color fields are ignored with a notice, never read # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.038625
+  ...
+# Subtest: real Preview 8: JSON provenance never chooses the ROM variant
+ok 120 - real Preview 8: JSON provenance never chooses the ROM variant # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.019083
+  ...
+# Subtest: real 16-team US: team colors read from the variant's own records, one object per team
+ok 121 - real 16-team US: team colors read from the variant's own records, one object per team # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.021125
+  ...
+# Subtest: real 16-team US: ROMs exported before team colors open unchanged with their native colors
+ok 122 - real 16-team US: ROMs exported before team colors open unchanged with their native colors # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.019458
+  ...
+# Subtest: real 16-team US: each color byte writes in place, with no upgrade
+ok 123 - real 16-team US: each color byte writes in place, with no upgrade # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.015958
+  ...
+# Subtest: real 16-team US: every code 0-63, black aliases and below-black round-trip exactly
+ok 124 - real 16-team US: every code 0-63, black aliases and below-black round-trip exactly # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.026
+  ...
+# Subtest: real 16-team US: colors that aren't whole numbers 0-63 are refused, never clamped
+ok 125 - real 16-team US: colors that aren't whole numbers 0-63 are refused, never clamped # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.023916
+  ...
+# Subtest: real 16-team US: roster files carry every team's colors in version 3
+ok 126 - real 16-team US: roster files carry every team's colors in version 3 # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.0585
+  ...
+# Subtest: real 16-team US: files without team colors keep the draft's colors
+ok 127 - real 16-team US: files without team colors keep the draft's colors # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.029417
+  ...
+# Subtest: real 16-team US: the old two-color fields are ignored with a notice, never read
+ok 128 - real 16-team US: the old two-color fields are ignored with a notice, never read # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.025041
+  ...
+# Subtest: real 16-team US: JSON provenance never chooses the ROM variant
+ok 129 - real 16-team US: JSON provenance never chooses the ROM variant # SKIP set ROSTER_ROM16 to run against the real ROM
+  ---
+  duration_ms: 0.052959
+  ...
+# Subtest: previews and fitted rosters never share a color object between teams
+ok 130 - previews and fitted rosters never share a color object between teams
+  ---
+  duration_ms: 4.407417
+  ...
+# Subtest: ROMs written by the previous editor open as their original variant, colors untouched
+ok 131 - ROMs written by the previous editor open as their original variant, colors untouched
+  ---
+  duration_ms: 95.503
+  ...
+# Subtest: bundled previews read as their profiles with honest counts
+ok 132 - bundled previews read as their profiles with honest counts
+  ---
+  duration_ms: 3.237583
+  ...
+# Subtest: the shipped profiles pin two layouts and nothing else
+ok 133 - the shipped profiles pin two layouts and nothing else
+  ---
+  duration_ms: 0.114375
+  ...
+# Subtest: a page without WebCrypto refuses ROMs instead of skipping the check
+ok 134 - a page without WebCrypto refuses ROMs instead of skipping the check
+  ---
+  duration_ms: 10.997459
+  ...
+# Subtest: real ROMs: digests recompute independently and previews equal the ROMs
+ok 135 - real ROMs: digests recompute independently and previews equal the ROMs # SKIP set ROSTER_ROM32 to run against the real ROM
+  ---
+  duration_ms: 0.029125
+  ...
+1..135
+# tests 135
+# suites 0
+# pass 88
+# fail 0
+# cancelled 0
+# skipped 47
+# todo 0
+# duration_ms 8493.87925

@@ -587,6 +587,256 @@ main {
 .rp:has(~ .rp.on) { background: var(--gold); color: var(--navy); }
 .rp.on { background: var(--gold); box-shadow: inset 0 0 0 2px var(--navy); color: var(--navy); }
 
+.colors {
+  margin: 0 0 22px;
+  border: 2px solid var(--navy);
+  background: var(--cream);
+}
+
+.colors-head {
+  --focus: var(--cream);
+  --muted: rgba(255, 231, 162, .72);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--gold);
+  background: var(--navy);
+  color: var(--cream);
+}
+.colors-head h3 {
+  margin: 0;
+  font: 800 15px/1.2 var(--mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.colors-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px 22px;
+  padding: 16px;
+}
+
+.uniform-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 168px;
+  margin: 0;
+}
+.uniform-art {
+  display: grid;
+  place-items: center;
+  height: 194px;
+  border: 2px solid var(--navy);
+  background: var(--green) url("./assets/park/lawn.svg") 0 0 / 32px 32px;
+  forced-color-adjust: none;
+}
+.uniform-art canvas {
+  width: 147px;
+  height: 174px;
+  image-rendering: pixelated;
+}
+.illustration svg {
+  display: block;
+  width: 144px;
+  height: 168px;
+  stroke-width: .75;
+  stroke-linejoin: round;
+}
+.uniform-figure figcaption { font-size: 13px; line-height: 1.4; }
+
+.color-rows { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+.color-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+.color-row + .color-row { padding-top: 14px; border-top: 2px solid rgba(24, 60, 93, .14); }
+
+.cr-text { display: flex; flex-direction: column; gap: 2px; }
+.cr-label {
+  font: 700 12px/1.2 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.cr-help { max-width: 560px; font-size: 13px; line-height: 1.4; }
+
+.cr-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; }
+
+.cr-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 6px 12px 6px 6px;
+  border: 2px solid var(--navy);
+  border-radius: 0;
+  background: var(--cream-lit);
+  box-shadow: 0 3px 0 var(--navy);
+  color: var(--navy);
+  font: 700 13px/1.25 var(--mono);
+  letter-spacing: .04em;
+  text-align: left;
+  cursor: pointer;
+}
+.cr-pick:hover { background: var(--sky); }
+.cr-pick[aria-expanded="true"] { background: var(--gold); }
+.cr-pick:active { transform: translateY(2px); box-shadow: none; }
+.cr-value { min-width: 0; overflow-wrap: anywhere; }
+
+.sw-chip {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--navy);
+  background: var(--sw);
+  box-shadow: inset 0 0 0 2px var(--white);
+  forced-color-adjust: none;
+}
+
+.cr-warn {
+  max-width: 560px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 2px dashed var(--brick);
+  background: var(--cream-lit);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* The picker scrolls sideways on narrow screens so its 13 hue columns stay a grid. */
+.picker {
+  max-width: 100%;
+  padding: 12px;
+  overflow-x: auto;
+  border: 2px solid var(--navy);
+  background: var(--cream-lit);
+  scrollbar-color: var(--navy) var(--cream-lit);
+}
+
+/* 30px swatches when there is room, never below 24px; narrower than that, the picker scrolls. */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(24px, 1fr));
+  gap: 4px;
+  max-width: calc(13 * 30px + 12 * 4px);
+}
+.sw-btn {
+  position: relative;
+  aspect-ratio: 1;
+  min-width: 24px;
+  padding: 0;
+  border: 2px solid var(--navy);
+  border-radius: 0;
+  background: var(--sw);
+  cursor: pointer;
+  forced-color-adjust: none;
+}
+.sw-btn:hover { box-shadow: 0 0 0 2px var(--gold); }
+.sw-btn[aria-checked="true"] { box-shadow: 0 0 0 2px var(--gold), 0 0 0 4px var(--navy); }
+.sw-btn[aria-checked="true"]::after {
+  content: "\2713";
+  content: "\2713" / "";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font: 800 16px/1 var(--mono);
+}
+.sw-btn[data-ink="dark"][aria-checked="true"]::after { color: var(--navy); }
+
+.picker-hint { margin: 10px 0 0; font-size: 13px; line-height: 1.4; }
+
+.advanced { margin-top: 10px; }
+.advanced summary {
+  padding: 6px 0;
+  font: 700 12px/1.3 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.adv-body { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 10px; padding-top: 4px; }
+.adv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 700 12px/1.2 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.adv-field input {
+  width: 128px;
+  min-height: 40px;
+  padding: 6px 8px;
+  border: 2px solid var(--navy);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--navy);
+  font: 700 15px/1.2 var(--mono);
+  letter-spacing: .06em;
+}
+.adv-field input[aria-invalid="true"] { border-color: var(--brick); box-shadow: inset 0 0 0 2px var(--brick); }
+.adv-help,
+.adv-error { flex: 1 0 100%; max-width: 520px; margin: 0; font-size: 13px; line-height: 1.4; }
+.adv-error { color: var(--brick); font-weight: 700; }
+
+.upgrade-note {
+  margin: 0 16px 16px;
+  padding: 10px 14px 10px 24px;
+  border: 2px solid var(--navy);
+  background: var(--cream-lit);
+  box-shadow: inset 10px 0 0 var(--gold);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.upgrade-note p { max-width: 640px; margin: 0; }
+.upgrade-note summary {
+  margin-top: 6px;
+  font: 700 12px/1.3 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.upgrade-note details p { margin-top: 6px; font-size: 13px; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .colors-body { grid-template-columns: minmax(0, 1fr); }
+  .uniform-figure { width: 100%; align-items: center; text-align: center; }
+  .uniform-art { width: 168px; }
+}
+
+@media (max-width: 560px) {
+  .colors-body { padding: 12px; }
+  .picker { padding: 10px; }
+  .upgrade-note { margin: 0 12px 12px; }
+}
+
+@media (forced-colors: active) {
+  .sw-btn[aria-checked="true"] { outline: 3px solid Highlight; outline-offset: 2px; }
+  .cr-pick[aria-expanded="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+}
+
 /* ---------- roster table ---------- */
 
 .roster-head {

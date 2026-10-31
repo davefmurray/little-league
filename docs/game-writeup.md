@@ -412,7 +412,7 @@ A full map lives in [`roster-format.md`](roster-format.md). The short version:
 | Team ratings | `0xF234` | 16 × 4 bytes, values 1–4 |
 | Long names | `0x5190` | 16 × 16 bytes |
 | Short-name pointers | `0x5290`, `0x52A0` | 8 + 8 words |
-| Team colours | `0x1FAD0`, `0x1FAE0` | 16 + 16 bytes |
+| Team colours | `0x1FAD0` | 16 × 3 bytes (cap and trim, jersey, hair) |
 
 Two things surprised us during the analysis:
 

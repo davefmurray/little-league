@@ -1,25 +1,43 @@
 import {
-  ACTIVE_PLAYERS, PREVIEW8, STOCK16, deepFreeze, fitRoster, openRom, previewRoster,
+  ACTIVE_PLAYERS, PREVIEW8, STOCK16, deepFreeze, fitRoster, needsColorUpgrade, openRom, previewRoster,
   readRosterFile, rosterJson, sameTeams, skillStars, writeRom,
 } from './rom.js';
+import {
+  BASIC_COLORS, BELOW_BLACK, BELOW_BLACK_NOTE, NES_RGB, batterColor, batterPicture, describeColor, hexCode,
+  parseColorCode,
+} from './colors.js';
 
 const RATING_LABELS = ['Batting', 'Running', 'Pitching', 'Defense'];
+const UNIFORM_ROWS = [
+  { slot: 'cap', label: 'Cap & trim', help: 'Cap, helmet, socks and belt trim.' },
+  { slot: 'jersey', label: 'Jersey', help: '' },
+  {
+    slot: 'hair',
+    label: 'Hair',
+    help: 'Batter’s hair while this team bats, and hair in ending scenes. ' +
+      'While this team bats, the other team’s pitcher shows a little of this color too.',
+  },
+];
+const GRID_COLUMNS = 13;
+const OWN_COLORS = 'preview8-independent-colors-v1';
 const VIEWS = new Map([
   [PREVIEW8, { label: 'Preview 8', chip: 'Preview 8', roster: './roster32.json', meta: './teams32.json', stem: 'preview8' }],
   [STOCK16, { label: '16-team US', chip: '16-team', roster: './roster.json', stem: 'us16' }],
 ]);
 
 /**
- * @typedef {{bytes: Uint8Array, name: string, sha256: string, exact: boolean}} LoadedRom
+ * @typedef {{bytes: Uint8Array, name: string, sha256: string, exact: boolean, variant: string}} LoadedRom
  * @typedef {{profile: object, baseline: object[], rom: LoadedRom | null}} Session
  *
  * `session.baseline` is the frozen roster the session started from: the ROM as
  * read, or the bundled preview. `teams` is the draft, dirty whenever it differs
  * from the baseline. Imports replace only the draft, so Revert always returns to
  * the baseline. `revision` counts draft changes, which lets a load that finishes
- * later notice edits made while it ran.
+ * later notice edits made while it ran. `picker` is the open color picker:
+ * which team and slot, the value it opened with (Escape restores it), and a
+ * code outside the basic grid that it keeps on offer.
  */
-const state = { session: null, teams: [], selected: 0, revision: 0 };
+const state = { session: null, teams: [], selected: 0, revision: 0, picker: null };
 
 // Each load or import takes a ticket. Only the newest ticket may change the
 // session or report an error, so a slow read, hash or fetch can't land on top
@@ -78,12 +96,14 @@ function startSession(session, draft) {
   state.session = session;
   state.teams = structuredClone(draft);
   state.selected = sameLayout ? state.selected : 0;
+  state.picker = null;
   state.revision += 1;
   renderAll();
 }
 
 function replaceDraft(draft) {
   state.teams = structuredClone(draft);
+  state.picker = null;
   state.revision += 1;
   renderAll();
 }
@@ -140,10 +160,12 @@ async function openRomFile(file) {
     if (isStale(t)) return;
     if (!(await mayReplace(t, rom.teams, `Opening ${file.name}`))) return;
     const baseline = deepFreeze(rom.teams);
-    startSession({ profile: rom.profile, baseline, rom: { bytes, name: file.name, sha256: rom.sha256, exact: rom.exact } }, baseline);
+    const loaded = { bytes, name: file.name, sha256: rom.sha256, exact: rom.exact, variant: rom.variant };
+    startSession({ profile: rom.profile, baseline, rom: loaded }, baseline);
+    const kind = rom.variant === OWN_COLORS ? `${label(rom.profile)} ROM where every team has its own colors` : `${label(rom.profile)} ROM`;
     showBanner(rom.exact
       ? `Opened ${file.name}, the original ${label(rom.profile)} ROM. Edits stay in this browser until you export.`
-      : `Opened ${file.name}, an edited copy of the ${label(rom.profile)} ROM. ` +
+      : `Opened ${file.name}, an edited copy of the ${kind}. ` +
         "It matches the original everywhere Roster Lab doesn't edit.",
     'ok', { autoHide: true });
   } catch (err) {
@@ -171,14 +193,18 @@ async function importJsonFile(file) {
       ? current
       : { profile: read.profile, baseline: await previewTeams(read.profile), rom: null };
     if (isStale(t)) return;
-    const teams = fitRoster(read, session.baseline);
-    if (!(await mayReplace(t, teams, `Importing ${file.name}`, session === current))) return;
+    // A file without team colors keeps the colors being edited; a new session starts from its baseline's.
+    const fit = () => fitRoster(read, session.baseline, session === current ? state.teams : session.baseline);
+    if (!(await mayReplace(t, fit(), `Importing ${file.name}`, session === current))) return;
+    const teams = fit();
+    const keptColors = read.teams.some((team, i) => !team.uniform && !sameTeams(teams[i].uniform, session.baseline[i].uniform));
     if (session === current) replaceDraft(teams);
     else startSession(session, teams);
     const into = session.rom
       ? 'into the open ROM.'
       : `onto the ${label(read.profile)} roster. To export a ROM, open the ROM, then import this file again.`;
-    showBanner([`Imported ${file.name} ${into}`, ...read.notices].join(' '), 'ok', { autoHide: !read.notices.length });
+    const notices = [...read.notices, ...(keptColors ? ['It has no team colors, so your color edits stay.'] : [])];
+    showBanner([`Imported ${file.name} ${into}`, ...notices].join(' '), 'ok', { autoHide: !notices.length });
   } catch (err) {
     if (!isStale(t)) showBanner(`Couldn't import ${file.name}. ${err.message}`, 'warn');
   }
@@ -197,12 +223,13 @@ async function exportRomFile() {
   if (!session?.rom) return;
   const draft = structuredClone(state.teams);
   try {
+    const upgrades = needsColorUpgrade(session.rom.variant, session.baseline, draft);
     const out = await writeRom(session.rom.bytes, session.profile, session.baseline, draft);
     const filename = `${stem(session.rom.name)}-edited.nes`;
     download(filename, new Blob([out], { type: 'application/octet-stream' }));
     toast(sameTeams(draft, session.baseline)
       ? `Saved ${filename}, an unchanged copy of ${session.rom.name}.`
-      : `Saved ${filename} with your edits.`);
+      : `Saved ${filename} with your edits.${upgrades ? ' In this copy all 32 teams have their own colors.' : ''}`);
   } catch (err) {
     showBanner(`Couldn't export the ROM. ${err.message}`, 'warn');
   }
@@ -212,7 +239,7 @@ function exportJsonFile() {
   const { session } = state;
   if (!session) return;
   const source = session.rom
-    ? { name: session.rom.name, sha256: session.rom.sha256 }
+    ? { name: session.rom.name, sha256: session.rom.sha256, variant: session.rom.variant }
     : { name: `${label(session.profile)} roster preview` };
   const doc = rosterJson(session.profile, state.teams, source);
   const filename = `${session.rom ? stem(session.rom.name) : VIEWS.get(session.profile).stem}-roster.json`;
@@ -223,6 +250,7 @@ function exportJsonFile() {
 function revert() {
   if (!isDirty()) return;
   state.teams = structuredClone(state.session.baseline);
+  state.picker = null;
   state.revision += 1;
   renderAll();
   toast(state.session.rom ? `Reverted to ${state.session.rom.name}.` : 'Reverted to the roster preview.');
@@ -232,6 +260,7 @@ function resetTeam() {
   const base = state.session?.baseline[state.selected];
   if (!base) return;
   state.teams[state.selected] = structuredClone(base);
+  state.picker = null;
   state.revision += 1;
   renderAll();
   toast(`Reset team ${state.selected + 1}.`);
@@ -244,14 +273,16 @@ function renderChrome() {
   chip.dataset.mode = session?.rom ? 'rom' : 'preview';
   chip.dataset.dirty = String(dirty);
   const source = !session?.rom ? 'ROSTER ONLY' : session.rom.exact ? 'ORIGINAL ROM' : 'EDITED ROM';
+  const own = session?.rom?.variant === OWN_COLORS && 'own team colors';
   chip.textContent = session
-    ? [VIEWS.get(session.profile).chip, source, dirty && 'UNSAVED'].filter(Boolean).join(' · ')
+    ? [VIEWS.get(session.profile).chip, own, source, dirty && 'UNSAVED'].filter(Boolean).join(' · ')
     : 'LOADING';
   chip.title = session?.rom ? session.rom.name : '';
   $('exportRomBtn').disabled = !session?.rom;
   $('exportRomBtn').title = session?.rom ? '' : 'Open a ROM to export one';
   $('exportJsonBtn').disabled = !session;
   $('revertBtn').disabled = !dirty;
+  $('upgradeNote').hidden = !(session?.rom && needsColorUpgrade(session.rom.variant, session.baseline, state.teams));
 }
 
 function renderTeamList() {
@@ -277,6 +308,264 @@ function renderRatings(team) {
                   aria-label="${name} ${v}" aria-pressed="${team.ratings[r] === v}">${v}</button>`).join('')}
       </div>
     </div>`).join('');
+}
+
+const rowOf = (slot) => UNIFORM_ROWS.find((row) => row.slot === slot);
+const teamLabel = (t) => state.teams[t].name || `Team ${t + 1}`;
+const colorCells = (picker) => (picker.extra === null ? BASIC_COLORS : [...BASIC_COLORS, picker.extra]);
+const colorDescription = (row, value) => [row.help && `color-help-${row.slot}`, value === BELOW_BLACK && `color-warn-${row.slot}`].filter(Boolean).join(' ');
+
+function inkFor(code) {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(NES_RGB[code].slice(i, i + 2), 16));
+  return 0.299 * r + 0.587 * g + 0.114 * b > 150 ? 'dark' : 'light';
+}
+
+function swatch(row, code, value, extra) {
+  const on = code === value;
+  return `<button type="button" class="sw-btn" role="radio" data-swatch="${code}" data-focus="sw-${row.slot}-${code}"
+    aria-checked="${on}" tabindex="${on ? 0 : -1}" data-ink="${inkFor(code)}" style="--sw:${NES_RGB[code]}"
+    aria-label="${esc(`${row.label} ${describeColor(code)}${extra ? ', outside the basic grid' : ''}`)}"
+    title="${esc(describeColor(code))}"></button>`;
+}
+
+const swatchGrid = (row, value, picker) =>
+  colorCells(picker).map((code) => swatch(row, code, value, code === picker.extra)).join('');
+
+function pickerHtml(row, value, picker) {
+  const s = row.slot;
+  return `
+    <div class="swatches" role="radiogroup" aria-label="${esc(`${row.label} color`)}" data-swatches="${s}">${swatchGrid(row, value, picker)}</div>
+    <p class="picker-hint">Arrow keys move. Enter keeps. Escape puts back ${hexCode(picker.opening)}.</p>
+    <details class="advanced">
+      <summary data-focus="adv-${s}">Advanced code</summary>
+      <div class="adv-body">
+        <label class="adv-field">
+          <span>Exact NES code</span>
+          <input data-code-input="${s}" data-focus="code-${s}" autocomplete="off" spellcheck="false"
+                 placeholder="$1B or 27" aria-describedby="code-help-${s} code-error-${s}">
+        </label>
+        <button type="button" class="btn tiny" data-code-set="${s}" data-focus="set-${s}">Use code</button>
+        <p class="adv-help" id="code-help-${s}">Any code from 0 to 63, typed as decimal or $00 to $3F.</p>
+        <p class="adv-error" id="code-error-${s}" hidden></p>
+      </div>
+    </details>`;
+}
+
+function colorRow(row, team, base) {
+  const s = row.slot;
+  const value = team.uniform[s];
+  const open = state.picker?.slot === s;
+  return `
+    <div class="color-row" data-color-row="${s}">
+      <div class="cr-text">
+        <span class="cr-label" id="color-label-${s}">${esc(row.label)}</span>
+        ${row.help ? `<span class="cr-help" id="color-help-${s}">${esc(row.help)}</span>` : ''}
+      </div>
+      <div class="cr-controls">
+        <button type="button" class="cr-pick" data-pick="${s}" data-focus="pick-${s}" aria-expanded="${open}"
+                aria-controls="picker-${s}" aria-labelledby="color-label-${s} color-value-${s}" aria-describedby="${colorDescription(row, value)}">
+          <span class="sw-chip" data-chip style="--sw:${NES_RGB[value]}"></span>
+          <span class="cr-value" id="color-value-${s}">${esc(describeColor(value))}</span>
+        </button>
+        <button type="button" class="btn tiny ghost" data-color-reset="${s}" data-focus="reset-${s}"
+                aria-label="Reset ${esc(row.label)}"${value === base.uniform[s] ? ' disabled' : ''}>Reset</button>
+      </div>
+      <p class="cr-warn" id="color-warn-${s}" data-color-warn="${s}"${value === BELOW_BLACK ? '' : ' hidden'}>${esc(BELOW_BLACK_NOTE)}</p>
+      <div class="picker" id="picker-${s}" data-picker="${s}"${open ? '' : ' hidden'}>${open ? pickerHtml(row, value, state.picker) : ''}</div>
+    </div>`;
+}
+
+function renderColors() {
+  const t = state.selected;
+  if (state.picker?.team !== t) state.picker = null;
+  const active = document.activeElement;
+  const focus = active?.closest?.('#colorsCard') ? active.dataset.focus : undefined;
+  $('colorRows').innerHTML = UNIFORM_ROWS.map((row) => colorRow(row, state.teams[t], state.session.baseline[t])).join('');
+  if (focus) document.querySelector(`[data-focus="${focus}"]`)?.focus();
+  renderPreview();
+}
+
+/** Update one row in place, so focus and an open picker stay put. */
+function updateColorRow(slot) {
+  const t = state.selected;
+  const value = state.teams[t].uniform[slot];
+  const el = document.querySelector(`[data-color-row="${slot}"]`);
+  el.querySelector('[data-chip]').setAttribute('style', `--sw:${NES_RGB[value]}`);
+  el.querySelector('.cr-value').textContent = describeColor(value);
+  el.querySelector('[data-color-reset]').disabled = value === state.session.baseline[t].uniform[slot];
+  el.querySelector('[data-color-warn]').hidden = value !== BELOW_BLACK;
+  el.querySelector('[data-pick]').setAttribute('aria-describedby', colorDescription(rowOf(slot), value));
+  const { picker } = state;
+  if (picker?.slot !== slot) return;
+  const grid = el.querySelector('[data-swatches]');
+  if (!colorCells(picker).includes(value)) {
+    picker.extra = value;
+    grid.innerHTML = swatchGrid(rowOf(slot), value, picker);
+    return;
+  }
+  for (const b of grid.querySelectorAll('[data-swatch]')) {
+    const on = Number(b.dataset.swatch) === value;
+    b.setAttribute('aria-checked', String(on));
+    b.setAttribute('tabindex', on ? '0' : '-1');
+  }
+}
+
+function chooseColor(slot, code) {
+  const team = state.teams[state.selected];
+  if (team.uniform[slot] === code) return false;
+  team.uniform = { ...team.uniform, [slot]: code };
+  state.revision += 1;
+  updateColorRow(slot);
+  renderPreview();
+  renderChrome();
+  return true;
+}
+
+function announce(text) {
+  const el = $('colorStatus');
+  el.textContent = '';
+  el.textContent = text;
+}
+
+function announceColor(slot, text) {
+  const { picker } = state;
+  const code = state.teams[state.selected].uniform[slot];
+  if (picker?.slot === slot) {
+    if (picker.announced === code) return;
+    picker.announced = code;
+  }
+  announce(code === BELOW_BLACK ? `${text} ${BELOW_BLACK_NOTE}` : text);
+}
+
+function openPicker(slot) {
+  closePicker();
+  const value = state.teams[state.selected].uniform[slot];
+  state.picker = { team: state.selected, slot, opening: value, announced: value, extra: BASIC_COLORS.includes(value) ? null : value };
+  const box = document.querySelector(`[data-picker="${slot}"]`);
+  box.innerHTML = pickerHtml(rowOf(slot), value, state.picker);
+  box.hidden = false;
+  document.querySelector(`[data-pick="${slot}"]`).setAttribute('aria-expanded', 'true');
+  box.querySelector('[aria-checked="true"]')?.focus();
+}
+
+/** Close the open picker, keeping its value or restoring the one it opened with, and say what was kept. */
+function closePicker({ restore = false, focus = false } = {}) {
+  const { picker } = state;
+  if (!picker) return;
+  const { label } = rowOf(picker.slot);
+  const changed = restore && chooseColor(picker.slot, picker.opening);
+  const value = state.teams[picker.team].uniform[picker.slot];
+  if (changed) announce(`${label} back to ${describeColor(value)}.`);
+  else announceColor(picker.slot, `${teamLabel(picker.team)} ${label}: ${describeColor(value)}.`);
+  state.picker = null;
+  const box = document.querySelector(`[data-picker="${picker.slot}"]`);
+  box.hidden = true;
+  box.innerHTML = '';
+  const button = document.querySelector(`[data-pick="${picker.slot}"]`);
+  button.setAttribute('aria-expanded', 'false');
+  if (focus) button.focus();
+}
+
+function resetColor(slot) {
+  const value = state.session.baseline[state.selected].uniform[slot];
+  if (!chooseColor(slot, value)) return;
+  document.querySelector(`[data-pick="${slot}"]`).focus();
+  announceColor(slot, `${rowOf(slot).label} reset to ${describeColor(value)}.`);
+}
+
+function applyCode(slot) {
+  const input = document.querySelector(`[data-code-input="${slot}"]`);
+  const error = $(`code-error-${slot}`);
+  const parsed = parseColorCode(input.value);
+  if (parsed.error) {
+    error.textContent = parsed.error;
+    error.hidden = false;
+    input.setAttribute('aria-invalid', 'true');
+    announce(parsed.error);
+    return;
+  }
+  error.textContent = '';
+  error.hidden = true;
+  input.removeAttribute('aria-invalid');
+  chooseColor(slot, parsed.value);
+  announceColor(slot, `${teamLabel(state.selected)} ${rowOf(slot).label}: ${describeColor(parsed.value)}.`);
+}
+
+/** Radio-group keys: arrows move and choose, Home and End go to the row's ends, Enter keeps, Escape restores. */
+function onEditorKeydown(e) {
+  const { picker } = state;
+  if (!picker || !e.target.closest?.(`[data-color-row="${picker.slot}"]`)) return;
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    closePicker({ restore: true, focus: true });
+    return;
+  }
+  if (e.key === 'Enter' && e.target.dataset.codeInput) {
+    e.preventDefault();
+    applyCode(picker.slot);
+    return;
+  }
+  const sw = e.target.closest('[data-swatch]');
+  if (!sw) return;
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    closePicker({ focus: true });
+    return;
+  }
+  const cells = colorCells(picker);
+  const i = cells.indexOf(Number(sw.dataset.swatch));
+  const row = Math.floor(i / GRID_COLUMNS);
+  const last = cells.length - 1;
+  const next = {
+    ArrowRight: Math.min(i + 1, last),
+    ArrowLeft: Math.max(i - 1, 0),
+    ArrowDown: row === Math.floor(last / GRID_COLUMNS) ? i : Math.min(i + GRID_COLUMNS, last),
+    ArrowUp: row === 0 ? i : i - GRID_COLUMNS,
+    Home: row * GRID_COLUMNS,
+    End: Math.min(row * GRID_COLUMNS + GRID_COLUMNS - 1, last),
+  }[e.key];
+  if (next === undefined) return;
+  e.preventDefault();
+  chooseColor(picker.slot, cells[next]);
+  document.querySelector(`[data-picker="${picker.slot}"] [data-swatch="${cells[next]}"]`)?.focus();
+}
+
+const batters = new WeakMap();
+
+function drawBatter(rom, uniform) {
+  if (!batters.has(rom.bytes)) batters.set(rom.bytes, batterPicture(rom.bytes));
+  const picture = batters.get(rom.bytes);
+  const ctx = $('batterCanvas').getContext?.('2d');
+  if (!ctx) return;
+  const image = ctx.createImageData(picture.width, picture.height);
+  picture.pixels.forEach((entry, i) => {
+    if (!entry) return;
+    const rgb = NES_RGB[batterColor(entry, picture.palette, uniform) & 0x3f];
+    image.data.set([1, 3, 5].map((at) => parseInt(rgb.slice(at, at + 2), 16)).concat(255), 4 * i);
+  });
+  ctx.putImageData(image, 0, 0);
+}
+
+function renderPreview() {
+  const t = state.selected;
+  const team = state.teams[t];
+  if (!team) return;
+  const { cap, jersey, hair } = team.uniform;
+  $('uniformArt').setAttribute('aria-label', `${teamLabel(t)} colors: cap and trim ${describeColor(cap)}, ` +
+    `jersey ${describeColor(jersey)}, hair ${describeColor(hair)}.`);
+  const rom = state.session?.rom;
+  $('batterCanvas').hidden = !rom;
+  $('illustration').hidden = Boolean(rom);
+  $('uniformCaption').textContent = rom
+    ? 'Batter at the plate, drawn from your ROM. Colors approximate.'
+    : 'Illustration, not game art.';
+  if (rom) {
+    drawBatter(rom, team.uniform);
+    return;
+  }
+  for (const part of document.querySelectorAll('#illustration [data-part]')) {
+    part.setAttribute('fill', NES_RGB[team.uniform[part.dataset.part]]);
+  }
 }
 
 const statCell = (field, value, name, p) => `
@@ -349,6 +638,7 @@ function renderEditor() {
   }
 
   renderRatings(team);
+  renderColors();
   $('rosterHint').textContent = `${ACTIVE_PLAYERS} players · names up to 6 letters or digits`;
   $('playerBody').innerHTML = team.players.slice(0, ACTIVE_PLAYERS).map(playerRow).join('');
   const unused = team.players.slice(ACTIVE_PLAYERS);
@@ -402,6 +692,11 @@ function onEditorInput(e) {
   const team = state.teams[state.selected];
   const el = e.target;
   if (!team || !el.dataset) return;
+  if (el.dataset.codeInput) {
+    el.removeAttribute('aria-invalid');
+    $(`code-error-${el.dataset.codeInput}`).hidden = true;
+    return;
+  }
 
   const field = el.dataset.text && textField(el.dataset.text);
   if (field) {
@@ -441,6 +736,29 @@ function onEditorInput(e) {
 function onEditorClick(e) {
   const team = state.teams[state.selected];
   if (!team) return;
+
+  const pick = e.target.closest('[data-pick]');
+  if (pick) {
+    if (state.picker?.slot === pick.dataset.pick) closePicker();
+    else openPicker(pick.dataset.pick);
+    return;
+  }
+  const chosen = e.target.closest('[data-swatch]');
+  if (chosen && state.picker) {
+    chooseColor(state.picker.slot, Number(chosen.dataset.swatch));
+    closePicker({ focus: true });
+    return;
+  }
+  const reset = e.target.closest('[data-color-reset]');
+  if (reset) {
+    resetColor(reset.dataset.colorReset);
+    return;
+  }
+  const use = e.target.closest('[data-code-set]');
+  if (use) {
+    applyCode(use.dataset.codeSet);
+    return;
+  }
 
   const pip = e.target.closest('[data-skill]');
   if (pip) {
@@ -528,6 +846,7 @@ function bindEvents() {
   $('teamList').addEventListener('click', (e) => {
     const card = e.target.closest('[data-team]');
     if (!card) return;
+    closePicker();
     state.selected = Number(card.dataset.team);
     renderTeamList();
     renderEditor();
@@ -535,6 +854,7 @@ function bindEvents() {
 
   $('editor').addEventListener('input', onEditorInput);
   $('editor').addEventListener('click', onEditorClick);
+  $('editor').addEventListener('keydown', onEditorKeydown);
 
   let dragDepth = 0;
   const drop = $('drop');

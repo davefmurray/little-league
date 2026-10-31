@@ -143,6 +143,16 @@ class Element extends EventHost {
     return this.dispatchEvent(event('click'));
   }
   focus() { this.ownerDocument.activeElement = this; }
+  /** A 2D context that keeps the last image put on a <canvas>. */
+  getContext(type) {
+    if (this.localName !== 'canvas' || type !== '2d') return null;
+    this.context ??= {
+      image: null,
+      createImageData: (width, height) => ({ width, height, data: new Uint8ClampedArray(width * height * 4) }),
+      putImageData(image) { this.image = image; },
+    };
+    return this.context;
+  }
   showModal() {
     if (this.open) throw new Error('showModal on an open dialog');
     this.open = true;

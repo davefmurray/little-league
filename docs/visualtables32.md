@@ -63,6 +63,11 @@ prototype for the four-row entry.
 Bank 7, CHR, fixed-bank padding, the original palette table and its
 pointer, prior-stage reservations and gameplay bonuses are unchanged.
 
+Later, Roster Lab's team-color export can change three operands of this
+routine and fill `$F380-$F3DF` in an exported copy so all 32 teams have their
+own records. The released Preview 8 is unchanged, and the reservation is
+recorded in [the editor contract](editor32.md#team-colors).
+
 ## CPU evidence
 
 The final suite executes 2,028 complete matchup cases spanning all 32
