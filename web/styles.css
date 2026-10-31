@@ -553,7 +553,7 @@ main {
 .ratings {
   --focus: var(--cream);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
   gap: 16px 20px;
   margin: 22px 0;
   padding: 16px 18px 18px;
@@ -885,7 +885,6 @@ input[type="range"]::-moz-range-thumb {
 
 @media (max-width: 1080px) {
   main { grid-template-columns: 250px minmax(0, 1fr); gap: 24px; }
-  .ratings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .team-id h2 { font-size: 30px; }
   .team-fields input { width: 170px; }
 }
@@ -929,7 +928,7 @@ input[type="range"]::-moz-range-thumb {
   .team-fields input { width: 100%; }
 
   .ratings { grid-template-columns: minmax(0, 1fr); padding: 14px; }
-  .rating { flex-direction: row; align-items: center; justify-content: space-between; }
+  .rating { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; }
   .r-label { letter-spacing: .1em; }
   .r-pips { gap: 4px; }
   .rp { width: 44px; height: 44px; }

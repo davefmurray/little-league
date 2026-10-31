@@ -1,0 +1,242 @@
+{
+  "before": {
+    "viewport": 1100,
+    "group_width": 142,
+    "buttons_width": 178,
+    "overflow_groups": 4
+  },
+  "after": [
+    {
+      "width": 1100,
+      "groups": [
+        {
+          "left": 400,
+          "right": 596,
+          "lastButtonRight": 578,
+          "overflow": false
+        },
+        {
+          "left": 616,
+          "right": 812,
+          "lastButtonRight": 794,
+          "overflow": false
+        },
+        {
+          "left": 832,
+          "right": 1028,
+          "lastButtonRight": 1010,
+          "overflow": false
+        },
+        {
+          "left": 400,
+          "right": 596,
+          "lastButtonRight": 578,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "groups": [
+        {
+          "left": 400,
+          "right": 656,
+          "lastButtonRight": 578,
+          "overflow": false
+        },
+        {
+          "left": 676,
+          "right": 932,
+          "lastButtonRight": 854,
+          "overflow": false
+        },
+        {
+          "left": 952,
+          "right": 1208,
+          "lastButtonRight": 1130,
+          "overflow": false
+        },
+        {
+          "left": 400,
+          "right": 656,
+          "lastButtonRight": 578,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "groups": [
+        {
+          "left": 400,
+          "right": 627,
+          "lastButtonRight": 578,
+          "overflow": false
+        },
+        {
+          "left": 647,
+          "right": 874,
+          "lastButtonRight": 825,
+          "overflow": false
+        },
+        {
+          "left": 894,
+          "right": 1121,
+          "lastButtonRight": 1072,
+          "overflow": false
+        },
+        {
+          "left": 1141,
+          "right": 1368,
+          "lastButtonRight": 1319,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 900,
+      "groups": [
+        {
+          "left": 346,
+          "right": 577,
+          "lastButtonRight": 524,
+          "overflow": false
+        },
+        {
+          "left": 597,
+          "right": 828,
+          "lastButtonRight": 775,
+          "overflow": false
+        },
+        {
+          "left": 346,
+          "right": 577,
+          "lastButtonRight": 524,
+          "overflow": false
+        },
+        {
+          "left": 597,
+          "right": 828,
+          "lastButtonRight": 775,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 760,
+      "groups": [
+        {
+          "left": 56,
+          "right": 258.6640625,
+          "lastButtonRight": 234,
+          "overflow": false
+        },
+        {
+          "left": 278.6640625,
+          "right": 481.328125,
+          "lastButtonRight": 456.6640625,
+          "overflow": false
+        },
+        {
+          "left": 501.328125,
+          "right": 704,
+          "lastButtonRight": 679.328125,
+          "overflow": false
+        },
+        {
+          "left": 56,
+          "right": 258.6640625,
+          "lastButtonRight": 234,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 560,
+      "groups": [
+        {
+          "left": 52,
+          "right": 508,
+          "lastButtonRight": 508,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 508,
+          "lastButtonRight": 508,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 508,
+          "lastButtonRight": 508,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 508,
+          "lastButtonRight": 508,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "groups": [
+        {
+          "left": 52,
+          "right": 338,
+          "lastButtonRight": 338,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 338,
+          "lastButtonRight": 338,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 338,
+          "lastButtonRight": 338,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 338,
+          "lastButtonRight": 338,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "groups": [
+        {
+          "left": 52,
+          "right": 268,
+          "lastButtonRight": 240,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 268,
+          "lastButtonRight": 240,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 268,
+          "lastButtonRight": 240,
+          "overflow": false
+        },
+        {
+          "left": 52,
+          "right": 268,
+          "lastButtonRight": 240,
+          "overflow": false
+        }
+      ]
+    }
+  ]
+}
