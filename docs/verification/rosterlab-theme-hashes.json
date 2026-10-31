@@ -1,0 +1,14 @@
+{
+  "web/index.html": "f7e2691f90d8fae70b0447059254c266e79c5854201aa12cc8a850092c0638fa",
+  "web/styles.css": "ba8a9d1e8b5cb76745e8b42994e02e317944bd1e950ec5764b4121a54992857b",
+  "web/app.js": "4b5744fc66f60876943c2ca5054cc4b85775f40bc28763203735d47dfb5e2703",
+  "web/rom.js": "7620f44197174bdbef5e5da6a02a132ab59bb72ae44596f3f9c7890bca834acd",
+  "web/assets/park/crest.svg": "ba33ca7116298b38b7691af92ed84fe9737cacb51b007e7cab9f15c8d7f420ee",
+  "web/assets/park/ball.svg": "d10eccb9ebede8fe7fb567ab1f0563fb22d0125fc1679b6d5014f00c7c368cbd",
+  "web/assets/park/lawn.svg": "47fd7eca80e72877c4b8e0a681b9d6b4f1ced2a3fe2628bc00b84b3d9e748d0e",
+  "web/assets/park/star.svg": "436ea4a6b8dce2322d8a6e9eda751e3bd21fad7c2e86d648c2926a50dec34ac4",
+  "web/assets/park/pennants.svg": "cfb9721166ef5a16ad7c10ef35cf31d6171abcc257afd4ba0f57dea1068fdea5",
+  "web/assets/park/cloud.svg": "ba11c3f6d040cefac0f1970cade2064ab65566f8f3bf81c4c54d884d58c32a18",
+  "web/assets/park/tower.svg": "dfca4ee86280d4a3c8bb413bd8993064c6792ae3d8ec0a378feb2c9206e6e251",
+  "web/assets/mode-menu.png": "b07448fc48df00e36fb57bfd9e29bcd4538b90a06897fd67cebcc10e67e07c10"
+}

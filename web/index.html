@@ -3,24 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#3cbeff">
 <title>Roster Lab — Little League Championship Series</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f2e6cf' stroke='%2316211b' stroke-width='2'/%3E%3Cpath d='M7 8c6 4 6 12 0 16M25 8c-6 4-6 12 0 16' fill='none' stroke='%23c53b28' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="./assets/park/ball.svg">
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<div class="field-lines" aria-hidden="true"></div>
-
-<header class="topbar">
-  <div class="brand">
-    <div class="ball" aria-hidden="true"></div>
-    <div class="brand-text">
-      <h1>Roster Lab</h1>
-      <p>Little League Baseball <span>·</span> Championship Series</p>
+<header class="park" id="top">
+  <span class="tower" aria-hidden="true"></span>
+  <div class="sign-group">
+    <span class="pennants" aria-hidden="true"></span>
+    <div class="sign">
+      <p class="sign-kicker">Little League Baseball<span class="kicker-more"> · Championship Series</span></p>
+      <h1 class="sign-title">Roster <span class="sign-star" aria-hidden="true"></span> Lab</h1>
     </div>
+    <span class="pennants" aria-hidden="true"></span>
   </div>
+  <figure class="park-shot board">
+    <img src="./assets/mode-menu.png" width="256" height="224"
+         alt="The game's original cheerleader, celebrating pair and stands crowd at the ballpark gate of the Preview 8 mode menu">
+  </figure>
+  <span class="tower" aria-hidden="true"></span>
+</header>
 
+<div class="topbar">
+  <span id="statusChip" class="chip" data-mode="preview">LOADING</span>
   <div class="top-actions">
-    <span id="statusChip" class="chip" data-mode="preview">LOADING</span>
     <a id="getRomLink" class="btn ghost" target="_blank" rel="noopener"
        href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes"
        title="Download the 32-team Preview 8 ROM from the project's GitHub release">Get Preview 8</a>
@@ -28,7 +36,7 @@
     <button id="exportRomBtn" class="btn primary" disabled>Export ROM</button>
     <div class="menu">
       <button id="moreBtn" class="btn ghost" aria-haspopup="true" aria-expanded="false">Data ▾</button>
-      <div id="moreMenu" class="menu-list" hidden>
+      <div id="moreMenu" class="menu-list board" hidden>
         <button id="exportJsonBtn" disabled>Export JSON</button>
         <button id="importJsonBtn">Import JSON</button>
         <button id="preview32Btn">Preview 8 roster</button>
@@ -37,39 +45,12 @@
       </div>
     </div>
   </div>
-</header>
-
-<section class="hero" id="top">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="hero-kicker">SNK · 1990 · Nintendo Entertainment System</p>
-      <h2 class="hero-title">Little League Baseball</h2>
-      <p class="hero-sub">Championship Series</p>
-      <p class="hero-blurb">
-        The underrated SNK classic, taken apart: a visual roster editor, a byte-exact
-        data map, and the full history from Koushien to the Little League World Series.
-      </p>
-      <div class="hero-actions">
-        <a class="btn primary" href="#editor-app">Open the editor</a>
-        <a class="btn ghost-light" href="https://github.com/davefmurray/little-league/blob/main/docs/game-writeup.md">Read the write-up</a>
-      </div>
-    </div>
-    <div class="hero-art">
-      <img class="hero-box" src="./assets/box-art.webp" width="552" height="760"
-           alt="Little League Baseball: Championship Series box art">
-      <figure class="crt">
-        <img src="./assets/title-screen.png" width="256" height="240"
-             alt="Little League Baseball: Championship Series title screen">
-      </figure>
-    </div>
-  </div>
-  <p class="hero-credit">Title screen and box art © SNK / Little League Baseball, Inc. — used for identification and commentary.</p>
-</section>
+</div>
 
 <div id="banner" class="banner" role="status" hidden></div>
 
 <main id="editor-app">
-  <aside class="sidebar">
+  <aside class="sidebar board">
     <div class="side-head">
       <span>Teams</span>
       <span class="count" id="teamCount">0</span>
@@ -77,7 +58,7 @@
     <div id="teamList" class="team-list" role="list"></div>
   </aside>
 
-  <section id="editor" class="editor">
+  <section id="editor" class="editor board">
     <div id="emptyState" class="empty">
       <h2>No roster loaded</h2>
       <p>Open a ROM, or drop a <code>.nes</code> ROM or roster <code>.json</code> anywhere on the page.</p>
@@ -172,8 +153,15 @@
     team's three pitcher records, which this editor does not change.
   </p>
   <p class="muted">
-    Source, data map and the full game write-up:
-    <a href="https://github.com/davefmurray/little-league">github.com/davefmurray/little-league</a>
+    Source and data map:
+    <a href="https://github.com/davefmurray/little-league">github.com/davefmurray/little-league</a>.
+    The <a href="https://github.com/davefmurray/little-league/blob/main/docs/game-writeup.md">full game write-up</a>
+    covers its history from Koushien to the Little League World Series.
+  </p>
+  <p class="muted">
+    The header shows an emulator screenshot of the Preview 8 mode menu. Its stands crowd, cheerleader
+    and celebrating pair are the game's original characters, © SNK / Little League Baseball, Inc.,
+    shown for identification and commentary.
   </p>
 </footer>
 
@@ -187,12 +175,12 @@
 
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
-<dialog id="replaceDialog" class="confirm" aria-labelledby="replaceTitle">
+<dialog id="replaceDialog" class="confirm board" aria-labelledby="replaceTitle">
   <h2 id="replaceTitle">Replace unsaved edits?</h2>
   <p id="replaceText"></p>
   <div class="confirm-actions">
     <button id="keepBtn" class="btn" autofocus>Keep editing</button>
-    <button id="replaceBtn" class="btn primary">Replace</button>
+    <button id="replaceBtn" class="btn danger">Replace</button>
   </div>
 </dialog>
 
