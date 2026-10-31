@@ -3,211 +3,217 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#3cbeff">
+<meta name="theme-color" content="#183c5d">
 <title>Roster Lab — Little League Championship Series</title>
 <link rel="icon" type="image/svg+xml" href="./assets/park/ball.svg">
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<header class="park" id="top">
-  <span class="tower" aria-hidden="true"></span>
-  <div class="sign-group">
-    <span class="pennants" aria-hidden="true"></span>
-    <div class="sign">
-      <p class="sign-kicker">Little League Baseball<span class="kicker-more"> · Championship Series</span></p>
-      <h1 class="sign-title">Roster <span class="sign-star" aria-hidden="true"></span> Lab</h1>
-    </div>
-    <span class="pennants" aria-hidden="true"></span>
+<div class="app">
+  <header class="top">
+    <h1 class="brand">Roster Lab <small>Little League Baseball</small></h1>
+    <button id="exportRomBtn" class="download" type="button" hidden disabled>Download ROM <span aria-hidden="true">↓</span></button>
+  </header>
+
+  <div id="fileBar" class="file" hidden>
+    <span class="dot" aria-hidden="true"></span>
+    <strong id="fileName" class="file-name"></strong>
+    <span id="statusChip" class="file-status"></span>
+    <span class="grow"></span>
+    <a id="fileGetRom" class="link" target="_blank" rel="noopener"
+       href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes">Get Preview 8</a>
+    <button id="fileBtn" class="link" type="button" title="Open a ROM from this device. It is read in the browser, never uploaded.">Change file</button>
   </div>
-  <figure class="park-shot board">
-    <img src="./assets/mode-menu.png" width="256" height="224"
-         alt="The game's original cheerleader, celebrating pair and stands crowd at the ballpark gate of the Preview 8 mode menu">
-  </figure>
-  <span class="tower" aria-hidden="true"></span>
-</header>
 
-<div class="topbar">
-  <span id="statusChip" class="chip" data-mode="preview">LOADING</span>
-  <div class="top-actions">
-    <a id="getRomLink" class="btn ghost" target="_blank" rel="noopener"
-       href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes"
-       title="Download the 32-team Preview 8 ROM from the project's GitHub release">Get Preview 8</a>
-    <button id="openBtn" class="btn" title="Open a ROM from this device. It is read in the browser, never uploaded.">Open ROM</button>
-    <button id="exportRomBtn" class="btn primary" disabled>Export ROM</button>
-    <div class="menu">
-      <button id="moreBtn" class="btn ghost" aria-haspopup="true" aria-expanded="false">Data ▾</button>
-      <div id="moreMenu" class="menu-list board" hidden>
-        <button id="exportJsonBtn" disabled>Export JSON</button>
-        <button id="importJsonBtn">Import JSON</button>
-        <button id="preview32Btn">Preview 8 roster</button>
-        <button id="preview16Btn">16-team US roster</button>
-        <button id="revertBtn" disabled>Revert changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+  <div id="banner" class="banner" role="status" hidden></div>
 
-<div id="banner" class="banner" role="status" hidden></div>
+  <main id="editor-app">
+    <section id="start" class="start" aria-labelledby="startTitle">
+      <p class="overline">Roster Lab</p>
+      <h2 id="startTitle">Loading your teams…</h2>
+      <p id="startText">The 32-team editor opens automatically. You can also open a ROM from your device.</p>
+      <button id="openBtn" class="open" type="button" aria-describedby="startText">Open ROM…</button>
+      <p class="start-more">Need the game?
+        <a id="getRomLink" class="link" target="_blank" rel="noopener"
+           href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes"
+           title="Download the 32-team Preview 8 ROM from the project's GitHub release">Get Preview 8</a></p>
+      <p class="hint">You can also drop a <code>.nes</code> ROM or a roster <code>.json</code> anywhere on this page.</p>
+    </section>
 
-<main id="editor-app">
-  <aside class="sidebar board">
-    <div class="side-head">
-      <span>Teams</span>
-      <span class="count" id="teamCount">0</span>
-    </div>
-    <div id="teamList" class="team-list" role="list"></div>
-  </aside>
-
-  <section id="editor" class="editor board">
-    <div id="emptyState" class="empty">
-      <h2>No roster loaded</h2>
-      <p>Open a ROM, or drop a <code>.nes</code> ROM or roster <code>.json</code> anywhere on the page.</p>
-    </div>
-
-    <div id="teamPanel" hidden>
-      <div class="team-head">
-        <div class="team-id">
-          <span class="eyebrow" id="teamEyebrow">TEAM 01</span>
-          <h2 id="teamTitle">JAPAN</h2>
-          <span class="short-preview" id="shortPreview">JAPAN</span>
+    <div id="workspace" class="body" hidden>
+      <aside class="rail" aria-label="Teams">
+        <div class="rail-inner">
+          <label id="teamRailLabel" class="overline" for="teamSearch">Choose team · <span id="teamCount">0</span></label>
+          <input id="teamSearch" class="team-search" type="search" placeholder="Find a team" autocomplete="off"
+                 spellcheck="false" aria-controls="teamList">
+          <select id="teamSelect" class="team-select" aria-labelledby="teamRailLabel"></select>
+          <div id="teamList" class="team-list"></div>
+          <p id="teamNone" class="hint team-none" hidden>No team matches.</p>
         </div>
-        <div class="team-fields" id="identityEdit">
-          <label>
-            <span>Team name <em>14 max</em></span>
-            <input id="teamName" data-text="name" maxlength="14" spellcheck="false" autocomplete="off">
-          </label>
-          <label>
-            <span>Scoreboard <em id="shortLimit">10 max</em></span>
-            <input id="shortName" data-text="shortName" spellcheck="false" autocomplete="off">
-          </label>
-          <p class="field-note">These edit the main team-name and scoreboard tables. A few screens keep their own copy of the original name.</p>
-        </div>
-        <p class="identity-note" id="identityNote" hidden>
-          Team names, codes and regions are drawn into this build's menus and bracket art,
-          so Roster Lab keeps them as built.
-        </p>
-      </div>
+      </aside>
 
-      <div class="ratings" id="ratings"></div>
-
-      <section class="colors" id="colorsCard" aria-labelledby="colorsTitle">
-        <div class="colors-head">
-          <h3 id="colorsTitle">Team colors</h3>
-          <span class="hint">Approximate NES colors</span>
+      <section id="editor" class="main" aria-labelledby="teamTitle">
+        <div class="teamhead">
+          <span id="teamBadge" class="badge" hidden></span>
+          <div class="team-id">
+            <p id="teamEyebrow" class="overline"></p>
+            <h2 id="teamTitle" tabindex="-1"></h2>
+          </div>
+          <div id="identityEdit" class="team-fields" hidden>
+            <label>
+              <span>Team name <em>14 max</em></span>
+              <input id="teamName" data-text="name" maxlength="14" spellcheck="false" autocomplete="off">
+            </label>
+            <label>
+              <span>Scoreboard <em id="shortLimit">10 max</em></span>
+              <input id="shortName" data-text="shortName" spellcheck="false" autocomplete="off">
+            </label>
+            <p class="field-note">A few screens keep their own copy of the original name.</p>
+          </div>
+          <p id="identityNote" class="identity-note" hidden>
+            Team names, codes and regions are drawn into this build's menus and bracket art,
+            so Roster Lab keeps them as built.
+          </p>
         </div>
-        <div class="colors-body">
-          <figure class="uniform-figure">
-            <div id="uniformArt" class="uniform-art" role="img" aria-label="Team colors">
-              <canvas id="batterCanvas" width="49" height="58" aria-hidden="true" hidden></canvas>
-              <div id="illustration" class="illustration" aria-hidden="true">
-                <svg viewBox="0 0 48 56" width="48" height="56" focusable="false">
-                  <path data-part="hair" fill="#000000" stroke="#000000" d="M15 12h17v7H15z"/>
-                  <path data-part="cap" fill="#ffffff" stroke="#000000" d="M15 13c0-7 4-10 9-10s9 3 9 10z"/>
-                  <path data-part="cap" fill="#ffffff" stroke="#000000" d="M31 11h8v3h-8z"/>
-                  <path fill="#ffbeb2" stroke="#000000" d="M18 14h12v7c0 3-2 5-6 5s-6-2-6-5z"/>
-                  <path data-part="jersey" fill="#ffffff" stroke="#000000" d="M13 27l6-2h10l6 2 4 9-5 2-2-4v9H16v-9l-2 4-5-2z"/>
-                  <path data-part="cap" fill="#ffffff" stroke="#000000" d="M16 43h16v3H16z"/>
-                  <path fill="#ffffff" stroke="#000000" d="M16 46h16l-1 5h-5l-2-3-2 3h-5z"/>
-                  <path data-part="cap" fill="#ffffff" stroke="#000000" d="M17 51h5v2h-5zM26 51h5v2h-5z"/>
-                  <path fill="#000000" stroke="#000000" d="M16 53h7v2h-7zM25 53h7v2h-7z"/>
-                </svg>
-              </div>
-            </div>
-            <figcaption id="uniformCaption">Illustration, not game art.</figcaption>
+
+        <div id="ratings" class="ratingstrip" role="group" aria-label="Team ratings, 1 to 4"></div>
+
+        <section id="colorsCard" class="uniform" aria-labelledby="colorsTitle">
+          <figure id="uniformArt" class="pitch">
+            <canvas id="batterCanvas" width="49" height="58" role="img" hidden></canvas>
+            <figcaption id="uniformEmpty" class="pitch-empty">
+              <button id="uniformOpen" class="link" type="button">Open a ROM</button> to preview the game uniform
+            </figcaption>
           </figure>
-          <div class="color-rows" id="colorRows"></div>
-        </div>
-        <div class="upgrade-note" id="upgradeNote" hidden>
-          <p>This export gives all 32 teams their own colors.</p>
-          <details>
-            <summary>What changes in the ROM</summary>
-            <p>
-              Preview 8 shares one color record between each team and the team 16 places later. The
-              first color export changes 3 bytes in the game's color routine and fills 96 unused bytes
-              with a record for every team: 99 bytes in all. Later color edits change only their own
-              bytes, and roster-only exports stay as they are.
-            </p>
-          </details>
-        </div>
-        <p id="colorStatus" class="visually-hidden" role="status" aria-live="polite"></p>
-      </section>
+          <div class="uhead">
+            <h3 id="colorsTitle">Uniform</h3>
+            <div id="parts" class="parts" role="group" aria-labelledby="colorsTitle"></div>
+            <button id="resetColorsBtn" class="link reset-colors" type="button" data-focus="reset-colors">Reset colors</button>
+          </div>
+          <div class="uniform-pick">
+            <div class="palette-wrap">
+              <div id="palette" class="palette" role="radiogroup"></div>
+            </div>
+            <div class="uniform-help">
+              <p class="hint">Choose a part, then a color. Colors are approximate.</p>
+              <p id="paletteHint" class="hint"></p>
+              <p id="partHelp" class="hint" hidden></p>
+              <p id="colorWarn" class="warn" hidden></p>
+              <div id="upgradeNote" class="upgrade-note" hidden>
+                <p>This export gives all 32 teams their own colors.</p>
+                <details>
+                  <summary>What changes in the ROM</summary>
+                  <p>
+                    Preview 8 shares one color record between each team and the team 16 places later. The
+                    first color export changes 3 bytes in the game's color routine and fills 96 unused bytes
+                    with a record for every team: 99 bytes in all. Later color edits change only their own
+                    bytes, and roster-only exports stay as they are.
+                  </p>
+                </details>
+              </div>
+              <details class="advanced">
+                <summary>Advanced code</summary>
+                <div class="adv-body">
+                  <label class="adv-field">
+                    <span>Exact NES code</span>
+                    <input id="codeInput" autocomplete="off" spellcheck="false" placeholder="$1B or 27"
+                           aria-describedby="codeHelp codeError">
+                  </label>
+                  <button id="codeSetBtn" class="small-btn" type="button">Use code</button>
+                  <p id="codeHelp" class="adv-help">Any code from 0 to 63, typed as decimal or $00 to $3F.</p>
+                  <p id="codeError" class="adv-error" hidden></p>
+                </div>
+              </details>
+            </div>
+          </div>
+          <p id="colorStatus" class="visually-hidden" role="status" aria-live="polite"></p>
+        </section>
 
-      <div class="roster-head">
-        <h3>Roster</h3>
-        <div class="roster-actions">
-          <span class="hint" id="rosterHint"></span>
-          <button id="resetTeamBtn" class="btn tiny ghost">Reset team</button>
+        <div class="rosterbar">
+          <h3>Players <span id="rosterCount"></span></h3>
+          <span id="rosterHint" class="hint">Names up to 6 letters or digits</span>
         </div>
-      </div>
-
-      <div class="table-wrap">
-        <table class="players">
-          <thead>
-            <tr>
-              <th class="slot">#</th>
-              <th>Name</th>
-              <th>Skill <em>1–5</em></th>
-              <th>Batting <em>0–15</em></th>
-              <th>Pitching <em>0–15</em></th>
-              <th class="extra">Speed <em>0–15</em></th>
-            </tr>
-          </thead>
-          <tbody id="playerBody"></tbody>
-        </table>
-      </div>
-
-      <details class="stored" id="storedBox" hidden>
-        <summary>Stored, unused by this ROM <em id="storedCount">5 players</em></summary>
-        <p class="stored-note">
-          The game loads players 1–15 for every team. These records stay in the file exactly as built,
-          so they are shown here read-only.
-        </p>
         <div class="table-wrap">
-          <table class="players stored-table">
+          <table class="players">
             <thead>
               <tr>
-                <th class="slot">#</th>
-                <th>Name</th>
-                <th>Skill</th>
-                <th>Batting</th>
-                <th>Pitching</th>
-                <th>Speed</th>
+                <th class="slot" scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Bat <em>0–15</em></th>
+                <th scope="col">Pitch <em>0–15</em></th>
+                <th scope="col">Speed <em>0–15</em></th>
+                <th scope="col">Skill <em>1–5</em></th>
               </tr>
             </thead>
-            <tbody id="storedBody"></tbody>
+            <tbody id="playerBody"></tbody>
           </table>
         </div>
-      </details>
-    </div>
-  </section>
-</main>
 
-<footer class="foot">
+        <details id="storedBox" class="stored" hidden>
+          <summary>Stored, unused by this ROM <em id="storedCount">5 players</em></summary>
+          <p class="stored-note">
+            The game loads players 1–15 for every team. These records stay in the file exactly as built,
+            so they are shown here read-only.
+          </p>
+          <div class="table-wrap">
+            <table class="players">
+              <thead>
+                <tr>
+                  <th class="slot" scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Bat</th>
+                  <th scope="col">Pitch</th>
+                  <th scope="col">Speed</th>
+                  <th scope="col">Skill</th>
+                </tr>
+              </thead>
+              <tbody id="storedBody"></tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span id="saveState" class="save-state" hidden></span>
+    <button id="resetTeamBtn" class="link" type="button" hidden>Reset team</button>
+    <span class="grow"></span>
+    <div class="menu">
+      <button id="moreBtn" class="more" type="button" aria-expanded="false" aria-controls="moreMenu">More tools <span aria-hidden="true">⋯</span></button>
+      <div id="moreMenu" class="menu-list" hidden>
+        <button id="importJsonBtn" type="button">Import roster JSON</button>
+        <button id="exportJsonBtn" type="button" disabled>Export roster JSON</button>
+        <button id="revertBtn" type="button" disabled>Revert all changes</button>
+        <button id="preview32Btn" class="menu-sep" type="button">Preview 8 roster, no ROM</button>
+        <button id="preview16Btn" type="button">16-team US roster, no ROM</button>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<details class="about">
+  <summary>About Roster Lab</summary>
   <p>
-    <strong>SKILL</strong> is the 1–5 rating on each player card. <strong>BATTING</strong> and
-    <strong>PITCHING</strong> are two 0–15 ratings that share one byte. <strong>SPEED</strong>
-    is the 0–15 value the game copies into its baserunning variable. <strong>TEAM COLORS</strong>
-    are the three NES color codes the game loads for a team's cap and trim, jersey and hair.
+    <strong>Skill</strong> is the 1–5 rating on each player card. <strong>Bat</strong> and
+    <strong>Pitch</strong> are two 0–15 ratings that share one byte. <strong>Speed</strong>
+    is the 0–15 value the game copies into its baserunning variable. The <strong>uniform</strong>
+    colors are the three NES color codes the game loads for a team's cap and trim, jersey and hair.
   </p>
-  <p class="muted">
+  <p>
     Roster Lab opens the original 16-team US ROM and the 32-team Preview 8 ROM, including copies it
-    exported. Export saves the names, skills, stats, team ratings and team colors you changed.
+    exported. Download ROM saves the names, skills, stats, team ratings and team colors you changed.
     The first Preview 8 color edit also adds independent color records for all 32 teams;
     every other byte is copied from your file. A red <strong>P</strong> marks a player linked to one
     of the team's three pitcher records, which this editor does not change.
   </p>
-  <p class="muted">
+  <p>
     Source and data map:
     <a href="https://github.com/davefmurray/little-league">github.com/davefmurray/little-league</a>.
     The <a href="https://github.com/davefmurray/little-league/blob/main/docs/game-writeup.md">full game write-up</a>
     covers its history from Koushien to the Little League World Series.
   </p>
-  <p class="muted">
-    The header shows an emulator screenshot of the Preview 8 mode menu. Its stands crowd, cheerleader
-    and celebrating pair are the game's original characters, © SNK / Little League Baseball, Inc.,
-    shown for identification and commentary.
-  </p>
-</footer>
+</details>
 
 <div id="drop" class="drop" hidden>
   <div class="drop-card">
@@ -219,12 +225,12 @@
 
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
-<dialog id="replaceDialog" class="confirm board" aria-labelledby="replaceTitle">
+<dialog id="replaceDialog" class="confirm" aria-labelledby="replaceTitle">
   <h2 id="replaceTitle">Replace unsaved edits?</h2>
   <p id="replaceText"></p>
   <div class="confirm-actions">
-    <button id="keepBtn" class="btn" autofocus>Keep editing</button>
-    <button id="replaceBtn" class="btn danger">Replace</button>
+    <button id="keepBtn" class="small-btn" type="button" autofocus>Keep editing</button>
+    <button id="replaceBtn" class="small-btn danger" type="button">Replace</button>
   </div>
 </dialog>
 

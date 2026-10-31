@@ -160,24 +160,22 @@ the black aliases (`$0E`, `$0F`, `$1D`, `$1E`, `$1F`, `$2E`, `$2F`, `$3E`,
 team, slot and value. Swatch colors come from the FCEUX palette in
 `tools/menu32_convert.py` and are labeled approximate.
 
-The panel has three rows, Cap & trim, Jersey and Hair, each with a swatch, the
-code, its decimal value, a name and its own Reset. The basic picker is a radio
-group of 53 swatches: `$x0-$xC` of the four brightness rows, then `$0F`. A
-stored code outside that grid is added as the current choice. Arrow keys move
-and choose, Home and End go to the row's ends, Enter keeps the choice, and
-Escape restores the value the picker opened with and returns focus to the row.
-A click chooses and closes. Advanced code accepts an exact decimal or `$HH`
-code from 0 to 63; anything else shows an inline error and keeps the draft.
-Choosing `$0D` shows an inline note about original hardware, never a dialog.
-Each kept change is announced once in a polite live region.
+The uniform row has a game-character preview, three part buttons (Cap & trim,
+Jersey and Hair), one shared palette, and Reset colors for all three parts.
+The basic picker has 53 swatches: `$x0-$xC` of the four brightness rows, then
+`$0F`. A stored code outside that grid is added as the current choice. Arrow
+keys choose live; Home and End go to the row's ends. Enter or a swatch click
+keeps the choice. Escape restores the value when the part was selected or
+last kept, then focuses its part button. Changing parts or teams also keeps
+the shown color. Advanced code accepts decimal or `$HH` from 0 to 63; invalid
+input leaves the draft unchanged. `$0D` shows an inline hardware note.
 
-With a ROM open, the preview draws the batter at the plate from that ROM: 26
-8×8 sprites from CHR 4K bank 8, placed by numeric pose data in `web/colors.js`
-and colored from the field sprite palette record at fixed `$F9D0`, with the
-team's jersey and cap in sprite palette 0 entries 2 and 3 and its hair in
-palette 2 entry 3. The repository holds no pixels, role maps or screenshots
-for it. Without a ROM the preview is a simple drawing labeled "Illustration,
-not game art". Both have `role="img"` and a label that names all three colors.
+With a ROM open, the preview decodes 24 batter sprites from CHR 4K bank 8.
+Numeric pose data lives in `web/colors.js`; the field sprite palette comes
+from fixed `$F9D0`. Jersey and cap use sprite palette 0 entries 2 and 3;
+hair uses palette 2 entry 3. Two field-overlay sprites are excluded from the
+pose. No derived pixels are committed. Without a ROM, the preview prompts
+Open ROM. The canvas has a label naming all three colors.
 
 When an export from a Preview 8 file as built will add the upgrade, the panel
 says "This export gives all 32 teams their own colors." Byte counts sit in a
@@ -247,9 +245,9 @@ normalized after validation.
 
 ## Sessions
 
-The page starts on the Preview 8 roster preview built from
-`web/roster32.json` and `web/teams32.json`. The Data menu switches to the
-16-team preview (`web/roster.json`). A preview can export JSON but not a ROM.
+The page starts on the Preview 8 roster without requiring a ROM. More tools offers that roster
+(`web/roster32.json` and `web/teams32.json`) and the 16-team roster
+(`web/roster.json`) without a ROM. A preview can export JSON but not a ROM.
 Preview teams wear the original ROMs' colors, from a 16-record table in
 `web/rom.js` that the real-ROM tests check against both files.
 
@@ -263,7 +261,7 @@ draft is dirty while it differs from the baseline.
   the ROM's layout, and Revert and Reset team still return to the ROM. The
   opened file, its variant and the baseline never change. Re-importing the
   current draft asks nothing and keeps the dirty state.
-- Dirty compares exact color codes. A color row's Reset returns that slot to
+- Dirty compares exact color codes. Reset colors returns all three parts to
   the baseline; Reset team and Revert include colors. No two teams ever share
   a color object, so editing one team never changes its old partner.
 - Importing JSON with no ROM open puts the draft on the matching preview.
@@ -273,7 +271,7 @@ draft is dirty while it differs from the baseline.
   session or show an error, so a slow read, hash or fetch cannot override a
   later choice. The Replace answer applies only to its own load; edits made
   while the prompt is open bring the prompt back.
-- Export ROM writes only the fields that differ from the baseline, onto a copy
+- Download ROM writes only the fields that differ from the baseline, onto a copy
   of the opened file, then reopens the copy and checks it reads back as the
   draft before downloading it. Exports never mark the draft saved. Team colors
   follow the rules in [Team colors](#team-colors).

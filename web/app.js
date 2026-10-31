@@ -3,12 +3,12 @@ import {
   readRosterFile, rosterJson, sameTeams, skillStars, writeRom,
 } from './rom.js';
 import {
-  BASIC_COLORS, BELOW_BLACK, BELOW_BLACK_NOTE, NES_RGB, batterColor, batterPicture, describeColor, hexCode,
+  BASIC_COLORS, BELOW_BLACK, BELOW_BLACK_NOTE, NES_RGB, batterColor, batterPicture, colorName, describeColor,
   parseColorCode,
 } from './colors.js';
 
 const RATING_LABELS = ['Batting', 'Running', 'Pitching', 'Defense'];
-const UNIFORM_ROWS = [
+const UNIFORM_PARTS = [
   { slot: 'cap', label: 'Cap & trim', help: 'Cap, helmet, socks and belt trim.' },
   { slot: 'jersey', label: 'Jersey', help: '' },
   {
@@ -18,6 +18,22 @@ const UNIFORM_ROWS = [
       'While this team bats, the other team’s pitcher shows a little of this color too.',
   },
 ];
+/** The numbers a roster row edits, in column order: where each lives in a record's attrs, and its range. */
+const STATS = new Map([
+  ['bat', {
+    name: 'batting', min: 0, max: 15, read: (a) => a[3] >> 4, write: (a, v) => { a[3] = (v << 4) | (a[3] & 0x0f); },
+  }],
+  ['pit', {
+    name: 'pitching', min: 0, max: 15, read: (a) => a[3] & 0x0f, write: (a, v) => { a[3] = (a[3] & 0xf0) | v; },
+  }],
+  ['speed', {
+    name: 'speed', min: 0, max: 15, read: (a) => a[4] & 0x0f, write: (a, v) => { a[4] = (a[4] & 0xf0) | v; },
+  }],
+  // Entering the shown skill keeps the stored byte, including the one source value above 4.
+  ['skill', {
+    name: 'skill', min: 1, max: 5, read: (a) => skillStars(a[5]), write: (a, v) => { if (v !== skillStars(a[5])) a[5] = v - 1; },
+  }],
+]);
 const GRID_COLUMNS = 13;
 const OWN_COLORS = 'preview8-independent-colors-v1';
 const VIEWS = new Map([
@@ -28,14 +44,18 @@ const VIEWS = new Map([
 /**
  * @typedef {{bytes: Uint8Array, name: string, sha256: string, exact: boolean, variant: string}} LoadedRom
  * @typedef {{profile: object, baseline: object[], rom: LoadedRom | null}} Session
+ * @typedef {{team: number, part: string, opening: number, announced: number, extra: number | null}} Picker
  *
  * `session.baseline` is the frozen roster the session started from: the ROM as
  * read, or the bundled preview. `teams` is the draft, dirty whenever it differs
  * from the baseline. Imports replace only the draft, so Revert always returns to
  * the baseline. `revision` counts draft changes, which lets a load that finishes
- * later notice edits made while it ran. `picker` is the open color picker:
- * which team and slot, the value it opened with (Escape restores it), and a
- * code outside the basic grid that it keeps on offer.
+ * later notice edits made while it ran. The page follows the session: the start
+ * screen without one, a roster-only preview without a ROM, the ROM editor with
+ * one. `picker` is the shared color palette: the team and uniform part it
+ * edits, that part's value when it was chosen or last kept (Escape restores
+ * it), the last value announced, and a code outside the basic grid that it
+ * keeps on offer.
  */
 const state = { session: null, teams: [], selected: 0, revision: 0, picker: null };
 
@@ -92,18 +112,18 @@ async function mayReplace(t, draft, action, sameSession = false) {
 }
 
 function startSession(session, draft) {
+  const needsFocus = state.session === null || document.activeElement === $('uniformOpen');
   const sameLayout = state.session?.profile === session.profile;
   state.session = session;
   state.teams = structuredClone(draft);
   state.selected = sameLayout ? state.selected : 0;
-  state.picker = null;
   state.revision += 1;
   renderAll();
+  if (needsFocus) $('teamTitle').focus();
 }
 
 function replaceDraft(draft) {
   state.teams = structuredClone(draft);
-  state.picker = null;
   state.revision += 1;
   renderAll();
 }
@@ -144,10 +164,7 @@ async function showPreview(profile) {
       : 'This is the original 16-team roster. Open your copy of the US ROM to export an edited ROM. ' +
         'The file is read in this browser and never uploaded.', 'info');
   } catch (err) {
-    if (!isStale(t)) {
-      showBanner(`Couldn't load the ${label(profile)} roster. ${err.message}`, 'warn');
-      if (!state.session) $('statusChip').textContent = 'NO ROSTER';
-    }
+    if (!isStale(t)) showBanner(`Couldn't load the ${label(profile)} roster. ${err.message}`, 'warn');
   }
 }
 
@@ -250,7 +267,6 @@ function exportJsonFile() {
 function revert() {
   if (!isDirty()) return;
   state.teams = structuredClone(state.session.baseline);
-  state.picker = null;
   state.revision += 1;
   renderAll();
   toast(state.session.rom ? `Reverted to ${state.session.rom.name}.` : 'Reverted to the roster preview.');
@@ -260,7 +276,6 @@ function resetTeam() {
   const base = state.session?.baseline[state.selected];
   if (!base) return;
   state.teams[state.selected] = structuredClone(base);
-  state.picker = null;
   state.revision += 1;
   renderAll();
   toast(`Reset team ${state.selected + 1}.`);
@@ -268,52 +283,92 @@ function resetTeam() {
 
 function renderChrome() {
   const { session } = state;
+  const rom = session?.rom;
   const dirty = isDirty();
-  const chip = $('statusChip');
-  chip.dataset.mode = session?.rom ? 'rom' : 'preview';
-  chip.dataset.dirty = String(dirty);
-  const source = !session?.rom ? 'ROSTER ONLY' : session.rom.exact ? 'ORIGINAL ROM' : 'EDITED ROM';
-  const own = session?.rom?.variant === OWN_COLORS && 'own team colors';
-  chip.textContent = session
+  $('start').hidden = session !== null;
+  $('workspace').hidden = session === null;
+  $('fileBar').hidden = session === null;
+  $('fileBar').dataset.mode = rom ? 'rom' : 'roster';
+  $('fileBar').dataset.dirty = String(dirty);
+  $('fileName').textContent = rom ? rom.name : 'No ROM open';
+  $('fileBtn').textContent = rom ? 'Change file' : 'Open ROM';
+  $('fileGetRom').hidden = Boolean(rom);
+  const source = !rom ? 'ROSTER ONLY' : rom.exact ? 'ORIGINAL ROM' : 'EDITED ROM';
+  const own = rom?.variant === OWN_COLORS && 'own team colors';
+  $('statusChip').textContent = session
     ? [VIEWS.get(session.profile).chip, own, source, dirty && 'UNSAVED'].filter(Boolean).join(' · ')
-    : 'LOADING';
-  chip.title = session?.rom ? session.rom.name : '';
-  $('exportRomBtn').disabled = !session?.rom;
-  $('exportRomBtn').title = session?.rom ? '' : 'Open a ROM to export one';
+    : '';
+  $('exportRomBtn').hidden = !rom;
+  $('exportRomBtn').disabled = !rom;
   $('exportJsonBtn').disabled = !session;
   $('revertBtn').disabled = !dirty;
-  $('upgradeNote').hidden = !(session?.rom && needsColorUpgrade(session.rom.variant, session.baseline, state.teams));
+  $('saveState').hidden = session === null;
+  $('saveState').dataset.dirty = String(dirty);
+  $('saveState').textContent = dirty ? 'Unsaved changes' : 'No unsaved changes';
+  $('resetTeamBtn').hidden = session === null;
+  $('upgradeNote').hidden = !(rom && needsColorUpgrade(rom.variant, session.baseline, state.teams));
 }
 
 function renderTeamList() {
   $('teamCount').textContent = String(state.teams.length);
   $('teamList').innerHTML = state.teams.map((t, i) => `
-    <button type="button" class="team-card${i === state.selected ? ' active' : ''}" data-team="${i}"
-            aria-current="${i === state.selected}">
-      <span class="t-num">${pad2(i + 1)}</span>
-      <span class="t-main">
-        <span class="t-name">${esc(t.name || '—')}</span>
-        <span class="bars" aria-hidden="true">${t.ratings.map((v) => `<i style="--v:${v}"></i>`).join('')}</span>
-      </span>
+    <button type="button" class="team" data-team="${i}">
+      <span class="t-num">${pad2(i + 1)}</span> <span class="t-name">${esc(t.name || '—')}</span>
     </button>`).join('');
+  $('teamSelect').innerHTML = state.teams.map((t, i) => `<option value="${i}">${pad2(i + 1)} ${esc(t.name || '—')}</option>`).join('');
+  markTeam();
+  filterTeams();
 }
+
+/** Mark the selected team in the rail and the narrow-screen select, in place so focus stays put. */
+function markTeam() {
+  for (const card of document.querySelectorAll('#teamList [data-team]')) {
+    const on = Number(card.dataset.team) === state.selected;
+    card.classList.toggle('selected', on);
+    card.setAttribute('aria-current', String(on));
+  }
+  $('teamSelect').value = String(state.selected);
+}
+
+function filterTeams() {
+  const words = $('teamSearch').value.toLowerCase().split(/\s+/).filter(Boolean);
+  let shown = 0;
+  for (const card of document.querySelectorAll('#teamList [data-team]')) {
+    const t = Number(card.dataset.team);
+    const text = [pad2(t + 1), state.teams[t].name, state.teams[t].code].filter(Boolean).join(' ').toLowerCase();
+    card.hidden = !words.every((word) => text.includes(word));
+    if (!card.hidden) shown += 1;
+  }
+  $('teamNone').hidden = shown > 0 || state.teams.length === 0;
+}
+
+function selectTeam(t) {
+  keepColor();
+  state.selected = t;
+  markTeam();
+  renderEditor();
+}
+
+const dots = (v) => '●'.repeat(v) + '○'.repeat(4 - v);
 
 function renderRatings(team) {
   $('ratings').innerHTML = RATING_LABELS.map((name, r) => `
     <div class="rating">
-      <span class="r-label">${name}</span>
-      <div class="r-pips" data-r="${r}">
-        ${[1, 2, 3, 4].map((v) => `
-          <button type="button" class="rp${team.ratings[r] === v ? ' on' : ''}" data-rating="${v}"
-                  aria-label="${name} ${v}" aria-pressed="${team.ratings[r] === v}">${v}</button>`).join('')}
-      </div>
+      <label for="rating-${r}">${name}</label>
+      <select id="rating-${r}" data-r="${r}">
+        ${[1, 2, 3, 4].map((v) => `<option value="${v}"${team.ratings[r] === v ? ' selected' : ''}>${v}</option>`).join('')}
+      </select>
+      <i data-dots aria-hidden="true">${dots(team.ratings[r])}</i>
     </div>`).join('');
 }
 
-const rowOf = (slot) => UNIFORM_ROWS.find((row) => row.slot === slot);
+const rowOf = (slot) => UNIFORM_PARTS.find((row) => row.slot === slot);
 const teamLabel = (t) => state.teams[t].name || `Team ${t + 1}`;
 const colorCells = (picker) => (picker.extra === null ? BASIC_COLORS : [...BASIC_COLORS, picker.extra]);
-const colorDescription = (row, value) => [row.help && `color-help-${row.slot}`, value === BELOW_BLACK && `color-warn-${row.slot}`].filter(Boolean).join(' ');
+const partButton = (slot) => document.querySelector(`#parts [data-part="${slot}"]`);
+const pickedColor = () => state.teams[state.picker.team].uniform[state.picker.part];
+const keptText = () =>
+  `${teamLabel(state.picker.team)} ${rowOf(state.picker.part).label}: ${describeColor(pickedColor())}.`;
 
 function inkFor(code) {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(NES_RGB[code].slice(i, i + 2), 16));
@@ -322,101 +377,87 @@ function inkFor(code) {
 
 function swatch(row, code, value, extra) {
   const on = code === value;
-  return `<button type="button" class="sw-btn" role="radio" data-swatch="${code}" data-focus="sw-${row.slot}-${code}"
+  return `<button type="button" class="sw-btn" role="radio" data-swatch="${code}" data-focus="sw-${code}"
     aria-checked="${on}" tabindex="${on ? 0 : -1}" data-ink="${inkFor(code)}" style="--sw:${NES_RGB[code]}"
     aria-label="${esc(`${row.label} ${describeColor(code)}${extra ? ', outside the basic grid' : ''}`)}"
     title="${esc(describeColor(code))}"></button>`;
 }
 
-const swatchGrid = (row, value, picker) =>
-  colorCells(picker).map((code) => swatch(row, code, value, code === picker.extra)).join('');
-
-function pickerHtml(row, value, picker) {
-  const s = row.slot;
-  return `
-    <div class="swatches" role="radiogroup" aria-label="${esc(`${row.label} color`)}" data-swatches="${s}">${swatchGrid(row, value, picker)}</div>
-    <p class="picker-hint">Arrow keys move. Enter keeps. Escape puts back ${hexCode(picker.opening)}.</p>
-    <details class="advanced">
-      <summary data-focus="adv-${s}">Advanced code</summary>
-      <div class="adv-body">
-        <label class="adv-field">
-          <span>Exact NES code</span>
-          <input data-code-input="${s}" data-focus="code-${s}" autocomplete="off" spellcheck="false"
-                 placeholder="$1B or 27" aria-describedby="code-help-${s} code-error-${s}">
-        </label>
-        <button type="button" class="btn tiny" data-code-set="${s}" data-focus="set-${s}">Use code</button>
-        <p class="adv-help" id="code-help-${s}">Any code from 0 to 63, typed as decimal or $00 to $3F.</p>
-        <p class="adv-error" id="code-error-${s}" hidden></p>
-      </div>
-    </details>`;
+/** Point the shared palette at `slot` of the shown team, starting a fresh Escape point. */
+function aimPicker(slot) {
+  const team = state.selected;
+  const value = state.teams[team].uniform[slot];
+  state.picker = { team, part: slot, opening: value, announced: value, extra: BASIC_COLORS.includes(value) ? null : value };
 }
 
-function colorRow(row, team, base) {
-  const s = row.slot;
-  const value = team.uniform[s];
-  const open = state.picker?.slot === s;
-  return `
-    <div class="color-row" data-color-row="${s}">
-      <div class="cr-text">
-        <span class="cr-label" id="color-label-${s}">${esc(row.label)}</span>
-        ${row.help ? `<span class="cr-help" id="color-help-${s}">${esc(row.help)}</span>` : ''}
-      </div>
-      <div class="cr-controls">
-        <button type="button" class="cr-pick" data-pick="${s}" data-focus="pick-${s}" aria-expanded="${open}"
-                aria-controls="picker-${s}" aria-labelledby="color-label-${s} color-value-${s}" aria-describedby="${colorDescription(row, value)}">
-          <span class="sw-chip" data-chip style="--sw:${NES_RGB[value]}"></span>
-          <span class="cr-value" id="color-value-${s}">${esc(describeColor(value))}</span>
-        </button>
-        <button type="button" class="btn tiny ghost" data-color-reset="${s}" data-focus="reset-${s}"
-                aria-label="Reset ${esc(row.label)}"${value === base.uniform[s] ? ' disabled' : ''}>Reset</button>
-      </div>
-      <p class="cr-warn" id="color-warn-${s}" data-color-warn="${s}"${value === BELOW_BLACK ? '' : ' hidden'}>${esc(BELOW_BLACK_NOTE)}</p>
-      <div class="picker" id="picker-${s}" data-picker="${s}"${open ? '' : ' hidden'}>${open ? pickerHtml(row, value, state.picker) : ''}</div>
-    </div>`;
+function renderPalette() {
+  const { picker } = state;
+  const row = rowOf(picker.part);
+  const value = pickedColor();
+  $('palette').setAttribute('aria-label', `${row.label} color`);
+  $('palette').innerHTML = colorCells(picker).map((code) => swatch(row, code, value, code === picker.extra)).join('');
 }
 
 function renderColors() {
-  const t = state.selected;
-  if (state.picker?.team !== t) state.picker = null;
   const active = document.activeElement;
   const focus = active?.closest?.('#colorsCard') ? active.dataset.focus : undefined;
-  $('colorRows').innerHTML = UNIFORM_ROWS.map((row) => colorRow(row, state.teams[t], state.session.baseline[t])).join('');
+  aimPicker(state.picker?.part ?? UNIFORM_PARTS[0].slot);
+  $('parts').innerHTML = UNIFORM_PARTS.map((row) => `
+    <button type="button" class="part" data-part="${row.slot}" data-focus="part-${row.slot}" aria-pressed="false">
+      <span class="sw" data-chip></span> <span class="part-label">${esc(row.label)}</span> <span class="visually-hidden part-value"></span>
+    </button>`).join('');
+  renderPalette();
+  updateUniform();
   if (focus) document.querySelector(`[data-focus="${focus}"]`)?.focus();
-  renderPreview();
 }
 
-/** Update one row in place, so focus and an open picker stay put. */
-function updateColorRow(slot) {
-  const t = state.selected;
-  const value = state.teams[t].uniform[slot];
-  const el = document.querySelector(`[data-color-row="${slot}"]`);
-  el.querySelector('[data-chip]').setAttribute('style', `--sw:${NES_RGB[value]}`);
-  el.querySelector('.cr-value').textContent = describeColor(value);
-  el.querySelector('[data-color-reset]').disabled = value === state.session.baseline[t].uniform[slot];
-  el.querySelector('[data-color-warn]').hidden = value !== BELOW_BLACK;
-  el.querySelector('[data-pick]').setAttribute('aria-describedby', colorDescription(rowOf(slot), value));
+/** Paint the team's colors wherever they appear, in place so focus stays put. */
+function updateUniform() {
   const { picker } = state;
-  if (picker?.slot !== slot) return;
-  const grid = el.querySelector('[data-swatches]');
+  const { uniform } = state.teams[picker.team];
+  const value = uniform[picker.part];
+  for (const row of UNIFORM_PARTS) {
+    const code = uniform[row.slot];
+    const button = partButton(row.slot);
+    button.setAttribute('aria-pressed', String(row.slot === picker.part));
+    if (code === BELOW_BLACK) button.setAttribute('aria-describedby', 'colorWarn');
+    else button.removeAttribute('aria-describedby');
+    button.title = describeColor(code);
+    button.querySelector('[data-chip]').setAttribute('style', `--sw:${NES_RGB[code]}`);
+    button.querySelector('.part-value').textContent = describeColor(code);
+  }
   if (!colorCells(picker).includes(value)) {
     picker.extra = value;
-    grid.innerHTML = swatchGrid(rowOf(slot), value, picker);
-    return;
+    renderPalette();
+  } else {
+    for (const b of $('palette').querySelectorAll('[data-swatch]')) {
+      const on = Number(b.dataset.swatch) === value;
+      b.setAttribute('aria-checked', String(on));
+      b.setAttribute('tabindex', on ? '0' : '-1');
+    }
   }
-  for (const b of grid.querySelectorAll('[data-swatch]')) {
-    const on = Number(b.dataset.swatch) === value;
-    b.setAttribute('aria-checked', String(on));
-    b.setAttribute('tabindex', on ? '0' : '-1');
-  }
+  const { help } = rowOf(picker.part);
+  $('partHelp').textContent = help;
+  $('partHelp').hidden = !help;
+  $('colorWarn').hidden = value !== BELOW_BLACK;
+  $('palette').setAttribute('aria-describedby',
+    [help && 'partHelp', 'paletteHint', value === BELOW_BLACK && 'colorWarn'].filter(Boolean).join(' '));
+  showKeysHint();
+  $('resetColorsBtn').disabled = sameTeams(uniform, state.session.baseline[picker.team].uniform);
+  renderPreview();
 }
 
-function chooseColor(slot, code) {
-  const team = state.teams[state.selected];
-  if (team.uniform[slot] === code) return false;
-  team.uniform = { ...team.uniform, [slot]: code };
+function showKeysHint() {
+  $('paletteHint').textContent = `Arrow keys move. Enter keeps. Escape puts back ${colorName(state.picker.opening)}.`;
+}
+
+function chooseColor(code) {
+  const { picker } = state;
+  const team = state.teams[picker.team];
+  if (team.uniform[picker.part] === code) return false;
+  team.uniform = { ...team.uniform, [picker.part]: code };
   state.revision += 1;
-  updateColorRow(slot);
-  renderPreview();
+  updateUniform();
   renderChrome();
   return true;
 }
@@ -427,55 +468,59 @@ function announce(text) {
   el.textContent = text;
 }
 
-function announceColor(slot, text) {
+/** Say `text` about the shown part's color unless that code was the last one said. */
+function announceColor(text) {
   const { picker } = state;
-  const code = state.teams[state.selected].uniform[slot];
-  if (picker?.slot === slot) {
-    if (picker.announced === code) return;
-    picker.announced = code;
-  }
+  const code = pickedColor();
+  if (picker.announced === code) return;
+  picker.announced = code;
   announce(code === BELOW_BLACK ? `${text} ${BELOW_BLACK_NOTE}` : text);
 }
 
-function openPicker(slot) {
-  closePicker();
-  const value = state.teams[state.selected].uniform[slot];
-  state.picker = { team: state.selected, slot, opening: value, announced: value, extra: BASIC_COLORS.includes(value) ? null : value };
-  const box = document.querySelector(`[data-picker="${slot}"]`);
-  box.innerHTML = pickerHtml(rowOf(slot), value, state.picker);
-  box.hidden = false;
-  document.querySelector(`[data-pick="${slot}"]`).setAttribute('aria-expanded', 'true');
-  box.querySelector('[aria-checked="true"]')?.focus();
-}
-
-/** Close the open picker, keeping its value or restoring the one it opened with, and say what was kept. */
-function closePicker({ restore = false, focus = false } = {}) {
+/** Keep the shown color as the new Escape point, and say it once. Leaving a part or team keeps it too. */
+function keepColor() {
   const { picker } = state;
   if (!picker) return;
-  const { label } = rowOf(picker.slot);
-  const changed = restore && chooseColor(picker.slot, picker.opening);
-  const value = state.teams[picker.team].uniform[picker.slot];
-  if (changed) announce(`${label} back to ${describeColor(value)}.`);
-  else announceColor(picker.slot, `${teamLabel(picker.team)} ${label}: ${describeColor(value)}.`);
-  state.picker = null;
-  const box = document.querySelector(`[data-picker="${picker.slot}"]`);
-  box.hidden = true;
-  box.innerHTML = '';
-  const button = document.querySelector(`[data-pick="${picker.slot}"]`);
-  button.setAttribute('aria-expanded', 'false');
-  if (focus) button.focus();
+  picker.opening = pickedColor();
+  announceColor(keptText());
+  showKeysHint();
 }
 
-function resetColor(slot) {
-  const value = state.session.baseline[state.selected].uniform[slot];
-  if (!chooseColor(slot, value)) return;
-  document.querySelector(`[data-pick="${slot}"]`).focus();
-  announceColor(slot, `${rowOf(slot).label} reset to ${describeColor(value)}.`);
+/** Put back the color the shown part had when it was chosen or last kept. */
+function restoreColor() {
+  const { picker } = state;
+  if (chooseColor(picker.opening)) {
+    picker.announced = picker.opening;
+    announce(`${rowOf(picker.part).label} back to ${describeColor(picker.opening)}.`);
+  }
+  partButton(picker.part).focus();
 }
 
-function applyCode(slot) {
-  const input = document.querySelector(`[data-code-input="${slot}"]`);
-  const error = $(`code-error-${slot}`);
+function selectPart(slot) {
+  keepColor();
+  aimPicker(slot);
+  renderPalette();
+  updateUniform();
+  $('palette').querySelector('[aria-checked="true"]')?.focus();
+}
+
+function resetColors() {
+  const t = state.selected;
+  const base = state.session.baseline[t].uniform;
+  if (sameTeams(state.teams[t].uniform, base)) return;
+  state.teams[t].uniform = { ...base };
+  state.revision += 1;
+  renderColors();
+  renderChrome();
+  partButton(state.picker.part).focus();
+  const parts = UNIFORM_PARTS.map((row) => `${row.label} ${describeColor(base[row.slot])}`).join(', ');
+  const note = Object.values(base).includes(BELOW_BLACK) ? ` ${BELOW_BLACK_NOTE}` : '';
+  announce(`${teamLabel(t)} colors reset: ${parts}.${note}`);
+}
+
+function applyCode() {
+  const input = $('codeInput');
+  const error = $('codeError');
   const parsed = parseColorCode(input.value);
   if (parsed.error) {
     error.textContent = parsed.error;
@@ -487,29 +532,44 @@ function applyCode(slot) {
   error.textContent = '';
   error.hidden = true;
   input.removeAttribute('aria-invalid');
-  chooseColor(slot, parsed.value);
-  announceColor(slot, `${teamLabel(state.selected)} ${rowOf(slot).label}: ${describeColor(parsed.value)}.`);
+  chooseColor(parsed.value);
+  announceColor(keptText());
 }
 
-/** Radio-group keys: arrows move and choose, Home and End go to the row's ends, Enter keeps, Escape restores. */
+/**
+ * Palette keys, as a radio group: arrows move and choose, Home and End go to the row's ends,
+ * Enter keeps, and Escape anywhere in the uniform controls restores. Arrows also step roster numbers.
+ */
 function onEditorKeydown(e) {
+  const el = e.target;
+  const stat = STATS.get(el.dataset?.field);
+  if (stat && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+    e.preventDefault();
+    const player = playerOf(el);
+    const step = e.key === 'ArrowUp' ? 1 : -1;
+    editStat(player, stat, Math.min(stat.max, Math.max(stat.min, stat.read(player.attrs) + step)));
+    el.value = String(stat.read(player.attrs));
+    el.removeAttribute('aria-invalid');
+    return;
+  }
   const { picker } = state;
-  if (!picker || !e.target.closest?.(`[data-color-row="${picker.slot}"]`)) return;
+  if (!picker || !el.closest?.('#colorsCard')) return;
   if (e.key === 'Escape') {
     e.preventDefault();
-    closePicker({ restore: true, focus: true });
+    restoreColor();
     return;
   }
-  if (e.key === 'Enter' && e.target.dataset.codeInput) {
+  if (e.key === 'Enter' && el.id === 'codeInput') {
     e.preventDefault();
-    applyCode(picker.slot);
+    applyCode();
     return;
   }
-  const sw = e.target.closest('[data-swatch]');
+  const sw = el.closest('[data-swatch]');
   if (!sw) return;
   if (e.key === 'Enter') {
     e.preventDefault();
-    closePicker({ focus: true });
+    keepColor();
+    partButton(picker.part).focus();
     return;
   }
   const cells = colorCells(picker);
@@ -526,8 +586,8 @@ function onEditorKeydown(e) {
   }[e.key];
   if (next === undefined) return;
   e.preventDefault();
-  chooseColor(picker.slot, cells[next]);
-  document.querySelector(`[data-picker="${picker.slot}"] [data-swatch="${cells[next]}"]`)?.focus();
+  chooseColor(cells[next]);
+  $('palette').querySelector(`[data-swatch="${cells[next]}"]`)?.focus();
 }
 
 const batters = new WeakMap();
@@ -546,100 +606,76 @@ function drawBatter(rom, uniform) {
   ctx.putImageData(image, 0, 0);
 }
 
+/** The batter decoded from the open ROM, or a pointer to open one. Never a stand-in drawing. */
 function renderPreview() {
   const t = state.selected;
-  const team = state.teams[t];
-  if (!team) return;
-  const { cap, jersey, hair } = team.uniform;
-  $('uniformArt').setAttribute('aria-label', `${teamLabel(t)} colors: cap and trim ${describeColor(cap)}, ` +
-    `jersey ${describeColor(jersey)}, hair ${describeColor(hair)}.`);
-  const rom = state.session?.rom;
+  const rom = state.session.rom;
   $('batterCanvas').hidden = !rom;
-  $('illustration').hidden = Boolean(rom);
-  $('uniformCaption').textContent = rom
-    ? 'Batter at the plate, drawn from your ROM. Colors approximate.'
-    : 'Illustration, not game art.';
-  if (rom) {
-    drawBatter(rom, team.uniform);
-    return;
-  }
-  for (const part of document.querySelectorAll('#illustration [data-part]')) {
-    part.setAttribute('fill', NES_RGB[team.uniform[part.dataset.part]]);
-  }
+  $('uniformEmpty').hidden = Boolean(rom);
+  if (!rom) return;
+  const { cap, jersey, hair } = state.teams[t].uniform;
+  $('batterCanvas').setAttribute('aria-label', `${teamLabel(t)} colors: cap and trim ${describeColor(cap)}, ` +
+    `jersey ${describeColor(jersey)}, hair ${describeColor(hair)}.`);
+  drawBatter(rom, state.teams[t].uniform);
 }
 
-const statCell = (field, value, name, p) => `
-  <td class="stat">
-    <div class="stat-inner">
-      <input type="range" min="0" max="15" step="1" value="${value}" data-field="${field}" aria-label="Player ${p + 1} ${name}">
-      <output>${value}</output>
-    </div>
-  </td>`;
+const playerOf = (el) => state.teams[state.selected].players[Number(el.closest('tr[data-p]').dataset.p)];
+
+function editStat(player, stat, value) {
+  const before = player.attrs.join();
+  stat.write(player.attrs, value);
+  if (player.attrs.join() !== before) changed();
+}
 
 function playerRow(player, p) {
-  const [, , , stats, speed, skill, pitcher] = player.attrs;
-  const stars = skillStars(skill);
+  const pitcher = player.attrs[6];
   return `
     <tr data-p="${p}">
       <td class="slot">${pad2(p + 1)}${pitcher ? '<i class="pitch-flag" title="Linked to one of the team’s pitcher records">P</i>' : ''}</td>
       <td>
-        <input class="name-input" data-field="name" value="${esc(player.name)}"
+        <input class="name" data-field="name" value="${esc(player.name)}"
                maxlength="6" spellcheck="false" autocomplete="off" aria-label="Player ${p + 1} name">
       </td>
-      <td>
-        <div class="pips">
-          ${[1, 2, 3, 4, 5].map((n) => `
-            <button type="button" class="pip${n <= stars ? ' on' : ''}" data-skill="${n}"
-                    aria-label="Player ${p + 1} skill ${n}" aria-pressed="${n === stars}"></button>`).join('')}
-        </div>
-      </td>
-      ${statCell('bat', stats >> 4, 'batting', p)}
-      ${statCell('pit', stats & 0x0f, 'pitching', p)}
-      ${statCell('speed', speed & 0x0f, 'speed', p)}
+      ${[...STATS].map(([field, stat]) => `
+        <td>
+          <input class="num" data-field="${field}" value="${stat.read(player.attrs)}" inputmode="numeric" maxlength="2"
+                 autocomplete="off" title="${stat.min} to ${stat.max}" aria-label="Player ${p + 1} ${stat.name}">
+        </td>`).join('')}
     </tr>`;
 }
 
 function storedRow(player, p) {
-  const [, , , stats, speed, skill] = player.attrs;
   return `
     <tr>
       <td class="slot">${pad2(p + 1)}</td>
       <td>${esc(player.name || '—')}</td>
-      <td>${skillStars(skill)}</td>
-      <td>${stats >> 4}</td>
-      <td>${stats & 0x0f}</td>
-      <td>${speed & 0x0f}</td>
+      ${[...STATS.values()].map((stat) => `<td>${stat.read(player.attrs)}</td>`).join('')}
     </tr>`;
 }
 
 function renderEditor() {
   const team = state.teams[state.selected];
-  $('emptyState').hidden = Boolean(team);
-  $('teamPanel').hidden = !team;
   if (!team) return;
 
   const { profile } = state.session;
-  const tags = [team.code, team.region].filter(Boolean).join(' · ');
-  $('teamEyebrow').textContent = `Team ${pad2(state.selected + 1)} / ${state.teams.length}${tags ? ` · ${tags}` : ''}`;
+  $('teamBadge').textContent = team.code ?? '';
+  $('teamBadge').hidden = !team.code;
+  $('teamEyebrow').textContent = `Team ${pad2(state.selected + 1)} / ${state.teams.length}${team.region ? ` · ${team.region}` : ''}`;
   $('teamTitle').textContent = team.name || '—';
 
   const editable = profile.text.filter((f) => f.editable);
   $('identityEdit').hidden = editable.length === 0;
   $('identityNote').hidden = editable.length > 0;
-  $('shortPreview').hidden = team.shortName === undefined;
   for (const f of editable) {
     const input = document.querySelector(`[data-text="${f.key}"]`);
     input.value = team[f.key];
     input.maxLength = f.width(state.selected);
   }
-  if (team.shortName !== undefined) {
-    $('shortPreview').textContent = team.shortName || '—';
-    $('shortLimit').textContent = `${textField('shortName').width(state.selected)} max`;
-  }
+  if (team.shortName !== undefined) $('shortLimit').textContent = `${textField('shortName').width(state.selected)} max`;
 
   renderRatings(team);
   renderColors();
-  $('rosterHint').textContent = `${ACTIVE_PLAYERS} players · names up to 6 letters or digits`;
+  $('rosterCount').textContent = `${ACTIVE_PLAYERS} active`;
   $('playerBody').innerHTML = team.players.slice(0, ACTIVE_PLAYERS).map(playerRow).join('');
   const unused = team.players.slice(ACTIVE_PLAYERS);
   $('storedBox').hidden = unused.length === 0;
@@ -692,9 +728,9 @@ function onEditorInput(e) {
   const team = state.teams[state.selected];
   const el = e.target;
   if (!team || !el.dataset) return;
-  if (el.dataset.codeInput) {
+  if (el.id === 'codeInput') {
     el.removeAttribute('aria-invalid');
-    $(`code-error-${el.dataset.codeInput}`).hidden = true;
+    $('codeError').hidden = true;
     return;
   }
 
@@ -704,7 +740,6 @@ function onEditorInput(e) {
     if (el.value !== v) el.value = v;
     team[field.key] = v.trimEnd();
     if (field.key === 'name') $('teamTitle').textContent = team.name || '—';
-    if (field.key === 'shortName') $('shortPreview').textContent = team.shortName || '—';
     changed({ list: field.key === 'name' });
     return;
   }
@@ -722,73 +757,57 @@ function onEditorInput(e) {
     return;
   }
 
-  if (el.type === 'range') {
-    const v = Number(el.value);
-    const { attrs } = player;
-    if (el.dataset.field === 'bat') attrs[3] = (v << 4) | (attrs[3] & 0x0f);
-    if (el.dataset.field === 'pit') attrs[3] = (attrs[3] & 0xf0) | v;
-    if (el.dataset.field === 'speed') attrs[4] = (attrs[4] & 0xf0) | v;
-    el.nextElementSibling.textContent = String(v);
-    changed();
+  // Digits only. A blank or out-of-range entry keeps the last good value until the field is left.
+  const stat = STATS.get(el.dataset.field);
+  if (!stat) return;
+  const digits = el.value.replace(/\D/g, '').slice(0, 2);
+  if (el.value !== digits) el.value = digits;
+  const v = digits === '' ? NaN : Number(digits);
+  if (!(v >= stat.min && v <= stat.max)) {
+    el.setAttribute('aria-invalid', 'true');
+    return;
   }
+  el.removeAttribute('aria-invalid');
+  editStat(player, stat, v);
+}
+
+function onEditorChange(e) {
+  const team = state.teams[state.selected];
+  const el = e.target;
+  if (!team || !el.dataset) return;
+  if (el.dataset.r !== undefined) {
+    const r = Number(el.dataset.r);
+    const v = Number(el.value);
+    if (team.ratings[r] === v) return;
+    team.ratings[r] = v;
+    el.parentNode.querySelector('[data-dots]').textContent = dots(v);
+    changed();
+    return;
+  }
+  const stat = STATS.get(el.dataset.field);
+  if (!stat || !el.closest('tr[data-p]')) return;
+  el.value = String(stat.read(playerOf(el).attrs));
+  el.removeAttribute('aria-invalid');
 }
 
 function onEditorClick(e) {
-  const team = state.teams[state.selected];
-  if (!team) return;
-
-  const pick = e.target.closest('[data-pick]');
-  if (pick) {
-    if (state.picker?.slot === pick.dataset.pick) closePicker();
-    else openPicker(pick.dataset.pick);
+  if (!state.teams[state.selected]) return;
+  const part = e.target.closest('[data-part]');
+  if (part) {
+    selectPart(part.dataset.part);
     return;
   }
   const chosen = e.target.closest('[data-swatch]');
-  if (chosen && state.picker) {
-    chooseColor(state.picker.slot, Number(chosen.dataset.swatch));
-    closePicker({ focus: true });
+  if (chosen) {
+    chooseColor(Number(chosen.dataset.swatch));
+    keepColor();
     return;
   }
-  const reset = e.target.closest('[data-color-reset]');
-  if (reset) {
-    resetColor(reset.dataset.colorReset);
+  if (e.target.closest('#resetColorsBtn')) {
+    resetColors();
     return;
   }
-  const use = e.target.closest('[data-code-set]');
-  if (use) {
-    applyCode(use.dataset.codeSet);
-    return;
-  }
-
-  const pip = e.target.closest('[data-skill]');
-  if (pip) {
-    const row = pip.closest('tr[data-p]');
-    const player = team.players[Number(row.dataset.p)];
-    const n = Number(pip.dataset.skill);
-    // Clicking the shown value keeps the stored byte, including the one source value above 4.
-    if (n === skillStars(player.attrs[5])) return;
-    player.attrs[5] = n - 1;
-    row.querySelectorAll('.pip').forEach((b) => {
-      b.classList.toggle('on', Number(b.dataset.skill) <= n);
-      b.setAttribute('aria-pressed', String(Number(b.dataset.skill) === n));
-    });
-    changed();
-    return;
-  }
-
-  const rating = e.target.closest('[data-rating]');
-  if (rating) {
-    const box = rating.closest('[data-r]');
-    const r = Number(box.dataset.r);
-    const v = Number(rating.dataset.rating);
-    if (team.ratings[r] === v) return;
-    team.ratings[r] = v;
-    box.querySelectorAll('.rp').forEach((b) => {
-      b.classList.toggle('on', Number(b.dataset.rating) === v);
-      b.setAttribute('aria-pressed', String(Number(b.dataset.rating) === v));
-    });
-    changed({ list: true });
-  }
+  if (e.target.closest('#codeSetBtn')) applyCode();
 }
 
 function closeMenu() {
@@ -799,9 +818,13 @@ function closeMenu() {
 function bindEvents() {
   const menuAction = (id, action) => $(id).addEventListener('click', () => {
     closeMenu();
+    $('moreBtn').focus();
     return action();
   });
-  $('openBtn').addEventListener('click', () => $('romInput').click());
+  const chooseRom = () => $('romInput').click();
+  $('openBtn').addEventListener('click', chooseRom);
+  $('fileBtn').addEventListener('click', chooseRom);
+  $('uniformOpen').addEventListener('click', chooseRom);
   $('exportRomBtn').addEventListener('click', exportRomFile);
   menuAction('exportJsonBtn', exportJsonFile);
   menuAction('importJsonBtn', () => $('jsonInput').click());
@@ -845,14 +868,20 @@ function bindEvents() {
 
   $('teamList').addEventListener('click', (e) => {
     const card = e.target.closest('[data-team]');
-    if (!card) return;
-    closePicker();
-    state.selected = Number(card.dataset.team);
-    renderTeamList();
-    renderEditor();
+    if (card) selectTeam(Number(card.dataset.team));
+  });
+  $('teamSelect').addEventListener('change', (e) => selectTeam(Number(e.target.value)));
+  $('teamSearch').addEventListener('input', filterTeams);
+  $('teamSearch').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const first = Array.from(document.querySelectorAll('#teamList [data-team]')).find((card) => !card.hidden);
+    if (!first) return;
+    e.preventDefault();
+    selectTeam(Number(first.dataset.team));
   });
 
   $('editor').addEventListener('input', onEditorInput);
+  $('editor').addEventListener('change', onEditorChange);
   $('editor').addEventListener('click', onEditorClick);
   $('editor').addEventListener('keydown', onEditorKeydown);
 
@@ -883,8 +912,9 @@ function bindEvents() {
 }
 
 bindEvents();
+$('colorWarn').textContent = BELOW_BLACK_NOTE;
 renderAll();
-const ready = showPreview(PREVIEW8);
+showPreview(PREVIEW8);
 
 // Hook for the browser console and automation.
-window.rosterLab = { state, ready };
+window.rosterLab = { state };
