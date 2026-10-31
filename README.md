@@ -109,14 +109,16 @@ existing `direct20-names.nes` bootstrap artifact.
 See [status and build commands](docs/32-team-status.md),
 [random draws and passwords](docs/draw32.md), [picker controls](docs/pick32.md),
 [title artwork](docs/title32.md), and [menu art/music](docs/menuart32.md).
-Download the ROM above, then open it in the hosted editor to edit your teams; see the
+The hosted editor opens on the Preview 8 roster. Download the ROM above, then
+open it in the editor to export an edited copy; see the
 [editor contract](docs/editor32.md).
 
 ---
 
 ## Browser editor
 
-**Hosted:** <https://little-league-production.up.railway.app>. Start with **Open ROM**. **Get Preview 8** downloads the ROM from the release;
+**Hosted:** <https://little-league-production.up.railway.app>. The page opens on
+the Preview 8 roster. **Get Preview 8** downloads the ROM from the release;
 **Open ROM** then reads it in the browser. Nothing is uploaded, and the site
 never serves a ROM.
 
@@ -126,10 +128,9 @@ python3 tools/serve.py
 ```
 
 Open a `.nes` file or drop it anywhere on the page. Pick a team, edit, then
-**Download ROM** to save an edited copy. Compact ratings and a shared uniform
-palette sit above the players, with a batter drawn from your ROM. **More tools**
-contains JSON import/export, Revert, and roster-only previews for both layouts.
-See the [workspace guide](docs/roster-workspace.md).
+**Export ROM** to download an edited copy. **Data → Export JSON** saves a
+roster you can import later, and the Data menu switches to the original
+16-team roster.
 
 - **ROMs** — the 32-team Preview 8 release and the original US ROM, plus copies
   this editor exported. Other files are refused.

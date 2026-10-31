@@ -64,15 +64,7 @@ class Element extends EventHost {
   get open() { return this.hasAttribute('open'); }
   set open(on) { this.flag('open', on); }
   get type() { return this.getAttribute('type') ?? (this.localName === 'input' ? 'text' : ''); }
-  /** A select's value is its chosen option's, and an option without a value attribute uses its text. */
-  get value() {
-    if (this.currentValue !== null) return this.currentValue;
-    if (this.localName === 'select') {
-      const options = this.querySelectorAll('option');
-      return (options.find((o) => o.hasAttribute('selected')) ?? options[0])?.value ?? '';
-    }
-    return this.getAttribute('value') ?? (this.localName === 'option' ? this.textContent : '');
-  }
+  get value() { return this.currentValue ?? this.getAttribute('value') ?? ''; }
   set value(v) { this.currentValue = String(v); }
   get maxLength() { return Number(this.getAttribute('maxlength') ?? -1); }
   set maxLength(v) { this.setAttribute('maxlength', v); }

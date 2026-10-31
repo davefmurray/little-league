@@ -9,8 +9,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { webcrypto } from 'node:crypto';
 import { createDom, event } from './web_dom_stub.mjs';
 import {
-  STOCK_SHORT_WIDTHS, fixture, lowRecord, maskedDigest, p8OwnColors, p8Rating, p8Record, sha256, stockColors, stockName,
-  upgradeImage, writableMask,
+  STOCK_SHORT_WIDTHS, fixture, lowRecord, maskedDigest, p8OwnColors, p8Record, sha256, stockColors, stockName, upgradeImage,
+  writableMask,
 } from './web_fixtures.mjs';
 import { PREVIEW8, STOCK16, VARIANTS, previewRoster, rosterJson, sameTeams } from '../web/rom.js';
 import { BASIC_COLORS, NES_RGB, batterColor, batterPicture } from '../web/colors.js';
@@ -112,12 +112,8 @@ async function until(condition, label) {
 
 let instance = 0;
 
-/**
- * Load a fresh copy of the app on a fresh page. Unless `preview` is false, then
- * choose the Preview 8 roster from More tools, the session most tests start
- * from. `gates` hold back bundled-file fetches.
- */
-async function boot({ gates = {}, preview = true } = {}) {
+/** Load a fresh copy of the app on a fresh page. `gates` hold back bundled-file fetches. */
+async function boot({ gates = {}, wait = true } = {}) {
   const dom = createDom(INDEX);
   globalThis.document = dom.document;
   globalThis.window = dom.window;
@@ -128,7 +124,7 @@ async function boot({ gates = {}, preview = true } = {}) {
   };
   await import(`../web/app.js?instance=${++instance}`);
   const page = helpers(dom);
-  if (preview) await page.click('preview32Btn');
+  if (wait) await page.ready();
   return page;
 }
 
@@ -139,12 +135,9 @@ function helpers({ document, window }) {
     const { filename, href } = document.downloads.at(-1);
     return { filename, bytes: new Uint8Array(await blobs.get(href).arrayBuffer()), text: await blobs.get(href).text() };
   };
-  const set = (el, value, type) => {
-    el.value = String(value);
-    return el.dispatchEvent(event(type));
-  };
   return {
     $,
+    ready: () => window.rosterLab.ready,
     chip: () => $('statusChip').textContent,
     banner: () => ($('banner').hidden ? '' : $('banner').textContent),
     teams: () => document.querySelectorAll('#teamList [data-team]').length,
@@ -154,18 +147,21 @@ function helpers({ document, window }) {
     downloads: () => document.downloads.length,
     openRom: (file) => { $('romInput').files = [file]; return $('romInput').dispatchEvent(event('change')); },
     importJson: (file) => { $('jsonInput').files = [file]; return $('jsonInput').dispatchEvent(event('change')); },
-    selectTeam: (t) => document.querySelector(`#teamList [data-team="${t}"]`).click(),
+    selectTeam: (t) => document.querySelector(`[data-team="${t}"]`).click(),
     name: (p) => row(p).querySelector('input[data-field="name"]').value,
     setName: (p, value) => {
       const input = row(p).querySelector('input[data-field="name"]');
       input.value = value;
       return input.dispatchEvent(event('input'));
     },
-    stat: (p, field) => row(p).querySelector(`input[data-field="${field}"]`),
-    setStat: (p, field, value) => set(row(p).querySelector(`input[data-field="${field}"]`), value, 'input'),
-    skill: (p) => Number(row(p).querySelector('input[data-field="skill"]').value),
-    setSkill: (p, n) => set(row(p).querySelector('input[data-field="skill"]'), n, 'input'),
-    setRating: (r, v) => set(document.querySelector(`#ratings [data-r="${r}"]`), v, 'change'),
+    setStat: (p, field, value) => {
+      const input = row(p).querySelector(`input[data-field="${field}"]`);
+      input.value = String(value);
+      return input.dispatchEvent(event('input'));
+    },
+    stars: (p) => row(p).querySelectorAll('.pip.on').length,
+    clickSkill: (p, n) => row(p).querySelector(`[data-skill="${n}"]`).click(),
+    clickRating: (r, v) => document.querySelector(`[data-r="${r}"] [data-rating="${v}"]`).click(),
     setText: (key, value) => {
       const input = document.querySelector(`[data-text="${key}"]`);
       input.value = value;
@@ -176,22 +172,24 @@ function helpers({ document, window }) {
     replace: () => $('replaceBtn').click(),
     exportRom: async () => { await $('exportRomBtn').click(); return lastDownload(); },
     exportJson: async () => { await $('exportJsonBtn').click(); return lastDownload(); },
-    // uniform: three parts and one shared palette
+    // team colors
     state: () => window.rosterLab.state,
     active: () => document.activeElement,
-    part: (slot) => document.querySelector(`#parts [data-part="${slot}"]`),
-    pressed: () => ['cap', 'jersey', 'hair'].filter((slot) => $('parts').querySelector(`[data-part="${slot}"]`).getAttribute('aria-pressed') === 'true'),
-    colorText: (slot) => document.querySelector(`#parts [data-part="${slot}"] .part-value`).textContent,
-    colorLabels: () => document.querySelectorAll('#parts .part-label').map((el) => el.textContent),
-    pick: (slot) => document.querySelector(`#parts [data-part="${slot}"]`).click(),
-    swatches: () => document.querySelectorAll('#palette [role="radio"]'),
-    checked: () => document.querySelectorAll('#palette [aria-checked="true"]').map((el) => Number(el.dataset.swatch)),
-    swatch: (code) => document.querySelector(`#palette [data-swatch="${code}"]`),
+    colorRow: (slot) => document.querySelector(`[data-color-row="${slot}"]`),
+    colorText: (slot) => document.querySelector(`[data-color-row="${slot}"] .cr-value`).textContent,
+    colorLabels: () => document.querySelectorAll('#colorRows .cr-label').map((el) => el.textContent),
+    pick: (slot) => document.querySelector(`[data-pick="${slot}"]`).click(),
+    picker: (slot) => document.querySelector(`[data-picker="${slot}"]`),
+    swatches: (slot) => document.querySelectorAll(`[data-picker="${slot}"] [role="radio"]`),
+    checked: (slot) => document.querySelectorAll(`[data-picker="${slot}"] [aria-checked="true"]`).map((el) => Number(el.dataset.swatch)),
+    swatch: (slot, code) => document.querySelector(`[data-picker="${slot}"] [data-swatch="${code}"]`),
     key: (key) => document.activeElement.dispatchEvent(event('keydown', { key })),
-    resetColors: () => $('resetColorsBtn').click(),
-    typeCode: (text) => {
-      set($('codeInput'), text, 'input');
-      return $('codeSetBtn').click();
+    resetColor: (slot) => document.querySelector(`[data-color-reset="${slot}"]`).click(),
+    typeCode: (slot, text) => {
+      const input = document.querySelector(`[data-code-input="${slot}"]`);
+      input.value = text;
+      input.dispatchEvent(event('input'));
+      return document.querySelector(`[data-code-set="${slot}"]`).click();
     },
     announced: () => $('colorStatus').textContent,
     canvas: () => $('batterCanvas').context?.image ?? null,
@@ -200,17 +198,6 @@ function helpers({ document, window }) {
 
 const diff = (a, b) => a.reduce((out, v, i) => (v === b[i] ? out : [...out, i]), []);
 
-/** A short name for an element. A failed equal() on two stub elements makes the reporter print the whole page. */
-function focusName(el) {
-  if (!el) return 'nothing';
-  const { swatch, part } = el.dataset ?? {};
-  return [el.localName, el.id && `#${el.id}`, swatch && `[swatch ${swatch}]`, part && `[part ${part}]`].filter(Boolean).join('');
-}
-
-function assertFocus(page, el, message = 'focus') {
-  assert.ok(page.active() === el, `${message}: expected ${focusName(el)}, found ${focusName(page.active())}`);
-}
-
 function draftJson(kind, edit) {
   const profile = kind === 'preview8' ? PREVIEW8 : STOCK16;
   const doc = rosterJson(profile, structuredClone(PREVIEW[kind]));
@@ -218,49 +205,24 @@ function draftJson(kind, edit) {
   return doc;
 }
 
-test('opens on a ROM-first start screen, with roster previews under More tools', async () => {
-  const page = await boot({ preview: false });
-  assert.equal(page.$('start').hidden, false);
-  assert.equal(page.$('workspace').hidden, true);
-  assert.equal(page.$('fileBar').hidden, true);
-  assertFocus(page, page.$('openBtn'), 'Open ROM has focus');
-  assert.equal(page.$('openBtn').textContent, 'Open ROM…');
-  assert.equal(page.$('getRomLink').href, RELEASE);
-  assert.equal(page.$('exportRomBtn').hidden, true);
-  assert.equal(page.$('exportRomBtn').disabled, true);
-  assert.equal(page.$('exportJsonBtn').disabled, true);
-  assert.equal(page.$('saveState').hidden, true);
-  assert.equal(page.$('resetTeamBtn').hidden, true);
-  assert.equal(page.banner(), '');
-  assert.ok(!page.$('repoBtn'), 'no repo ROM button');
-  const asked = [];
-  page.$('romInput').addEventListener('click', () => asked.push('rom'));
-  await page.click('openBtn');
-  assert.deepEqual(asked, ['rom'], 'Open ROM asks for a file');
-
-  await page.click('preview32Btn');
+test('boots into the Preview 8 roster with honest counts and no ROM claims', async () => {
+  const page = await boot();
   assert.equal(page.chip(), 'Preview 8 · ROSTER ONLY');
-  assert.equal(page.$('start').hidden, true);
-  assertFocus(page, page.$('teamTitle'), 'focus follows the start screen into the editor');
-  assert.equal(page.$('fileName').textContent, 'No ROM open');
-  assert.equal(page.$('fileBtn').textContent, 'Open ROM');
-  assert.equal(page.$('fileGetRom').hidden, false);
   assert.equal(page.teams(), 32);
   assert.equal(page.$('teamCount').textContent, '32');
   assert.equal(page.rows(), 15);
   assert.equal(page.$('storedBox').hidden, true, 'low teams store no extra players');
   assert.equal(page.$('identityEdit').hidden, true);
   assert.equal(page.$('identityNote').hidden, false);
-  assert.equal(page.$('exportRomBtn').hidden, true, 'no ROM, no download');
   assert.equal(page.$('exportRomBtn').disabled, true);
-  assert.equal(page.$('saveState').textContent, 'No unsaved changes');
   assert.match(page.banner(), /Get Preview 8, then Open ROM\. The file is read in this browser and never uploaded/);
-  assert.equal(page.$('rosterCount').textContent, '15 active');
+  assert.equal(page.$('getRomLink').href, RELEASE);
+  assert.equal(page.$('repoBtn'), null);
+  assert.match(page.$('rosterHint').textContent, /^15 players/);
 
   await page.selectTeam(16);
   assert.equal(page.title(), 'AUSTRALIA');
-  assert.equal(page.$('teamBadge').textContent, 'AUS');
-  assert.equal(page.$('teamEyebrow').textContent, 'Team 17 / 32 · ASIA');
+  assert.match(page.$('teamEyebrow').textContent, /Team 17 \/ 32 · AUS · ASIA/);
   assert.equal(page.rows(), 15);
   assert.equal(page.$('storedBox').hidden, false);
   assert.equal(page.$('storedBody').querySelectorAll('tr').length, 5);
@@ -270,41 +232,7 @@ test('opens on a ROM-first start screen, with roster previews under More tools',
   assert.equal(page.title(), 'CZECH REPUBLIC');
   await page.selectTeam(4);
   assert.equal(page.name(2), 'PARK');
-  assert.equal(page.skill(2), 5, 'a stored skill of 7 shows as 5');
-});
-
-test('opening a ROM from the start screen shows its file, Change file and Download ROM', async () => {
-  const page = await boot({ preview: false });
-  await page.openRom(romFile('little-league-32-team.nes', P8));
-  assert.equal(page.$('start').hidden, true);
-  assert.equal(page.$('workspace').hidden, false);
-  assertFocus(page, page.$('teamTitle'));
-  assert.equal(page.$('fileName').textContent, 'little-league-32-team.nes');
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
-  assert.equal(page.$('fileBtn').textContent, 'Change file');
-  assert.equal(page.$('fileGetRom').hidden, true);
-  assert.equal(page.$('exportRomBtn').hidden, false);
-  assert.equal(page.$('exportRomBtn').disabled, false);
-  assert.equal(page.$('saveState').textContent, 'No unsaved changes');
-  assert.equal(page.$('resetTeamBtn').hidden, false);
-  const asked = [];
-  page.$('romInput').addEventListener('click', () => asked.push('rom'));
-  await page.click('fileBtn');
-  assert.deepEqual(asked, ['rom'], 'Change file asks for a file');
-  await page.setName(0, 'NEW');
-  assert.equal(page.$('saveState').textContent, 'Unsaved changes');
-  assert.equal(page.$('saveState').dataset.dirty, 'true');
-  const out = await page.exportRom();
-  assert.equal(out.filename, 'little-league-32-team-edited.nes');
-  assert.equal(page.$('saveState').textContent, 'Unsaved changes', 'a download does not mark the draft saved');
-});
-
-test('opening a ROM from the uniform prompt leaves focus in the workspace', async () => {
-  const page = await boot();
-  page.$('uniformOpen').focus();
-  await page.openRom(romFile('p8.nes', P8));
-  assert.equal(page.$('uniformEmpty').hidden, true);
-  assertFocus(page, page.$('teamTitle'));
+  assert.equal(page.stars(2), 5, 'a stored skill of 7 shows as 5 stars');
 });
 
 test('an original ROM opens, exports unchanged, and edits touch only their bytes', async () => {
@@ -321,7 +249,7 @@ test('an original ROM opens, exports unchanged, and edits touch only their bytes
   assert.equal(page.name(14), 'ZED', 'input keeps only game glyphs');
   await page.setStat(14, 'speed', 3);
   await page.setStat(14, 'bat', 15);
-  await page.setRating(0, 4);
+  await page.clickRating(0, 4);
   assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM · UNSAVED');
   const edited = await page.exportRom();
   assert.equal(page.dialogOpen(), false, 'export never asks');
@@ -350,46 +278,42 @@ test('the stored skill of 7 survives until someone picks a skill on purpose', as
   await page.openRom(romFile('p8.nes', P8));
   await page.selectTeam(4);
   const park = lowRecord(4, 2) + 11;
-  await page.setSkill(2, 5);
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM', 'entering the shown value changes nothing');
+  await page.clickSkill(2, 5);
+  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM', 'clicking the shown value changes nothing');
   assert.equal((await page.exportRom()).bytes[park], 7);
-  await page.setSkill(2, 3);
-  await page.setSkill(2, 5);
-  assert.equal(page.skill(2), 5);
+  await page.clickSkill(2, 3);
+  await page.clickSkill(2, 5);
+  assert.equal(page.stars(2), 5);
   assert.equal((await page.exportRom()).bytes[park], 4, 'a deliberate choice stores 0-4');
   await page.click('revertBtn');
   assert.equal((await page.exportRom()).bytes[park], 7);
 });
 
-test('a slow roster preview never replaces a ROM opened after it, and its failure stays quiet', async () => {
+test('a slow boot preview never replaces a ROM opened first, and its failure stays quiet', async () => {
   for (const outcome of [200, 500]) {
     const gate = deferred();
-    const page = await boot({ gates: { 'roster32.json': gate }, preview: false });
-    const previewing = page.click('preview32Btn');
-    assert.equal(page.$('start').hidden, false);
+    const page = await boot({ gates: { 'roster32.json': gate }, wait: false });
+    assert.equal(page.chip(), 'LOADING');
     await page.openRom(romFile('first.nes', US));
     assert.equal(page.chip(), '16-team · ORIGINAL ROM');
     gate.resolve(outcome);
-    await previewing;
+    await page.ready();
     assert.equal(page.chip(), '16-team · ORIGINAL ROM');
     assert.equal(page.teams(), 16);
     assert.match(page.banner(), /Opened first\.nes/);
   }
 });
 
-test('a failed roster preview leaves the start screen, which can still open a ROM', async () => {
+test('a failed startup leaves an empty state that can open a ROM', async () => {
   const gate = deferred();
-  const page = await boot({ gates: { 'teams32.json': gate }, preview: false });
-  const previewing = page.click('preview32Btn');
+  const page = await boot({ gates: { 'teams32.json': gate }, wait: false });
   gate.resolve(404);
-  await previewing;
-  assert.equal(page.$('start').hidden, false);
-  assert.equal(page.$('workspace').hidden, true);
-  assert.match(page.banner(), /Couldn't load the Preview 8 roster\. The server answered 404 for teams32\.json\./);
+  await page.ready();
+  assert.equal(page.chip(), 'NO ROSTER');
+  assert.match(page.banner(), /Couldn't load/);
   assert.equal(page.$('exportRomBtn').disabled, true);
   await page.openRom(romFile('good.nes', P8));
   assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
-  assert.equal(page.$('start').hidden, true);
 });
 
 test('switching sessions asks even when the new roster equals the dirty draft', async () => {
@@ -568,7 +492,7 @@ test('imports keep the ROM as the baseline for Reset team and Revert', async () 
   await page.selectTeam(16);
   await page.setName(0, 'EDITED');
   await page.selectTeam(0);
-  await page.setRating(1, 1);
+  await page.clickRating(1, 1);
   const saved = await page.exportJson();
   assert.equal(saved.filename, 'p8-roster.json');
   const doc = JSON.parse(saved.text);
@@ -678,121 +602,6 @@ test('switching rosters with unsaved edits asks first', async () => {
   assert.equal(page.name(0), 'STAY');
 });
 
-// ---------- team ratings, team choice and roster numbers ----------
-
-test('team ratings are one compact strip of four 1–4 selects', async () => {
-  const page = await boot();
-  await page.openRom(romFile('p8.nes', P8));
-  const strip = page.$('ratings');
-  const selects = strip.querySelectorAll('select');
-  assert.equal(selects.length, 4);
-  assert.equal(strip.querySelectorAll('button').length, 0, 'no rating buttons');
-  assert.deepEqual(selects.map((s) => strip.querySelector(`label[for="${s.id}"]`).textContent), ['Batting', 'Running', 'Pitching', 'Defense']);
-  assert.ok(selects.every((s) => s.querySelectorAll('option').map((o) => o.value).join() === '1,2,3,4'));
-  assert.deepEqual(selects.map((s) => Number(s.value)), PREVIEW.preview8[0].ratings);
-  await page.setRating(2, 1);
-  assert.equal(page.state().teams[0].ratings[2], 1);
-  assert.equal(strip.querySelectorAll('[data-dots]')[2].textContent, '●○○○');
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM · UNSAVED');
-  assert.equal(page.$('saveState').textContent, 'Unsaved changes');
-  const out = await page.exportRom();
-  assert.deepEqual(diff(out.bytes, P8), [p8Rating(0) + 2]);
-  assert.equal(out.bytes[p8Rating(0) + 2], 1);
-  await page.setRating(2, PREVIEW.preview8[0].ratings[2]);
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
-  assert.equal(page.$('saveState').textContent, 'No unsaved changes');
-});
-
-test('team search filters the rail, and Enter opens the first match', async () => {
-  const page = await boot();
-  const search = page.$('teamSearch');
-  const shown = () => page.$('teamList').querySelectorAll('[data-team]').filter((b) => !b.hidden)
-    .map((b) => b.textContent.replace(/\s+/g, ' ').trim());
-  const find = async (text) => {
-    search.value = text;
-    await search.dispatchEvent(event('input'));
-  };
-  await find('new');
-  assert.deepEqual(shown(), ['06 NEW YORK', '31 NEW ZEALAND']);
-  await find('jpn');
-  assert.deepEqual(shown(), ['01 JAPAN'], 'team codes match too');
-  await find('ven');
-  assert.deepEqual(shown(), ['20 VENEZUELA']);
-  assert.equal(page.$('teamNone').hidden, true);
-  await search.dispatchEvent(event('keydown', { key: 'Enter' }));
-  assert.equal(page.title(), 'VENEZUELA');
-  assert.equal(page.$('teamList').querySelector('[aria-current="true"]').dataset.team, '19');
-  await find('zzz');
-  assert.deepEqual(shown(), []);
-  assert.equal(page.$('teamNone').hidden, false);
-  await search.dispatchEvent(event('keydown', { key: 'Enter' }));
-  assert.equal(page.title(), 'VENEZUELA', 'Enter with no match changes nothing');
-  await find('');
-  assert.equal(shown().length, 32);
-});
-
-test('narrow screens pick teams from a select that stays in step with the rail', async () => {
-  const page = await boot();
-  const select = page.$('teamSelect');
-  assert.equal(select.getAttribute('aria-labelledby'), 'teamRailLabel');
-  assert.match(page.$('teamRailLabel').textContent, /Choose team · 32/);
-  assert.equal(select.querySelectorAll('option').length, 32);
-  assert.equal(select.querySelectorAll('option')[19].textContent, '20 VENEZUELA');
-  select.value = '19';
-  await select.dispatchEvent(event('change'));
-  assert.equal(page.title(), 'VENEZUELA');
-  assert.equal(page.$('teamList').querySelector('[aria-current="true"]').dataset.team, '19');
-  await page.selectTeam(4);
-  assert.equal(select.value, '4', 'a rail choice moves the select');
-  await page.click('preview16Btn');
-  await page.openRom(romFile('us.nes', US));
-  assert.equal(page.$('teamSelect').querySelectorAll('option').length, 16);
-  await page.setText('name', 'osaka');
-  assert.equal(page.$('teamSelect').querySelectorAll('option')[0].textContent, '01 OSAKA', 'a rename reaches the select');
-  assert.match(page.$('teamList').querySelector('[data-team="0"]').textContent, /OSAKA/);
-});
-
-test('roster numbers take digits in range, step with arrows, and restore when left out of range', async () => {
-  const page = await boot();
-  await page.openRom(romFile('p8.nes', P8));
-  assert.equal(page.$('playerBody').querySelectorAll('input[type="range"]').length, 0, 'no sliders');
-  const bat = () => page.stat(0, 'bat');
-  const stored = () => page.state().teams[0].players[0].attrs[3] >> 4;
-  const start = PREVIEW.preview8[0].players[0].attrs[3] >> 4;
-  assert.equal(bat().value, String(start));
-  for (const bad of ['16', '', '99']) {
-    await page.setStat(0, 'bat', bad);
-    assert.equal(bat().getAttribute('aria-invalid'), 'true', JSON.stringify(bad));
-    assert.equal(stored(), start, 'the draft keeps its last good value');
-  }
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
-  await bat().dispatchEvent(event('change'));
-  assert.equal(bat().value, String(start), 'leaving the field puts the value back');
-  assert.equal(bat().getAttribute('aria-invalid'), null);
-  await page.setStat(0, 'bat', '1x2');
-  assert.equal(bat().value, '12', 'only digits stay');
-  assert.equal(stored(), 12);
-  bat().focus();
-  for (const expected of [13, 14, 15, 15]) {
-    await page.key('ArrowUp');
-    assert.equal(stored(), expected);
-    assert.equal(bat().value, String(expected));
-  }
-  await page.key('ArrowDown');
-  assert.equal(stored(), 14);
-  for (const bad of ['0', '6']) {
-    await page.setStat(0, 'skill', bad);
-    assert.equal(page.stat(0, 'skill').getAttribute('aria-invalid'), 'true', `skill ${bad}`);
-  }
-  await page.selectTeam(4);
-  page.stat(2, 'skill').focus();
-  await page.key('ArrowUp');
-  assert.equal(page.state().teams[4].players[2].attrs[5], 7, 'stepping past the top keeps the stored 7');
-  await page.key('ArrowDown');
-  assert.equal(page.state().teams[4].players[2].attrs[5], 3, 'a deliberate step stores 0-4');
-  assert.equal(page.skill(2), 4);
-});
-
 // ---------- team colors ----------
 
 const LEDGER = [0x3c712, 0x3c719, 0x3c71f, ...Array.from({ length: 96 }, (_, i) => 0x3f390 + i)];
@@ -810,35 +619,25 @@ function batterImage(rom, uniform) {
   return data;
 }
 
-/** Exact pixel equality that fails fast; a deepEqual diff of two 11 KB images can run for minutes. */
-function assertPixels(image, expected, message) {
-  assert.ok(image, `${message}: nothing was drawn`);
-  const at = expected.findIndex((v, i) => image.data[i] !== v);
-  assert.ok(image.data.length === expected.length && at === -1, `${message}: pixels differ at byte ${at}`);
-}
-
-test('the uniform row shows cap and trim, jersey and hair for both layouts', async () => {
+test('the team colors card shows cap and trim, jersey and hair for both layouts', async () => {
   const page = await boot();
   assert.deepEqual(page.colorLabels(), ['Cap & trim', 'Jersey', 'Hair']);
   assert.deepEqual(['cap', 'jersey', 'hair'].map(page.colorText), ['$05 (5) crimson', '$20 (32) white', '$0F (15) black']);
+  assert.match(page.colorRow('cap').textContent, /Cap, helmet, socks and belt trim\./);
+  assert.equal(page.colorRow('jersey').querySelector('.cr-help'), null, 'Jersey has no help text');
+  assert.match(page.colorRow('hair').textContent,
+    /Batter’s hair while this team bats, and hair in ending scenes\. While this team bats, the other team’s pitcher shows a little of this color too\./);
   for (const [slot, code] of [['cap', 0x05], ['jersey', 0x20], ['hair', 0x0f]]) {
-    assert.equal(page.part(slot).querySelector('[data-chip]').getAttribute('style'), `--sw:${NES_RGB[code]}`);
+    const row = page.colorRow(slot);
+    assert.equal(row.querySelector('[data-chip]').getAttribute('style'), `--sw:${NES_RGB[code]}`);
+    assert.equal(row.querySelector('[data-color-reset]').disabled, true);
+    assert.equal(row.querySelector('[data-pick]').getAttribute('aria-expanded'), 'false');
+    assert.equal(page.picker(slot).hidden, true);
+    assert.equal(page.swatches(slot).length, 0, 'a closed picker leaves no focusable swatches');
   }
-  assert.equal(page.part('cap').textContent.replace(/\s+/g, ' ').trim(), 'Cap & trim $05 (5) crimson', 'each part names its color');
-  assert.deepEqual(page.pressed(), ['cap']);
-  assert.equal(page.$('resetColorsBtn').disabled, true);
-  assert.equal(page.$('colorsCard').querySelectorAll('[role="radiogroup"]').length, 1, 'one shared palette');
-  assert.equal(page.swatches().filter((r) => r.getAttribute('tabindex') === '0').length, 1, 'one tab stop in it');
-  assert.equal(page.$('partHelp').textContent, 'Cap, helmet, socks and belt trim.');
-  await page.pick('jersey');
-  assert.equal(page.$('partHelp').hidden, true, 'Jersey has no help text');
-  await page.pick('hair');
-  assert.equal(page.$('partHelp').textContent,
-    'Batter’s hair while this team bats, and hair in ending scenes. While this team bats, the other team’s pitcher shows a little of this color too.');
-  assert.match(page.$('colorsCard').textContent, /Colors are approximate\./);
+  assert.match(page.$('colorsCard').textContent, /Approximate NES colors/);
   await page.selectTeam(19);
   assert.equal(page.colorText('cap'), '$1B (27) sea green');
-  assert.deepEqual(page.pressed(), ['hair'], 'the chosen part stays chosen across teams');
   await page.click('preview16Btn');
   assert.equal(page.chip(), '16-team · ROSTER ONLY');
   assert.deepEqual(page.colorLabels(), ['Cap & trim', 'Jersey', 'Hair']);
@@ -846,87 +645,65 @@ test('the uniform row shows cap and trim, jersey and hair for both layouts', asy
   assert.deepEqual(['cap', 'jersey', 'hair'].map(page.colorText), ['$15 (21) raspberry', '$11 (17) azure', '$38 (56) cream']);
 });
 
-test('one palette serves every part, and choosing a part moves focus into it', async () => {
-  const page = await boot();
-  await page.openRom(romFile('p8.nes', P8));
-  for (const [slot, code, label] of [['jersey', 0x20, 'Jersey'], ['hair', 0x0f, 'Hair'], ['cap', 0x05, 'Cap & trim']]) {
-    await page.pick(slot);
-    assert.equal(page.$('palette').getAttribute('aria-label'), `${label} color`);
-    assert.deepEqual(page.checked(), [code]);
-    assertFocus(page, page.swatch(code), `${slot} focuses its color`);
-    assert.deepEqual(page.pressed(), [slot]);
-  }
-  await page.pick('hair');
-  await page.key('ArrowLeft');
-  assert.equal(page.state().teams[0].uniform.hair, 0x3c, 'the color applies at once');
-  assert.equal(page.part('hair').querySelector('[data-chip]').getAttribute('style'), `--sw:${NES_RGB[0x3c]}`);
-  assert.equal(page.colorText('hair'), '$3C (60) pale aqua');
-  assert.equal(page.$('resetColorsBtn').disabled, false);
-  assert.equal(page.$('upgradeNote').hidden, false, 'the export note appears with the first color edit');
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM · UNSAVED');
-});
-
-test('the shared palette is a 53-swatch radio group with arrows, Home, End, Enter and Escape', async () => {
+test('the basic picker is a 53-swatch radio group with arrows, Home, End, Enter and Escape', async () => {
   const page = await boot();
   await page.openRom(romFile('p8.nes', P8));
   await page.selectTeam(19);
   await page.pick('cap');
-  const button = page.part('cap');
-  assert.equal(button.getAttribute('aria-pressed'), 'true');
-  assert.equal(page.$('palette').getAttribute('aria-label'), 'Cap & trim color');
-  const radios = page.swatches();
+  const button = page.colorRow('cap').querySelector('[data-pick]');
+  assert.equal(button.getAttribute('aria-expanded'), 'true');
+  assert.equal(page.picker('cap').querySelector('[role="radiogroup"]').getAttribute('aria-label'), 'Cap & trim color');
+  const radios = page.swatches('cap');
   assert.equal(radios.length, 53);
   assert.deepEqual(radios.map((r) => Number(r.dataset.swatch)), [...BASIC_COLORS]);
-  assert.deepEqual(page.checked(), [0x1b]);
+  assert.deepEqual(page.checked('cap'), [0x1b]);
   assert.equal(radios.filter((r) => r.getAttribute('tabindex') === '0').length, 1, 'one tab stop in the group');
-  assertFocus(page, page.swatch(0x1b), 'focus moves to the chosen swatch');
-  assert.equal(page.swatch(0x1b).getAttribute('aria-label'), 'Cap & trim $1B (27) sea green');
-  assert.equal(page.swatch(0x0f).getAttribute('aria-label'), 'Cap & trim $0F (15) black');
-  assert.equal(page.$('paletteHint').textContent, 'Arrow keys move. Enter keeps. Escape puts back sea green.');
+  assert.equal(page.active(), page.swatch('cap', 0x1b), 'focus moves to the chosen swatch');
+  assert.equal(page.swatch('cap', 0x1b).getAttribute('aria-label'), 'Cap & trim $1B (27) sea green');
+  assert.equal(page.swatch('cap', 0x0f).getAttribute('aria-label'), 'Cap & trim $0F (15) black');
 
   await page.key('ArrowRight');
-  assert.deepEqual(page.checked(), [0x1c]);
-  assertFocus(page, page.swatch(0x1c));
+  assert.deepEqual(page.checked('cap'), [0x1c]);
+  assert.equal(page.active(), page.swatch('cap', 0x1c));
   assert.equal(page.colorText('cap'), '$1C (28) teal');
   assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM · UNSAVED');
   assert.equal(page.state().teams[3].uniform.cap, 0x1b, 'the old partner keeps its color');
   for (const [key, code] of [['ArrowDown', 0x2c], ['Home', 0x20], ['End', 0x2c], ['ArrowDown', 0x3c], ['ArrowDown', 0x0f],
     ['ArrowDown', 0x0f], ['ArrowRight', 0x0f], ['ArrowUp', 0x30], ['ArrowLeft', 0x2c], ['ArrowUp', 0x1c], ['Home', 0x10], ['ArrowLeft', 0x0c]]) {
     await page.key(key);
-    assert.deepEqual(page.checked(), [code], `${key} -> ${code.toString(16)}`);
-    assertFocus(page, page.swatch(code));
+    assert.deepEqual(page.checked('cap'), [code], `${key} -> ${code.toString(16)}`);
+    assert.equal(page.active(), page.swatch('cap', code));
   }
   assert.equal(page.announced(), '', 'moving inside the group relies on each swatch\'s name');
   await page.key('Escape');
+  assert.equal(page.picker('cap').hidden, true);
+  assert.equal(button.getAttribute('aria-expanded'), 'false');
   assert.equal(page.state().teams[19].uniform.cap, 0x1b, 'Escape restores the opening value');
-  assert.deepEqual(page.checked(), [0x1b]);
-  assertFocus(page, button, 'focus returns to the part');
+  assert.equal(page.active(), button, 'focus returns to the row');
   assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
   assert.equal(page.announced(), 'Cap & trim back to $1B (27) sea green.');
 
   await page.pick('cap');
   await page.key('ArrowLeft');
   await page.key('Enter');
+  assert.equal(page.picker('cap').hidden, true);
   assert.equal(page.state().teams[19].uniform.cap, 0x1a);
-  assertFocus(page, button);
+  assert.equal(page.active(), button);
   assert.equal(page.announced(), 'VENEZUELA Cap & trim: $1A (26) bright green.');
-  assert.equal(page.$('paletteHint').textContent, 'Arrow keys move. Enter keeps. Escape puts back bright green.', 'Enter sets a new Escape point');
-  await page.key('Escape');
-  assert.equal(page.state().teams[19].uniform.cap, 0x1a, 'Escape after Enter keeps the kept color');
 
   await page.pick('jersey');
-  assert.equal(page.$('palette').getAttribute('aria-label'), 'Jersey color');
-  assert.deepEqual(page.checked(), [0x2b]);
-  assert.equal(page.swatch(0x30).getAttribute('aria-label'), 'Jersey $30 (48) white, same as $20');
-  await page.swatch(0x30).click();
+  await page.swatch('jersey', 0x30).click();
   assert.equal(page.state().teams[19].uniform.jersey, 0x30);
-  assert.deepEqual(page.checked(), [0x30]);
-  assert.equal(page.announced(), 'VENEZUELA Jersey: $30 (48) white, same as $20.');
-  assert.deepEqual(page.pressed(), ['jersey'], 'one part at a time');
+  assert.equal(page.picker('jersey').hidden, true);
+  assert.equal(page.active(), page.colorRow('jersey').querySelector('[data-pick]'));
+  await page.pick('hair');
+  await page.pick('jersey');
+  assert.equal(page.picker('hair').hidden, true, 'one picker at a time');
+  assert.equal(page.picker('jersey').hidden, false);
   assert.equal(page.dialogOpen(), false);
 });
 
-test('kept color edits announce once across Advanced, part changes and team navigation', async () => {
+test('kept color edits announce once across Advanced, picker changes and team navigation', async () => {
   const page = await boot();
   const status = page.$('colorStatus');
   const descriptor = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(status), 'textContent');
@@ -939,7 +716,7 @@ test('kept color edits announce once across Advanced, part changes and team navi
     },
   });
   await page.pick('cap');
-  await page.typeCode('$16');
+  await page.typeCode('cap', '$16');
   await page.pick('jersey');
   assert.deepEqual(messages, ['JAPAN Cap & trim: $16 (22) red.']);
   await page.key('Escape');
@@ -951,12 +728,11 @@ test('kept color edits announce once across Advanced, part changes and team navi
   assert.deepEqual(messages, ['JAPAN Cap & trim: $17 (23) burnt orange.']);
   await page.selectTeam(0);
   await page.pick('cap');
-  await page.typeCode('$18');
-  await page.resetColors();
-  assert.equal(messages.at(-1), 'JAPAN colors reset: Cap & trim $05 (5) crimson, Jersey $20 (32) white, Hair $0F (15) black.');
+  await page.typeCode('cap', '$18');
+  await page.resetColor('cap');
   const count = messages.length;
   await page.pick('hair');
-  assert.equal(messages.length, count, 'leaving does not repeat the reset announcement');
+  assert.equal(messages.length, count, 'closing does not repeat the reset announcement');
 });
 
 test('a stored code outside the basic grid stays the current choice and exports unchanged', async () => {
@@ -964,10 +740,10 @@ test('a stored code outside the basic grid stays the current choice and exports 
   await page.openRom(romFile('p8.nes', P8));
   await page.selectTeam(19);
   await page.pick('jersey');
-  await page.typeCode('$3E');
+  await page.typeCode('jersey', '$3E');
   assert.equal(page.state().teams[19].uniform.jersey, 0x3e);
-  assert.deepEqual(page.checked(), [0x3e]);
-  assert.equal(page.swatches().length, 54);
+  assert.deepEqual(page.checked('jersey'), [0x3e]);
+  assert.equal(page.swatches('jersey').length, 54);
   const out = await page.exportRom();
   assert.equal(out.bytes[p8OwnColors(19) + 1], 0x3e);
 
@@ -978,15 +754,15 @@ test('a stored code outside the basic grid stays the current choice and exports 
   await again.selectTeam(19);
   assert.equal(again.colorText('jersey'), '$3E (62) black, same as $0F');
   await again.pick('jersey');
-  assert.equal(again.swatches().length, 54);
-  assert.deepEqual(again.checked(), [0x3e]);
-  assert.equal(again.swatch(0x3e).getAttribute('aria-label'), 'Jersey $3E (62) black, same as $0F, outside the basic grid');
+  assert.equal(again.swatches('jersey').length, 54);
+  assert.deepEqual(again.checked('jersey'), [0x3e]);
+  assert.equal(again.swatch('jersey', 0x3e).getAttribute('aria-label'), 'Jersey $3E (62) black, same as $0F, outside the basic grid');
   await again.key('ArrowLeft');
-  assert.deepEqual(again.checked(), [0x0f]);
+  assert.deepEqual(again.checked('jersey'), [0x0f]);
   await again.key('ArrowRight');
-  assert.deepEqual(again.checked(), [0x3e]);
+  assert.deepEqual(again.checked('jersey'), [0x3e]);
   await again.key('ArrowUp');
-  assert.deepEqual(again.checked(), [0x31]);
+  assert.deepEqual(again.checked('jersey'), [0x31]);
   await again.key('Escape');
   assert.equal(again.state().teams[19].uniform.jersey, 0x3e);
   assert.equal(again.chip(), 'Preview 8 · own team colors · EDITED ROM');
@@ -997,83 +773,75 @@ test('advanced code entry takes exact decimal or $HH codes and notes below-black
   const page = await boot();
   await page.openRom(romFile('p8.nes', P8));
   await page.pick('hair');
-  const input = page.$('codeInput');
+  const input = page.picker('hair').querySelector('[data-code-input="hair"]');
   for (const bad of ['15junk', '1.5', '-1', '64', '$40', '', '0x0D']) {
-    await page.typeCode(bad);
-    assert.equal(page.$('codeError').hidden, false, JSON.stringify(bad));
+    await page.typeCode('hair', bad);
+    assert.equal(page.$('code-error-hair').hidden, false, JSON.stringify(bad));
     assert.equal(input.getAttribute('aria-invalid'), 'true');
     assert.equal(page.state().teams[0].uniform.hair, 0x0f, 'the draft keeps its last valid value');
-    assert.equal(page.announced(), page.$('codeError').textContent);
+    assert.equal(page.announced(), page.$('code-error-hair').textContent);
   }
   assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
-  await page.typeCode('$0d');
+  await page.typeCode('hair', '$0d');
   assert.equal(page.state().teams[0].uniform.hair, 0x0d);
-  assert.equal(page.$('codeError').hidden, true);
+  assert.equal(page.$('code-error-hair').hidden, true);
   assert.equal(input.getAttribute('aria-invalid'), null);
-  const warn = page.$('colorWarn');
+  const warn = page.colorRow('hair').querySelector('[data-color-warn]');
   assert.equal(warn.hidden, false);
   assert.equal(warn.textContent, 'Below-black $0D can cause display issues on some original hardware; $0F is the usual black.');
   assert.equal(page.dialogOpen(), false, 'the note never asks');
   assert.equal(page.announced(), `JAPAN Hair: $0D (13) below black. ${warn.textContent}`);
-  assert.equal(page.part('hair').getAttribute('aria-describedby'), 'colorWarn');
-  assert.equal(page.$('palette').getAttribute('aria-describedby'), 'partHelp paletteHint colorWarn');
-  assert.deepEqual(page.checked(), [0x0d], 'the exact code joins the group as the current choice');
-  await page.typeCode('07');
+  assert.equal(page.colorRow('hair').querySelector('[data-pick]').getAttribute('aria-describedby'), 'color-help-hair color-warn-hair');
+  assert.deepEqual(page.checked('hair'), [0x0d], 'the exact code joins the group as the current choice');
+  await page.typeCode('hair', '07');
   assert.equal(page.state().teams[0].uniform.hair, 7);
   assert.equal(warn.hidden, true);
-  assert.equal(page.part('hair').getAttribute('aria-describedby'), null);
-  assert.equal(page.$('palette').getAttribute('aria-describedby'), 'partHelp paletteHint');
-  assert.deepEqual(page.checked(), [7]);
+  assert.equal(page.colorRow('hair').querySelector('[data-pick]').getAttribute('aria-describedby'), 'color-help-hair');
+  assert.deepEqual(page.checked('hair'), [7]);
   input.value = '27';
   await input.dispatchEvent(event('keydown', { key: 'Enter' }));
   assert.equal(page.state().teams[0].uniform.hair, 27, 'Enter in the field uses the code');
-  assert.equal(page.$('palette').getAttribute('aria-label'), 'Hair color', 'and the palette stays on its part');
+  assert.equal(page.picker('hair').hidden, false, 'and leaves the picker open');
   const out = await page.exportRom();
   assert.equal(out.bytes[p8OwnColors(0) + 2], 27);
   assert.equal(out.bytes[p8OwnColors(16) + 2], 0x0f, 'Australia keeps the shared hair');
-  input.focus();
-  await page.key('Escape');
-  assert.equal(page.state().teams[0].uniform.hair, 0x0f, 'Escape puts back the color from before the codes');
-  assertFocus(page, page.part('hair'));
 });
 
-test('the preview draws the batter from the open ROM, and points to a ROM without one', async () => {
+test('the preview draws the batter from the open ROM, or a labeled illustration without one', async () => {
   const page = await boot();
+  assert.equal(page.$('uniformCaption').textContent, 'Illustration, not game art.');
+  assert.equal(page.$('illustration').hidden, false);
   assert.equal(page.$('batterCanvas').hidden, true);
-  assert.equal(page.$('uniformEmpty').hidden, false);
-  assert.equal(page.$('uniformEmpty').textContent.replace(/\s+/g, ' ').trim(), 'Open a ROM to preview the game uniform');
-  assert.ok(!page.$('illustration'), 'no stand-in drawing');
-  assert.equal(page.$('colorsCard').querySelectorAll('svg').length + page.$('colorsCard').querySelectorAll('img').length, 0);
-  const asked = [];
-  page.$('romInput').addEventListener('click', () => asked.push('rom'));
-  await page.click('uniformOpen');
-  assert.deepEqual(asked, ['rom']);
+  assert.equal(page.$('uniformArt').getAttribute('role'), 'img');
+  assert.equal(page.$('uniformArt').getAttribute('aria-label'),
+    'JAPAN colors: cap and trim $05 (5) crimson, jersey $20 (32) white, hair $0F (15) black.');
+  const fills = (part) => page.$('illustration').querySelectorAll(`[data-part="${part}"]`).map((el) => el.getAttribute('fill'));
+  assert.deepEqual([fills('cap'), fills('jersey'), fills('hair')], [Array(4).fill(NES_RGB[5]), [NES_RGB[0x20]], [NES_RGB[0x0f]]],
+    'cap, brim, belt and socks wear the cap color');
   await page.pick('jersey');
   await page.key('ArrowLeft');
-  assert.equal(page.part('jersey').querySelector('[data-chip]').getAttribute('style'), `--sw:${NES_RGB[0x1c]}`, 'the part follows each choice');
+  assert.deepEqual(fills('jersey'), [NES_RGB[0x1c]], 'the illustration follows each choice');
+  assert.match(page.$('uniformArt').getAttribute('aria-label'), /jersey \$1C \(28\) teal/);
 
   const withRom = await boot();
   await withRom.openRom(romFile('p8.nes', P8));
+  assert.equal(withRom.$('uniformCaption').textContent, 'Batter at the plate, drawn from your ROM. Colors approximate.');
   assert.equal(withRom.$('batterCanvas').hidden, false);
-  assert.equal(withRom.$('uniformEmpty').hidden, true);
-  assert.equal(withRom.$('batterCanvas').getAttribute('role'), 'img');
-  assert.equal(withRom.$('batterCanvas').getAttribute('aria-label'),
-    'JAPAN colors: cap and trim $05 (5) crimson, jersey $20 (32) white, hair $0F (15) black.');
+  assert.equal(withRom.$('illustration').hidden, true);
   const japan = PREVIEW.preview8[0].uniform;
-  assertPixels(withRom.canvas(), batterImage(P8, japan), 'Japan');
+  assert.deepEqual(withRom.canvas().data, batterImage(P8, japan));
   await withRom.pick('cap');
   await withRom.key('ArrowRight');
-  assertPixels(withRom.canvas(), batterImage(P8, { ...japan, cap: 0x06 }), 'redrawn at once');
-  assert.match(withRom.$('batterCanvas').getAttribute('aria-label'), /cap and trim \$06 \(6\) dark red/);
-  assertFocus(withRom, withRom.swatch(0x06), 'focus stays on the swatch');
+  assert.deepEqual(withRom.canvas().data, batterImage(P8, { ...japan, cap: 0x06 }), 'redrawn at once');
+  assert.equal(withRom.active(), withRom.swatch('cap', 0x06), 'focus stays on the swatch');
   await withRom.setName(3, 'FOCUS');
-  assert.equal(withRom.$('palette').getAttribute('aria-label'), 'Cap & trim color', 'a roster edit leaves the palette alone');
-  assertFocus(withRom, withRom.swatch(0x06));
+  assert.equal(withRom.picker('cap').hidden, false, 'a roster edit leaves the picker open');
+  assert.equal(withRom.active(), withRom.swatch('cap', 0x06));
   await withRom.key('Enter');
   assert.equal(withRom.announced(), 'JAPAN Cap & trim: $06 (6) dark red.');
   assert.equal(withRom.$('colorStatus').getAttribute('aria-live'), 'polite');
   await withRom.selectTeam(16);
-  assertPixels(withRom.canvas(), batterImage(P8, PREVIEW.preview8[16].uniform), 'Australia keeps the shared colors');
+  assert.deepEqual(withRom.canvas().data, batterImage(P8, PREVIEW.preview8[16].uniform), 'Australia keeps the shared colors');
 });
 
 test('the export note appears only while an export will give teams their own colors', async () => {
@@ -1105,7 +873,7 @@ test('the export note appears only while an export will give teams their own col
   await page.selectTeam(16);
   await page.selectTeam(17);
   assert.equal(note.hidden, false, 'the note is about the export, whichever team is shown');
-  await page.resetColors();
+  await page.resetColor('cap');
   assert.equal(note.hidden, true, 'colors back at the baseline need no upgrade');
 
   const own = await boot();
@@ -1121,22 +889,31 @@ test('the export note appears only while an export will give teams their own col
   await us.openRom(romFile('us.nes', US));
   await us.selectTeam(5);
   await us.pick('jersey');
-  await us.swatch(0x30).click();
+  await us.swatch('jersey', 0x30).click();
   assert.equal(us.$('upgradeNote').hidden, true, 'the 16-team ROM has a record per team');
   assert.deepEqual(diff((await us.exportRom()).bytes, US), [stockColors(5) + 1]);
 });
 
-test('the page has no hero art, crowd screenshot or stand-in character', () => {
-  assert.doesNotMatch(INDEX, /<img|<svg|mode-menu|illustration/i);
+test('the colors card adds its own styles and leaves the rating overflow repair alone', () => {
+  const css = read('styles.css');
+  assert.match(css, /\.ratings \{\n  --focus: var\(--cream\);\n  display: grid;\n  grid-template-columns: repeat\(auto-fit, minmax\(min\(100%, 190px\), 1fr\)\);\n/);
+  assert.match(css, /\n  \.rating \{ flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; \}\n/);
+  assert.doesNotMatch(css.match(/@media \(max-width: 1080px\) \{[\s\S]*?\n\}/)[0], /\.ratings/);
+  assert.match(css, /\.picker \{[^}]*overflow-x: auto;/, 'the picker scrolls inside its box on narrow screens');
+  assert.match(css, /\.swatches \{[^}]*grid-template-columns: repeat\(13, minmax\(24px, 1fr\)\);[^}]*max-width: calc\(13 \* 30px \+ 12 \* 4px\);/,
+    'swatches stay between 24px and 30px');
+  assert.match(css, /\.cr-value \{[^}]*overflow-wrap: anywhere;/, 'long color names wrap');
+  assert.match(css, /\.sw-btn\[aria-checked="true"\]::after \{\n  content: "\\2713";/, 'the chosen swatch shows a check mark');
 });
 
 test('a roster file without colors keeps your color edits and says so', async () => {
   const page = await boot();
   await page.openRom(romFile('p8.nes', P8));
   await page.selectTeam(20);
+  await page.pick('cap');
   for (const [slot, code] of [['cap', '1'], ['jersey', '33'], ['hair', '$07']]) {
-    await page.pick(slot);
-    await page.typeCode(code);
+    if (page.picker(slot).hidden) await page.pick(slot);
+    await page.typeCode(slot, code);
   }
   assert.deepEqual(page.state().teams[20].uniform, { cap: 1, jersey: 33, hair: 7 });
   const v2 = draftJson('preview8', (d) => {
@@ -1169,7 +946,7 @@ test('a roster file without colors keeps your color edits and says so', async ()
   assert.match(page.banner(), /Couldn't import v1\.json\. Team colors need roster version 3\./);
 });
 
-test('Reset colors, Reset team and Revert return colors to the baseline across imports and exports', async () => {
+test('row Reset, Reset team and Revert return colors to the baseline across imports and exports', async () => {
   const page = await boot();
   await page.openRom(romFile('p8.nes', P8));
   await page.selectTeam(3);
@@ -1180,17 +957,13 @@ test('Reset colors, Reset team and Revert return colors to the baseline across i
   await page.key('ArrowLeft');
   await page.key('Enter');
   assert.deepEqual(page.state().teams[3].uniform, { cap: 0x1c, jersey: 0x2a, hair: 0x0f });
-  assert.equal(page.$('resetColorsBtn').disabled, false);
-  page.$('resetColorsBtn').focus();
-  await page.resetColors();
-  assertFocus(page, page.part('jersey'), 'Reset moves focus to the chosen part');
-  assert.deepEqual(page.state().teams[3].uniform, { cap: 0x1b, jersey: 0x2b, hair: 0x0f }, 'Reset colors returns all three parts');
-  assert.equal(page.$('resetColorsBtn').disabled, true);
-  assert.equal(page.announced(), 'CHINESE TAIPEI colors reset: Cap & trim $1B (27) sea green, Jersey $2B (43) mint, Hair $0F (15) black.');
-  assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
-  await page.pick('jersey');
-  await page.key('ArrowLeft');
-  await page.key('Enter');
+  assert.equal(page.colorRow('cap').querySelector('[data-color-reset]').disabled, false);
+  page.colorRow('cap').querySelector('[data-color-reset]').focus();
+  await page.resetColor('cap');
+  assert.equal(page.active(), page.colorRow('cap').querySelector('[data-pick]'), 'Reset moves focus to the enabled color control');
+  assert.deepEqual(page.state().teams[3].uniform, { cap: 0x1b, jersey: 0x2a, hair: 0x0f }, 'a row reset touches one slot');
+  assert.equal(page.colorRow('cap').querySelector('[data-color-reset]').disabled, true);
+  assert.equal(page.announced(), 'Cap & trim reset to $1B (27) sea green.');
   const saved = await page.exportJson();
   const doc = JSON.parse(saved.text);
   assert.deepEqual([doc.version, doc.palette, doc.source.variant], [3, 'nes-2c02-6bit-v1', 'preview8-legacy']);
@@ -1231,7 +1004,7 @@ test('color edits made while a file loads keep the replace prompt honest', async
   const again = page.openRom(romFile('b.nes', US));
   await until(page.dialogOpen, 'second prompt');
   await page.pick('cap');
-  await page.typeCode('$16');
+  await page.typeCode('cap', '$16');
   await page.replace();
   await until(page.dialogOpen, 'the prompt returns after a new color edit');
   assert.equal(page.state().teams[0].uniform.cap, 0x16);
@@ -1247,6 +1020,4 @@ test('the page links the pinned release and ships no ROM', () => {
   const docker = readFileSync(new URL('../Dockerfile', import.meta.url), 'utf8');
   assert.deepEqual(docker.match(/^COPY .*/gm), ['COPY web ./web', 'COPY tools/serve.py ./tools/serve.py']);
   assert.doesNotMatch(INDEX, /Repo ROM|repoBtn/);
-  const { document } = createDom(INDEX);
-  assert.deepEqual(['getRomLink', 'fileGetRom'].map((id) => document.getElementById(id).href), [RELEASE, RELEASE]);
 });
