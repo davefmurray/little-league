@@ -13,11 +13,13 @@ import {
   upgradeImage, writableMask,
 } from './web_fixtures.mjs';
 import { PREVIEW8, STOCK16, VARIANTS, previewRoster, rosterJson, sameTeams } from '../web/rom.js';
-import { BASIC_COLORS, NES_RGB, batterColor, batterPicture } from '../web/colors.js';
+import { BASIC_COLORS, NES_RGB, batterColor, batterPicture, readBatterAsset } from '../web/colors.js';
 
 const WEB = new URL('../web/', import.meta.url);
 const read = (name) => readFileSync(new URL(name, WEB), 'utf8');
 const INDEX = read('index.html');
+const BATTER_FILE = 'assets/game/batter.json';
+const BUNDLED_BATTER = readBatterAsset(JSON.parse(read(BATTER_FILE)));
 const RELEASE = 'https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes';
 
 // A broken flow tends to wait forever on a prompt; fail it instead of hanging.
@@ -110,20 +112,26 @@ async function until(condition, label) {
   }
 }
 
+/** Let pending fetches and the work they start finish. */
+async function settle() {
+  for (let i = 0; i < 5; i++) await new Promise((r) => setImmediate(r));
+}
+
 let instance = 0;
 
 /**
  * Load a fresh copy of the app on a fresh page. Unless `preview` is false, then
- * wait for the automatically loaded Preview 8 roster. `gates` hold back bundled-file fetches.
+ * wait for the automatically loaded Preview 8 roster. `gates` hold back bundled-file fetches,
+ * and `files` replaces a bundled file's JSON.
  */
-async function boot({ gates = {}, preview = true } = {}) {
+async function boot({ gates = {}, files = {}, preview = true } = {}) {
   const dom = createDom(INDEX);
   globalThis.document = dom.document;
   globalThis.window = dom.window;
   globalThis.fetch = async (url) => {
     const name = String(url).replace('./', '');
     const status = gates[name] ? await gates[name].promise : 200;
-    return { ok: status === 200, status, json: async () => JSON.parse(read(name)) };
+    return { ok: status === 200, status, json: async () => (name in files ? files[name] : JSON.parse(read(name))) };
   };
   await import(`../web/app.js?instance=${++instance}`);
   const page = helpers(dom);
@@ -217,6 +225,24 @@ function draftJson(kind, edit) {
   return doc;
 }
 
+test('startup shows a loading card, never a ROM gate, and focuses no file control', async () => {
+  const gate = deferred();
+  const page = await boot({ gates: { 'roster32.json': gate }, preview: false });
+  assert.equal(page.$('start').hidden, false);
+  assert.match(page.$('startTitle').textContent, /^Loading your teams/);
+  assert.equal(page.$('workspace').hidden, true);
+  assertFocus(page, document.body, 'nothing takes focus while the roster loads');
+  gate.resolve(200);
+  await until(() => page.state().session !== null, 'automatic roster load');
+  assert.equal(page.$('start').hidden, true);
+  assert.equal(page.$('workspace').hidden, false);
+  assert.ok(!page.state().session.rom, 'no ROM was needed');
+  assertFocus(page, page.$('teamTitle'), 'focus lands on the team, not on Open ROM');
+  const { document: fresh } = createDom(INDEX);
+  assert.deepEqual(fresh.querySelectorAll('[autofocus]').map((el) => el.id), ['keepBtn'], 'only the dialog autofocuses');
+  assert.ok(fresh.getElementById('keepBtn').closest('dialog'));
+});
+
 test('opens directly on the 32-team editor without a ROM', async () => {
   const page = await boot();
   assert.equal(page.$('workspace').hidden, false);
@@ -285,10 +311,15 @@ test('opening a ROM from the start screen shows its file, Change file and Downlo
 });
 
 test('opening a ROM from the uniform prompt leaves focus in the workspace', async () => {
-  const page = await boot();
+  const missing = deferred();
+  const page = await boot({ gates: { [BATTER_FILE]: missing } });
+  missing.resolve(404);
+  await settle();
+  assert.equal(page.$('uniformEmpty').hidden, false, 'without the batter file the preview points to Open ROM');
   page.$('uniformOpen').focus();
   await page.openRom(romFile('p8.nes', P8));
   assert.equal(page.$('uniformEmpty').hidden, true);
+  assert.equal(page.$('batterCanvas').hidden, false);
   assertFocus(page, page.$('teamTitle'));
 });
 
@@ -675,9 +706,12 @@ test('team ratings are one compact strip of four 1–4 selects', async () => {
   assert.deepEqual(selects.map((s) => strip.querySelector(`label[for="${s.id}"]`).textContent), ['Batting', 'Running', 'Pitching', 'Defense']);
   assert.ok(selects.every((s) => s.querySelectorAll('option').map((o) => o.value).join() === '1,2,3,4'));
   assert.deepEqual(selects.map((s) => Number(s.value)), PREVIEW.preview8[0].ratings);
+  const meters = () => strip.querySelectorAll('[data-meter]').map((m) => Number(m.getAttribute('data-value')));
+  assert.deepEqual(meters(), PREVIEW.preview8[0].ratings, 'each select has a meter at its value');
+  assert.ok(strip.querySelectorAll('[data-meter]').every((m) => m.getAttribute('aria-hidden') === 'true' && m.children.length === 4));
   await page.setRating(2, 1);
   assert.equal(page.state().teams[0].ratings[2], 1);
-  assert.equal(strip.querySelectorAll('[data-dots]')[2].textContent, '●○○○');
+  assert.equal(meters()[2], 1, 'the meter follows the select');
   assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM · UNSAVED');
   assert.equal(page.$('saveState').textContent, 'Unsaved changes');
   const out = await page.exportRom();
@@ -784,8 +818,10 @@ const LEDGER = [0x3c712, 0x3c719, 0x3c71f, ...Array.from({ length: 96 }, (_, i) 
 const toasts = (page) => page.$('toasts').children.map((el) => el.textContent);
 
 /** The canvas pixels the app should put for `uniform`, from the ROM's own batter. */
-function batterImage(rom, uniform) {
-  const picture = batterPicture(rom);
+const batterImage = (rom, uniform) => pictureImage(batterPicture(rom), uniform);
+
+/** The canvas pixels for a batter picture, written out independently of app.js. */
+function pictureImage(picture, uniform) {
   const data = new Uint8ClampedArray(picture.width * picture.height * 4);
   picture.pixels.forEach((entry, i) => {
     if (!entry) return;
@@ -1022,25 +1058,112 @@ test('advanced code entry takes exact decimal or $HH codes and notes below-black
   assertFocus(page, page.part('hair'));
 });
 
-test('the preview draws the batter from the open ROM, and points to a ROM without one', async () => {
+test('without a ROM the preview draws the bundled game batter, live in all three parts', async () => {
   const page = await boot();
-  assert.equal(page.$('batterCanvas').hidden, true);
-  assert.equal(page.$('uniformEmpty').hidden, false);
-  assert.equal(page.$('uniformEmpty').textContent.replace(/\s+/g, ' ').trim(), 'Open a ROM to preview the game uniform');
+  await until(() => page.canvas(), 'the bundled batter');
+  assert.equal(page.$('batterCanvas').hidden, false);
+  assert.equal(page.$('uniformEmpty').hidden, true);
+  assert.equal(page.$('batterSource').hidden, false);
+  assert.equal(page.$('batterSource').textContent, 'Game sprite');
   assert.ok(!page.$('illustration'), 'no stand-in drawing');
   assert.equal(page.$('colorsCard').querySelectorAll('svg').length + page.$('colorsCard').querySelectorAll('img').length, 0);
-  const asked = [];
-  page.$('romInput').addEventListener('click', () => asked.push('rom'));
-  await page.click('uniformOpen');
-  assert.deepEqual(asked, ['rom']);
-  await page.pick('jersey');
-  await page.key('ArrowLeft');
-  assert.equal(page.part('jersey').querySelector('[data-chip]').getAttribute('style'), `--sw:${NES_RGB[0x1c]}`, 'the part follows each choice');
+  assert.equal(page.$('batterCanvas').getAttribute('aria-label'),
+    'JAPAN colors: cap and trim $05 (5) crimson, jersey $20 (32) white, hair $0F (15) black.');
+  const uniform = { ...PREVIEW.preview8[0].uniform };
+  assertPixels(page.canvas(), pictureImage(BUNDLED_BATTER, uniform), 'Japan');
+  for (const [slot, code] of [['cap', 0x06], ['jersey', 0x1c], ['hair', 0x3c]]) {
+    await page.pick(slot);
+    await page.key(slot === 'cap' ? 'ArrowRight' : 'ArrowLeft');
+    uniform[slot] = code;
+    assert.equal(page.part(slot).querySelector('[data-chip]').getAttribute('style'), `--sw:${NES_RGB[code]}`, 'the part follows each choice');
+    assertPixels(page.canvas(), pictureImage(BUNDLED_BATTER, uniform), `${slot} redrawn at once`);
+  }
+  assert.equal(page.$('batterCanvas').getAttribute('aria-label'),
+    'JAPAN colors: cap and trim $06 (6) dark red, jersey $1C (28) teal, hair $3C (60) pale aqua.');
+  const shown = new Map();
+  BUNDLED_BATTER.pixels.forEach((entry) => shown.set(entry, (shown.get(entry) ?? 0) + 1));
+  assert.ok([2, 3, 11].every((entry) => shown.get(entry) > 0), 'jersey, cap and hair pixels are all on the figure');
+  const switching = page.click('preview16Btn');
+  await until(page.dialogOpen, 'the replace prompt');
+  await page.replace();
+  await switching;
+  assert.equal(page.chip(), '16-team · ROSTER ONLY');
+  assertPixels(page.canvas(), pictureImage(BUNDLED_BATTER, PREVIEW.stock16[0].uniform), 'the 16-team roster uses the same batter');
+});
 
+test('the batter file is optional: missing or broken, the editor still works and points to Open ROM', async () => {
+  const missing = deferred();
+  for (const setup of [{ gates: { [BATTER_FILE]: missing } }, { files: { [BATTER_FILE]: { ...JSON.parse(read(BATTER_FILE)), width: 48 } } }]) {
+    const page = await boot(setup);
+    missing.resolve(404);
+    await settle();
+    assert.equal(page.$('batterCanvas').hidden, true);
+    assert.equal(page.$('batterSource').hidden, true);
+    assert.equal(page.canvas(), null, 'nothing is drawn');
+    assert.equal(page.$('uniformEmpty').hidden, false);
+    assert.equal(page.$('uniformEmpty').textContent.replace(/\s+/g, ' ').trim(), 'Open a ROM to preview the game uniform');
+    assert.match(page.banner(), /This is the Preview 8 roster/, 'no error replaces the roster message');
+    const asked = [];
+    page.$('romInput').addEventListener('click', () => asked.push('rom'));
+    await page.click('uniformOpen');
+    assert.deepEqual(asked, ['rom']);
+    await page.setName(0, 'STILL');
+    await page.pick('jersey');
+    await page.key('ArrowLeft');
+    assert.equal(page.state().teams[0].uniform.jersey, 0x1c);
+    assert.equal(page.chip(), 'Preview 8 · ROSTER ONLY · UNSAVED');
+    const saved = JSON.parse((await page.exportJson()).text);
+    assert.equal(saved.teams[0].players[0].name, 'STILL');
+    const opening = page.openRom(romFile('p8.nes', P8));
+    await until(page.dialogOpen, 'replace prompt');
+    await page.replace();
+    await opening;
+    assert.equal(page.chip(), 'Preview 8 · ORIGINAL ROM');
+    assertPixels(page.canvas(), batterImage(P8, PREVIEW.preview8[0].uniform), 'the ROM still draws its own batter');
+  }
+});
+
+test('a batter file that arrives after the roster is drawn at once', async () => {
+  const late = deferred();
+  const page = await boot({ gates: { [BATTER_FILE]: late } });
+  assert.equal(page.canvas(), null);
+  assert.equal(page.$('uniformEmpty').hidden, false);
+  late.resolve(200);
+  await until(() => page.canvas(), 'the bundled batter');
+  assert.equal(page.$('uniformEmpty').hidden, true);
+  assertPixels(page.canvas(), pictureImage(BUNDLED_BATTER, PREVIEW.preview8[0].uniform), 'Japan');
+});
+
+test('a batter file that arrives late never covers the open ROM\'s batter', async () => {
+  const late = deferred();
+  const page = await boot({ gates: { [BATTER_FILE]: late } });
+  const japan = PREVIEW.preview8[0].uniform;
+  const romImage = batterImage(P8, japan);
+  const bundledImage = pictureImage(BUNDLED_BATTER, japan);
+  assert.ok(romImage.some((v, i) => v !== bundledImage[i]), 'the synthetic ROM draws a different figure');
+  assert.equal(page.$('uniformEmpty').hidden, false, 'the prompt shows while the file loads');
+  await page.openRom(romFile('p8.nes', P8));
+  assertPixels(page.canvas(), romImage, 'the ROM batter');
+  assert.equal(page.$('batterSource').textContent, 'From your ROM');
+  late.resolve(200);
+  await settle();
+  assertPixels(page.canvas(), romImage, 'still the ROM batter');
+  await page.pick('cap');
+  await page.key('ArrowRight');
+  assertPixels(page.canvas(), batterImage(P8, { ...japan, cap: 0x06 }), 'recolors draw the ROM batter');
+  await page.key('Escape');
+  await page.click('preview32Btn');
+  await until(() => page.chip() === 'Preview 8 · ROSTER ONLY', 'the roster preview');
+  assertPixels(page.canvas(), bundledImage, 'without the ROM, the bundled batter returns');
+  assert.equal(page.$('batterSource').textContent, 'Game sprite');
+});
+
+test('an open ROM draws its own batter, recolored live', async () => {
   const withRom = await boot();
   await withRom.openRom(romFile('p8.nes', P8));
   assert.equal(withRom.$('batterCanvas').hidden, false);
   assert.equal(withRom.$('uniformEmpty').hidden, true);
+  assert.equal(withRom.$('batterSource').textContent, 'From your ROM');
   assert.equal(withRom.$('batterCanvas').getAttribute('role'), 'img');
   assert.equal(withRom.$('batterCanvas').getAttribute('aria-label'),
     'JAPAN colors: cap and trim $05 (5) crimson, jersey $20 (32) white, hair $0F (15) black.');
@@ -1111,8 +1234,31 @@ test('the export note appears only while an export will give teams their own col
   assert.deepEqual(diff((await us.exportRom()).bytes, US), [stockColors(5) + 1]);
 });
 
-test('the page has no hero art, crowd screenshot or stand-in character', () => {
-  assert.doesNotMatch(INDEX, /<img|<svg|mode-menu|illustration/i);
+test('game art is two recorded screens, unedited, at 1x and cropped by CSS; nothing stands in for a character', () => {
+  const homerun = JSON.parse(readFileSync(new URL('../data/homerunart32/digests.json', import.meta.url), 'utf8'));
+  // mode-menu.png is the stockart32 emulator capture recorded in docs/roster-lab-theme.md.
+  const ART = new Map([
+    ['./assets/mode-menu.png', { sha256: 'b07448fc48df00e36fb57bfd9e29bcd4538b90a06897fd67cebcc10e67e07c10', size: [256, 224] }],
+    ['./assets/game/homerun-a.png', { sha256: homerun.outputs['render/scenes/homerun_a.png'], size: [256, 240] }],
+  ]);
+  const { document } = createDom(INDEX);
+  const images = document.querySelectorAll('img');
+  assert.deepEqual(images.map((img) => img.getAttribute('src')).sort(), [...ART.keys()].sort());
+  for (const img of images) {
+    const art = ART.get(img.getAttribute('src'));
+    const bytes = readFileSync(new URL(img.getAttribute('src'), WEB));
+    assert.equal(sha256(bytes), art.sha256, `${img.getAttribute('src')} is a byte-for-byte copy`);
+    assert.deepEqual([bytes.readUInt32BE(16), bytes.readUInt32BE(20)], art.size, 'PNG size');
+    assert.deepEqual([Number(img.getAttribute('width')), Number(img.getAttribute('height'))], art.size, 'shown at 1x');
+    assert.equal(img.getAttribute('alt'), '', 'decorative; About credits it');
+    assert.ok(img.closest('[aria-hidden="true"]').classList.contains('art'));
+  }
+  const css = read('styles.css');
+  assert.deepEqual([...css.matchAll(/url\("\.\/([^"]+)"\)/g)].map((m) => m[1]), ['assets/game/homerun-a.png'], 'the lawn band repeats the same scene');
+  assert.match(css, /\.art-sign \{ width: 256px; height: 36px; \}/);
+  assert.match(css, /\.art-homerun \{[^}]*width: 256px; height: 83px; \}/);
+  assert.doesNotMatch(INDEX, /<svg|illustration/i);
+  assert.equal(document.getElementById('colorsCard').querySelectorAll('img').length, 0, 'the batter is decoded, never a picture file');
 });
 
 test('a roster file without colors keeps your color edits and says so', async () => {

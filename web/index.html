@@ -6,33 +6,49 @@
 <meta name="theme-color" content="#183c5d">
 <title>Roster Lab — Little League Championship Series</title>
 <link rel="icon" type="image/svg+xml" href="./assets/park/ball.svg">
+<link rel="stylesheet" href="./8bit.css">
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <div class="app">
   <header class="top">
-    <h1 class="brand">Roster Lab <small>Little League Baseball</small></h1>
-    <button id="exportRomBtn" class="download" type="button" hidden disabled>Download ROM <span aria-hidden="true">↓</span></button>
+    <div class="marquee">
+      <span class="art art-sign" aria-hidden="true"><img class="pixelated" src="./assets/mode-menu.png" width="256" height="224" alt="" decoding="async"></span>
+      <h1 class="brand"><span class="retro">Roster Lab</span> <small>Little League Baseball team editor</small></h1>
+    </div>
+    <div class="console">
+      <div id="fileBar" class="file" hidden>
+        <span class="lamp" aria-hidden="true"></span>
+        <strong id="fileName" class="file-name"></strong>
+        <span id="statusChip" class="bit-badge retro file-status"></span>
+        <span class="grow"></span>
+        <a id="fileGetRom" class="link" target="_blank" rel="noopener"
+           href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes">Get Preview 8</a>
+        <button id="fileBtn" class="bit-btn retro file-btn" type="button" title="Open a ROM from this device. It is read in the browser, never uploaded.">Change file</button>
+        <button id="exportRomBtn" class="bit-btn retro" type="button" hidden disabled>Download ROM <span aria-hidden="true">↓</span></button>
+      </div>
+      <div class="menu">
+        <button id="moreBtn" class="bit-btn secondary retro more" type="button" aria-expanded="false" aria-controls="moreMenu">More tools <span aria-hidden="true">▾</span></button>
+        <div id="moreMenu" class="menu-list bit-frame" hidden>
+          <button id="importJsonBtn" class="bit-menu-item" type="button">Import roster JSON</button>
+          <button id="exportJsonBtn" class="bit-menu-item" type="button" disabled>Export roster JSON</button>
+          <button id="revertBtn" class="bit-menu-item" type="button" disabled>Revert all changes</button>
+          <hr class="bit-sep">
+          <button id="preview32Btn" class="bit-menu-item" type="button">Preview 8 roster, no ROM</button>
+          <button id="preview16Btn" class="bit-menu-item" type="button">16-team US roster, no ROM</button>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <div id="fileBar" class="file" hidden>
-    <span class="dot" aria-hidden="true"></span>
-    <strong id="fileName" class="file-name"></strong>
-    <span id="statusChip" class="file-status"></span>
-    <span class="grow"></span>
-    <a id="fileGetRom" class="link" target="_blank" rel="noopener"
-       href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes">Get Preview 8</a>
-    <button id="fileBtn" class="link" type="button" title="Open a ROM from this device. It is read in the browser, never uploaded.">Change file</button>
-  </div>
-
-  <div id="banner" class="banner" role="status" hidden></div>
+  <div id="banner" class="banner bit-alert" role="status" hidden></div>
 
   <main id="editor-app">
-    <section id="start" class="start" aria-labelledby="startTitle">
-      <p class="overline">Roster Lab</p>
+    <section id="start" class="start bit-frame" aria-labelledby="startTitle">
+      <p class="overline retro">Roster Lab</p>
       <h2 id="startTitle">Loading your teams…</h2>
       <p id="startText">The 32-team editor opens automatically. You can also open a ROM from your device.</p>
-      <button id="openBtn" class="open" type="button" aria-describedby="startText">Open ROM…</button>
+      <button id="openBtn" class="bit-btn secondary retro" type="button" aria-describedby="startText">Open ROM…</button>
       <p class="start-more">Need the game?
         <a id="getRomLink" class="link" target="_blank" rel="noopener"
            href="https://github.com/davefmurray/little-league/releases/download/32-team-preview-8/little-league-32-team.nes"
@@ -43,10 +59,10 @@
     <div id="workspace" class="body" hidden>
       <aside class="rail" aria-label="Teams">
         <div class="rail-inner">
-          <label id="teamRailLabel" class="overline" for="teamSearch">Choose team · <span id="teamCount">0</span></label>
-          <input id="teamSearch" class="team-search" type="search" placeholder="Find a team" autocomplete="off"
+          <label id="teamRailLabel" class="overline retro" for="teamSearch">Choose team · <span id="teamCount">0</span></label>
+          <input id="teamSearch" class="bit-input team-search" type="search" placeholder="Find a team" autocomplete="off"
                  spellcheck="false" aria-controls="teamList">
-          <select id="teamSelect" class="team-select" aria-labelledby="teamRailLabel"></select>
+          <select id="teamSelect" class="bit-select team-select" aria-labelledby="teamRailLabel"></select>
           <div id="teamList" class="team-list"></div>
           <p id="teamNone" class="hint team-none" hidden>No team matches.</p>
         </div>
@@ -54,19 +70,19 @@
 
       <section id="editor" class="main" aria-labelledby="teamTitle">
         <div class="teamhead">
-          <span id="teamBadge" class="badge" hidden></span>
+          <span id="teamBadge" class="bit-badge retro team-badge" hidden></span>
           <div class="team-id">
-            <p id="teamEyebrow" class="overline"></p>
-            <h2 id="teamTitle" tabindex="-1"></h2>
+            <p id="teamEyebrow" class="overline retro"></p>
+            <h2 id="teamTitle" class="retro" tabindex="-1"></h2>
           </div>
           <div id="identityEdit" class="team-fields" hidden>
             <label>
-              <span>Team name <em>14 max</em></span>
-              <input id="teamName" data-text="name" maxlength="14" spellcheck="false" autocomplete="off">
+              <span class="retro">Team name <em>14 max</em></span>
+              <input id="teamName" class="bit-input" data-text="name" maxlength="14" spellcheck="false" autocomplete="off">
             </label>
             <label>
-              <span>Scoreboard <em id="shortLimit">10 max</em></span>
-              <input id="shortName" data-text="shortName" spellcheck="false" autocomplete="off">
+              <span class="retro">Scoreboard <em id="shortLimit">10 max</em></span>
+              <input id="shortName" class="bit-input" data-text="shortName" spellcheck="false" autocomplete="off">
             </label>
             <p class="field-note">A few screens keep their own copy of the original name.</p>
           </div>
@@ -74,19 +90,21 @@
             Team names, codes and regions are drawn into this build's menus and bracket art,
             so Roster Lab keeps them as built.
           </p>
+          <button id="resetTeamBtn" class="bit-btn outline retro reset-team" type="button" hidden>Reset team</button>
         </div>
 
         <div id="ratings" class="ratingstrip" role="group" aria-label="Team ratings, 1 to 4"></div>
 
-        <section id="colorsCard" class="uniform" aria-labelledby="colorsTitle">
+        <section id="colorsCard" class="uniform bit-frame" aria-labelledby="colorsTitle">
           <figure id="uniformArt" class="pitch">
-            <canvas id="batterCanvas" width="49" height="58" role="img" hidden></canvas>
-            <figcaption id="uniformEmpty" class="pitch-empty">
+            <canvas id="batterCanvas" class="pixelated" width="49" height="58" role="img" hidden></canvas>
+            <p id="uniformEmpty" class="pitch-empty">
               <button id="uniformOpen" class="link" type="button">Open a ROM</button> to preview the game uniform
-            </figcaption>
+            </p>
+            <figcaption id="batterSource" class="pitch-source retro" hidden></figcaption>
           </figure>
           <div class="uhead">
-            <h3 id="colorsTitle">Uniform</h3>
+            <h3 id="colorsTitle" class="retro">Uniform</h3>
             <div id="parts" class="parts" role="group" aria-labelledby="colorsTitle"></div>
             <button id="resetColorsBtn" class="link reset-colors" type="button" data-focus="reset-colors">Reset colors</button>
           </div>
@@ -115,11 +133,11 @@
                 <summary>Advanced code</summary>
                 <div class="adv-body">
                   <label class="adv-field">
-                    <span>Exact NES code</span>
-                    <input id="codeInput" autocomplete="off" spellcheck="false" placeholder="$1B or 27"
+                    <span class="retro">Exact NES code</span>
+                    <input id="codeInput" class="bit-input" autocomplete="off" spellcheck="false" placeholder="$1B or 27"
                            aria-describedby="codeHelp codeError">
                   </label>
-                  <button id="codeSetBtn" class="small-btn" type="button">Use code</button>
+                  <button id="codeSetBtn" class="bit-btn outline retro" type="button">Use code</button>
                   <p id="codeHelp" class="adv-help">Any code from 0 to 63, typed as decimal or $00 to $3F.</p>
                   <p id="codeError" class="adv-error" hidden></p>
                 </div>
@@ -130,11 +148,11 @@
         </section>
 
         <div class="rosterbar">
-          <h3>Players <span id="rosterCount"></span></h3>
+          <h3 class="retro">Players <span id="rosterCount" class="bit-badge secondary"></span></h3>
           <span id="rosterHint" class="hint">Names up to 6 letters or digits</span>
         </div>
-        <div class="table-wrap">
-          <table class="players">
+        <div class="table-wrap bit-frame">
+          <table class="players bit-table">
             <thead>
               <tr>
                 <th class="slot" scope="col">#</th>
@@ -155,8 +173,8 @@
             The game loads players 1–15 for every team. These records stay in the file exactly as built,
             so they are shown here read-only.
           </p>
-          <div class="table-wrap">
-            <table class="players">
+          <div class="table-wrap bit-frame">
+            <table class="players bit-table">
               <thead>
                 <tr>
                   <th class="slot" scope="col">#</th>
@@ -176,19 +194,8 @@
   </main>
 
   <footer class="foot">
-    <span id="saveState" class="save-state" hidden></span>
-    <button id="resetTeamBtn" class="link" type="button" hidden>Reset team</button>
-    <span class="grow"></span>
-    <div class="menu">
-      <button id="moreBtn" class="more" type="button" aria-expanded="false" aria-controls="moreMenu">More tools <span aria-hidden="true">⋯</span></button>
-      <div id="moreMenu" class="menu-list" hidden>
-        <button id="importJsonBtn" type="button">Import roster JSON</button>
-        <button id="exportJsonBtn" type="button" disabled>Export roster JSON</button>
-        <button id="revertBtn" type="button" disabled>Revert all changes</button>
-        <button id="preview32Btn" class="menu-sep" type="button">Preview 8 roster, no ROM</button>
-        <button id="preview16Btn" type="button">16-team US roster, no ROM</button>
-      </div>
-    </div>
+    <span class="art art-homerun" aria-hidden="true"><img class="pixelated" src="./assets/game/homerun-a.png" width="256" height="240" alt="" loading="lazy" decoding="async"></span>
+    <p class="foot-text"><span id="saveState" class="save-state retro" hidden></span></p>
   </footer>
 </div>
 
@@ -208,6 +215,14 @@
     of the team's three pitcher records, which this editor does not change.
   </p>
   <p>
+    Game art: the header shows part of the Preview 8 mode menu, the footer part of its home-run scene,
+    and the uniform preview the game's batter sprite. With a ROM open, the batter is decoded from your
+    file; before that, from a bundled copy of the same pixels. Characters and crowd come from
+    <em>Little League Baseball: Championship Series</em> (SNK, 1990); all rights remain with SNK and
+    Little League Baseball, Inc. Controls are adapted from
+    <a href="https://github.com/theorcdev/8bitcn-ui">8bitcn/ui</a> (MIT License, © 2025 8bitcn).
+  </p>
+  <p>
     Source and data map:
     <a href="https://github.com/davefmurray/little-league">github.com/davefmurray/little-league</a>.
     The <a href="https://github.com/davefmurray/little-league/blob/main/docs/game-writeup.md">full game write-up</a>
@@ -216,21 +231,21 @@
 </details>
 
 <div id="drop" class="drop" hidden>
-  <div class="drop-card">
+  <div class="drop-card bit-frame">
     <span class="drop-icon" aria-hidden="true">↓</span>
-    <strong>Drop it</strong>
+    <strong class="retro">Drop it</strong>
     <span>ROM (<code>.nes</code>) or roster (<code>.json</code>)</span>
   </div>
 </div>
 
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
-<dialog id="replaceDialog" class="confirm" aria-labelledby="replaceTitle">
-  <h2 id="replaceTitle">Replace unsaved edits?</h2>
+<dialog id="replaceDialog" class="confirm bit-frame" aria-labelledby="replaceTitle">
+  <h2 id="replaceTitle" class="retro">Replace unsaved edits?</h2>
   <p id="replaceText"></p>
   <div class="confirm-actions">
-    <button id="keepBtn" class="small-btn" type="button" autofocus>Keep editing</button>
-    <button id="replaceBtn" class="small-btn danger" type="button">Replace</button>
+    <button id="keepBtn" class="bit-btn secondary retro" type="button" autofocus>Keep editing</button>
+    <button id="replaceBtn" class="bit-btn destructive retro" type="button">Replace</button>
   </div>
 </dialog>
 

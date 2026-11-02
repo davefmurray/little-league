@@ -127,9 +127,12 @@ python3 tools/serve.py
 
 Open a `.nes` file or drop it anywhere on the page. Pick a team, edit, then
 **Download ROM** to save an edited copy. Compact ratings and a shared uniform
-palette sit above the players, with a batter drawn from your ROM. **More tools**
-contains JSON import/export, Revert, and roster-only previews for both layouts.
-See the [workspace guide](docs/roster-workspace.md).
+palette sit above the players, with the game's batter in each team's colors.
+**More tools** contains JSON import/export, Revert, and roster-only previews
+for both layouts. The page uses [8bitcn](https://github.com/theorcdev/8bitcn-ui)
+pixel components (MIT) and the game's own menu and home-run screens. See the
+[workspace guide](docs/roster-workspace.md) and the
+[8-bit rebuild notes](docs/roster-8bitcn.md).
 
 - **ROMs** — the 32-team Preview 8 release and the original US ROM, plus copies
   this editor exported. Other files are refused.
@@ -139,7 +142,8 @@ See the [workspace guide](docs/roster-workspace.md).
   scoreboard names are editable within their stored widths. Preview 8 names,
   codes and regions are read-only because the menus and bracket art use them.
 - **Team colors** — each team's cap and trim, jersey and hair, as NES color
-  codes, with a batter preview drawn from your ROM. Preview 8 shares one color
+  codes, with a live batter preview: decoded from your ROM, or before one is
+  open from a bundled copy of the same pixels. Preview 8 shares one color
   record between teams 1–16 and 17–32, so the first color export adds a small
   table that gives all 32 teams their own colors.
 - **Stored records** — Preview 8 teams 17–32 store 20 players, but the game
@@ -153,8 +157,8 @@ The editor reads and writes the ROM **in the browser**. The server only serves
 `web/` (and, on loopback only, `/rom` for local tools; the editor does not use
 it). [docs/editor32.md](docs/editor32.md) has the full contract.
 
-Tests: `node --test tools/test_web_rom.mjs tools/test_web_app.mjs` runs on
-synthetic ROM images. Set `ROSTER_ROM32` and `ROSTER_ROM16` to add the
+Tests: `node --test tools/test_web_rom.mjs tools/test_web_app.mjs tools/test_web_colors.mjs`
+runs on synthetic ROM images. Set `ROSTER_ROM32` and `ROSTER_ROM16` to add the
 real-ROM cases, and run `tools/test_web32_runtime.py` for the CPU checks on an
 exported Preview 8 copy.
 
@@ -246,10 +250,12 @@ checks. The editor exposes the nibbles and documents the conflict in
 ```
 web/                  browser editor (no build step)
   index.html          layout
-  styles.css          scoreboard/field styling, responsive
+  8bit.css            8bitcn pixel components (MIT), ported to plain CSS
+  styles.css          clubhouse theme and layout, responsive
   rom.js              iNES parser + patcher (DOM-free, Node-testable)
   colors.js           NES swatch palette, color names, batter preview decoder
   app.js              state, rendering, import/export
+  assets/             menu screenshot; game/ home-run scene and bundled batter
   roster.json         preview data
 tools/
   roster.py           CLI extract/apply/patch (16-team colors as "uniform")
@@ -359,8 +365,10 @@ map the palette tables, and settle byte 9 with a controlled emulator test.
 ## Legal
 
 No ROM or game code is included in this repository. The tools operate on a ROM
-you supply. The site includes a screenshot of the Preview 8 mode menu with the game's
-original crowd and intro characters for identification and commentary, with credit; all rights remain with SNK and Little
+you supply. The site includes a screenshot of the Preview 8 mode menu and an
+image of its home-run scene, with the game's original crowd and intro
+characters, and the batter sprite as a 49 × 58 picture decoded from the ROM, for
+identification and commentary, with credit; all rights remain with SNK and Little
 League Baseball, Inc. *Little League Baseball* is a trademark of Little League
 Baseball, Inc. This is an unofficial preservation and research project.
 

@@ -4,7 +4,7 @@ import {
 } from './rom.js';
 import {
   BASIC_COLORS, BELOW_BLACK, BELOW_BLACK_NOTE, NES_RGB, batterColor, batterPicture, colorName, describeColor,
-  parseColorCode,
+  parseColorCode, readBatterAsset,
 } from './colors.js';
 
 const RATING_LABELS = ['Batting', 'Running', 'Pitching', 'Defense'];
@@ -349,16 +349,14 @@ function selectTeam(t) {
   renderEditor();
 }
 
-const dots = (v) => '●'.repeat(v) + '○'.repeat(4 - v);
-
 function renderRatings(team) {
   $('ratings').innerHTML = RATING_LABELS.map((name, r) => `
     <div class="rating">
-      <label for="rating-${r}">${name}</label>
-      <select id="rating-${r}" data-r="${r}">
+      <label class="retro" for="rating-${r}">${name}</label>
+      <select id="rating-${r}" class="bit-select" data-r="${r}">
         ${[1, 2, 3, 4].map((v) => `<option value="${v}"${team.ratings[r] === v ? ' selected' : ''}>${v}</option>`).join('')}
       </select>
-      <i data-dots aria-hidden="true">${dots(team.ratings[r])}</i>
+      <span class="bit-meter" data-meter data-value="${team.ratings[r]}" aria-hidden="true"><b></b><b></b><b></b><b></b></span>
     </div>`).join('');
 }
 
@@ -403,7 +401,7 @@ function renderColors() {
   const focus = active?.closest?.('#colorsCard') ? active.dataset.focus : undefined;
   aimPicker(state.picker?.part ?? UNIFORM_PARTS[0].slot);
   $('parts').innerHTML = UNIFORM_PARTS.map((row) => `
-    <button type="button" class="part" data-part="${row.slot}" data-focus="part-${row.slot}" aria-pressed="false">
+    <button type="button" class="part bit-toggle" data-part="${row.slot}" data-focus="part-${row.slot}" aria-pressed="false">
       <span class="sw" data-chip></span> <span class="part-label">${esc(row.label)}</span> <span class="visually-hidden part-value"></span>
     </button>`).join('');
   renderPalette();
@@ -448,7 +446,9 @@ function updateUniform() {
 }
 
 function showKeysHint() {
-  $('paletteHint').textContent = `Arrow keys move. Enter keeps. Escape puts back ${colorName(state.picker.opening)}.`;
+  const key = (name) => `<kbd class="bit-kbd">${name}</kbd>`;
+  $('paletteHint').innerHTML =
+    `${key('Arrow keys')} move. ${key('Enter')} keeps. ${key('Escape')} puts back ${esc(colorName(state.picker.opening))}.`;
 }
 
 function chooseColor(code) {
@@ -590,11 +590,25 @@ function onEditorKeydown(e) {
   $('palette').querySelector(`[data-swatch="${cells[next]}"]`)?.focus();
 }
 
-const batters = new WeakMap();
+const romBatters = new WeakMap();
+let bundledBatter = null;
 
-function drawBatter(rom, uniform) {
-  if (!batters.has(rom.bytes)) batters.set(rom.bytes, batterPicture(rom.bytes));
-  const picture = batters.get(rom.bytes);
+async function loadBundledBatter() {
+  try {
+    bundledBatter = readBatterAsset(await fetchJson('./assets/game/batter.json'));
+  } catch {
+    return;
+  }
+  if (state.session) renderPreview();
+}
+
+function batterFor(rom) {
+  if (!rom) return bundledBatter;
+  if (!romBatters.has(rom.bytes)) romBatters.set(rom.bytes, batterPicture(rom.bytes));
+  return romBatters.get(rom.bytes);
+}
+
+function drawBatter(picture, uniform) {
   const ctx = $('batterCanvas').getContext?.('2d');
   if (!ctx) return;
   const image = ctx.createImageData(picture.width, picture.height);
@@ -606,17 +620,19 @@ function drawBatter(rom, uniform) {
   ctx.putImageData(image, 0, 0);
 }
 
-/** The batter decoded from the open ROM, or a pointer to open one. Never a stand-in drawing. */
 function renderPreview() {
   const t = state.selected;
-  const rom = state.session.rom;
-  $('batterCanvas').hidden = !rom;
-  $('uniformEmpty').hidden = Boolean(rom);
-  if (!rom) return;
+  const { rom } = state.session;
+  const picture = batterFor(rom);
+  $('batterCanvas').hidden = !picture;
+  $('batterSource').hidden = !picture;
+  $('uniformEmpty').hidden = Boolean(picture);
+  if (!picture) return;
+  $('batterSource').textContent = rom ? 'From your ROM' : 'Game sprite';
   const { cap, jersey, hair } = state.teams[t].uniform;
   $('batterCanvas').setAttribute('aria-label', `${teamLabel(t)} colors: cap and trim ${describeColor(cap)}, ` +
     `jersey ${describeColor(jersey)}, hair ${describeColor(hair)}.`);
-  drawBatter(rom, state.teams[t].uniform);
+  drawBatter(picture, state.teams[t].uniform);
 }
 
 const playerOf = (el) => state.teams[state.selected].players[Number(el.closest('tr[data-p]').dataset.p)];
@@ -631,14 +647,14 @@ function playerRow(player, p) {
   const pitcher = player.attrs[6];
   return `
     <tr data-p="${p}">
-      <td class="slot">${pad2(p + 1)}${pitcher ? '<i class="pitch-flag" title="Linked to one of the team’s pitcher records">P</i>' : ''}</td>
+      <td class="slot">${pad2(p + 1)}${pitcher ? '<i class="pitch-flag bit-badge destructive" title="Linked to one of the team’s pitcher records">P</i>' : ''}</td>
       <td>
-        <input class="name" data-field="name" value="${esc(player.name)}"
+        <input class="name bit-input" data-field="name" value="${esc(player.name)}"
                maxlength="6" spellcheck="false" autocomplete="off" aria-label="Player ${p + 1} name">
       </td>
       ${[...STATS].map(([field, stat]) => `
         <td>
-          <input class="num" data-field="${field}" value="${stat.read(player.attrs)}" inputmode="numeric" maxlength="2"
+          <input class="num bit-input" data-field="${field}" value="${stat.read(player.attrs)}" inputmode="numeric" maxlength="2"
                  autocomplete="off" title="${stat.min} to ${stat.max}" aria-label="Player ${p + 1} ${stat.name}">
         </td>`).join('')}
     </tr>`;
@@ -701,7 +717,7 @@ function showBanner(text, kind = 'info', { autoHide = false } = {}) {
 
 function toast(message, kind = 'info') {
   const el = document.createElement('div');
-  el.className = 'toast';
+  el.className = 'toast bit-frame';
   el.dataset.kind = kind;
   el.textContent = message;
   $('toasts').appendChild(el);
@@ -780,7 +796,7 @@ function onEditorChange(e) {
     const v = Number(el.value);
     if (team.ratings[r] === v) return;
     team.ratings[r] = v;
-    el.parentNode.querySelector('[data-dots]').textContent = dots(v);
+    el.parentNode.querySelector('[data-meter]').dataset.value = String(v);
     changed();
     return;
   }
@@ -915,6 +931,7 @@ bindEvents();
 $('colorWarn').textContent = BELOW_BLACK_NOTE;
 renderAll();
 showPreview(PREVIEW8);
+loadBundledBatter();
 
 // Hook for the browser console and automation.
 window.rosterLab = { state };

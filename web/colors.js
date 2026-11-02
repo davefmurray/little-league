@@ -59,8 +59,8 @@ export function parseColorCode(text) {
 /**
  * Where the game draws the batter at the plate in the batting view: 24 8x8
  * sprites from CHR 4K bank 8, as [x, y, tile, attributes] inside a 49x58 box,
- * in OAM order (earlier sprites draw on top). Numeric pose data only; every
- * pixel comes from the opened ROM. Measured on the repo's CPU/PPU model in an
+ * in OAM order (earlier sprites draw on top). Numeric pose data only; the
+ * pixels come from a ROM. Measured on the repo's CPU/PPU model in an
  * Exhibition game. That frame also has tiles $FD at (12, 15) and $FF at
  * (12, 41) in the next two OAM slots. They are field overlay markers that
  * drew a black cross under the bat, not the character, so the pose leaves
@@ -108,6 +108,24 @@ export function batterPicture(rom) {
     }
   }
   return { width, height, pixels, palette: Array.from(rom.subarray(record, record + 16)) };
+}
+
+/**
+ * Read web/assets/game/batter.json, which holds what batterPicture() decodes
+ * from the pinned Preview 8 ROM: one string per pixel row, each pixel its
+ * palette entry in hex, '.' when clear. tools/build_batter_asset.mjs writes it.
+ * @returns {{width: number, height: number, pixels: Uint8Array, palette: number[]}}
+ */
+export function readBatterAsset(doc) {
+  const { width, height } = BATTER;
+  // Entries 4p + c for sprite palette p and color c 1-3; color 0 is clear.
+  const row = new RegExp(`^[.1235679abdef]{${width}}$`);
+  const fits = doc?.format === 'roster-lab-batter' && doc.version === 1 && doc.width === width && doc.height === height &&
+    Array.isArray(doc.palette) && doc.palette.length === 16 && doc.palette.every((v) => Number.isInteger(v) && v >= 0 && v <= 0xff) &&
+    Array.isArray(doc.rows) && doc.rows.length === height && doc.rows.every((r) => typeof r === 'string' && row.test(r));
+  if (!fits) throw new Error(`The batter file is not a ${width} x ${height} batter picture.`);
+  const pixels = Uint8Array.from(doc.rows.join(''), (c) => (c === '.' ? 0 : parseInt(c, 16)));
+  return { width, height, pixels, palette: [...doc.palette] };
 }
 
 /**

@@ -1,0 +1,231 @@
+/*
+ * 8-bit primitives for Roster Lab, adapted from 8bitcn/ui
+ * https://github.com/theorcdev/8bitcn-ui, commit 56066c038165223b8505a344309279ae27757a81
+ * Sources: components/ui/8bit/{button,card,badge,input,select,table,toggle,
+ * progress,alert,kbd,separator,dropdown-menu,dialog}.tsx and
+ * components/ui/8bit/styles/retro.css, over the shadcn bases they wrap.
+ *
+ * The React and Tailwind markup becomes plain CSS on native elements. The
+ * decoration spans and border overlays become box-shadows and background
+ * layers with the same geometry, so <input>, <select> and <button> keep
+ * their native behavior. The unit is --bit (8bitcn uses 6px). retro.css
+ * imports Press Start 2P from Google Fonts; this port loads no font and uses
+ * local monospace fonts instead. See docs/roster-8bitcn.md.
+ *
+ * MIT License
+ *
+ * Copyright (c) 2025 8bitcn
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+.retro {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  letter-spacing: .5px;
+}
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.bit-frame,
+.bit-input,
+.bit-select,
+.bit-toggle,
+.bit-meter {
+  --u: var(--bit, 3px);
+  border-radius: 0;
+  box-shadow:
+    0 calc(-1 * var(--u)) 0 0 var(--bit-ink),
+    0 var(--u) 0 0 var(--bit-ink),
+    calc(-1 * var(--u)) 0 0 0 var(--bit-ink),
+    var(--u) 0 0 0 var(--bit-ink);
+}
+
+.bit-btn,
+.bit-alert {
+  --u: var(--bit, 3px);
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  background-repeat: no-repeat;
+  box-shadow:
+    0 calc(-2 * var(--u)) 0 calc(-1 * var(--u)) var(--bit-ink),
+    0 calc(2 * var(--u)) 0 calc(-1 * var(--u)) var(--bit-ink),
+    calc(-2 * var(--u)) 0 0 calc(-1 * var(--u)) var(--bit-ink),
+    calc(2 * var(--u)) 0 0 calc(-1 * var(--u)) var(--bit-ink);
+}
+.bit-alert,
+.bit-btn.outline {
+  background-image:
+    linear-gradient(var(--bit-ink), var(--bit-ink)), linear-gradient(var(--bit-ink), var(--bit-ink)),
+    linear-gradient(var(--bit-ink), var(--bit-ink)), linear-gradient(var(--bit-ink), var(--bit-ink));
+  background-position: 0 0, 100% 0, 0 100%, 100% 100%;
+  background-size: var(--u) var(--u);
+}
+.bit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: var(--u);
+  padding: calc(var(--u) + 4px) calc(2 * var(--u) + 8px);
+  --bit-btn-hover: var(--primary-hover, var(--primary));
+  background-color: var(--bit-btn, var(--primary));
+  background-image:
+    linear-gradient(var(--bit-ink), var(--bit-ink)), linear-gradient(var(--bit-ink), var(--bit-ink)),
+    linear-gradient(var(--bit-ink), var(--bit-ink)), linear-gradient(var(--bit-ink), var(--bit-ink)),
+    linear-gradient(var(--bit-shade), var(--bit-shade)), linear-gradient(var(--bit-shade), var(--bit-shade)),
+    linear-gradient(var(--bit-shade), var(--bit-shade)), linear-gradient(var(--bit-shade), var(--bit-shade));
+  background-position: 0 0, 100% 0, 0 100%, 100% 100%, 0 0, 0 var(--u), 0 100%, 100% calc(100% - var(--u));
+  background-size:
+    var(--u) var(--u), var(--u) var(--u), var(--u) var(--u), var(--u) var(--u),
+    100% var(--u), calc(2 * var(--u)) var(--u), 100% var(--u), calc(2 * var(--u)) var(--u);
+  color: var(--bit-btn-ink, var(--primary-foreground));
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.bit-btn.secondary {
+  --bit-btn: var(--secondary);
+  --bit-btn-ink: var(--secondary-foreground);
+  --bit-btn-hover: var(--secondary-hover, var(--secondary));
+}
+.bit-btn.outline { --bit-btn: var(--card); --bit-btn-ink: var(--foreground); --bit-btn-hover: var(--secondary); }
+.bit-btn.destructive { --bit-btn: var(--destructive); --bit-btn-ink: #fff; --bit-btn-hover: var(--destructive); }
+.bit-btn:hover:not(:disabled) { background-color: var(--bit-btn-hover); }
+.bit-btn:active:not(:disabled) { transform: translateY(var(--u)); }
+.bit-btn:disabled { cursor: not-allowed; opacity: .5; }
+.bit-btn:focus-visible { outline-offset: calc(var(--u) + 2px); }
+
+.bit-input,
+.bit-select {
+  margin: var(--u);
+  border: 0;
+  background-color: var(--input);
+  color: var(--foreground);
+}
+.bit-input::placeholder { color: var(--muted); opacity: 1; }
+.bit-input[aria-invalid="true"] { --bit-ink: var(--destructive); }
+.bit-input:focus-visible,
+.bit-select:focus-visible { outline-offset: calc(var(--u) + 1px); }
+
+.bit-select {
+  padding-right: 22px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6' shape-rendering='crispEdges'%3E%3Cpath fill='%2317334c' d='M0 0h8v2H0zM2 2h4v2H2zM3 4h2v2H3z'/%3E%3C/svg%3E");
+  background-position: right 8px center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.bit-badge {
+  --u: var(--bit, 3px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline: var(--u);
+  padding: 1px 6px;
+  border-radius: 0;
+  background: var(--bit-badge, var(--primary));
+  color: var(--bit-badge-ink, var(--primary-foreground));
+  box-shadow:
+    calc(-1 * var(--u) - 2px) 0 0 -2px var(--bit-badge, var(--primary)),
+    calc(var(--u) + 2px) 0 0 -2px var(--bit-badge, var(--primary));
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.bit-badge.secondary { --bit-badge: var(--secondary); --bit-badge-ink: var(--secondary-foreground); }
+.bit-badge.destructive { --bit-badge: var(--destructive); --bit-badge-ink: #fff; }
+
+.bit-toggle {
+  margin: var(--u);
+  border: 0;
+  background-color: var(--card);
+  color: var(--foreground);
+  cursor: pointer;
+}
+.bit-toggle[aria-pressed="true"] { background-color: var(--primary); color: var(--primary-foreground); }
+.bit-toggle:active { transform: translate(var(--u), var(--u)); }
+.bit-toggle:focus-visible { outline-offset: calc(var(--u) + 2px); }
+
+.bit-meter {
+  display: inline-flex;
+  margin: var(--u);
+  background: var(--bit-track);
+}
+.bit-meter > b { flex: 1; margin: 0 1px; }
+.bit-meter[data-value="1"] > b:nth-child(-n + 1),
+.bit-meter[data-value="2"] > b:nth-child(-n + 2),
+.bit-meter[data-value="3"] > b:nth-child(-n + 3),
+.bit-meter[data-value="4"] > b:nth-child(-n + 4) { background: var(--bit-fill); }
+
+.bit-table { border-collapse: collapse; }
+.bit-table thead th { border-bottom: var(--u, 3px) solid var(--bit-ink); }
+.bit-table tbody tr { border-bottom: 2px dashed var(--bit-rule, var(--bit-ink)); }
+.bit-table tbody tr:last-child { border-bottom: 0; }
+
+.bit-menu-item {
+  border: 0;
+  border-block: 2px dashed transparent;
+  border-radius: 0;
+  background: none;
+}
+.bit-menu-item:hover:not(:disabled),
+.bit-menu-item:focus-visible { border-color: var(--bit-ink); }
+
+.bit-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font: 700 10px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.bit-sep {
+  height: 2px;
+  margin: 0;
+  border: 0;
+  background: linear-gradient(90deg, var(--bit-ink) 75%, transparent 75%) 0 0 / 16px 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bit-btn:active:not(:disabled),
+  .bit-toggle:active { transform: none; }
+}
+
+@media (forced-colors: active) {
+  .bit-frame,
+  .bit-input,
+  .bit-select,
+  .bit-meter,
+  .bit-alert,
+  .bit-badge { border: 2px solid CanvasText; }
+  .bit-btn,
+  .bit-toggle { border: 2px solid ButtonText; }
+  .bit-select { appearance: auto; padding-right: 4px; }
+  .bit-meter > b { forced-color-adjust: none; border: 1px solid CanvasText; }
+}

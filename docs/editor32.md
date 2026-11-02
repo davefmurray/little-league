@@ -174,8 +174,14 @@ With a ROM open, the preview decodes 24 batter sprites from CHR 4K bank 8.
 Numeric pose data lives in `web/colors.js`; the field sprite palette comes
 from fixed `$F9D0`. Jersey and cap use sprite palette 0 entries 2 and 3;
 hair uses palette 2 entry 3. Two field-overlay sprites are excluded from the
-pose. No derived pixels are committed. Without a ROM, the preview prompts
-Open ROM. The canvas has a label naming all three colors.
+pose. Without a ROM, the preview draws `web/assets/game/batter.json`: the
+same decode of the pinned Preview 8 ROM, written by
+`tools/build_batter_asset.mjs` (the 16-team ROM decodes identically). It is
+a 49 × 58 picture of palette entries plus the 16-byte palette record, not ROM
+bytes. If the file is missing or malformed, the preview prompts Open ROM and
+editing continues. A ROM's own decode always wins, even when the file arrives
+later. The canvas has a label naming all three colors. See
+[roster-8bitcn.md](roster-8bitcn.md#batter-before-a-rom-is-open).
 
 When an export from a Preview 8 file as built will add the upgrade, the panel
 says "This export gives all 32 teams their own colors." Byte counts sit in a
@@ -312,9 +318,11 @@ ROSTER_ROM32=build/homerunart32.nes .venv/bin/python -B tools/test_web32_runtime
   so CI runs only the synthetic cases.
 - `tools/test_web_colors.mjs` checks the swatch palette against
   `tools/menu32_convert.py`, the color names, the 53-swatch grid, the strict
-  code parser and the batter decoder. With both ROMs it checks that each ROM
-  renders the reviewed batter role map, by SHA-256; set
-  `ROSTER_BATTER_JSON` to compare the reviewed file too.
+  code parser, the batter decoder, and the bundled batter file against the
+  reviewed role map, by SHA-256. With both ROMs it checks that each ROM
+  renders that role map, that the bundled file equals each ROM's decode and
+  recolors identically, and that the builder reproduces the file byte for
+  byte; set `ROSTER_BATTER_JSON` to compare the reviewed file too.
 - `tools/test_colors32.py` runs the palette routine of an export
   `tools/web_colors_export.mjs` makes through `web/rom.js`: always on a
   synthetic image, and with both ROMs over the full CPU matrix (call census,
@@ -328,8 +336,9 @@ ROSTER_ROM32=build/homerunart32.nes .venv/bin/python -B tools/test_web32_runtime
 - `tools/test_web_app.mjs` runs `web/index.html` and `web/app.js` against the
   DOM stub in `tools/web_dom_stub.mjs`. It covers boot races, reads and hashes
   that finish out of order, failed loads, edits during a load, the replace
-  prompt, imports, Reset team and Revert. The stub does not check layout,
-  styling or real browser behavior.
+  prompt, imports, Reset team and Revert, startup without a ROM gate, and the
+  bundled batter: drawn live, optional, and never covering a ROM's batter.
+  The stub does not check layout, styling or real browser behavior.
 - `tools/test_web32_runtime.py` exports a copy with every editable field
   changed through `web/rom.js` (`tools/web32_export.mjs`), then runs the py65
   roster cache, role and Power Analysis rating checks on it. It prints

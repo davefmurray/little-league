@@ -19,6 +19,10 @@ The original game's ROM is **not** in this repository.
 - CI artifacts must not include the ROM; the tests use synthetic fixtures or
   a locally supplied base.
 - Documentation may show screenshots and checksums, not the ROM bytes.
+- The editor bundles credited game screenshots and one decoded batter picture
+  for its uniform preview. These display assets contain no executable code,
+  ROM image or CHR-bank dump. Their sources and rebuild command are recorded
+  in [roster-8bitcn.md](roster-8bitcn.md).
 
 Apart from those release assets, the project publishes data, tools,
-patches, and screenshots only.
+patches, screenshots, and the credited display assets described above.

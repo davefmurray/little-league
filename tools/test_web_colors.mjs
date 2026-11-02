@@ -6,19 +6,23 @@
 //   ROSTER_ROM16='Little League Baseball - Championship Series (USA).nes' \
 //   ROSTER_BATTER_JSON=/tmp/roster-lab-comps/batter.json node --test tools/test_web_colors.mjs
 //
-// The real-ROM case is skipped, and reported as skipped, without the ROMs. It
-// renders the batter's palette roles from each ROM and compares their SHA-256
-// with the role map of the approved workspace design. That design's decode is
-// kept outside the repo; set ROSTER_BATTER_JSON to compare every pixel and the
-// palette record against it too. No pixels are stored here.
+// The real-ROM cases are skipped, and reported as skipped, without the ROMs.
+// They render the batter's palette roles from each ROM and compare their
+// SHA-256 with the role map of the approved workspace design; set
+// ROSTER_BATTER_JSON to compare every pixel and the palette record against
+// that design's decode too. They also check that the page's bundled batter,
+// web/assets/game/batter.json, equals each ROM's decode and that
+// tools/build_batter_asset.mjs rebuilds it byte for byte. Without ROMs, the
+// bundled batter is still checked against the approved role map.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import {
   BASIC_COLORS, BATTER, BELOW_BLACK_NOTE, NES_RGB, batterColor, batterPicture, colorName, describeColor, hexCode,
-  parseColorCode,
+  parseColorCode, readBatterAsset,
 } from '../web/colors.js';
+import { batterAssetText } from './build_batter_asset.mjs';
 
 const sha256 = (data) => createHash('sha256').update(data).digest('hex');
 const ROLES = { 1: 'k', 2: 'J', 3: 'C', 9: 'k', 10: 's', 11: 'H', 13: 'k', 14: 'w', 15: 'g' };
@@ -28,6 +32,14 @@ const REAL = [
   ['ROSTER_ROM32', 'a66add03e811bbeb127a7867d82c512984d251693b116c9bd2ffbd65a4c2993b'],
   ['ROSTER_ROM16', '58e038f10748b5531779a0b1fab07d1f5e3b8d7b0ca8b5f2a05cee42dfb8481e'],
 ];
+const BATTER_FILE = new URL('../web/assets/game/batter.json', import.meta.url);
+const roleRows = (picture) => Array.from({ length: picture.height }, (_, y) =>
+  Array.from(picture.pixels.subarray(y * picture.width, (y + 1) * picture.width), (e) => (e ? ROLES[e] ?? '?' : '.')).join(''));
+/** RGB bytes for a picture in `uniform`, clear pixels zero: what the page puts on its canvas. */
+const render = (picture, uniform) => Buffer.from(Array.from(picture.pixels, (e) => {
+  const rgb = NES_RGB[batterColor(e, picture.palette, uniform) & 0x3f];
+  return e ? [1, 3, 5].map((at) => parseInt(rgb.slice(at, at + 2), 16)) : [0, 0, 0];
+}).flat());
 
 test('swatch colors are the repo\'s FCEUX table, expanded the same way', () => {
   const source = readFileSync(new URL('./menu32_convert.py', import.meta.url), 'utf8');
@@ -102,6 +114,50 @@ test('the batter decodes sprites with flips and priority, and colors only its th
   assert.ok(BATTER.sprites.every((s) => Object.isFrozen(s) && s.length === 4));
 });
 
+test('the bundled batter is the approved role map with the field palette, and needs no ROM', () => {
+  const doc = JSON.parse(readFileSync(BATTER_FILE, 'utf8'));
+  const picture = readBatterAsset(doc);
+  assert.deepEqual([picture.width, picture.height], [BATTER.width, BATTER.height]);
+  assert.ok(picture.pixels instanceof Uint8Array && picture.pixels.length === BATTER.width * BATTER.height);
+  assert.equal(sha256(`${roleRows(picture).join('\n')}\n`), BATTER_ROLE_MAP_SHA256);
+  assert.deepEqual([1, 9, 10, 13, 14, 15].map((e) => picture.palette[e]), [0x0f, 0x0f, 0x36, 0x0f, 0x30, 0x10]);
+  assert.equal(doc.source.sha256, REAL[0][1], 'decoded from the pinned Preview 8 ROM');
+  const base = { cap: 0x05, jersey: 0x20, hair: 0x0f };
+  const before = render(picture, base);
+  for (const [slot, entry] of [['jersey', 2], ['cap', 3], ['hair', 11]]) {
+    const after = render(picture, { ...base, [slot]: 0x16 });
+    const changed = [...picture.pixels.keys()].filter((i) => !before.subarray(3 * i, 3 * i + 3).equals(after.subarray(3 * i, 3 * i + 3)));
+    const owned = [...picture.pixels.keys()].filter((i) => picture.pixels[i] === entry);
+    assert.ok(owned.length > 0, `${slot} has pixels`);
+    assert.deepEqual(changed, owned, `${slot} recolors exactly its own pixels`);
+  }
+});
+
+test('the batter reader refuses anything but a 49 x 58 picture of palette entries', () => {
+  const doc = JSON.parse(readFileSync(BATTER_FILE, 'utf8'));
+  for (const [why, edit] of [
+    ['format', (d) => { d.format = 'roster-lab-sprite'; }],
+    ['version', (d) => { d.version = 2; }],
+    ['width', (d) => { d.width = 48; }],
+    ['height', (d) => { d.height = 57; }],
+    ['a row short', (d) => { d.rows.pop(); }],
+    ['a short row', (d) => { d.rows[3] = d.rows[3].slice(1); }],
+    ['clear is ".", never 0', (d) => { d.rows[3] = `0${d.rows[3].slice(1)}`; }],
+    ['not hex', (d) => { d.rows[3] = `g${d.rows[3].slice(1)}`; }],
+    ['color 0 of a sprite palette', (d) => { d.rows[3] = `4${d.rows[3].slice(1)}`; }],
+    ['upper-case hex', (d) => { d.rows[3] = `F${d.rows[3].slice(1)}`; }],
+    ['15 palette bytes', (d) => { d.palette.pop(); }],
+    ['palette byte past 255', (d) => { d.palette[0] = 256; }],
+    ['fractional palette byte', (d) => { d.palette[0] = 1.5; }],
+    ['palette byte as text', (d) => { d.palette[0] = '15'; }],
+  ]) {
+    const bad = structuredClone(doc);
+    edit(bad);
+    assert.throws(() => readBatterAsset(bad), /^Error: The batter file is not a 49 x 58 batter picture\.$/, why);
+  }
+  for (const bad of [null, undefined, [], 'batter']) assert.throws(() => readBatterAsset(bad), /49 x 58/);
+});
+
 const missing = REAL.map(([env]) => (!process.env[env] ? `set ${env}` : !existsSync(process.env[env]) ? `${env} does not exist` : null)).find(Boolean);
 
 test('real ROMs: the batter drawn from each ROM is the approved role map, without the field markers', { skip: missing }, () => {
@@ -111,9 +167,7 @@ test('real ROMs: the batter drawn from each ROM is the approved role map, withou
     const rom = new Uint8Array(readFileSync(process.env[env]));
     assert.equal(sha256(rom), sha, `${env} is not the accepted ROM`);
     const picture = batterPicture(rom);
-    const rows = Array.from({ length: picture.height }, (_, y) =>
-      Array.from(picture.pixels.subarray(y * picture.width, (y + 1) * picture.width), (e) => (e ? ROLES[e] ?? '?' : '.')).join(''));
-    assert.equal(sha256(`${rows.join('\n')}\n`), BATTER_ROLE_MAP_SHA256, env);
+    assert.equal(sha256(`${roleRows(picture).join('\n')}\n`), BATTER_ROLE_MAP_SHA256, env);
     if (approved) {
       assert.deepEqual([picture.width, picture.height], [approved.width, approved.height], env);
       assert.deepEqual([...picture.pixels], approved.pixels, `${env} pixels match the approved decode`);
@@ -122,4 +176,21 @@ test('real ROMs: the batter drawn from each ROM is the approved role map, withou
     assert.deepEqual([1, 9, 10, 13, 14, 15].map((e) => picture.palette[e]), [0x0f, 0x0f, 0x36, 0x0f, 0x30, 0x10],
       'outline, skin, bat white and gray from the field sprite palette');
   }
+});
+
+test('real ROMs: the bundled batter equals each ROM decode, recolors the same, and rebuilds byte for byte', { skip: missing }, () => {
+  const text = readFileSync(BATTER_FILE, 'utf8');
+  const bundled = readBatterAsset(JSON.parse(text));
+  const uniforms = Array.from({ length: 64 }, (_, c) => ({ cap: c, jersey: 63 - c, hair: (7 * c) & 63 }));
+  for (const [env, sha] of REAL) {
+    const rom = new Uint8Array(readFileSync(process.env[env]));
+    assert.equal(sha256(rom), sha, `${env} is not the accepted ROM`);
+    const decoded = batterPicture(rom);
+    assert.deepEqual([bundled.width, bundled.height], [decoded.width, decoded.height], env);
+    assert.ok(Buffer.from(bundled.pixels).equals(Buffer.from(decoded.pixels)), `${env}: every pixel`);
+    assert.deepEqual(bundled.palette, decoded.palette, `${env}: palette record`);
+    for (const uniform of uniforms) assert.ok(render(bundled, uniform).equals(render(decoded, uniform)), `${env}: ${JSON.stringify(uniform)}`);
+  }
+  assert.equal(batterAssetText(new Uint8Array(readFileSync(process.env.ROSTER_ROM32))), text, 'the builder reproduces the committed file');
+  assert.throws(() => batterAssetText(new Uint8Array(readFileSync(process.env.ROSTER_ROM16))), /Expected the Preview 8 ROM/);
 });
